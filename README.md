@@ -27,6 +27,6 @@ Node.js + Express - narzędzia do stworzenia backendu,
 
 Angular - do stworzenia frontendu
 ---
-| Headline 1 in the tablehead | Headline 2 in the tablehead | Headline 3 in the tablehead |
-|:--------------|:-------------:|--------------:|
-| text-align left | text-align center | text-align right |
+
+|--------------:|
+| By Mateusz Łopaciński & Jakub Spólnik |
