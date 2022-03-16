@@ -27,4 +27,4 @@ Node.js + Express - narzędzia do stworzenia backendu,
 
 Angular - do stworzenia frontendu
 ---
-`<div style="text-align:left;"> By Mateusz Łopaciński & Jakub Spólnik</div>'
+`<div style="text-align:right;"> By Mateusz Łopaciński & Jakub Spólnik</div>'
