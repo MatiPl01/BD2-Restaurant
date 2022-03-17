@@ -1,31 +1,34 @@
 # Projekt Bazy Danych 
----
 
-Charakterystyka:
-W ramach projektu chcielibyśmy stworzyć stronę internetową 
 
-restauracji, pozwalającą na zamawianie potraw, wystawianie 
+## Charakterystyka
 
-opinii i dodawanie komentarzy. Po stronie administratora byłaby 
+W ramach projektu chcielibyśmy stworzyć stronę internetową restauracji, pozwalającą na zamawianie potraw, wystawianie opinii i dodawanie komentarzy. Po stronie administratora byłaby możliwość dodawania, usuwania i edycji dań. W bazie danych zapisywane by były m.in. informacje o produktach, zamówieniach,wystawionych opiniach i komentarzach oraz o użytkownikach.
 
-możliwość dodawania, usuwania i edycji dań. W bazie danych 
 
-zapisywane by były m.in. informacje o produktach, zamówieniach, 
 
-wystawionych opiniach i komentarzach oraz o użytkownikach.
 
----
+## Tech Stack
 
-Wykorzystywane technologie:
-MongoDB - system bazodanowy,
+**Client:** Angular
 
-Atlas - serwer bazy danych,
+**Server:** Node, Express
 
-Mongoose - biblioteka, ułatwiająca zarządzanie bazą danych,
+**Database:** MongoDB
 
-Node.js + Express - narzędzia do stworzenia backendu,
+**Database server:** Atlas
 
-Angular - do stworzenia frontendu
----
+**Library:** Mongoose
 
-By Mateusz Łopaciński & Jakub Spólnik
+
+## Features
+
+- [TODO]
+
+
+## Authors
+
+- [Mateusz Łopaciński](https://github.com/MatiPl01)
+
+- [Jakub Spólnik](https://github.com/lawos98)
+
