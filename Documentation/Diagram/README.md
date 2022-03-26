@@ -24,8 +24,6 @@ W ramach projektu chcielibyśmy stworzyć stronę internetową restauracji, pozw
 
 * [DataBase Diagram](Documentation/Diagram)
 
-
-
 ## Features
 
 - [TODO]
