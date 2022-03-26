@@ -1,37 +1,97 @@
-# Projekt Bazy Danych 
+## Diagram
 
+![Diagram](/Documentation/Diagram/files/diagram.png)
 
-## Charakterystyka
+## Description
+ 
+**User**
 
-W ramach projektu chcielibyśmy stworzyć stronę internetową restauracji, pozwalającą na zamawianie potraw, wystawianie opinii i dodawanie komentarzy. Po stronie moderatora byłaby możliwość dodawania, usuwania i edycji dań. W bazie danych zapisywane by były m.in. informacje o produktach, zamówieniach, wystawionych opiniach i komentarzach oraz o użytkownikach.
+Collection about user data
 
+- Firstane: String
+- Lastname: String
+- Login :String
+- Email: :String 
+- Password :String (Hash)
+- Addresses
+  - Firstname:String
+  - Lastname:String
+  - Phone:String
+  - Country:String
+  - PostalCode:String
+  - City:String
+  - Street:String
+  - StreetNumber:String
+  - FlatNumber:String
+- Active:Boolean
+- Banned:Boolean
+- Orders:mongoose.Schema.ObjectId
+- Reviews:mongoose.Schema.ObjectId
+- Cart
+  - Dish:mongoose.Schema.ObjectId
+  - Quantity:Number
 
+**Dishes**
 
+Collection about menu data
 
-## Tech Stack
+- Name:String
+- Category:String
+- Cuisine:String
+- Type:String
+- Ingredients:String[]
+- Stock:Number
+- Currency:mongoose.Schema.ObjectId
+- UnitPrice:Number
+- RatingsSum:Number
+- RatingCount:Number
+- Description:String[]
+- Images:String[]
+- Reviews:mongoose.Schema.ObjectId[]
 
-**Client:** Angular
+**Reviews**
 
-**Server:** Node, Express
+Collection about reviews and comments data
 
-**Database:** MongoDB
+- User:mongoose.Schema.ObjectId
+- Dish:mongoose.Schema.ObjectId
+- Order:mongoose.Schema.ObjectId
+- Date:String
+- Rating:Number
+- Body:String[]
 
-**Database server:** Atlas
+**Orders**
 
-**Library:** Mongoose
+Collection about orders data
 
-## Dokumentacja
+- User:mongoose.Schema.ObjectId
+- Dishes
+  - Dish:mongoose.Schema.ObjectId
+  - Quantity:Number
+  - UnitPrice:Number
+- Date:String
+- TotalPrice:Number
+- Currency:mongoose.Schema.ObjectId
 
-* [DataBase Diagram](Documentation/Diagram)
+**Globals**
 
-## Features
+Collection about global values
 
-- [TODO]
+- Persistence:Number
+- MainCurrency:mongoose.Schema.ObjectId[]
 
+**Currencies**
 
-## Authors
+Collection about currencies data
 
-- [Mateusz Łopaciński](https://github.com/MatiPl01)
+- Code:String
+- Symbol:String
+- Name:String
 
-- [Jakub Spólnik](https://github.com/lawos98)
+**ExchangeRates**
 
+Collection about exchange rates of currencies
+
+-Ration:Number
+-From:mongoose.Schema.ObjectId
+-To:mongoose.Schema.ObjectId
