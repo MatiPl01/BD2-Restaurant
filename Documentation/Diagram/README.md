@@ -4,7 +4,7 @@
 
 ## Description
  
-###**User**
+### **User**
 
 Collection about user data
 
@@ -31,7 +31,7 @@ Collection about user data
   - Dish:mongoose.Schema.ObjectId
   - Quantity:Number
 
-###**Dishes**
+### **Dishes**
 
 Collection about menu data
 
@@ -49,7 +49,7 @@ Collection about menu data
 - Images:String[]
 - Reviews:mongoose.Schema.ObjectId[]
 
-###**Reviews**
+### **Reviews**
 
 Collection about reviews and comments data
 
@@ -60,7 +60,7 @@ Collection about reviews and comments data
 - Rating:Number
 - Body:String[]
 
-###**Orders**
+### **Orders**
 
 Collection about orders data
 
@@ -73,14 +73,14 @@ Collection about orders data
 - TotalPrice:Number
 - Currency:mongoose.Schema.ObjectId
 
-###**Globals**
+### **Globals**
 
 Collection about global values
 
 - Persistence:Number
 - MainCurrency:mongoose.Schema.ObjectId[]
 
-###**Currencies**
+### **Currencies**
 
 Collection about currencies data
 
@@ -88,7 +88,7 @@ Collection about currencies data
 - Symbol:String
 - Name:String
 
-###**ExchangeRates**
+### **ExchangeRates**
 
 Collection about exchange rates of currencies
 
