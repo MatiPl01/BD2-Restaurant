@@ -1,97 +1,97 @@
 ## Diagram
 
-![Diagram](/Documentation/Diagram/files/diagram.png)
+![Diagram](/documentation/diagram/files/diagram.png)
 
 ## Description
  
 ### **User**
 
-Collection about user data
+Collection of user data
 
 - Firstane: String
 - Lastname: String
-- Login :String
-- Email: :String 
-- Password :String (Hash)
+- Login: String
+- Email: String 
+- Password: String (Hash)
 - Addresses
-  - Firstname:String
-  - Lastname:String
-  - Phone:String
-  - Country:String
-  - PostalCode:String
-  - City:String
-  - Street:String
-  - StreetNumber:String
-  - FlatNumber:String
-- Active:Boolean
-- Banned:Boolean
-- Orders:mongoose.Schema.ObjectId
-- Reviews:mongoose.Schema.ObjectId
+  - Firstname: String
+  - Lastname: String
+  - Phone: String
+  - Country: String
+  - PostalCode: String
+  - City: String
+  - Street: String
+  - StreetNumber: String
+  - FlatNumber: String
+- Active: Boolean
+- Banned: Boolean
+- Orders: mongoose.Schema.ObjectId (Orders)
+- Reviews: mongoose.Schema.ObjectId (Reviews)
 - Cart
-  - Dish:mongoose.Schema.ObjectId
-  - Quantity:Number
+  - Dish: mongoose.Schema.ObjectId (Dishes)
+  - Quantity: Number
 
 ### **Dishes**
 
-Collection about menu data
+Collection of menu data
 
-- Name:String
-- Category:String
-- Cuisine:String
-- Type:String
-- Ingredients:String[]
-- Stock:Number
-- Currency:mongoose.Schema.ObjectId
-- UnitPrice:Number
-- RatingsSum:Number
-- RatingCount:Number
-- Description:String[]
-- Images:String[]
-- Reviews:mongoose.Schema.ObjectId[]
+- Name: String
+- Category: String
+- Cuisine: String
+- Type: String
+- Ingredients: String[]
+- Stock: Number
+- Currency: mongoose.Schema.ObjectId (Currencies)
+- UnitPrice: Number
+- RatingsSum: Number
+- RatingCount: Number
+- Description: String[]
+- Images: String[]
+- Reviews: mongoose.Schema.ObjectId[] (Reviews)
 
 ### **Reviews**
 
-Collection about reviews and comments data
+Collection of reviews and comments data
 
-- User:mongoose.Schema.ObjectId
-- Dish:mongoose.Schema.ObjectId
-- Order:mongoose.Schema.ObjectId
-- Date:String
-- Rating:Number
-- Body:String[]
+- User: mongoose.Schema.ObjectId (Users)
+- Dish: mongoose.Schema.ObjectId (Dishes)
+- Order: mongoose.Schema.ObjectId (Orders)
+- Date: String
+- Rating: Number
+- Body: String[]
 
 ### **Orders**
 
-Collection about orders data
+Collection of orders data
 
-- User:mongoose.Schema.ObjectId
+- User: mongoose.Schema.ObjectId (Users)
 - Dishes
-  - Dish:mongoose.Schema.ObjectId
-  - Quantity:Number
-  - UnitPrice:Number
+  - Dish: mongoose.Schema.ObjectId (Dishes)
+  - Quantity: Number
+  - UnitPrice: Number
 - Date:String
-- TotalPrice:Number
-- Currency:mongoose.Schema.ObjectId
+- TotalPrice: Number
+- Currency: mongoose.Schema.ObjectId (Currencies)
 
 ### **Globals**
 
-Collection about global values
+Collection of global values
 
-- Persistence:Number
-- MainCurrency:mongoose.Schema.ObjectId[]
+- Persistence: Number
+- MainCurrency: mongoose.Schema.ObjectId[] (Currencies)
 
 ### **Currencies**
 
-Collection about currencies data
+Collection of currencies data
 
-- Code:String
-- Symbol:String
-- Name:String
+- Code: String
+- Symbol: String
+- Name: String
 
 ### **ExchangeRates**
 
-Collection about exchange rates of currencies
+Collection of exchange rates of currencies
 
-- Ration:Number
-- From:mongoose.Schema.ObjectId
-- To:mongoose.Schema.ObjectId
+- Ratio: Number
+- From: mongoose.Schema.ObjectId (Currencies)
+- To: mongoose.Schema.ObjectId (Currencies)
