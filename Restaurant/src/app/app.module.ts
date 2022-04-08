@@ -9,6 +9,8 @@ import { CoreModule } from './modules/core/core.module';
 
 // Components
 import { AppComponent } from './app.component';
+import { NavBarComponent } from './src/app/modules/core/components/nav-bar/nav-bar.component';
+import { FooterComponent } from './src/app/modules/core/components/footer/footer.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,9 @@ import { AppComponent } from './app.component';
 
   // Components
   declarations: [
-    AppComponent
+    AppComponent,
+    NavBarComponent,
+    FooterComponent
   ],
 
   bootstrap: [AppComponent]
