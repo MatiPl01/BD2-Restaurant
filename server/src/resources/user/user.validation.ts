@@ -1,9 +1,9 @@
 import Joi from 'joi';
 
 const register = Joi.object({
-    firstname: Joi.string().required(),
+    firstName: Joi.string().required(),
 
-    lastname: Joi.string().required(),
+    lastName: Joi.string().required(),
 
     login: Joi.string().max(30).required(),
 
@@ -11,7 +11,7 @@ const register = Joi.object({
 
     password: Joi.string().min(6).required(),
 
-    adress: Joi.string().required()
+    address: Joi.string().required()
 });
 
 const login = Joi.object({

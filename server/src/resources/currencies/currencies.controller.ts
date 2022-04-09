@@ -11,10 +11,10 @@ class CurrenciesController implements Controller {
     private CurrenciesService = new CurrenciesService();
 
     constructor() {
-        this.initialiseRoutes();
+        this.initializeRoutes();
     }
 
-    private initialiseRoutes(): void {
+    private initializeRoutes(): void {
         // this.router.post(
         //     `${this.path}`,
         //     validationMiddleware(validate.create),
@@ -49,12 +49,12 @@ class CurrenciesController implements Controller {
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const {id}=req.body;
+            const { id } = req.body;
 
             const currencies = await this.CurrenciesService.getCurrencies(id);
 
-            res.status(201).json({currencies})
-        }catch (error){
+            res.status(201).json({ currencies })
+        } catch (error) {
             next(new HttpException(400, 'Cannot find currencies'));
         }
     }
