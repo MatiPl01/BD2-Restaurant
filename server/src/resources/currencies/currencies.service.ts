@@ -12,9 +12,9 @@ class CurrenciesService {
     //     }
     // }
 
-    public async getCurrencies(id:string):Promise<Currencies>{
+    public async getCurrencies(id: string): Promise<Currencies> {
         const result = await this.currencies.findById(id);
-        if(result){
+        if (result) {
             console.log(result);
             return result;
         }

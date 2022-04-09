@@ -5,25 +5,25 @@ class UserService {
     private user = UserModel;
 
     public async register(
-        firstname: string,
-        lastname: string,
+        firstName: string,
+        lastName: string,
         login: string,
         email: string,
         password: string,
-        role:string,
-        adress: string,
-        active:boolean,
-        banned:boolean
+        role: string,
+        address: string,
+        active: boolean,
+        banned: boolean
     ): Promise<string | Error> {
         try {
             const user = await this.user.create({
-                firstname,
-                lastname,
+                firstName,
+                lastName,
                 login,
                 email,
                 password,
                 role,
-                adress,
+                address,
                 active,
                 banned
             });
