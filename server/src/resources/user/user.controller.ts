@@ -12,10 +12,10 @@ class UserController implements Controller {
     private UserService = new UserService();
 
     constructor() {
-        this.initialiseRoutes();
+        this.initializeRoutes();
     }
 
-    private initialiseRoutes(): void {
+    private initializeRoutes(): void {
         this.router.post(
             `${this.path}/register`,
             validationMiddleware(validate.register),
@@ -35,22 +35,22 @@ class UserController implements Controller {
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const {firstname,lastname,login,email,password,adress} = req.body;
+            const {firstName, lastName, login, email, password, address} = req.body;
 
             const token = await this.UserService.register(
-                firstname,
-                lastname,
+                firstName,
+                lastName,
                 login,
                 email,
                 password,
                 'user',
-                adress,
+                address,
                 true,
                 false
             );
 
             res.status(201).json({ token });
-        } catch (error:any) {
+        } catch (error: any) {
             next(new HttpException(400, error.message));
         }
     };

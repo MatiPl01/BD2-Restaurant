@@ -1,4 +1,4 @@
-import { Document,Schema} from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 export default interface User extends Document {
     firstName: string;
@@ -14,7 +14,7 @@ export default interface User extends Document {
     banned: boolean;
     orders: Schema.Types.ObjectId[];
     // cart: object<Cart>
-    cart:string
+    cart: string
 
 
     isValidPassword(password: string): Promise<Error | boolean>;

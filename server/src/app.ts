@@ -15,13 +15,13 @@ class App {
         this.express = express();
         this.port = port;
 
-        this.initialiseDatabaseConnection();
-        this.initialiseMiddleware();
-        this.initialiseControllers(controllers);
-        this.initialiseErrorHandling();
+        this.initializeDatabaseConnection();
+        this.initializeMiddleware();
+        this.initializeControllers(controllers);
+        this.initializeErrorHandling();
     }
 
-    private initialiseMiddleware(): void {
+    private initializeMiddleware(): void {
         this.express.use(helmet());
         this.express.use(cors());
         this.express.use(morgan('dev'));
@@ -30,17 +30,17 @@ class App {
         this.express.use(compression());
     }
 
-    private initialiseControllers(controllers: Controller[]): void {
+    private initializeControllers(controllers: Controller[]): void {
         controllers.forEach((controller: Controller) => {
             this.express.use('/api', controller.router);
         });
     }
 
-    private initialiseErrorHandling(): void {
+    private initializeErrorHandling(): void {
         this.express.use(ErrorMiddleware);
     }
 
-    private initialiseDatabaseConnection(): void {
+    private initializeDatabaseConnection(): void {
         const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
 
         mongoose.connect(

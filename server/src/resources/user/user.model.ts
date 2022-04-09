@@ -1,14 +1,14 @@
-import {model, Schema} from 'mongoose';
+import { model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '@/resources/user/user.interface';
 
 const UserSchema = new Schema(
     {
-        firstname: {
+        firstName: {
             type: String,
             required: true,
         },
-        lastname: {
+        lastName: {
             type: String,
             required: true,
         },
@@ -28,23 +28,23 @@ const UserSchema = new Schema(
             type: String,
             required: true,
         },
-        adress: {
-            type:String,
-            required:true,
+        address: {
+            type: String,
+            required: true,
         },
         active:{
-            type:Boolean,
-            required:true,
+            type: Boolean,
+            required: true,
         },
         banned:{
-            type:Boolean,
-            required:true,
+            type: Boolean,
+            required: true,
         },
         orders:{
-            type:[Schema.Types.ObjectId]
+            type: [Schema.Types.ObjectId]
         },
         cart:{
-            type:String
+            type: String
         }
     },
     { timestamps: true }
