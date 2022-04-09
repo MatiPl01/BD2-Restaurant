@@ -22,7 +22,7 @@ W ramach projektu chcielibyśmy stworzyć stronę internetową restauracji, pozw
 
 ## Dokumentacja
 
-* [DataBase Diagram](/Documentation/Diagram)
+* [DataBase Diagram](/documentation/diagram)
 
 ## Features
 
@@ -34,4 +34,3 @@ W ramach projektu chcielibyśmy stworzyć stronę internetową restauracji, pozw
 - [Mateusz Łopaciński](https://github.com/MatiPl01)
 
 - [Jakub Spólnik](https://github.com/lawos98)
-
