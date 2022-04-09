@@ -1,6 +1,6 @@
 ## Diagram
 
-![Diagram](/Documentation/Diagram/files/diagram.png)
+![Diagram](/documentation/diagram/files/diagram.png)
 
 ## Description
  
@@ -8,14 +8,14 @@
 
 Collection of user data
 
-- Firstane: String
-- Lastname: String
+- FirstName: String
+- LastName: String
 - Login: String
 - Email: String 
 - Password: String (Hash)
 - Addresses
-  - Firstname: String
-  - Lastname: String
+  - FirstName: String
+  - LastName: String
   - Phone: String
   - Country: String
   - PostalCode: String
