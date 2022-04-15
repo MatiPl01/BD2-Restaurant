@@ -1,5 +1,5 @@
-import CurrenciesModel from '@/resources/currencies/currencies.model';
-import Currencies from '@/resources/currencies/currencies.interface';
+import CurrenciesModel from '@/resources/currency/currency.model';
+import Currencies from '@/resources/currency/currency.interface';
 
 class CurrenciesService {
     private currencies = CurrenciesModel;

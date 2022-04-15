@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import ExchangeRate from "@/resources/exchangeRates/exchangeRate.interface";
+import ExchangeRate from "@/resources/exchange-rates/exchangeRate.interface";
 
 const exchangeRateSchema = new Schema(
     {

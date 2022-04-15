@@ -3,7 +3,7 @@ import Controller from '@/utils/interfaces/controller.interface';
 import HttpException from '@/utils/exceptions/http.exception';
 import validationMiddleware from '@/middleware/validation.middleware';
 import ExchangeRateService from './exchangeRate.service';
-import validate from '@/resources/exchangeRates/exchangeRate.validation'
+import validate from '@/resources/exchange-rates/exchangeRate.validation'
 
 
 class ExchangeRateController implements Controller {

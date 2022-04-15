@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+
 const register = Joi.object({
     firstName: Joi.string().required(),
 
@@ -20,4 +21,5 @@ const login = Joi.object({
     password: Joi.string().required(),
 });
 
-export default { register, login};
+
+export default { register, login };

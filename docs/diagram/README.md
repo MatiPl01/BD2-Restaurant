@@ -1,6 +1,6 @@
 ## Diagram
 
-![Diagram](/documentation/diagram/files/diagram.png)
+![Diagram](/docs/diagram/files/diagram.png)
 
 ## Description
  

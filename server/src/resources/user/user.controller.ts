@@ -6,6 +6,7 @@ import validate from '@/resources/user/user.validation';
 import UserService from '@/resources/user/user.service';
 import authenticated from '@/middleware/authenticated.middleware';
 
+
 class UserController implements Controller {
     public path = '/users';
     public router = Router();
@@ -29,11 +30,11 @@ class UserController implements Controller {
         this.router.get(`${this.path}`, authenticated, this.getUser);
     }
 
-    private register = async (
+    private async register(
         req: Request,
         res: Response,
         next: NextFunction
-    ): Promise<Response | void> => {
+    ): Promise<Response | void> {
         try {
             const {firstName, lastName, login, email, password, address} = req.body;
 
@@ -43,7 +44,7 @@ class UserController implements Controller {
                 login,
                 email,
                 password,
-                'user',
+                ['user'],
                 address,
                 true,
                 false
@@ -55,11 +56,11 @@ class UserController implements Controller {
         }
     };
 
-    private login = async (
+    private async login(
         req: Request,
         res: Response,
         next: NextFunction
-    ): Promise<Response | void> => {
+    ): Promise<Response | void> {
         try {
             const { email, password } = req.body;
 
@@ -71,11 +72,11 @@ class UserController implements Controller {
         }
     };
 
-    private getUser = (
+    private getUser(
         req: Request,
         res: Response,
         next: NextFunction
-    ): Response | void => {
+    ): Response | void {
         if (!req.user) {
             return next(new HttpException(404, 'No logged in user'));
         }

@@ -16,6 +16,5 @@ export default interface User extends Document {
     // cart: object<Cart>
     cart: string
 
-
     isValidPassword(password: string): Promise<Error | boolean>;
 }

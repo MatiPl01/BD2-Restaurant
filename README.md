@@ -22,7 +22,7 @@ W ramach projektu chcielibyśmy stworzyć stronę internetową restauracji, pozw
 
 ## Dokumentacja
 
-* [DataBase Diagram](/documentation/diagram)
+* [DataBase Diagram](/docs/diagram)
 
 ## Features
 

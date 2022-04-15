@@ -10,7 +10,7 @@ class UserService {
         login: string,
         email: string,
         password: string,
-        role: string,
+        roles: string[],
         address: string,
         active: boolean,
         banned: boolean
@@ -22,7 +22,7 @@ class UserService {
                 login,
                 email,
                 password,
-                role,
+                roles,
                 address,
                 active,
                 banned
@@ -51,7 +51,7 @@ class UserService {
                 throw new Error('Wrong credentials given');
             }
         } catch (error) {
-            throw new Error('Unable to create user');
+            throw new Error('Unable to login user');
         }
     }
 }

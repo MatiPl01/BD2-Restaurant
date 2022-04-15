@@ -1,5 +1,5 @@
-import ExchangeRateModel from '@/resources/exchangeRates/exchangeRate.model';
-import ExchangeRate from '@/resources/exchangeRates/exchangeRate.interface';
+import ExchangeRateModel from '@/resources/exchange-rates/exchangeRate.model';
+import ExchangeRate from '@/resources/exchange-rates/exchangeRate.interface';
 
 class ExchangeRateService {
     private exchangeRates = ExchangeRateModel

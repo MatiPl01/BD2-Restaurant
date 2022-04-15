@@ -1,6 +1,6 @@
 import { Document} from 'mongoose';
 
-export default interface ExchangeRatesService extends Document {
+export default interface Post extends Document {
     code: string;
     symbol: string;
     name: string;

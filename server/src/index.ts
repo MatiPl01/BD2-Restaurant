@@ -2,14 +2,17 @@ import 'dotenv/config';
 import 'module-alias/register';
 import validateEnv from '@/utils/validateEnv';
 import App from './app';
-import CurrenciesController from '@/resources/currencies/currencies.controller';
+import CurrenciesController from '@/resources/currency/currency.controller';
 import UserController from '@/resources/user/user.controller';
-import ExchangeRateController from "@/resources/exchangeRates/exchangeRate.controller";
+
 
 validateEnv();
 
 const app = new App(
-    [new CurrenciesController(), new UserController(),new ExchangeRateController()],
+    [
+        new CurrenciesController(), 
+        new UserController()
+    ],
     Number(process.env.PORT)
 );
 
