@@ -16,12 +16,12 @@ class CurrenciesController implements Controller {
 
     private initializeRoutes(): void {
         this.router.get(
-            `${this.path}`,
+            `${this.path}/one`,
             validationMiddleware(validate.getCurrency),
             this.getCurrency
         );
         this.router.get(
-            `${this.path}`,
+            `${this.path}/all`,
             validationMiddleware(validate.getAllCurrencies),
             this.getAllCurrencies
         );

@@ -23,13 +23,13 @@
 
 ### **ExchangeRates**
 
-- [ ] Get ExchangeRates
-- [ ] Edit ExchangeRateRatio `???`
+- [X] Get ExchangeRates
+- [X] Edit ExchangeRateRatio `???`
 
 ### **Global**
 
 - [ ] Get global
-- [ ]Edit global
+- [ ] Edit global
  
 ### **Reviews**
 
