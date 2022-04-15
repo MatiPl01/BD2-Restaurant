@@ -15,35 +15,19 @@ class CurrenciesController implements Controller {
     }
 
     private initializeRoutes(): void {
-        // this.router.post(
-        //     `${this.path}`,
-        //     validationMiddleware(validate.create),
-        //     this.create
-        // );
         this.router.get(
             `${this.path}`,
-            validationMiddleware(validate.getCurrencies),
-            this.getCurrencies
-        )
+            validationMiddleware(validate.getCurrency),
+            this.getCurrency
+        );
+        this.router.get(
+            `${this.path}`,
+            validationMiddleware(validate.getAllCurrencies),
+            this.getAllCurrencies
+        );
     }
 
-    // private create = async (
-    //     req: Request,
-    //     res: Response,
-    //     next: NextFunction
-    // ): Promise<Response | void> => {
-    //     try {
-    //         const {code,symbol,name} = req.body;
-    //
-    //         const currencies = await this.CurrenciesService.create(code,symbol,name);
-    //
-    //         res.status(201).json({ currencies });
-    //     } catch (error) {
-    //         next(new HttpException(400, 'Cannot create currencies'));
-    //     }
-    // };
-
-    private getCurrencies = async (
+    private getCurrency = async (
         req: Request,
         res: Response,
         next: NextFunction
@@ -51,11 +35,25 @@ class CurrenciesController implements Controller {
         try {
             const { id } = req.body;
 
-            const currencies = await this.CurrenciesService.getCurrencies(id);
+            const currency = await this.CurrenciesService.getCurrency(id);
+
+            res.status(201).json({ currency })
+        } catch (error) {
+            next(new HttpException(400, 'Cannot find Currency'));
+        }
+    }
+
+    private getAllCurrencies = async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        try {
+            const currencies = await this.CurrenciesService.getAllCurrencies();
 
             res.status(201).json({ currencies })
         } catch (error) {
-            next(new HttpException(400, 'Cannot find currencies'));
+            next(new HttpException(400, 'Cannot find all currencies'));
         }
     }
 }

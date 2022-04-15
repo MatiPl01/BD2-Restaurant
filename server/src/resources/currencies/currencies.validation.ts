@@ -9,10 +9,14 @@ const create = Joi.object({
 
 });
 
-const getCurrencies = Joi.object({
+const getCurrency = Joi.object({
 
     id: Joi.string().required()
 
 });
 
-export default { create, getCurrencies };
+const getAllCurrencies = Joi.object({
+
+});
+
+export default { create, getCurrency,getAllCurrencies};

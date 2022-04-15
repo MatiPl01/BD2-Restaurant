@@ -28,9 +28,7 @@ class UserService {
                 banned
             });
 
-            const accessToken = token.createToken(user);
-
-            return accessToken;
+            return token.createToken(user);
         } catch (error:any) {
             throw new Error(error.message);
         }

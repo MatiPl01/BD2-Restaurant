@@ -1,11 +1,8 @@
 import { Schema, model } from 'mongoose';
 import Currencies from '@/resources/currencies/currencies.interface';
 
-const currenciesSchema = new Schema(
+const currencySchema = new Schema(
     {
-        _id:{
-          type:Schema.Types.ObjectId
-        },
         code: {
             type: String,
             required: true,
@@ -22,4 +19,4 @@ const currenciesSchema = new Schema(
     { timestamps: true }
 );
 
-export default model<Currencies>('Currencies', currenciesSchema);
+export default model<Currencies>('Currencies', currencySchema);
