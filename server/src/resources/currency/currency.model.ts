@@ -1,22 +1,25 @@
 import { Schema, model } from 'mongoose';
-import Currencies from '@/resources/currency/currency.interface';
+import Currency from '@/resources/currency/currency.interface';
 
 const currencySchema = new Schema(
     {
-        code: {
+        code: { // e.g. USD
             type: String,
             required: true,
+            unique: true
         },
-        symbol: {
+        symbol: { // e.g. $
             type: String,
             required: true,
+            unique: true
         },
-        name: {
+        name: { // e.g. United States Dollar
             type: String,
             required: true,
+            unique: true
         },
     },
     { timestamps: true }
 );
 
-export default model<Currencies>('Currencies', currencySchema);
+export default model<Currency>('Currency', currencySchema);

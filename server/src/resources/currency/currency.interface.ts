@@ -1,6 +1,6 @@
-import { Document} from 'mongoose';
+import { Document } from 'mongoose';
 
-export default interface Post extends Document {
+export default interface Currency extends Document {
     code: string;
     symbol: string;
     name: string;

@@ -1,15 +1,15 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import Controller from '@/utils/interfaces/controller.interface';
-import HttpException from '@/utils/exceptions/http.exception';
 import validationMiddleware from '@/middleware/validation.middleware';
-import ExchangeRateService from './exchangeRate.service';
-import validate from '@/resources/exchange-rates/exchangeRate.validation'
+import validate from '@/resources/exchange-rate/exchange-rate.validation'
+import ExchangeRateService from './exchange-rate.service';
+import createException from "@/utils/createException";
 
 
 class ExchangeRateController implements Controller {
-    public path = '/exchangeRates';
+    public path = '/exchange-rates';
     public router = Router();
-    private ExchangeRateService = new ExchangeRateService();
+    private exchangeRateService = new ExchangeRateService();
 
     constructor() {
         this.initializeRoutes();
@@ -17,14 +17,14 @@ class ExchangeRateController implements Controller {
 
     private initializeRoutes(): void {
         this.router.get(
-            `${this.path}/one`,
+            this.path,
             validationMiddleware(validate.getExchangeRate),
             this.getExchangeRate
         );
-        this.router.post(
-            `${this.path}/changeRatio`,
-            validationMiddleware(validate.changeRatio),
-            this.changeRatio
+        this.router.patch(
+            this.path,
+            validationMiddleware(validate.updateExchangeRate),
+            this.updateExchangeRate
         );
     }
 
@@ -34,26 +34,29 @@ class ExchangeRateController implements Controller {
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const {from,to} = req.body;
-            const currency = await this.ExchangeRateService.getExchangeRate(from,to);
+            const from = req.query.from as string;
+            const to = req.query.to as string;
+            const result = await this.exchangeRateService.getExchangeRate(from, to);
 
-            res.status(201).json({ currency })
+            res.status(201).json(result);
         } catch (error) {
-            next(new HttpException(400, 'Cannot find Currency'));
+            next(createException(400, error));
         }
     };
-    private changeRatio = async (
+    private updateExchangeRate = async (
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
         try {
-            const {ratio,from,to} = req.body;
-            const currency = await this.ExchangeRateService.changeRatio(ratio,from,to);
+            const from = req.query.from as string;
+            const to = req.query.to as string;
+            const { ratio } = req.body;
+            const result = await this.exchangeRateService.updateExchangeRate(from, to, ratio);
 
-            res.status(201).json({ currency })
+            res.status(201).json(result);
         } catch (error) {
-            next(new HttpException(400, 'Cannot change ratio'));
+            next(createException(400, error));
         }
     }
 }

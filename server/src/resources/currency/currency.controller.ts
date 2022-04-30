@@ -1,15 +1,15 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import Controller from '@/utils/interfaces/controller.interface';
-import HttpException from '@/utils/exceptions/http.exception';
 import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/currency/currency.validation';
-import CurrenciesService from '@/resources/currency/currency.service';
+import CurrencyService from '@/resources/currency/currency.service';
+import createException from "@/utils/createException";
 
 
-class CurrenciesController implements Controller {
+class CurrencyController implements Controller {
     public path = '/currencies';
     public router = Router();
-    private CurrenciesService = new CurrenciesService();
+    private currencyService = new CurrencyService();
 
     constructor() {
         this.initializeRoutes();
@@ -17,14 +17,14 @@ class CurrenciesController implements Controller {
 
     private initializeRoutes(): void {
         this.router.get(
-            `${this.path}`,
-            validationMiddleware(validate.getCurrency),
-            this.getCurrency
-        );
-        this.router.get(
-            `${this.path}`,
+            this.path,
             validationMiddleware(validate.getAllCurrencies),
             this.getAllCurrencies
+        );
+        this.router.get(
+            `${this.path}/:code`, // FIXME - I get an error: "\"id\" is required"
+            validationMiddleware(validate.getCurrency),
+            this.getCurrency
         );
     }
 
@@ -33,14 +33,14 @@ class CurrenciesController implements Controller {
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
+        console.log('here 1')
         try {
-            const { id } = req.body;
-
-            const currency = await this.CurrenciesService.getCurrency(id);
+            const code = req.params.code as string;
+            const currency = await this.currencyService.getCurrency(code);
 
             res.status(201).json({ currency })
         } catch (error) {
-            next(new HttpException(400, 'Cannot find Currency'));
+            next(createException(400, error));
         }
     }
 
@@ -49,14 +49,15 @@ class CurrenciesController implements Controller {
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
+        console.log('here 2')
         try {
-            const currencies = await this.CurrenciesService.getAllCurrencies();
+            const currencies = await this.currencyService.getAllCurrencies();
 
             res.status(201).json({ currencies })
         } catch (error) {
-            next(new HttpException(400, 'Cannot find all currencies'));
+            next(createException(400, error));
         }
     }
 }
 
-export default CurrenciesController;
+export default CurrencyController;

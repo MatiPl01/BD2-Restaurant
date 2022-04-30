@@ -8,7 +8,7 @@ export default interface User extends Document {
     password: string;
     //To do in Diagram
     role: string;
-    // address: object<Adres>
+    // address: object<Address>
     address: string;
     active: boolean;
     banned: boolean;
@@ -16,5 +16,5 @@ export default interface User extends Document {
     // cart: object<Cart>
     cart: string
 
-    isValidPassword(password: string): Promise<Error | boolean>;
+    isValidPassword(inputPassword: string, userPassword: string): Promise<Error | boolean>;
 }

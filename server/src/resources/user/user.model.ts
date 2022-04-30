@@ -21,6 +21,7 @@ const UserSchema = new Schema(
             type: String,
             required: true,
             unique: true,
+            trim: true,
             minlength: 3,
             maxlength: 20
         },
@@ -28,18 +29,59 @@ const UserSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            lowercase: true
+            lowercase: true,
+            trim: true
         },
         password: {
             type: String,
             required: true,
+            trim: true,
             minlength: 8,
             select: false
         },
-        addresses: {
-            type: [Schema.Types.ObjectId],
-            ref: 'Addresses'
-        },
+        addresses: [
+            {
+                firstName: {
+                    type: String,
+                    required: true,
+                    minlength: 1,
+                    maxlength: 30
+                },
+                lastName: {
+                    type: String,
+                    required: true,
+                    minlength: 1,
+                    maxlength: 30
+                },
+                phone: {
+                    type: String,
+                    required: true
+                },
+                country: {
+                    type: String,
+                    required: true
+                },
+                postalCode: {
+                    type: String,
+                    required: true
+                },
+                city: {
+                    type: String,
+                    required: true
+                },
+                street: {
+                    type: String,
+                    required: true
+                },
+                streetNumber: {
+                    type: String,
+                    required: true
+                },
+                flatNumber: {
+                    type: String
+                }
+            }
+        ],
         roles: {
             type: [String],
             required: true,
@@ -47,19 +89,24 @@ const UserSchema = new Schema(
             default: ['user']
         },
         orders: {
-            type: [Schema.Types.ObjectId]
+            type: [Schema.Types.ObjectId],
+            ref: 'Orders'
         },
-        cart: {
-            type: [{
-                dish: Schema.Types.ObjectId,
+        cart: [
+            {
+                dish: {
+                    type: Schema.Types.ObjectId,
+                    required: true
+                },
                 quantity: {
                     type: Number,
+                    required: true,
                     min: 1
                 }
-            }]
-        },
+            }
+        ],
         defaultCurrency: {
-            type: Schema.Types.ObjectId,
+            type: String,
             required: true
         },
         active: {
@@ -87,10 +134,10 @@ UserSchema.pre<User>('save', async function (next) {
 });
 
 UserSchema.methods.isValidPassword = async function (
-    password: string
-): Promise<Error | boolean> {
-    return await bcrypt.compare(password, this.password);
-};
-
+    inputPassword: string, 
+    userPassword: string
+): Promise<boolean> {
+    return await bcrypt.compare(inputPassword, userPassword);
+}
 
 export default model<User>('User', UserSchema);

@@ -23,13 +23,15 @@ Collection of user data
   - Street: String
   - StreetNumber: String
   - FlatNumber: String
+- Roles: String[]
+- Orders: mongoose.Types.ObjectId (Orders)
+- Reviews: mongoose.Types.ObjectId (Reviews)
+- Cart
+  - Dish: mongoose.Types.ObjectId (Dishes)
+  - Quantity: Number
+- DefaultCurrency: mongoose.Types.ObjectId (Currencies)
 - Active: Boolean
 - Banned: Boolean
-- Orders: mongoose.Schema.ObjectId (Orders)
-- Reviews: mongoose.Schema.ObjectId (Reviews)
-- Cart
-  - Dish: mongoose.Schema.ObjectId (Dishes)
-  - Quantity: Number
 
 ### **Dishes**
 
@@ -41,21 +43,21 @@ Collection of menu data
 - Type: String
 - Ingredients: String[]
 - Stock: Number
-- Currency: mongoose.Schema.ObjectId (Currencies)
+- Currency: mongoose.Types.ObjectId (Currencies)
 - UnitPrice: Number
 - RatingsSum: Number
 - RatingCount: Number
 - Description: String[]
 - Images: String[]
-- Reviews: mongoose.Schema.ObjectId[] (Reviews)
+- Reviews: mongoose.Types.ObjectId[] (Reviews)
 
 ### **Reviews**
 
 Collection of reviews and comments data
 
-- User: mongoose.Schema.ObjectId (Users)
-- Dish: mongoose.Schema.ObjectId (Dishes)
-- Order: mongoose.Schema.ObjectId (Orders)
+- User: mongoose.Types.ObjectId (Users)
+- Dish: mongoose.Types.ObjectId (Dishes)
+- Order: mongoose.Types.ObjectId (Orders)
 - Date: String
 - Rating: Number
 - Body: String[]
@@ -64,21 +66,21 @@ Collection of reviews and comments data
 
 Collection of orders data
 
-- User: mongoose.Schema.ObjectId (Users)
+- User: mongoose.Types.ObjectId (Users)
 - Dishes
-  - Dish: mongoose.Schema.ObjectId (Dishes)
+  - Dish: mongoose.Types.ObjectId (Dishes)
   - Quantity: Number
   - UnitPrice: Number
 - Date:String
 - TotalPrice: Number
-- Currency: mongoose.Schema.ObjectId (Currencies)
+- Currency: mongoose.Types.ObjectId (Currencies)
 
 ### **Globals**
 
 Collection of global values
 
 - Persistence: Number
-- MainCurrency: mongoose.Schema.ObjectId[] (Currencies)
+- MainCurrency: mongoose.Types.ObjectId[] (Currencies)
 
 ### **Currencies**
 
@@ -93,5 +95,5 @@ Collection of currencies data
 Collection of exchange rates of currencies
 
 - Ratio: Number
-- From: mongoose.Schema.ObjectId (Currencies)
-- To: mongoose.Schema.ObjectId (Currencies)
+- From: String
+- To: String

@@ -5,12 +5,14 @@ import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/user/user.validation';
 import UserService from '@/resources/user/user.service';
 import authenticated from '@/middleware/authenticated.middleware';
+import createException from "@/utils/createException";
+import User from './user.model';
 
 
 class UserController implements Controller {
     public path = '/users';
     public router = Router();
-    private UserService = new UserService();
+    private userService = new UserService();
 
     constructor() {
         this.initializeRoutes();
@@ -20,14 +22,18 @@ class UserController implements Controller {
         this.router.post(
             `${this.path}/register`,
             validationMiddleware(validate.register),
-            this.register
+            this.register.bind(this)
         );
         this.router.post(
             `${this.path}/login`,
             validationMiddleware(validate.login),
-            this.login
+            this.login.bind(this)
         );
-        this.router.get(`${this.path}`, authenticated, this.getUser);
+        this.router.get(
+            this.path,
+            authenticated,
+            UserController.getUser
+        );
     }
 
     private async register(
@@ -36,23 +42,24 @@ class UserController implements Controller {
         next: NextFunction
     ): Promise<Response | void> {
         try {
-            const {firstName, lastName, login, email, password, address} = req.body;
+            const { firstName, lastName, login, email, password } = req.body;
 
-            const token = await this.UserService.register(
+            const token = await this.userService.register(
                 firstName,
                 lastName,
                 login,
                 email,
                 password,
-                ['user'],
-                address,
-                true,
-                false
+                [],
+                req.body.roles || ['user'],
+                req.body.defaultCurrency || 'USD',
+                req.body.active != null ? req.body.active : true,
+                req.body.bannes != null ? req.body.banned : false
             );
 
             res.status(201).json({ token });
-        } catch (error: any) {
-            next(new HttpException(400, error.message));
+        } catch (error) {
+            next(createException(400, error));
         }
     };
 
@@ -64,15 +71,15 @@ class UserController implements Controller {
         try {
             const { email, password } = req.body;
 
-            const token = await this.UserService.login(email, password);
+            const token = await this.userService.login(email, password);
 
             res.status(200).json({ token });
-        } catch (error:any) {
-            next(new HttpException(400, error.message));
+        } catch (error) {
+            next(createException(400, error));
         }
     };
 
-    private getUser(
+    private static getUser(
         req: Request,
         res: Response,
         next: NextFunction

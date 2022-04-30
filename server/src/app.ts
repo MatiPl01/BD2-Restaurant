@@ -9,6 +9,7 @@ import helmet from 'helmet';
 
 
 class App {
+    private static readonly API_VERSION = 'v1';
     public express: Application;
     public port: number;
 
@@ -16,7 +17,7 @@ class App {
         this.express = express();
         this.port = port;
 
-        this.initializeDatabaseConnection();
+        App.initializeDatabaseConnection();
         this.initializeMiddleware();
         this.initializeControllers(controllers);
         this.initializeErrorHandling();
@@ -33,7 +34,7 @@ class App {
 
     private initializeControllers(controllers: Controller[]): void {
         controllers.forEach((controller: Controller) => {
-            this.express.use('/api', controller.router);
+            this.express.use(`/api/${App.API_VERSION}`, controller.router);
         });
     }
 
@@ -41,12 +42,17 @@ class App {
         this.express.use(ErrorMiddleware);
     }
 
-    private initializeDatabaseConnection(): void {
+    private static initializeDatabaseConnection(): void {
         const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
 
         mongoose.connect(
             `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`
-        );
+        ).then(() => {
+            console.log('Database was successfully connected')
+        }).catch(err => {
+            console.error(err);
+            // TODO - handle connection error (e.g. send error message to the front-end app)
+        });
     }
 
     public listen(): void {

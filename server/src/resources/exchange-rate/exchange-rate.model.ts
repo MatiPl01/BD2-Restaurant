@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import ExchangeRate from "@/resources/exchange-rates/exchangeRate.interface";
+import ExchangeRate from "@/resources/exchange-rate/exchange-rate.interface";
 
 const exchangeRateSchema = new Schema(
     {
@@ -19,4 +19,4 @@ const exchangeRateSchema = new Schema(
     { timestamps: true }
 );
 
-export default model<ExchangeRate>('exchangeRates', exchangeRateSchema);
+export default model<ExchangeRate>('ExchangeRate', exchangeRateSchema);
