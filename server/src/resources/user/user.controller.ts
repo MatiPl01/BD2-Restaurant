@@ -5,8 +5,7 @@ import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/user/user.validation';
 import UserService from '@/resources/user/user.service';
 import authenticated from '@/middleware/authenticated.middleware';
-import createException from "@/utils/createException";
-import User from './user.model';
+import catchAsync from "@/utils/exceptions/catchAsync";
 
 
 class UserController implements Controller {
@@ -22,74 +21,64 @@ class UserController implements Controller {
         this.router.post(
             `${this.path}/register`,
             validationMiddleware(validate.register),
-            this.register.bind(this)
+            this.register
         );
         this.router.post(
             `${this.path}/login`,
             validationMiddleware(validate.login),
-            this.login.bind(this)
+            this.login
         );
         this.router.get(
             this.path,
             authenticated,
-            UserController.getUser
+            this.getUser
         );
     }
 
-    private async register(
+    private register = catchAsync(async (
         req: Request,
         res: Response,
         next: NextFunction
-    ): Promise<Response | void> {
-        try {
-            const { firstName, lastName, login, email, password } = req.body;
+    ): Promise<Response | void> => {
+        const { firstName, lastName, login, email, password } = req.body;
 
-            const token = await this.userService.register(
-                firstName,
-                lastName,
-                login,
-                email,
-                password,
-                [],
-                req.body.roles || ['user'],
-                req.body.defaultCurrency || 'USD',
-                req.body.active != null ? req.body.active : true,
-                req.body.bannes != null ? req.body.banned : false
-            );
+        const token = await this.userService.register(
+            firstName,
+            lastName,
+            login,
+            email,
+            password,
+            [],
+            req.body.roles || ['user'],
+            req.body.defaultCurrency || 'USD',
+            req.body.active != null ? req.body.active : true,
+            req.body.bannes != null ? req.body.banned : false
+        );
 
-            res.status(201).json({ token });
-        } catch (error) {
-            next(createException(400, error));
-        }
-    };
+        res.status(201).json({ data: token });
+    })
 
-    private async login(
+    private login = catchAsync(async (
         req: Request,
         res: Response,
         next: NextFunction
-    ): Promise<Response | void> {
-        try {
-            const { email, password } = req.body;
+    ): Promise<Response | void> => {
+        const { email, password } = req.body;
 
-            const token = await this.userService.login(email, password);
+        const token = await this.userService.login(email, password);
 
-            res.status(200).json({ token });
-        } catch (error) {
-            next(createException(400, error));
-        }
-    };
+        res.status(200).json({ data: token });
+    })
 
-    private static getUser(
+    private getUser = catchAsync(async (
         req: Request,
         res: Response,
         next: NextFunction
-    ): Response | void {
-        if (!req.user) {
-            return next(new HttpException(404, 'No logged in user'));
-        }
+    ): Promise<Response | void> => {
+        if (!req.user) return next(new HttpException(404, 'No user logged in'));
 
         res.status(200).send({ data: req.user });
-    };
+    })
 }
 
 export default UserController;

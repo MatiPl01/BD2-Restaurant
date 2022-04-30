@@ -56,7 +56,7 @@ class UserService {
         password: string
     ): Promise<string | Error> {
         const user = await User.findOne({ email }).select('+password');
-        console.log("HERE", user?.password)
+
         if (user && await user.isValidPassword(password, user.password)) {
             return token.createToken(user);
         } else {

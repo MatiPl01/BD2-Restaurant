@@ -3,7 +3,8 @@ import Controller from '@/utils/interfaces/controller.interface';
 import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/exchange-rate/exchange-rate.validation'
 import ExchangeRateService from './exchange-rate.service';
-import createException from "@/utils/createException";
+import createException from "@/utils/exceptions/createException";
+import catchAsync from "@/utils/exceptions/catchAsync";
 
 
 class ExchangeRateController implements Controller {
@@ -28,37 +29,30 @@ class ExchangeRateController implements Controller {
         );
     }
 
-    private getExchangeRate = async (
+    private getExchangeRate = catchAsync(async (
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
-        try {
-            const from = req.query.from as string;
-            const to = req.query.to as string;
-            const result = await this.exchangeRateService.getExchangeRate(from, to);
+        const from = req.query.from as string;
+        const to = req.query.to as string;
+        const result = await this.exchangeRateService.getExchangeRate(from, to);
 
-            res.status(201).json(result);
-        } catch (error) {
-            next(createException(400, error));
-        }
-    };
-    private updateExchangeRate = async (
+        res.status(201).json({ data: result });
+    })
+
+    private updateExchangeRate = catchAsync(async (
         req: Request,
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
-        try {
-            const from = req.query.from as string;
-            const to = req.query.to as string;
-            const { ratio } = req.body;
-            const result = await this.exchangeRateService.updateExchangeRate(from, to, ratio);
+        const from = req.query.from as string;
+        const to = req.query.to as string;
+        const { ratio } = req.body;
+        const result = await this.exchangeRateService.updateExchangeRate(from, to, ratio);
 
-            res.status(201).json(result);
-        } catch (error) {
-            next(createException(400, error));
-        }
-    }
+        res.status(201).json({ data: result });
+    })
 }
 
 export default ExchangeRateController;
