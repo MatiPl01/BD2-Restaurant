@@ -1,52 +1,45 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import Controller from '@/utils/interfaces/controller.interface';
-import validationMiddleware from '@/middleware/validation.middleware';
-import validate from '@/resources/currency/currency.validation';
 import CurrencyService from '@/resources/currency/currency.service';
 import catchAsync from "@/utils/exceptions/catchAsync";
 
 
 class CurrencyController implements Controller {
-    public path = '/currencies';
-    public router = Router();
-    private currencyService = new CurrencyService();
+    public readonly PATH = 'currencies';
+    public readonly router = Router();
+    private readonly currencyService = new CurrencyService();
 
     constructor() {
         this.initializeRoutes();
     }
 
     private initializeRoutes(): void {
-        this.router.get(
-            this.path,
-            validationMiddleware(validate.getAllCurrencies),
-            this.getAllCurrencies
-        );
-        this.router.get(
-            `${this.path}/:code`,
-            validationMiddleware(validate.getCurrency),
-            this.getCurrency
-        );
+        this.router
+            .route('/')
+            .get(this.getAllCurrencies);
+
+        this.router
+            .route('/:code')
+            .get(this.getCurrency);
     }
 
     private getCurrency = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
         const code = req.params.code as string;
         const currency = await this.currencyService.getCurrency(code);
 
-        res.status(201).json({ data: currency });
+        res.status(200).json({ data: currency });
     })
 
     private getAllCurrencies = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
         const currencies = await this.currencyService.getAllCurrencies();
 
-        res.status(201).json({ data: currencies })
+        res.status(200).json({ data: currencies })
     })
 }
 

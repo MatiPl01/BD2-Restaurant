@@ -46,7 +46,7 @@ class UserService {
             });
 
             return token.createToken(user);
-        } catch (error:any) {
+        } catch (error: any) {
             throw new Error(error.message);
         }
     }

@@ -24,6 +24,7 @@ function validationMiddleware(schema: Joi.Schema): RequestHandler {
             e.details.forEach((error: Joi.ValidationErrorItem) => {
                 errors.push(error.message);
             });
+            console.log(e)
             res.status(400).send({ errors });
         }
     };

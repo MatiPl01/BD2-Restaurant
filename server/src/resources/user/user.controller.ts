@@ -9,30 +9,35 @@ import catchAsync from "@/utils/exceptions/catchAsync";
 
 
 class UserController implements Controller {
-    public path = '/users';
-    public router = Router();
-    private userService = new UserService();
+    public readonly PATH = 'users';
+    public readonly router = Router();
+    private readonly userService = new UserService();
 
     constructor() {
         this.initializeRoutes();
     }
 
     private initializeRoutes(): void {
-        this.router.post(
-            `${this.path}/register`,
-            validationMiddleware(validate.register),
-            this.register
-        );
-        this.router.post(
-            `${this.path}/login`,
-            validationMiddleware(validate.login),
-            this.login
-        );
-        this.router.get(
-            this.path,
-            authenticated,
-            this.getUser
-        );
+        this.router
+            .route('/')
+            .get(
+                authenticated,
+                this.getUser
+            );
+
+        this.router
+            .route('/register')
+            .post(
+                validationMiddleware(validate.register),
+                this.register
+            );
+
+        this.router
+            .route('/login')
+            .post(
+                validationMiddleware(validate.login),
+                this.login
+            );
     }
 
     private register = catchAsync(async (
@@ -75,7 +80,7 @@ class UserController implements Controller {
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
-        if (!req.user) return next(new HttpException(404, 'No user logged in'));
+        if (!req.user) throw new HttpException(404, 'No user logged in');
 
         res.status(200).send({ data: req.user });
     })

@@ -43,12 +43,18 @@ Collection of menu data
 - Type: String
 - Ingredients: String[]
 - Stock: Number
-- Currency: mongoose.Types.ObjectId (Currencies)
+- Currency: String
 - UnitPrice: Number
 - RatingsSum: Number
-- RatingCount: Number
+- RatingsCount: Number
 - Description: String[]
-- Images: String[]
+- Images
+  - coverIdx: Number,
+  - gallery: {
+    - breakpoints: Number[],
+    - paths: String[]
+    
+    }[]
 - Reviews: mongoose.Types.ObjectId[] (Reviews)
 
 ### **Reviews**

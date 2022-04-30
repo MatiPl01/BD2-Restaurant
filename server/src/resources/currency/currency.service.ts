@@ -13,9 +13,9 @@ class CurrencyService {
     }
 
     public async getAllCurrencies(): Promise<Currency[]> {
-        try{
+        try {
             return await this.currencies.find()
-        } catch(error){
+        } catch (error) {
             throw new Error('Cannot get currencies');
         }
     }

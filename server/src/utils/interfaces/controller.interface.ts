@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 interface Controller {
-    path: string;
+    PATH: string;
     router: Router;
 }
 

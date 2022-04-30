@@ -1,50 +1,44 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 import Controller from '@/utils/interfaces/controller.interface';
 import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/exchange-rate/exchange-rate.validation'
 import ExchangeRateService from './exchange-rate.service';
-import createException from "@/utils/exceptions/createException";
 import catchAsync from "@/utils/exceptions/catchAsync";
 
 
 class ExchangeRateController implements Controller {
-    public path = '/exchange-rates';
-    public router = Router();
-    private exchangeRateService = new ExchangeRateService();
+    public readonly PATH = 'exchange-rates';
+    public readonly router = Router();
+    private readonly exchangeRateService = new ExchangeRateService();
 
     constructor() {
         this.initializeRoutes();
     }
 
     private initializeRoutes(): void {
-        this.router.get(
-            this.path,
-            validationMiddleware(validate.getExchangeRate),
-            this.getExchangeRate
-        );
-        this.router.patch(
-            this.path,
-            validationMiddleware(validate.updateExchangeRate),
-            this.updateExchangeRate
-        );
+        this.router
+            .route('/')
+            .get(this.getExchangeRate)
+            .patch(
+                validationMiddleware(validate.updateExchangeRate),
+                this.updateExchangeRate
+            );
     }
 
     private getExchangeRate = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
         const result = await this.exchangeRateService.getExchangeRate(from, to);
 
-        res.status(201).json({ data: result });
+        res.status(200).json({ data: result });
     })
 
     private updateExchangeRate = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;

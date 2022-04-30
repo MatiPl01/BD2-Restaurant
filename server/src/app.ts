@@ -34,7 +34,7 @@ class App {
 
     private initializeControllers(controllers: Controller[]): void {
         controllers.forEach((controller: Controller) => {
-            this.express.use(`/api/${App.API_VERSION}`, controller.router);
+            this.express.use(`/api/${App.API_VERSION}/${controller.PATH}`, controller.router);
         });
     }
 

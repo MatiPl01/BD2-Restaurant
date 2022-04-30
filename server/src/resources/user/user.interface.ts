@@ -6,8 +6,8 @@ export default interface User extends Document {
     login: string;
     email: string;
     password: string;
-    //To do in Diagram
-    role: string;
+    // To do in Diagram
+    roles: string;
     // address: object<Address>
     address: string;
     active: boolean;
