@@ -2,6 +2,8 @@
 
 ![Diagram](/docs/diagram/files/diagram.png)
 
+# TODO - update diagram to reflect changed properties
+
 ## Description
  
 ### **User**
@@ -45,7 +47,7 @@ Collection of menu data
 - Stock: Number
 - Currency: String
 - UnitPrice: Number
-- RatingsSum: Number
+- RatingsAverage: Number
 - RatingsCount: Number
 - Description: String[]
 - Images

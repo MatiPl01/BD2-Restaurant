@@ -43,9 +43,9 @@ class ExchangeRateController implements Controller {
         const from = req.query.from as string;
         const to = req.query.to as string;
         const { ratio } = req.body;
-        const result = await this.exchangeRateService.updateExchangeRate(from, to, ratio);
+        const updatedExchangeRate = await this.exchangeRateService.updateExchangeRate(from, to, ratio);
 
-        res.status(201).json({ data: result });
+        res.status(201).json({ data: updatedExchangeRate });
     })
 }
 

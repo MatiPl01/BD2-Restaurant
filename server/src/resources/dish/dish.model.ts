@@ -15,11 +15,11 @@ const DishSchema = new Schema(
         },
         cuisine: {
             type: String,
-            default: 'międzynarodowa'
+            default: 'inna'
         },
         type: {
             type: String,
-            default: 'pozostałe'
+            default: 'inne'
         },
         ingredients: {
             type: [String],
@@ -27,7 +27,7 @@ const DishSchema = new Schema(
         },
         stock: {
             type: Number,
-            required: [true, 'Please provide a dish stock']
+            default: 0
         },
         currency: {
             type: String,
@@ -37,7 +37,7 @@ const DishSchema = new Schema(
             type: Number,
             required: [true, 'Please provide a dish unit price']
         },
-        ratingsSum: {
+        ratingsAverage: {
             type: Number,
             default: 0,
             min: [0, 'Sum of dish ratings cannot be lower than 0']
@@ -74,6 +74,9 @@ const DishSchema = new Schema(
                 ref: 'Review'
             }
         ]
+    },
+    {
+        versionKey: false
     }
 );
 

@@ -19,7 +19,10 @@ const currencySchema = new Schema(
             unique: true
         },
     },
-    { timestamps: true }
+    { 
+        timestamps: true,
+        versionKey: false
+    }
 );
 
 export default model<Currency>('Currency', currencySchema);
