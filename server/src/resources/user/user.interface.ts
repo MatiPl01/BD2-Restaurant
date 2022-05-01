@@ -1,3 +1,4 @@
+import RolesEnum from '@/utils/enums/roles.enum';
 import { Document, Schema } from 'mongoose';
 
 
@@ -7,15 +8,34 @@ export default interface User extends Document {
     login: string;
     email: string;
     password: string;
-    // To do in Diagram
-    roles: string;
-    // address: object<Address>
-    address: string;
+    passwordChangedAt?: Date;
+    addresses: {
+        firstName: string,
+        lastName: string,
+        phone: string,
+        country: string,
+        postalCode: string,
+        city: string,
+        street: string,
+        streetNumber: string,
+        flatNumber?: string
+    }[];
+    roles: RolesEnum;
+    orders: Schema.Types.ObjectId[];
+    cart: {
+        dish: Schema.Types.ObjectId,
+        quantity: number
+    };
+    defaultCurrency: string;
     active: boolean;
     banned: boolean;
-    orders: Schema.Types.ObjectId[];
-    // cart: object<Cart>
-    cart: string
 
-    isValidPassword(inputPassword: string, userPassword: string): Promise<Error | boolean>;
+    isValidPassword(
+        inputPassword: 
+        string, userPassword: string
+    ): Promise<Error | boolean>;
+
+    wasPasswordChangedAfter(
+        timestamp: number
+    ): boolean;
 }

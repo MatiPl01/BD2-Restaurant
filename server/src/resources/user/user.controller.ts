@@ -7,6 +7,8 @@ import Controller from '@/utils/interfaces/controller.interface';
 import catchAsync from "@/utils/errors/catch-async";
 import AppError from '@/utils/errors/app.error';
 import validate from '@/resources/user/user.validation';
+import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
+import RolesEnum from '@/utils/enums/roles.enum';
 
 
 class UserController implements Controller {
@@ -27,7 +29,7 @@ class UserController implements Controller {
             )
             .delete(
                 authenticate,
-                this.deleteCurrentUser
+                this.deactivateCurrentUser
             );
 
         this.router
@@ -43,12 +45,20 @@ class UserController implements Controller {
                 validationMiddleware(validate.login),
                 this.login
             );
+
+        this.router
+            .route('/:id')
+            .get(
+                authenticate, // Use this before restrictTo in order to work
+                restrictTo(RolesEnum.ADMIN),
+                selectFieldsMiddleware,
+                this.getUser
+            )
     }
 
     private register = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
         const { firstName, lastName, login, email, password, defaultCurrency } = req.body;
 
@@ -71,8 +81,7 @@ class UserController implements Controller {
 
     private login = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
         const { email, password } = req.body;
 
@@ -86,10 +95,10 @@ class UserController implements Controller {
 
     private getCurrentUser = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
-        if (!req.user) throw new AppError(404, 'No user logged in');
+        let { user } = req;
+        if (!user) throw new AppError(404, 'No user logged in');
 
         res.status(200).send({ 
             status: 'success',
@@ -97,20 +106,42 @@ class UserController implements Controller {
         });
     })
 
-    private deleteCurrentUser = catchAsync(async (
+    private deactivateCurrentUser = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
         const { user } = req;
 
         if (!user) throw new AppError(404, 'No user logged in');
-        await user.delete();
+        await this.userService.deactivateUser(user.id);
 
         res.status(204).send({
             status: 'success',
             data: null
         });
+    })
+
+    private getUser = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<Response | void> => {
+        const id = req.params.id;
+        const fields = req.fields;
+        console.log(id, fields, req.user.roles)
+        const user = await this.userService.getUser(id, fields);
+
+        res.status(200).send({
+            status: 'success',
+            data: user
+        });
+    })
+
+    private deleteUser = catchAsync(async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+
     })
 }
 

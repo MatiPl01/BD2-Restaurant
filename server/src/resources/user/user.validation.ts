@@ -39,7 +39,7 @@ const register = Joi.object({
         'string.max': 'User password must contain at most 40 characters'
     }),
 
-    address: Joi.array().items(Joi.object({
+    addresses: Joi.array().items(Joi.object({
         firstName: Joi.string().trim().min(1).max(30).required().messages({
             'any.required': 'Please provide first name',
             'string.trim': 'First name cannot start with and end with spaces',

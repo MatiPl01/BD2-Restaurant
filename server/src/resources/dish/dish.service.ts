@@ -10,13 +10,13 @@ class DishService {
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
-    ): Promise<Dish[]> {
+    ): Promise<Partial<Dish>[]> {
         return await this.dish.find(filters, fields, pagination);
     }
 
     public async createDish(
         dishData: Dish
-    ): Promise<Dish> {
+    ): Promise<Dish | Error> {
         return await this.dish.create(dishData);
     }
 
@@ -37,7 +37,7 @@ class DishService {
     public async getDish(
         id: string,
         fields: { [key: string]: number }
-    ): Promise<Dish> {
+    ): Promise<Partial<Dish>> {
         const dish = await this.dish.findById(id, fields);
         if (dish) return dish;
         

@@ -62,7 +62,7 @@ class DishController implements Controller {
         }
 
         const dishes = await this.dishService.getDishes(filters, fields, pagination);
-        if (!dishes.length) throw new AppError(404, "This page does not exist");
+        if (dishes.length) throw new AppError(404, "This page does not exist");
 
         res.status(200).send({ 
             status: 'success',

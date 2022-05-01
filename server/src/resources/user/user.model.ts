@@ -51,6 +51,10 @@ const UserSchema = new Schema(
             select: false
         },
 
+        passwordChangedAt: {
+            type: Date
+        },
+
         addresses: [
             {
                 firstName: {
@@ -127,6 +131,7 @@ const UserSchema = new Schema(
                 }
             }
         ],
+
         roles: {
             type: [String],
             required: true,
@@ -189,7 +194,9 @@ const UserSchema = new Schema(
     }
 );
 
-UserSchema.pre<User>('save', async function (next) {
+UserSchema.pre<User>('save', async function (
+    next
+): Promise<void> {
     if (!this.isModified('password')) return next();
 
     this.password = await bcrypt.hash(this.password, 10);
@@ -201,6 +208,16 @@ UserSchema.methods.isValidPassword = async function (
     userPassword: string
 ): Promise<boolean> {
     return await bcrypt.compare(inputPassword, userPassword);
+}
+
+UserSchema.methods.wasPasswordChangedAfter = function (
+    timestamp: number
+): boolean {
+    if (this.passwordChangedAt) {
+        const passwordChangedAtTimestamp = Math.floor(this.passwordChangedAt.getTime() / 1000);
+        return passwordChangedAtTimestamp > timestamp;
+    }
+    return false;
 }
 
 
