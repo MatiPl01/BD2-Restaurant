@@ -17,11 +17,11 @@ const parseNestedObjects = (nestedObject: { [key: string]: any }) => {
     return final;
 }
 
-async function updateMiddleware(
+const updateMiddleware = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<Response | void> {
+): Promise<Response | void> => {
     req.body = parseNestedObjects(req.body);
 
     next();

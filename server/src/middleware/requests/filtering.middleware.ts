@@ -16,11 +16,11 @@ const parseFilters = (req: Request) => { // TODO - improve this function (move e
     return JSON.parse(queryStr);
 }
 
-async function filteringMiddleware(
+const filteringMiddleware = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<Response | void> {
+): Promise<Response | void> => {
     req.filters = parseFilters(req);
     
     next();

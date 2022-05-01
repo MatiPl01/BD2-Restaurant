@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import validationMiddleware from '@/middleware/validation.middleware';
-import authenticated from '@/middleware/authenticated.middleware';
+import authenticate from '@/middleware/auth/authentication.middleware';
+import restrictTo from '@/middleware/auth/authorization.middleware';
 import UserService from '@/resources/user/user.service';
 import Controller from '@/utils/interfaces/controller.interface';
 import catchAsync from "@/utils/errors/catch-async";
@@ -21,8 +22,12 @@ class UserController implements Controller {
         this.router
             .route('/')
             .get(
-                authenticated,
-                this.getUser
+                authenticate,
+                this.getCurrentUser
+            )
+            .delete(
+                authenticate,
+                this.deleteCurrentUser
             );
 
         this.router
@@ -79,7 +84,7 @@ class UserController implements Controller {
         });
     })
 
-    private getUser = catchAsync(async (
+    private getCurrentUser = catchAsync(async (
         req: Request,
         res: Response,
         next: NextFunction
@@ -89,6 +94,22 @@ class UserController implements Controller {
         res.status(200).send({ 
             status: 'success',
             data: req.user 
+        });
+    })
+
+    private deleteCurrentUser = catchAsync(async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<Response | void> => {
+        const { user } = req;
+
+        if (!user) throw new AppError(404, 'No user logged in');
+        await user.delete();
+
+        res.status(204).send({
+            status: 'success',
+            data: null
         });
     })
 }

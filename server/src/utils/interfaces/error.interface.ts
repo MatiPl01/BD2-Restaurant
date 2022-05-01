@@ -13,6 +13,7 @@ export default interface IError {
     path?: string;
     value?: string;
     code?: number;
-    keyPattern?: { [key: string]: number }
-    keyValue?: { [key: string]: number }
+    keyPattern?: { [key: string]: number };
+    keyValue?: { [key: string]: number };
+    errors?: IError[];
 }

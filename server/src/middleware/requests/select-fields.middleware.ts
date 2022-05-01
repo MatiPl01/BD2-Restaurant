@@ -23,11 +23,11 @@ const parseFields = (fields: string) => {
     return result;
 }
 
-async function selectFieldsMiddleware(
+const selectFieldsMiddleware = async (
     req: Request,
     res: Response,
     next: NextFunction
-): Promise<Response | void> {
+): Promise<Response | void> => {
     if (typeof req.query.fields === 'string') {
         req.fields = parseFields(req.query.fields);
     } else {

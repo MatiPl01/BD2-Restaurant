@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoError from '@/utils/errors/mongo.error';
-import IError from '@/utils/errors/error.interface';
+import jwtError from '@/utils/errors/jwt.error';
+import IError from '@/utils/interfaces/error.interface';
 
 
 const sendErrorDev = (error: IError, res: Response) => {
@@ -30,12 +31,12 @@ const sendErrorProd = (error: IError, res: Response) => {
     }
 }
 
-function errorMiddleware(
+const errorMiddleware = (
     error: IError,
     req: Request,
     res: Response,
     next: NextFunction
-): void {
+): void => {
     error.status = error.status || 500;
     error.statusMessage = error.statusMessage || 'error';
     
@@ -45,8 +46,16 @@ function errorMiddleware(
         case 'production':
             let err: IError = error;
             
-            if (err.name === 'CastError') err = mongoError.handleCastError(err);
-            else if (err.code === 11000)  err = mongoError.handleDuplicateField(err);
+            if (err.name === 'CastError') 
+                err = mongoError.handleCastError(err);
+            else if (err.code === 11000)
+                err = mongoError.handleDuplicateField(err);
+            else if (err.name === 'ValidationError')
+                err = mongoError.handleValidationError(err);
+            else if (err.name === 'JsonWebTokenError')
+                err = jwtError.handleJWTError();
+            else if (err.name === 'TokenExpiredError')
+                err = jwtError.handleTokenExpired();
 
             return sendErrorProd(err, res);
         default:

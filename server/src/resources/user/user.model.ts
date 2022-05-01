@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '@/resources/user/user.interface';
+import RolesEnum from '@/utils/enums/roles.enum';
 
 
 const UserSchema = new Schema(
@@ -130,10 +131,10 @@ const UserSchema = new Schema(
             type: [String],
             required: true,
             enum: {
-                values: ['user', 'manager', 'admin'],
-                message: 'Available roles are: user, manager, admin'
+                values: Object.values(RolesEnum),
+                message: `Available roles are: ${Object.values(RolesEnum).join(', ')}`
             },
-            default: ['user']
+            default: [RolesEnum.USER]
         },
 
         orders: {

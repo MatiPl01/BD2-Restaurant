@@ -1,4 +1,4 @@
-import IError from "@/utils/errors/error.interface";
+import IError from "@/utils/interfaces/error.interface";
 
 
 class AppError extends Error implements IError {
@@ -14,19 +14,6 @@ class AppError extends Error implements IError {
 
         Error.captureStackTrace(this);
     }
-
-    /* public static fromError(error: AppError | unknown): AppError {
-        if ((error as AppError)._isOperational) return error as AppError;
-        
-        const err = (error as IError);
-        const appError = new AppError(
-            err.status || 500,
-            err.message || 'Something unexpected has happened'
-        )
-        appError.stack = err.stack;
-        appError._isOperational = false;
-        return appError;
-    } */
 }
 
 

@@ -1,8 +1,8 @@
 import { Request, Response, Router } from "express";
-import selectFieldsMiddleware from "@/middleware/select-fields.middleware";
+import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
-import filteringMiddleware from "@/middleware/filtering.middleware";
-import updateMiddleware from "@/middleware/update.middleware";
+import filteringMiddleware from "@/middleware/requests/filtering.middleware";
+import updateMiddleware from "@/middleware/requests/update.middleware";
 import DishService from "@/resources/dish/dish.service"
 import Controller from "@/utils/interfaces/controller.interface";
 import catchAsync from "@/utils/errors/catch-async";

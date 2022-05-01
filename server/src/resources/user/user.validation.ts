@@ -1,3 +1,4 @@
+import RolesEnum from '@/utils/enums/roles.enum';
 import Joi from 'joi';
 
 
@@ -102,8 +103,8 @@ const register = Joi.object({
     })).required(),
 
     roles: Joi.array().items(
-        Joi.string().valid('user', 'manager', 'admin').messages({
-            'string.valid': 'Available roles are: user, manager, admin'
+        Joi.string().valid(...Object.values(RolesEnum)).messages({
+            'string.valid': `Available roles are: ${Object.values(RolesEnum).join(', ')}`
         })
     ),
 
