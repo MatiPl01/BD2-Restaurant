@@ -102,6 +102,6 @@ Collection of currencies data
 
 Collection of exchange rates of currencies
 
-- Ratio: Number
+- Rate: Number
 - From: String
 - To: String

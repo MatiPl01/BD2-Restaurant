@@ -1,11 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import Controller from '@/utils/interfaces/controller.interface';
-import HttpException from '@/utils/exceptions/http.exception';
 import validationMiddleware from '@/middleware/validation.middleware';
-import validate from '@/resources/user/user.validation';
-import UserService from '@/resources/user/user.service';
 import authenticated from '@/middleware/authenticated.middleware';
-import catchAsync from "@/utils/exceptions/catchAsync";
+import UserService from '@/resources/user/user.service';
+import Controller from '@/utils/interfaces/controller.interface';
+import catchAsync from "@/utils/errors/catch-async";
+import AppError from '@/utils/errors/app.error';
+import validate from '@/resources/user/user.validation';
 
 
 class UserController implements Controller {
@@ -45,7 +45,7 @@ class UserController implements Controller {
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
-        const { firstName, lastName, login, email, password } = req.body;
+        const { firstName, lastName, login, email, password, defaultCurrency } = req.body;
 
         const token = await this.userService.register(
             firstName,
@@ -54,13 +54,14 @@ class UserController implements Controller {
             email,
             password,
             [],
-            req.body.roles || ['user'],
-            req.body.defaultCurrency || 'USD',
-            req.body.active != null ? req.body.active : true,
-            req.body.bannes != null ? req.body.banned : false
+            ['user'],
+            defaultCurrency || 'PLN'
         );
 
-        res.status(201).json({ data: token });
+        res.status(201).json({ 
+            status: 'success',
+            data: token 
+        });
     })
 
     private login = catchAsync(async (
@@ -72,7 +73,10 @@ class UserController implements Controller {
 
         const token = await this.userService.login(email, password);
 
-        res.status(200).json({ data: token });
+        res.status(200).json({ 
+            status: 'success',
+            data: token 
+        });
     })
 
     private getUser = catchAsync(async (
@@ -80,10 +84,14 @@ class UserController implements Controller {
         res: Response,
         next: NextFunction
     ): Promise<Response | void> => {
-        if (!req.user) throw new HttpException(404, 'No user logged in');
+        if (!req.user) throw new AppError(404, 'No user logged in');
 
-        res.status(200).send({ data: req.user });
+        res.status(200).send({ 
+            status: 'success',
+            data: req.user 
+        });
     })
 }
+
 
 export default UserController;

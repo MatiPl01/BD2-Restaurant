@@ -1,5 +1,6 @@
-import Dish from '@/resources/dish/dish.interface';
 import dishModel from './dish.model';
+import Dish from '@/resources/dish/dish.interface';
+import AppError from '@/utils/errors/app.error';
 
 
 class DishService {
@@ -10,24 +11,16 @@ class DishService {
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
     ): Promise<Dish[]> {
-        try {
-            return await this.dish.find(filters, fields, pagination);
-        } catch (error) {
-            throw new Error('Cannot get dishes');
-        }
+        return await this.dish.find(filters, fields, pagination);
     }
 
     public async createDish(
         dishData: Dish
     ): Promise<Dish> {
-        try {
-            return await this.dish.create(dishData);
-        } catch (error: any) {
-            throw new Error('Cannot create a dish');
-        }
+        return await this.dish.create(dishData);
     }
 
-    public async updateDish( // TODO - improve error handling
+    public async updateDish(
         id: string,
         updatedProps: { [key: string]: number }
     ): Promise<Dish> {
@@ -36,19 +29,19 @@ class DishService {
             { $set: updatedProps },
             { new: true }
         );
-
         if (updatedDish) return updatedDish;
-        throw new Error(`Cannot update dish with id ${id}`);
+
+        throw new AppError(400, `Cannot update dish with id ${id}`);
     }
 
-    public async getDish( // TODO - improve error handling
+    public async getDish(
         id: string,
         fields: { [key: string]: number }
     ): Promise<Dish> {
         const dish = await this.dish.findById(id, fields);
-
         if (dish) return dish;
-        throw new Error(`Cannot get dish with id ${id}`);
+        
+        throw new AppError(404, `Cannot get dish with id ${id}`);
     }
 
     public async deleteDish(
@@ -56,8 +49,9 @@ class DishService {
     ): Promise<void> {
         const dish = await this.dish.findByIdAndDelete(id);
 
-        if (!dish) throw new Error(`Cannot delete dish with id ${id}`);
+        if (!dish) throw new AppError(404, `Cannot delete dish with id ${id}`);
     }
 }
+
 
 export default DishService;

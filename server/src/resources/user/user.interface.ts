@@ -1,5 +1,6 @@
 import { Document, Schema } from 'mongoose';
 
+
 export default interface User extends Document {
     firstName: string;
     lastName: string;

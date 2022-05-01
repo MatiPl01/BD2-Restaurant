@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
-import Controller from '@/utils/interfaces/controller.interface';
 import CurrencyService from '@/resources/currency/currency.service';
-import catchAsync from "@/utils/exceptions/catchAsync";
+import Controller from '@/utils/interfaces/controller.interface';
+import catchAsync from "@/utils/errors/catch-async";
 
 
 class CurrencyController implements Controller {
@@ -42,5 +42,6 @@ class CurrencyController implements Controller {
         res.status(200).json({ data: currencies })
     })
 }
+
 
 export default CurrencyController;

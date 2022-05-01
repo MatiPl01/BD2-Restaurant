@@ -1,7 +1,8 @@
 import { Document } from 'mongoose';
 
+
 export default interface ExchangeRate extends Document {
-    ratio: number;
+    rate: number;
     from: string;
     to: string;
 }

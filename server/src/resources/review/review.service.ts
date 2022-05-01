@@ -2,7 +2,7 @@ import Review from '@/resources/review/review.interface';
 import reviewModel from './review.model';
 
 class ReviewService {
-    private orders = reviewModel;
+    private review = reviewModel;
 }
 
 export default ReviewService;

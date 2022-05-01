@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 import mongoose from 'mongoose';
 
+
 export default interface Dish extends Document {
     name: string,
     category: string,

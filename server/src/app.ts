@@ -1,11 +1,13 @@
-import express, { Application } from 'express';
-import mongoose from 'mongoose';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import compression from 'compression';
-import cors from 'cors';
-import morgan from 'morgan';
-import Controller from '@/utils/interfaces/controller.interface';
-import ErrorMiddleware from '@/middleware/error.middleware';
+import mongoose from 'mongoose';
 import helmet from 'helmet';
+import morgan from 'morgan';
+import cors from 'cors';
+
+import ErrorMiddleware from '@/middleware/error.middleware';
+import Controller from '@/utils/interfaces/controller.interface';
+import AppError from '@/utils/errors/app.error';
 
 
 class App {
@@ -20,6 +22,7 @@ class App {
         App.initializeDatabaseConnection();
         this.initializeMiddleware();
         this.initializeControllers(controllers);
+        this.initializeUnhandledRoute();
         this.initializeErrorHandling();
     }
 
@@ -55,11 +58,18 @@ class App {
         });
     }
 
+    private initializeUnhandledRoute(): void {
+        this.express.all('*', (req: Request, res: Response, next: NextFunction) => {
+            next(new AppError(404, `Cannot find ${req.url} on this server`));
+        });
+    }
+
     public listen(): void {
         this.express.listen(this.port, () => {
             console.log(`App listening on the port ${this.port}`);
         });
     }
 }
+
 
 export default App;

@@ -1,19 +1,27 @@
 import { Schema, model } from 'mongoose';
 import ExchangeRate from "@/resources/exchange-rate/exchange-rate.interface";
 
+
 const exchangeRateSchema = new Schema(
     {
-        ratio: {
+        rate: {
             type: Number,
-            required: true,
+            min: [0, 'Exchange rate cannot be lower than 0'],
+            required: [true, 'Exchange rate is required'],
         },
+        
         from: {
             type: String,
-            required: true,
+            uppercase: [true, "'from' currency code must be uppercase"],
+            length: [3, "'from' currency code must have exactly 3 letters"],
+            required: [true, "Please provide an exchange 'from' currency code"]
         },
+
         to: {
             type: String,
-            required: true,
+            uppercase: [true, "'to' currency code must be uppercase"],
+            length: [3, "'to' currency code must have exactly 3 letters"],
+            required: [true, "Please provide an exchange 'to' currency code"]
         },
     },
     { 
@@ -21,5 +29,6 @@ const exchangeRateSchema = new Schema(
         versionKey: false
     }
 );
+
 
 export default model<ExchangeRate>('ExchangeRate', exchangeRateSchema);

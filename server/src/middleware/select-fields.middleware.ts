@@ -1,9 +1,10 @@
-import createException from '@/utils/exceptions/createException';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from "express";
+import AppError from "@/utils/errors/app.error";
+
 
 const parseFields = (fields: string) => {
     let mode = 0;
-    const error = new Error("Inconsistent parameters select options.");
+    const error = new AppError(400, "Inconsistent parameters select options.");
     const result: { [key: string]: number } = {};
 
     fields.split(',').forEach(field => {
@@ -28,16 +29,13 @@ async function selectFieldsMiddleware(
     next: NextFunction
 ): Promise<Response | void> {
     if (typeof req.query.fields === 'string') {
-        try {
-            req.fields = parseFields(req.query.fields);
-        } catch (error) {
-            next(createException(400, error));
-        }
+        req.fields = parseFields(req.query.fields);
     } else {
         req.fields = {};
     }
 
     next();
 }
+
 
 export default selectFieldsMiddleware;

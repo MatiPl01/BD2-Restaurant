@@ -1,6 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import Joi from 'joi';
 
+
 function validationMiddleware(schema: Joi.Schema): RequestHandler {
     return async (
         req: Request,
@@ -23,10 +24,10 @@ function validationMiddleware(schema: Joi.Schema): RequestHandler {
             e.details.forEach((error: Joi.ValidationErrorItem) => {
                 errors.push(error.message);
             });
-            console.log(e) // TODO - remove me
             res.status(400).send({ errors });
         }
     };
 }
+
 
 export default validationMiddleware;

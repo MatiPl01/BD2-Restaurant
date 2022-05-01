@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
+
 const parseFilters = (req: Request) => { // TODO - improve this function (move excluded parameters somewhere else)
     const queryObj = { ...req.query };
     const excludedFields = new Set(['page', 'sort', 'limit', 'fields']);
@@ -24,5 +25,6 @@ async function filteringMiddleware(
     
     next();
 }
+
 
 export default filteringMiddleware;

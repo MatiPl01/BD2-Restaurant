@@ -1,4 +1,5 @@
 import UserModel from '@/resources/user/user.model';
+import AppError from '@/utils/errors/app.error';
 import token from '@/utils/token';
 import User from "@/resources/user/user.model";
 
@@ -30,39 +31,36 @@ class UserService {
         defaultCurrency: string,
         active: boolean = true,
         banned: boolean = false
-    ): Promise<string | Error> {
-        try {
-            const user = await this.user.create({
-                firstName,
-                lastName,
-                login,
-                email,
-                password,
-                addresses,
-                roles,
-                defaultCurrency,
-                active,
-                banned
-            });
+    ): Promise<{ token: string } | Error> {
+        const user = await this.user.create({
+            firstName,
+            lastName,
+            login,
+            email,
+            password,
+            addresses,
+            roles,
+            defaultCurrency,
+            active,
+            banned
+        });
 
-            return token.createToken(user);
-        } catch (error: any) {
-            throw new Error(error.message);
-        }
+        return {  token: token.createToken(user) };
     }
 
     public async login(
         email: string,
         password: string
-    ): Promise<string | Error> {
+    ): Promise<{ token: string } | Error> {
         const user = await User.findOne({ email }).select('+password');
 
         if (user && await user.isValidPassword(password, user.password)) {
-            return token.createToken(user);
-        } else {
-            throw new Error('Wrong credentials given');
+            return { token: token.createToken(user) };
         }
+
+        throw new AppError(401, 'Wrong credentials given');
     }
 }
+
 
 export default UserService;

@@ -1,5 +1,6 @@
 import { cleanEnv, str, port } from 'envalid';
 
+
 const validateEnv = () => {
     cleanEnv(process.env, {
         NODE_ENV: str({
@@ -11,5 +12,6 @@ const validateEnv = () => {
         PORT: port({ default: 3000 }),
     });
 }
+
 
 export default validateEnv;

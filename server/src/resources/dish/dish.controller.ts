@@ -1,14 +1,14 @@
-import Controller from "@/utils/interfaces/controller.interface";
 import { Request, Response, Router } from "express";
-import catchAsync from "@/utils/exceptions/catchAsync";
-import DishService from "@/resources/dish/dish.service"
+import selectFieldsMiddleware from "@/middleware/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/filtering.middleware";
-import selectFieldsMiddleware from "@/middleware/selectFields.middleware";
-import validation from "@/resources/dish/dish.validation";
-import Dish from "./dish.interface";
 import updateMiddleware from "@/middleware/update.middleware";
-import HttpException from "@/utils/exceptions/http.exception";
+import DishService from "@/resources/dish/dish.service"
+import Controller from "@/utils/interfaces/controller.interface";
+import catchAsync from "@/utils/errors/catch-async";
+import validation from "@/resources/dish/dish.validation";
+import AppError from "@/utils/errors/app.error";
+import Dish from "./dish.interface";
 
 
 class DishController implements Controller {
@@ -62,9 +62,12 @@ class DishController implements Controller {
         }
 
         const dishes = await this.dishService.getDishes(filters, fields, pagination);
-        if (!dishes.length) throw new HttpException(404, "This page does not exist");
+        if (!dishes.length) throw new AppError(404, "This page does not exist");
 
-        res.status(200).send({ data: dishes });
+        res.status(200).send({ 
+            status: 'success',
+            data: dishes 
+        });
     })
 
     private createDish = catchAsync(async (
@@ -74,7 +77,10 @@ class DishController implements Controller {
         const dishData: Dish = req.body;
         const dish = await this.dishService.createDish(dishData);
 
-        res.status(201).send({ data: dish });
+        res.status(201).send({ 
+            status: 'success',
+            data: dish 
+        });
     })
 
     private getDish = catchAsync(async (
@@ -85,7 +91,10 @@ class DishController implements Controller {
         const fields = req.fields;
         const dish = await this.dishService.getDish(id, fields);
 
-        res.status(200).send({ data: dish });
+        res.status(200).send({ 
+            status: 'success',
+            data: dish 
+        });
     })
 
     private updateDish = catchAsync(async (
@@ -95,7 +104,10 @@ class DishController implements Controller {
         const id = req.params.id;
         const updatedDish = await this.dishService.updateDish(id, req.body);
 
-        res.status(201).send({ data: updatedDish });
+        res.status(201).send({ 
+            status: 'success',
+            data: updatedDish 
+        });
     })
 
     private deleteDish = catchAsync(async (
@@ -105,8 +117,12 @@ class DishController implements Controller {
         const id = req.params.id;
         await this.dishService.deleteDish(id);
 
-        res.status(204).json({ data: null });
+        res.status(204).json({ 
+            status: 'success',
+            data: null 
+        });
     })
 }
+
 
 export default DishController;

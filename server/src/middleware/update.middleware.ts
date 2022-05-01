@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
+
 const parseNestedObjects = (nestedObject: { [key: string]: any }) => {
     const final: { [key: string]: any } = {};
 
@@ -25,5 +26,6 @@ async function updateMiddleware(
 
     next();
 }
+
 
 export default updateMiddleware;
