@@ -12,18 +12,27 @@ import AppError from '@/utils/errors/app.error';
 
 class App {
     private static readonly API_VERSION = 'v1';
-    public express: Application;
-    public port: number;
+    public readonly express: Application;
+    public readonly port: number;
+    private server: any;
 
     constructor(controllers: Controller[], port: number) {
         this.express = express();
         this.port = port;
 
+        this.initializeUnhandledRejection();
+        this.initializeUncaughtException();
         App.initializeDatabaseConnection();
         this.initializeMiddleware();
         this.initializeControllers(controllers);
         this.initializeUnhandledRoute();
         this.initializeErrorHandling();
+    }
+
+    public listen(): void {
+        this.server = this.express.listen(this.port, () => {
+            console.log(`App listening on the port ${this.port}`);
+        });
     }
 
     private initializeMiddleware(): void {
@@ -51,10 +60,7 @@ class App {
         mongoose.connect(
             `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`
         ).then(() => {
-            console.log('Database was successfully connected')
-        }).catch(err => {
-            console.error(err);
-            // TODO - handle connection error (e.g. send error message to the front-end app)
+            console.log('🚀 Database was successfully connected')
         });
     }
 
@@ -64,10 +70,29 @@ class App {
         });
     }
 
-    public listen(): void {
-        this.express.listen(this.port, () => {
-            console.log(`App listening on the port ${this.port}`);
+    private initializeUnhandledRejection(): void {
+        process.on('unhandledRejection', (error: Error) => {
+            this.exitWithError(error, '⚠️ UNHANDLED REJECTION!');
         });
+    }
+
+    private initializeUncaughtException(): void {
+        process.on('uncaughtException', (error: Error) => {
+            this.exitWithError(error, '⚠️ UNCAUGHT EXCEPTION!');
+        });
+    }
+
+    private exitWithError(error: Error, message: string): void {
+        console.log(`${message} Shutting down the server...`);
+        console.error(error.name, error.message);
+
+        if (this.server) this.server.close(App.exit);
+        else App.exit();
+    }
+
+    private static exit(): void {
+        console.log('👋 The server has been shut down. Goodbye!');
+        process.exit(1);
     }
 }
 

@@ -1,8 +1,18 @@
 export default interface IError {
-    status: number,
-    message: string,
-    statusMessage?: string,
-    isOperational?: boolean,
-    stack?: string
-    name?: string
+    // Default error properties
+    status: number;
+    message: string;
+    stack?: string;
+
+    // AppError properties
+    statusMessage?: string;
+    isOperational?: boolean;
+
+    // MongoDB error properties
+    name?: string;
+    path?: string;
+    value?: string;
+    code?: number;
+    keyPattern?: { [key: string]: number }
+    keyValue?: { [key: string]: number }
 }

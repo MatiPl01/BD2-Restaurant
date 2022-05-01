@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import mongoError from '@/utils/errors/mongo.error';
-import AppError from '@/utils/errors/app.error';
 import IError from '@/utils/errors/error.interface';
 
 
@@ -22,7 +21,7 @@ const sendErrorProd = (error: IError, res: Response) => {
         });
     // Otherwise, if an error is unexpected, send the generic message to the user    
     } else {
-        console.error('Error 💣', error);
+        console.error('Error 💥', error);
         
         res.status(500).json({
             status: 'error',
@@ -46,13 +45,10 @@ function errorMiddleware(
         case 'production':
             let err: IError = error;
             
-            switch (err.name) {
-                case 'CastError':
-                    err = mongoError.handleCastError(err);
-                    break;
-            }
+            if (err.name === 'CastError') err = mongoError.handleCastError(err);
+            else if (err.code === 11000)  err = mongoError.handleDuplicateField(err);
 
-            sendErrorProd(err, res);
+            return sendErrorProd(err, res);
         default:
             throw new Error("Invalid node environment");
     }

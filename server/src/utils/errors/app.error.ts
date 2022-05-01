@@ -4,19 +4,15 @@ import IError from "@/utils/errors/error.interface";
 class AppError extends Error implements IError {
     public readonly statusMessage: string;
     public readonly status: number;
-    private _isOperational: boolean;
+    public readonly isOperational: boolean;
 
     constructor(status: number, message: string) {
         super(message);
         this.status = status;
         this.statusMessage = String(status).startsWith('4') ? 'fail' : 'error';
-        this._isOperational = true;
+        this.isOperational = true;
 
         Error.captureStackTrace(this);
-    }
-
-    get isOperational(): boolean {
-        return this._isOperational;
     }
 
     /* public static fromError(error: AppError | unknown): AppError {

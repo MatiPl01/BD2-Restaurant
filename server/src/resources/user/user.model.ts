@@ -91,7 +91,7 @@ const UserSchema = new Schema(
                     required: [true, 'Please provide a postal (zip) code'],
                     trim: [true, 'Postal code cannot start with and end with spaces'],
                     minlength: [5, 'Postal code should have at least 5 characters'],
-                    maxlength: [10, 'Postal code should have at most 10 characters'],
+                    maxlength: [10, 'Postal code should have at most 10 characters']
                 },
 
                 city: {
@@ -166,7 +166,7 @@ const UserSchema = new Schema(
 
         defaultCurrency: {
             type: String,
-            required: [true, 'Please provide user default currency code'],
+            default: 'PLN',
             length: [3, 'User default currency code should have exactly 3 letters'],
             uppercase: [true, 'User default currency code should be uppercase']
         },

@@ -1,3 +1,4 @@
+import AppError from '@/utils/errors/app.error';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import Joi from 'joi';
 
@@ -24,7 +25,7 @@ function validationMiddleware(schema: Joi.Schema): RequestHandler {
             e.details.forEach((error: Joi.ValidationErrorItem) => {
                 errors.push(error.message);
             });
-            res.status(400).send({ errors });
+            next(new AppError(400, errors.join('\n').replace(/\"/g, "'")));
         }
     };
 }

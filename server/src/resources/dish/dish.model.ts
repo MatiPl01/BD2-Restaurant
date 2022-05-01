@@ -94,7 +94,11 @@ const DishSchema = new Schema(
             coverIdx: {
                 type: Number,
                 default: 0,
-                min: [0, 'Cover index cannot be lower than 0']
+                min: [0, 'Cover index cannot be lower than 0'],
+                validate: {
+                    validator: Number.isInteger,
+                    message: 'Cover index must be an integer number'
+                },
             },
             gallery: {
                 type: [
