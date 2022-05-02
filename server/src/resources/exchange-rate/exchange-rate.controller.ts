@@ -29,7 +29,7 @@ class ExchangeRateController implements Controller {
     private getExchangeRate = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
         const result = await this.exchangeRateService.getExchangeRate(from, to);
@@ -40,7 +40,7 @@ class ExchangeRateController implements Controller {
     private updateExchangeRate = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
         const { rate } = req.body;

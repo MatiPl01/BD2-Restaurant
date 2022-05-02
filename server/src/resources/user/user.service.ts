@@ -47,7 +47,7 @@ class UserService {
             banned
         });
 
-        return token.createToken(user);
+        return token.create(user);
     }
 
     public async login(
@@ -57,7 +57,7 @@ class UserService {
         const user = await this.user.findOne({ email }).select('+password');
 
         if (user && await user.isValidPassword(password, user.password)) {
-            return token.createToken(user);
+            return token.create(user);
         }
 
         throw new AppError(401, 'Wrong credentials given');
@@ -131,7 +131,7 @@ class UserService {
 
         await user.resetPassword(newPassword);
 
-        return token.createToken(user);
+        return token.create(user);
     }
 
     public async updatePassword(
@@ -150,7 +150,7 @@ class UserService {
 
         await user.updatePassword(newPassword);
 
-        return token.createToken(user);
+        return token.create(user);
     }
 
     public async updateUser(

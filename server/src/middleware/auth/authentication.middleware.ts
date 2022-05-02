@@ -24,7 +24,7 @@ const authenticationMiddleware = catchAsync(async (
     const accessToken = bearer.split('Bearer ')[1].trim();
     
     // Verify the token
-    const payload: Token | jwt.JsonWebTokenError = await token.verifyToken(accessToken);
+    const payload: Token | jwt.JsonWebTokenError = await token.verify(accessToken);
     if (payload instanceof jwt.JsonWebTokenError) return next(error);
 
     // Select the user user belonging to the jwt token

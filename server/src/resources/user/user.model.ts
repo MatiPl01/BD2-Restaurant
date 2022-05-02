@@ -199,14 +199,21 @@ const UserSchema = new Schema(
             default: false
         },
 
-        passwordChangedAt: Date,
+        passwordChangedAt: {
+            type: Date,
+            select: false
+        },
 
         passwordResetToken: {
             type: String,
-            length: 32
+            length: 32,
+            select: false
         },
 
-        passwordResetExpirationTimestamp: Number
+        passwordResetExpirationTimestamp: {
+            type: Number,
+            select: false
+        }
     },
 
     { 
@@ -224,12 +231,19 @@ UserSchema.pre<User>('save', async function (
     next();
 });
 
+UserSchema.pre<User>(/^find/, function(
+    next
+): void {
+    this.find({ active: { $ne: false } });
+    next();
+});
+
 UserSchema.methods.isValidPassword = async function (
     inputPassword: string, 
     userPassword: string
 ): Promise<boolean> {
     return await bcrypt.compare(inputPassword, userPassword);
-}
+};
 
 UserSchema.methods.wasPasswordChangedAfter = function (
     timestamp: number
@@ -239,7 +253,7 @@ UserSchema.methods.wasPasswordChangedAfter = function (
         return passwordResetExpirationTimestamp > timestamp;
     }
     return false;
-}
+};
 
 UserSchema.methods.createPasswordResetToken = async function (): Promise<string> {
     const resetToken = crypto.randomBytes(32).toString('hex');
@@ -260,7 +274,7 @@ UserSchema.methods.createPasswordResetToken = async function (): Promise<string>
     this.save({ validateBeforeSave: false });
 
     return resetToken;
-}
+};
 
 UserSchema.methods.updatePassword = async function (
     password: string,
@@ -269,7 +283,7 @@ UserSchema.methods.updatePassword = async function (
     this.password = password;
     this.passwordChangedAt = new Date();
     if (saveUser) await this.save();
-}
+};
 
 UserSchema.methods.resetPassword = async function (
     password: string
@@ -278,7 +292,7 @@ UserSchema.methods.resetPassword = async function (
     this.passwordResetToken = undefined;
     this.passwordResetExpirationTimestamp = undefined;
     await this.save();
-}
+};
 
 
 export default model<User>('User', UserSchema);

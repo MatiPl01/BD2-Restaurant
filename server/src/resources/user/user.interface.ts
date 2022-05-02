@@ -33,6 +33,8 @@ export default interface User extends Document {
     passwordResetToken?: string;
     passwordResetExpirationTimestamp?: Date;
 
+    find(selector: object): void;
+
     isValidPassword(
         inputPassword: 
         string, userPassword: string

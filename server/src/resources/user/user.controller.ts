@@ -97,7 +97,7 @@ class UserController implements Controller {
     private register = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const { 
             firstName, 
             lastName, 
@@ -118,24 +118,24 @@ class UserController implements Controller {
             defaultCurrency || 'PLN'
         );
 
-        response.json(res, 201, token);
+        this.sendToken(res, token);
     })
 
     private login = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const { email, password } = req.body;
 
         const token = await this.userService.login(email, password);
 
-        response.json(res, 200, token);
+        this.sendToken(res, token);
     })
 
     private getCurrentUser = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         let { user } = req;
         if (!user) throw new AppError(404, 'No user logged in');
 
@@ -145,7 +145,7 @@ class UserController implements Controller {
     private deactivateCurrentUser = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const { user } = req;
 
         if (!user) throw new AppError(404, 'No user logged in');
@@ -157,7 +157,7 @@ class UserController implements Controller {
     private getUser = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const id = req.params.id;
         const fields = req.fields;
         console.log(id, fields, req.user.roles)
@@ -169,7 +169,7 @@ class UserController implements Controller {
     private deleteUser = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const id = req.params.id;
         await this.userService.deleteUser(id);
         
@@ -179,7 +179,7 @@ class UserController implements Controller {
     private forgotPassword = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const { email } = req.body;
         const url = `${req.protocol}://${req.get('host')}/api/${process.env.API_VERSION}/${this.PATH}/reset-password`
         await this.userService.forgotPassword(url, email);
@@ -190,32 +190,32 @@ class UserController implements Controller {
     private resetPassword = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const resetToken = req.params.token;
         const { newPassword } = req.body;
         
         const token = await this.userService.resetPassword(resetToken, newPassword);
 
-        response.json(res, 200, token);
+        this.sendToken(res, token);
     })
 
     private updatePassword = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const { user } = req;
         const { currPassword, newPassword } = req.body;
 
         if (!user) throw new AppError(404, 'No user logged in');
         const token = await this.userService.updatePassword(user.id, currPassword, newPassword);
 
-        response.json(res, 200, token);
+        this.sendToken(res, token);
     })
 
     private updateCurrentUser = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const user = req.user;
 
         if (!user) throw new AppError(404, 'No user logged in');
@@ -223,6 +223,23 @@ class UserController implements Controller {
         
         response.json(res, 201, updatedUser);
     })
+
+    private sendToken = async (
+        res: Response,
+        token: string
+    ): Promise<void> => {
+        const { JWT_COOKIE_EXPIRES_IN, NODE_ENV } = process.env;
+
+        response.cookie(res, 'jwt', token, {
+            expires: new Date(
+                Date.now() + Number(JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000
+            ),
+            secure: NODE_ENV === 'production', // Make cookie secure only in production
+            httpOnly: true
+        });
+
+        response.json(res, 200, token); // TODO - this probably should not send token
+    }
 }
 
 

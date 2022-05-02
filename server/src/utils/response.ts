@@ -1,7 +1,9 @@
-import { Response } from 'express';
+import { CookieOptions, Response } from 'express';
 
 
-const getStatus = (statusCode: number): string => {
+const getStatus = (
+    statusCode: number
+): string => {
     switch (Math.floor(statusCode / 100)) {
         case 1:
             return 'information';
@@ -18,14 +20,28 @@ const getStatus = (statusCode: number): string => {
     }
 }
 
-const json = (res: Response, statusCode: number, data: any) => {
-    res.status(statusCode).json({
+const json = async (
+    res: Response, 
+    statusCode: number, 
+    data: any
+): Promise<Response> => {
+    return res.status(statusCode).json({
         status: getStatus(statusCode),
         data
     })
 }
 
+const cookie = async (
+    res: Response,
+    name: string, 
+    val: string, 
+    options: CookieOptions
+): Promise<Response> => {
+    return res.cookie(name, val, options);
+}
+
 
 export default {
-    json
+    json,
+    cookie
 };

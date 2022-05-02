@@ -1,9 +1,12 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
+import mongoSanitize from 'express-mongo-sanitize';
 import compression from 'compression';
 import mongoose from 'mongoose';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import cors from 'cors';
+import xss from 'xss-clean';
+import hpp from 'hpp';
 
 import ErrorMiddleware from '@/middleware/error.middleware';
 import Controller from '@/utils/interfaces/controller.interface';
@@ -36,11 +39,23 @@ class App {
     }
 
     private initializeMiddleware(): void {
+        // Set security HTTP headers
         this.express.use(helmet());
+        // Enable CORS
         this.express.use(cors());
-        this.express.use(morgan('dev'));
+        // Development logging
+        if (process.env.NODE_ENV === 'development') this.express.use(morgan('dev'));
+        // Request body parser, reading data from body into req.body
         this.express.use(express.json());
+        // Data sanitization against NoSQL query injection
+        this.express.use(mongoSanitize());
+        // Data sanitization against XSS
+        this.express.use(xss());
+        // Prevent parameter pollution
+        this.express.use(hpp());
+        // Parse url with the querystring library
         this.express.use(express.urlencoded({ extended: false }));
+        // Response bodies compression
         this.express.use(compression());
     }
 

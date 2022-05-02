@@ -51,7 +51,7 @@ class DishController implements Controller {
     private getDishes = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const { filters, fields } = req;
         const { page, limit } = req.query;
         const pageNum = +(page || 0) || 1;
@@ -63,7 +63,6 @@ class DishController implements Controller {
         }
         
         const dishes = await this.dishService.getDishes(filters, fields, pagination);
-        if (!dishes.length) throw new AppError(404, "This page does not exist");
 
         response.json(res, 200, dishes);
     })
@@ -71,7 +70,7 @@ class DishController implements Controller {
     private createDish = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const dishData: Dish = req.body;
         const dish = await this.dishService.createDish(dishData);
 
@@ -81,7 +80,7 @@ class DishController implements Controller {
     private getDish = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const id = req.params.id;
         const fields = req.fields;
         const dish = await this.dishService.getDish(id, fields);
@@ -92,7 +91,7 @@ class DishController implements Controller {
     private updateDish = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const id = req.params.id;
         const updatedDish = await this.dishService.updateDish(id, req.body);
 
@@ -102,7 +101,7 @@ class DishController implements Controller {
     private deleteDish = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
+    ): Promise<void> => {
         const id = req.params.id;
         await this.dishService.deleteDish(id);
 

@@ -3,7 +3,7 @@ import User from '@/resources/user/user.interface';
 import Token from '@/utils/interfaces/token.interface';
 
 
-export const createToken = (user: User): string => {
+const create = (user: User): string => {
     const { JWT_SECRET, JWT_EXPIRES_IN } = process.env;
 
     return jwt.sign({ id: user._id }, JWT_SECRET as jwt.Secret, {
@@ -11,7 +11,7 @@ export const createToken = (user: User): string => {
     });
 };
 
-export const verifyToken = async (
+const verify = async (
     token: string
 ): Promise<jwt.VerifyErrors | Token> => {
     return new Promise((resolve, reject) => {
@@ -28,4 +28,7 @@ export const verifyToken = async (
 };
 
 
-export default { createToken, verifyToken };
+export default { 
+    create,
+    verify
+};

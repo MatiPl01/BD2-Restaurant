@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import AppError from "@/utils/errors/app.error";
+import catchAsync from "@/utils/errors/catch-async";
 
 
 const parseFields = (fields: string) => {
@@ -23,7 +24,7 @@ const parseFields = (fields: string) => {
     return result;
 }
 
-const selectFieldsMiddleware = async (
+const selectFieldsMiddleware = catchAsync(async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -35,7 +36,7 @@ const selectFieldsMiddleware = async (
     }
 
     next();
-}
+});
 
 
 export default selectFieldsMiddleware;
