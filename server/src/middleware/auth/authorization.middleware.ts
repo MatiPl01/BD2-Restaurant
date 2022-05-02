@@ -1,9 +1,9 @@
-import RolesEnum from "@/utils/enums/roles.enum";
+import RoleEnum from "@/utils/enums/role.enum";
 import AppError from "@/utils/errors/app.error";
 import { Request, Response, NextFunction } from "express";
 
 
-const authorizationMiddleware = (...roles: RolesEnum[]) => {
+const authorizationMiddleware = (...roles: RoleEnum[]) => {
     return async (
         req: Request,
         res: Response,

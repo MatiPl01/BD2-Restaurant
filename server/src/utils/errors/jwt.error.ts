@@ -1,5 +1,4 @@
 import AppError from "./app.error";
-import IError from "../interfaces/error.interface";
 
 
 const handleJWTError = (): AppError => {

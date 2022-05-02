@@ -3,12 +3,12 @@ import { Schema, model } from 'mongoose';
 
 
 const reviewSchema = new Schema(
-  {
+    {
 
-  },
-  {
-    versionKey: false
-  }
+    },
+    {
+        versionKey: false
+    }
 );
 
 

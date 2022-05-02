@@ -11,7 +11,7 @@ import AppError from '@/utils/errors/app.error';
 
 
 class App {
-    private static readonly API_VERSION = 'v1';
+    private static readonly API_VERSION = process.env.API_VERSION || 'v1';
     public readonly express: Application;
     public readonly port: number;
     private server: any;

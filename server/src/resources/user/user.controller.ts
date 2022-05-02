@@ -1,14 +1,16 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
+import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
+import updateMiddleware from '@/middleware/requests/update.middleware';
 import authenticate from '@/middleware/auth/authentication.middleware';
-import restrictTo from '@/middleware/auth/authorization.middleware';
 import UserService from '@/resources/user/user.service';
+import restrictTo from '@/middleware/auth/authorization.middleware';
 import Controller from '@/utils/interfaces/controller.interface';
 import catchAsync from "@/utils/errors/catch-async";
+import RoleEnum from '@/utils/enums/role.enum';
 import AppError from '@/utils/errors/app.error';
 import validate from '@/resources/user/user.validation';
-import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
-import RolesEnum from '@/utils/enums/roles.enum';
+import response from '@/utils/response';
 
 
 class UserController implements Controller {
@@ -47,20 +49,63 @@ class UserController implements Controller {
             );
 
         this.router
+            .route('/forgot-password')
+            .post(
+                validationMiddleware(validate.forgotPassword),
+                this.forgotPassword
+            );
+
+        this.router
+            .route('/reset-password/:token')
+            .patch(
+                validationMiddleware(validate.resetPassword),
+                this.resetPassword
+            );
+
+        this.router
+            .route('/update-password')
+            .patch(
+                authenticate,
+                validationMiddleware(validate.updatePassword),
+                this.updatePassword
+            );
+
+        this.router
+            .route('/update')
+            .patch(
+                authenticate,
+                validationMiddleware(validate.updateUser),
+                updateMiddleware,
+                this.updateCurrentUser
+            )
+
+        this.router
             .route('/:id')
             .get(
-                authenticate, // Use this before restrictTo in order to work
-                restrictTo(RolesEnum.ADMIN),
+                authenticate, // Use this before restrictTo to make it work
+                restrictTo(RoleEnum.ADMIN),
                 selectFieldsMiddleware,
                 this.getUser
             )
+            .delete(
+                authenticate,
+                restrictTo(RoleEnum.ADMIN),
+                this.deleteUser
+            );
     }
 
     private register = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<Response | void> => {
-        const { firstName, lastName, login, email, password, defaultCurrency } = req.body;
+        const { 
+            firstName, 
+            lastName, 
+            login, 
+            email, 
+            password, 
+            addresses, 
+            defaultCurrency } = req.body;
 
         const token = await this.userService.register(
             firstName,
@@ -68,15 +113,12 @@ class UserController implements Controller {
             login,
             email,
             password,
-            [],
+            addresses,
             ['user'],
             defaultCurrency || 'PLN'
         );
 
-        res.status(201).json({ 
-            status: 'success',
-            data: token 
-        });
+        response.json(res, 201, token);
     })
 
     private login = catchAsync(async (
@@ -87,10 +129,7 @@ class UserController implements Controller {
 
         const token = await this.userService.login(email, password);
 
-        res.status(200).json({ 
-            status: 'success',
-            data: token 
-        });
+        response.json(res, 200, token);
     })
 
     private getCurrentUser = catchAsync(async (
@@ -100,10 +139,7 @@ class UserController implements Controller {
         let { user } = req;
         if (!user) throw new AppError(404, 'No user logged in');
 
-        res.status(200).send({ 
-            status: 'success',
-            data: req.user 
-        });
+        response.json(res, 200, req.user);
     })
 
     private deactivateCurrentUser = catchAsync(async (
@@ -115,10 +151,7 @@ class UserController implements Controller {
         if (!user) throw new AppError(404, 'No user logged in');
         await this.userService.deactivateUser(user.id);
 
-        res.status(204).send({
-            status: 'success',
-            data: null
-        });
+        response.json(res, 204, null);
     })
 
     private getUser = catchAsync(async (
@@ -130,18 +163,65 @@ class UserController implements Controller {
         console.log(id, fields, req.user.roles)
         const user = await this.userService.getUser(id, fields);
 
-        res.status(200).send({
-            status: 'success',
-            data: user
-        });
+        response.json(res, 200, user);
     })
 
     private deleteUser = catchAsync(async (
         req: Request,
-        res: Response,
-        next: NextFunction
+        res: Response
     ): Promise<Response | void> => {
+        const id = req.params.id;
+        await this.userService.deleteUser(id);
+        
+        response.json(res, 204, null);
+    })
 
+    private forgotPassword = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<Response | void> => {
+        const { email } = req.body;
+        const url = `${req.protocol}://${req.get('host')}/api/${process.env.API_VERSION}/${this.PATH}/reset-password`
+        await this.userService.forgotPassword(url, email);
+
+        response.json(res, 200, 'Token has been sent to the specified email!');
+    })
+
+    private resetPassword = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<Response | void> => {
+        const resetToken = req.params.token;
+        const { newPassword } = req.body;
+        
+        const token = await this.userService.resetPassword(resetToken, newPassword);
+
+        response.json(res, 200, token);
+    })
+
+    private updatePassword = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<Response | void> => {
+        const { user } = req;
+        const { currPassword, newPassword } = req.body;
+
+        if (!user) throw new AppError(404, 'No user logged in');
+        const token = await this.userService.updatePassword(user.id, currPassword, newPassword);
+
+        response.json(res, 200, token);
+    })
+
+    private updateCurrentUser = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<Response | void> => {
+        const user = req.user;
+
+        if (!user) throw new AppError(404, 'No user logged in');
+        const updatedUser = await this.userService.updateUser(user.id, req.body);
+        
+        response.json(res, 201, updatedUser);
     })
 }
 

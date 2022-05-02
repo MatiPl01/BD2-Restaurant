@@ -4,6 +4,7 @@ import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/exchange-rate/exchange-rate.validation'
 import ExchangeRateService from './exchange-rate.service';
 import catchAsync from "@/utils/errors/catch-async";
+import response from '@/utils/response';
 
 
 class ExchangeRateController implements Controller {
@@ -33,10 +34,7 @@ class ExchangeRateController implements Controller {
         const to = req.query.to as string;
         const result = await this.exchangeRateService.getExchangeRate(from, to);
 
-        res.status(200).json({ 
-            status: 'success',
-            data: result 
-        });
+        response.json(res, 200, result);
     })
 
     private updateExchangeRate = catchAsync(async (
@@ -48,10 +46,7 @@ class ExchangeRateController implements Controller {
         const { rate } = req.body;
         const updatedExchangeRate = await this.exchangeRateService.updateExchangeRate(from, to, rate);
 
-        res.status(201).json({ 
-            status: 'success',
-            data: updatedExchangeRate 
-        });
+        response.json(res, 201, updatedExchangeRate);
     })
 }
 

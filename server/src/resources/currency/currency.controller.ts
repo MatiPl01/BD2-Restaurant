@@ -2,6 +2,7 @@ import { Router, Request, Response } from 'express';
 import CurrencyService from '@/resources/currency/currency.service';
 import Controller from '@/utils/interfaces/controller.interface';
 import catchAsync from "@/utils/errors/catch-async";
+import response from '@/utils/response';
 
 
 class CurrencyController implements Controller {
@@ -30,7 +31,7 @@ class CurrencyController implements Controller {
         const code = req.params.code as string;
         const currency = await this.currencyService.getCurrency(code);
 
-        res.status(200).json({ data: currency });
+        response.json(res, 200, currency);
     })
 
     private getAllCurrencies = catchAsync(async (
@@ -39,7 +40,7 @@ class CurrencyController implements Controller {
     ): Promise<Response | void> => {
         const currencies = await this.currencyService.getAllCurrencies();
 
-        res.status(200).json({ data: currencies })
+        response.json(res, 200, currencies);
     })
 }
 

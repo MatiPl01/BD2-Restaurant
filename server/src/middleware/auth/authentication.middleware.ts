@@ -39,7 +39,7 @@ const authenticationMiddleware = catchAsync(async (
     if (user.wasPasswordChangedAfter(payload.iat)) {
         return next(new AppError(
             401, 
-            'User password was recently changed. Please log in again using the your new password.'
+            'User password was recently changed. Please log in again using your new password.'
         ));
     }
 

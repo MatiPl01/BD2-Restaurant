@@ -3,12 +3,12 @@ import Order from '@/resources/order/order.interface';
 
 
 const orderSchema = new Schema(
-  {
+    {
 
-  },
-  {
-    versionKey: false
-  }
+    },
+    {
+        versionKey: false
+    }
 );
 
 

@@ -9,6 +9,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import validation from "@/resources/dish/dish.validation";
 import AppError from "@/utils/errors/app.error";
 import Dish from "./dish.interface";
+import response from "@/utils/response";
 
 
 class DishController implements Controller {
@@ -60,14 +61,11 @@ class DishController implements Controller {
             skip: (pageNum - 1) * limitNum,
             limit: limitNum
         }
-
+        
         const dishes = await this.dishService.getDishes(filters, fields, pagination);
-        if (dishes.length) throw new AppError(404, "This page does not exist");
+        if (!dishes.length) throw new AppError(404, "This page does not exist");
 
-        res.status(200).send({ 
-            status: 'success',
-            data: dishes 
-        });
+        response.json(res, 200, dishes);
     })
 
     private createDish = catchAsync(async (
@@ -77,10 +75,7 @@ class DishController implements Controller {
         const dishData: Dish = req.body;
         const dish = await this.dishService.createDish(dishData);
 
-        res.status(201).send({ 
-            status: 'success',
-            data: dish 
-        });
+        response.json(res, 201, dish);
     })
 
     private getDish = catchAsync(async (
@@ -91,10 +86,7 @@ class DishController implements Controller {
         const fields = req.fields;
         const dish = await this.dishService.getDish(id, fields);
 
-        res.status(200).send({ 
-            status: 'success',
-            data: dish 
-        });
+        response.json(res, 200, dish);
     })
 
     private updateDish = catchAsync(async (
@@ -104,10 +96,7 @@ class DishController implements Controller {
         const id = req.params.id;
         const updatedDish = await this.dishService.updateDish(id, req.body);
 
-        res.status(201).send({ 
-            status: 'success',
-            data: updatedDish 
-        });
+        response.json(res, 201, updatedDish);
     })
 
     private deleteDish = catchAsync(async (
@@ -117,10 +106,7 @@ class DishController implements Controller {
         const id = req.params.id;
         await this.dishService.deleteDish(id);
 
-        res.status(204).json({ 
-            status: 'success',
-            data: null 
-        });
+        response.json(res, 204, null);
     })
 }
 

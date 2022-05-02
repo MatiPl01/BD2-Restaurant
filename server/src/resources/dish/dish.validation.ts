@@ -1,7 +1,7 @@
 import Joi from "@/utils/validation/mongoose.validation";
 
 
-const dishValidation = {
+const dishValidators = {
     name: Joi.string().trim().min(2).max(40).required().messages({
         'any.required': 'Please provide a dish name',
         'string.trim': 'Dish name should have no spaces at the beginning and at the end',
@@ -102,49 +102,50 @@ const dishValidation = {
     reviews: Joi.array().items(Joi.ObjectId())
 };
 
-const partialDishValidation = { // TODO - improve changing required fields to optional
-    ...dishValidation,
 
-    name: Joi.string().trim().min(2).max(40),
+const createDish = Joi.object(dishValidators);
 
-    category: Joi.string().trim().lowercase().min(2).max(25),
-
-    unitPrice: Joi.number().min(0),
-
-    ingredients: Joi.array().items(Joi.string().min(1)),
-
-    description: Joi.array().items(Joi.string()),
-
-    currency: Joi.string().uppercase().length(3),
-
+const updateDish = Joi.object({
+    name: dishValidators.name.optional(),
+    category: dishValidators.category.optional(),
+    cuisine: dishValidators.cuisine.optional(),
+    type: dishValidators.type.optional(),
+    ingredients: dishValidators.ingredients.optional(),
+    stock: dishValidators.stock.optional(),
+    currency: dishValidators.currency.optional(),
+    unitPrice: dishValidators.unitPrice.optional(),
+    description: dishValidators.description.optional(),
     images: Joi.object({
         coverIdx: Joi.number().integer().min(0).messages({
             'number.integer': 'Cover index must be an integer number',
             'number.min': 'Cover index cannot be lower than 0'
         }),
 
-        gallery: Joi.array().items(Joi.object(
-            {
-                breakpoints: Joi.array().items(
-                    Joi.number().min(0).messages({
-                        'number.min': 'Dish image breakpoint should not be lower than 0'
-                    })
+        gallery: Joi.object().pattern(
+            // Gallery index
+            Joi.number().integer().min(0), 
+            // Galery value
+            Joi.object({
+                breakpoints: Joi.object().pattern(
+                    // Breakpoint index
+                    Joi.number().integer().min(0), 
+                    // Breakpoint value
+                    Joi.number().min(0)
                 ),
 
-                paths: Joi.array().items(
-                    Joi.string().trim().messages({
-                        'string.trim': 'Dish image path must have no spaces at the beginning ans ath the end'
-                    })
+                paths: Joi.object().pattern(
+                    // Path index
+                    Joi.number().integer().min(0),
+                    // Path string
+                    Joi.string().trim()
                 )
-            }
-        ))
-    }),
+            })
+        )
+    })
+});
+
+
+export default { 
+    createDish, 
+    updateDish 
 };
-
-
-const createDish = Joi.object(dishValidation);
-
-const updateDish = Joi.object(partialDishValidation);
-
-
-export default { createDish, updateDish };

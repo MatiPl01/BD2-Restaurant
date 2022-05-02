@@ -1,4 +1,4 @@
-import RolesEnum from '@/utils/enums/roles.enum';
+import RoleEnum from '@/utils/enums/role.enum';
 import { Document, Schema } from 'mongoose';
 
 
@@ -8,7 +8,6 @@ export default interface User extends Document {
     login: string;
     email: string;
     password: string;
-    passwordChangedAt?: Date;
     addresses: {
         firstName: string,
         lastName: string,
@@ -20,7 +19,7 @@ export default interface User extends Document {
         streetNumber: string,
         flatNumber?: string
     }[];
-    roles: RolesEnum;
+    roles: RoleEnum;
     orders: Schema.Types.ObjectId[];
     cart: {
         dish: Schema.Types.ObjectId,
@@ -29,6 +28,10 @@ export default interface User extends Document {
     defaultCurrency: string;
     active: boolean;
     banned: boolean;
+    
+    passwordChangedAt?: Date;
+    passwordResetToken?: string;
+    passwordResetExpirationTimestamp?: Date;
 
     isValidPassword(
         inputPassword: 
@@ -38,4 +41,10 @@ export default interface User extends Document {
     wasPasswordChangedAfter(
         timestamp: number
     ): boolean;
+
+    createPasswordResetToken(): Promise<string>
+
+    updatePassword(password: string): Promise<void>;
+
+    resetPassword(password: string): Promise<void>;
 }
