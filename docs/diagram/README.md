@@ -66,7 +66,8 @@ Collection of reviews and comments data
 - User: mongoose.Types.ObjectId (Users)
 - Dish: mongoose.Types.ObjectId (Dishes)
 - Order: mongoose.Types.ObjectId (Orders)
-- Date: String
+- CreatedAt: Date
+- UpdatedAt: Date
 - Rating: Number
 - Body: String[]
 
@@ -79,9 +80,9 @@ Collection of orders data
   - Dish: mongoose.Types.ObjectId (Dishes)
   - Quantity: Number
   - UnitPrice: Number
-- Date:String
+- Date: Date
 - TotalPrice: Number
-- Currency: mongoose.Types.ObjectId (Currencies)
+- Currency: String
 
 ### **Globals**
 

@@ -1,5 +1,4 @@
-import { Document } from 'mongoose';
-import mongoose from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 
 export default interface Dish extends Document {
@@ -21,5 +20,5 @@ export default interface Dish extends Document {
             paths: string[]
         }[]
     },
-    reviews: mongoose.Schema.Types.ObjectId[]
+    reviews: Schema.Types.ObjectId[]
 }
