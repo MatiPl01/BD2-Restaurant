@@ -8,18 +8,24 @@
 - [X] Register User
 - [X] Get User
 - [X] Get Users
+- [X] Delete U>ser
+- [X] Forgot Password 
+- [X] Reset Password
+- [X] Update Password
 - [ ] Edit Roles
 - [ ] Edit Cart `Ezz: All Cart or Better: Delete/Add/Edit inside Cart`
 - [ ] Edit Ban
-- [ ] Edit active
+- [X] Deactive
 - [ ] Edit Currency
 - [ ] Edit Addresses `Ezz: All Addresses or Better: Delete/Add/Edit inside Address`
 
 ### **Dishes**
 
-- [ ] Get all Dishes
-- [ ] Edit Dish
-- [ ] Delete Dish `Null in Reviews`
+- [X] Get all Dishes
+- [X] Get Dish
+- [X] Edit Dish
+- [X] Delete Dish `Null in Reviews`
+- [X] Add Dish ``
 
 ### **ExchangeRates**
 
@@ -28,19 +34,22 @@
 
 ### **Global**
 
-- [ ] Get global
-- [ ] Edit global
+- [X] Get Persistence
+- [X] Edit Persistence
+- [X] Get MainCurrency
+- [X] Edit MainCurrency
  
 ### **Reviews**
 
-- [ ] Get Reviews
-- [ ] Add Review `Custom time to edit for example 7 days`
-- [ ] Edit Review `Custom time to edit for example 7 days`
-- [ ] Delete Review
+- [X] Get Reviews
+- [X] Add Review `Custom time to edit for example 7 days`
+- [X] Edit Review `Custom time to edit for example 7 days`
+- [X] Delete Review
 
 ### **Orders**
 
-- [ ] Add Order
+- [X] Add Order
+- [X] Get Orders for User
 
 ### **Currencies**
 
