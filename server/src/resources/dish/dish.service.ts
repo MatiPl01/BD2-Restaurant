@@ -11,7 +11,7 @@ class DishService {
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
     ): Promise<Partial<Dish>[]> {
-        return await this.dish.find(filters, fields, pagination);
+        return this.dish.find(filters, fields, pagination);
     }
 
     public async createDish(

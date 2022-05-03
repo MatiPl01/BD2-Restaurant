@@ -11,6 +11,7 @@ import ExchangeRateController from "@/resources/exchange-rate/exchange-rate.cont
 import OrderController from '@/resources/order/order.controller';
 import ReviewController from '@/resources/review/review.controller';
 import UserController from '@/resources/user/user.controller';
+import GlobalController from "@/resources/global/global.controller";
 
 
 validateEnv();
@@ -21,6 +22,7 @@ const app = new App(
         new CurrencyController(),
         new DishController(),
         new ExchangeRateController(),
+        new GlobalController(),
         new OrderController(),
         new ReviewController(),
         new UserController()
