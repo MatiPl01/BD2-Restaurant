@@ -10,7 +10,7 @@ class OrderController implements Controller {
     private readonly orderService = new OrderService();
 
     constructor() {
-
+        
     }
 
     private initializeRoutes(): void {

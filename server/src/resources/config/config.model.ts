@@ -7,7 +7,7 @@ import CurrencyEnum from '@/utils/enums/currency.enum';
 const configSchema = new Schema(
     {
         persistence: {
-            type: PersistenceEnum,
+            type: String,
             required: [true, 'Please provide a persistence mode'],
             enum: {
                 values: Object.values(PersistenceEnum),
@@ -16,7 +16,7 @@ const configSchema = new Schema(
         },
 
         mainCurrency: {
-            type: CurrencyEnum,
+            type: String,
             required: [true, 'Please provide the main currency'],
             enum: {
                 values: Object.values(CurrencyEnum),
@@ -24,7 +24,7 @@ const configSchema = new Schema(
             },
         }
     },
-    
+
     {
         versionKey: false
     }
