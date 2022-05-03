@@ -2,35 +2,43 @@ import Review from '@/resources/review/review.interface';
 import { Schema, model } from 'mongoose';
 
 
-const reviewSchema = new Schema(
+const ReviewSchema = new Schema(
     {
-        user:{
-            type:Schema.Types.ObjectId,
-            required: [true, 'UserID is required'],
+        user: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: [true, 'Please provide user id'],
         },
-        dish:{
-            type:Schema.Types.ObjectId,
-            required: [true, 'DishID is required'],
+
+        dish: {
+            type: Schema.Types.ObjectId,
+            ref: 'Dish',
+            required: [true, 'Please provide dish id']
         },
-        order:{
-            type:Schema.Types.ObjectId,
-            required: [true, 'CurrencyID is required'],
+
+        order: {
+            type: Schema.Types.ObjectId,
+            ref: 'Order',
+            required: [true, 'Please provide order id']
         },
-        rating:{
-            type:Number,
-            required: [true, 'RatingID is required'],
-            min: [0, 'Ordered dish quantity must be positive'],
-            max: [5, 'Ordered dish quantity must lower than 5'],
+
+        rating: {
+            type: Number,
+            min: [0, 'Rating cannot be lower than 0'],
+            max: [5, 'Rating cannot be greater than 5'],
             validate: {
                 validator: (value: number) => Math.floor(value * 2) === value * 2,
                 message: 'Rating must be a multiple of 0.5'
             },
+            required: [true, 'Please provide your rating']
         },
-        body:{
-            type:String,
-            required: [true, 'Body of review is required'],
+
+        body: {
+            type: [String],
+            default: []
         }
     },
+
     {
         timestamps: true,
         versionKey: false
@@ -38,4 +46,4 @@ const reviewSchema = new Schema(
 );
 
 
-export default model<Review>('Review', reviewSchema);
+export default model<Review>('Review', ReviewSchema);

@@ -76,7 +76,7 @@ Collection of reviews and comments data
 Collection of orders data
 
 - User: mongoose.Types.ObjectId (Users)
-- Dishes
+- Items
   - Dish: mongoose.Types.ObjectId (Dishes)
   - Quantity: Number
   - UnitPrice: Number

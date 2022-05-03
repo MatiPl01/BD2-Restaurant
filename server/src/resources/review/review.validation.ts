@@ -1,16 +1,13 @@
 import Joi from "@/utils/validation/mongoose.validation";
 
-const createReview = Joi.object({
-    user: Joi.ObjectId().required().messages({
-        'any.required': 'User id is required'
-    }),
 
+const reviewValidators = {
     dish: Joi.ObjectId().required().messages({
-        'any.required': 'Dish id is required\''
+        'any.required': 'Please provide dish id'
     }),
 
     order: Joi.ObjectId().required().messages({
-        'any.required': 'Order id is required\''
+        'any.required': 'Please provide order id'
     }),
 
     rating: Joi.number().custom((value, helpers) => {
@@ -19,34 +16,23 @@ const createReview = Joi.object({
         }
         return helpers.error('number.invalid');
     }).required().messages({
-        'any.required': 'Rating is required\'',
+        'any.required': 'Please provide your rating',
         'number.invalid': 'Rating must be a multiple of 0.5 between 0 and 5'
     }),
 
-    body: Joi.string().required().messages({
-        'any.required': 'Body of review is required'
-    })
-})
-
-const editReview= Joi.object({
-    review: Joi.ObjectId().required().messages({
-        'any.required': 'Review id is required'
-    }),
-
-    rating: Joi.number().custom((value, helpers) => {
-        if (value >= 0 && value <= 5 && Math.floor(2 * value) == 2 * value) {
-            return value;
-        }
-        return helpers.error('number.invalid');
-    }).required().messages({
-        'any.required': 'Rating is required\'',
-        'number.invalid': 'Rating must be a multiple of 0.5 between 0 and 5'
-    }),
-
-    body: Joi.string().required().messages({
-        'any.required': 'Body of review is required'
-    })
-})
+    body: Joi.array().items(Joi.string().allow(''))
+};
 
 
-export default {createReview,editReview};
+const createReview = Joi.object(reviewValidators);
+
+const editReview = Joi.object({
+    body: reviewValidators.body,
+    rating: reviewValidators.rating.optional()
+});
+
+
+export default {
+    createReview,
+    editReview
+};

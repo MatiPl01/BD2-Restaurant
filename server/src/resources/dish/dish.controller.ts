@@ -7,7 +7,6 @@ import DishService from "@/resources/dish/dish.service"
 import Controller from "@/utils/interfaces/controller.interface";
 import catchAsync from "@/utils/errors/catch-async";
 import validation from "@/resources/dish/dish.validation";
-import AppError from "@/utils/errors/app.error";
 import Dish from "./dish.interface";
 import response from "@/utils/response";
 

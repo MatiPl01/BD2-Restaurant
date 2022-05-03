@@ -1,9 +1,7 @@
-import Review from '@/resources/review/review.interface';
-import Order from "@/resources/order/order.interface";
 import reviewModel from './review.model';
 import orderModel from '@/resources/order/order.model';
 import AppError from "@/utils/errors/app.error";
-import {Response} from "express";
+import Review from '@/resources/review/review.interface';
 
 
 class ReviewService {
@@ -11,8 +9,11 @@ class ReviewService {
     private orders = orderModel
 
     public async createReview(
-        userId: string,dishId:string,rating:number,body:string
-    ): Promise<Review | Error> {
+        userId: string,
+        dishId: string,
+        rating: number,
+        body: string[]
+    ): Promise<Review> { // TODO - maybe improve (check if added review before, etc.)
         const temp = await this.orders.find({userId}).sort({"createdAt": -1}).limit(1)
         // @ts-ignore
         if ((Date.now() - temp[0].createdAt) / (1000 * 60 * 60 * 24) > 7) throw new AppError(400, `Cannot add review after 7 days`);
@@ -28,39 +29,47 @@ class ReviewService {
     };
 
     public async editReview(
-        reviewId: string,
-        reviewBody: string,
-        reviewRating: number,
-    ): Promise<Review | Error> {
-        const temp = await this.review.find({_id:reviewId});
-        // @ts-ignore
-        if ((Date.now() - temp[0].createdAt) / (1000 * 60 * 60 * 24) > 7) throw new AppError(400, `Cannot edit review after 7 days`);
-        const result = await this.review.findOneAndUpdate(
-            {_id: reviewId},
-            {
-                body: reviewBody,
-                rating: reviewRating
-            }
-        );
-        if (result) return result;
-        throw new AppError(400, `Cannot edit review`);
+        id: string,
+        updatedProps: { [key: string]: number }
+    ): Promise<Review> { // TODO - maybe improve (check if modified before - maybe limit the number of changes)
+        const review = await this.review.findById(id);
+        if (!review) throw new AppError(404, `Review with id ${id} was not found`);
+
+        if (Date.now() > +review.createdAt + 1000 * 60 * 60 * 24 * 7) {
+            throw new AppError(400, `Cannot edit review after 7 days`);
+        }
+
+        return await this.review.findByIdAndUpdate(
+            review.id, 
+            { $set: updatedProps },
+            { new: true }
+        ) as Review;
     }
 
     public async deleteReview(
-        reviewId: string,
-    ): Promise<Response | void> {
-        console.log(reviewId)
-        const result = await this.review.findOneAndDelete({_id: reviewId});
-        if (!result)throw new AppError(400, `Cannot delete review`);
+        id: string,
+    ): Promise<void> {
+        const review = await this.review.findByIdAndDelete(id);
+
+        if (!review) throw new AppError(400, `Cannot delete review with id ${id}`);
     }
 
-    public async getReviews(
-        dishId: string,
-    ): Promise<Review[] | Error> {
-        const result = await this.review.find({dish: dishId});
-        if (result) return result;
-        throw new AppError(400, `Cannot get reviews`);
+    public async getReview(
+        id: string,
+    ): Promise<Review> {
+        const review = await this.review.findById(id);
+        if (!review) throw new AppError(404, `Cannot find review with id ${id}`);
+        
+        return review;
     }
+
+    // public async getReviews(
+    //     dishId: string,
+    // ): Promise<Review[]> {
+    //     const result = await this.review.find({dish: dishId});
+    //     if (result) return result;
+    //     throw new AppError(400, `Cannot get reviews`);
+    // }
 }
 
 

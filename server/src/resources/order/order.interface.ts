@@ -1,10 +1,14 @@
-import {Document, Schema} from 'mongoose';
-import OrderItem from "@/resources/order/orderItem.interface";
+import { Document, Schema } from 'mongoose';
 
 
 export default interface Order extends Document {
-    user:Schema.Types.ObjectId,
-    dishes:OrderItem[],
-    totalPrice:number,
-    currency:string,
+    user: Schema.Types.ObjectId,
+    items: {
+        dish: Schema.Types.ObjectId,
+        quantity: number,
+        unitPrice: number
+    }[],
+    date: Date,
+    totalPrice: number,
+    currency: string
 }
