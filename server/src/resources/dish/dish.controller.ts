@@ -27,6 +27,7 @@ class DishController implements Controller {
         this.router
             .route('/')
             .get(
+                validationMiddleware(validation.getDish),
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 this.getDishes
@@ -41,6 +42,7 @@ class DishController implements Controller {
         this.router
             .route('/:id')
             .get(
+                validationMiddleware(validation.getDish),
                 selectFieldsMiddleware,
                 this.getDish
             )
@@ -72,6 +74,7 @@ class DishController implements Controller {
     ): Promise<void> => {
         const { filters, fields } = req;
         const { page, limit } = req.query;
+        const { currency } = req.body;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -80,7 +83,12 @@ class DishController implements Controller {
             limit: limitNum
         }
         
-        const dishes = await this.dishService.getDishes(filters, fields, pagination);
+        const dishes = await this.dishService.getDishes(
+            filters, 
+            fields, 
+            pagination,
+            currency
+        );
 
         response.json(res, 200, dishes);
     })
@@ -101,7 +109,12 @@ class DishController implements Controller {
     ): Promise<void> => {
         const id = req.params.id;
         const fields = req.fields;
-        const dish = await this.dishService.getDish(id, fields);
+        const { currency } = req.body;
+        const dish = await this.dishService.getDish(
+            id, 
+            fields,
+            currency
+        );
 
         response.json(res, 200, dish);
     })

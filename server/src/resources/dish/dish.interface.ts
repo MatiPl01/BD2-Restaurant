@@ -10,6 +10,7 @@ export default interface Dish extends Document {
     stock: number,
     currency: string,
     unitPrice: number,
+    mainUnitPrice: number,
     ratingsSum: number,
     ratingsCount: number,
     description: string[],
@@ -21,4 +22,6 @@ export default interface Dish extends Document {
         }[]
     },
     reviews: Schema.Types.ObjectId[]
+
+    updateMainUnitPrice(): void;
 }

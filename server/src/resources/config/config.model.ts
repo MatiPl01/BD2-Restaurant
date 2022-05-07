@@ -4,7 +4,7 @@ import CurrencyEnum from '@/utils/enums/currency.enum';
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 
 
-const ConfigSchema = new Schema(
+const configSchema = new Schema(
     {
         persistence: {
             type: String,
@@ -32,4 +32,4 @@ const ConfigSchema = new Schema(
 );
 
 
-export default model<Config>('Config', ConfigSchema);
+export default model<Config>('Config', configSchema);

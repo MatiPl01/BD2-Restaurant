@@ -37,5 +37,8 @@ const currencySchema = new Schema(
     }
 );
 
+// Add indexes on the specific fields of the documents
+currencySchema.index({ code: 1 });
+
 
 export default model<Currency>('Currency', currencySchema);

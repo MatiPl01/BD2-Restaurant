@@ -6,7 +6,7 @@ import ConfigModel from '@/resources/config/config.model';
 class ConfigService {
     private config = ConfigModel
 
-    public async getConfig(): Promise<Config | null> {
+    public async getConfig(): Promise<Config> {
         const config = await this.config.findOne();
         if (config) return config;
 

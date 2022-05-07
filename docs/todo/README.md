@@ -1,6 +1,8 @@
 # TODO LIST
 
 ## Backend
+### TODO
+- Replace duplicated code with handler factory functions
  
 ### **User**
 
@@ -13,11 +15,11 @@
 - [X] Reset Password
 - [X] Update Password
 - [ ] Edit Roles
-- [ ] Edit Cart `Ezz: All Cart or Better: Delete/Add/Edit inside Cart`
+- [x] Edit Cart `Ezz: All Cart or Better: Delete/Add/Edit inside Cart`
 - [ ] Edit Ban
-- [X] Deactive
+- [X] Deactivate
 - [ ] Edit Currency
-- [ ] Edit Addresses `Ezz: All Addresses or Better: Delete/Add/Edit inside Address`
+- [x] Edit Addresses `Ezz: All Addresses or Better: Delete/Add/Edit inside Address`
 
 ### **Dishes**
 

@@ -2,7 +2,7 @@ import Review from '@/resources/review/review.interface';
 import { Schema, model } from 'mongoose';
 
 
-const ReviewSchema = new Schema(
+const reviewSchema = new Schema(
     {
         user: {
             type: Schema.Types.ObjectId,
@@ -45,7 +45,7 @@ const ReviewSchema = new Schema(
     }
 );
 
-ReviewSchema.pre<Review>(/^find/, function(next) {
+reviewSchema.pre<Review>(/^find/, function(next) {
     this.populate([
         {
             path: 'user',
@@ -60,4 +60,4 @@ ReviewSchema.pre<Review>(/^find/, function(next) {
     next();
 });
 
-export default model<Review>('Review', ReviewSchema);
+export default model<Review>('Review', reviewSchema);

@@ -1,9 +1,11 @@
 import { Schema, model } from 'mongoose';
-import mongoose from 'mongoose';
 import Dish from '@/resources/dish/dish.interface';
+import exchangeRateModel from '../exchange-rate/exchange-rate.model';
+import configModel from '../config/config.model';
+import AppError from '@/utils/errors/app.error';
 
 
-const DishSchema = new Schema(
+const dishSchema = new Schema(
     {
         name: {
             type: String,
@@ -68,8 +70,15 @@ const DishSchema = new Schema(
 
         unitPrice: {
             type: Number,
-            min: [0, 'Dish price should be not lower than 0'],
+            min: [0, 'Dish main price should be not lower than 0'],
             required: [true, 'Please provide a dish unit price']
+        },
+
+        mainUnitPrice: {
+            type: Number,
+            min: [0, 'Dish main unit price should be not lower than 0'],
+            required: [true, 'Please provide a dish main unit price'],
+            select: false
         },
 
         ratingsAverage: {
@@ -137,11 +146,40 @@ const DishSchema = new Schema(
     }
 );
 
-DishSchema.virtual('reviews', {
+// Add indexes on the specific fields of the documents
+dishSchema.index({ category: 1, cuisine: 1, ratingsAverage: 1 });
+
+dishSchema.virtual('reviews', {
     ref: 'Review',
     foreignField: 'dish',
     localField: '_id'
-})
+});
 
+dishSchema.pre<Dish>('validate', async function(
+    next
+): Promise<void> {
+    await this.updateMainUnitPrice()
+    next();
+});
 
-export default model<Dish>('Dish', DishSchema);
+dishSchema.methods.updateMainUnitPrice = async function(): Promise<void> {
+    const { unitPrice, currency: from } = this;
+
+    const config = await configModel.findOne();
+    if (!config) throw new AppError(404, 'Cannot find config in a database');
+
+    const to = config.mainCurrency;
+    if (from === to) {
+        this.mainUnitPrice = unitPrice;
+        return;
+    }
+
+    const exchangeRate = await exchangeRateModel.findOne({ from, to });
+    if (!exchangeRate) {
+        throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
+    }
+
+    this.mainUnitPrice = Math.ceil(unitPrice * exchangeRate.rate * 100) / 100;
+};
+
+export default model<Dish>('Dish', dishSchema);

@@ -263,7 +263,6 @@ UserSchema.methods.createPasswordResetToken = async function (): Promise<string>
         .createHash('sha256')
         .update(resetToken)
         .digest('hex');
-
     
     // Calculate and save token expiration date
     const { PASSWORD_RESET_TOKEN_EXPIRES_IN } = process.env;

@@ -142,8 +142,13 @@ const updateDish = Joi.object({
     })
 });
 
+const getDish = Joi.object({
+    currency: dishValidators.currency.optional()
+});
+
 
 export default { 
     createDish, 
-    updateDish 
+    updateDish,
+    getDish
 };

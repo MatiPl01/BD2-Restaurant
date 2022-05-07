@@ -8,7 +8,6 @@ import restrictTo from '@/middleware/auth/authorization.middleware';
 import Controller from '@/utils/interfaces/controller.interface';
 import catchAsync from "@/utils/errors/catch-async";
 import RoleEnum from '@/utils/enums/role.enum';
-import AppError from '@/utils/errors/app.error';
 import validate from '@/resources/user/user.validation';
 import response from '@/utils/response';
 import filteringMiddleware from '@/middleware/requests/filtering.middleware';
