@@ -45,5 +45,19 @@ const ReviewSchema = new Schema(
     }
 );
 
+ReviewSchema.pre<Review>(/^find/, function(next) {
+    this.populate([
+        {
+            path: 'user',
+            select: 'firstName lastName'
+        },
+        {
+            path: 'dish',
+            select: 'name'
+        }
+    ]);
+    
+    next();
+});
 
 export default model<Review>('Review', ReviewSchema);

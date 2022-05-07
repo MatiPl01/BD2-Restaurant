@@ -97,9 +97,7 @@ const dishValidators = {
         ).required().messages({
             'any.required': 'Please provide dish images gallery'
         }))
-    }),
-
-    reviews: Joi.array().items(Joi.ObjectId())
+    })
 };
 
 

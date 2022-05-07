@@ -1,10 +1,13 @@
+import reviewModel from '../review/review.model';
 import dishModel from './dish.model';
-import Dish from '@/resources/dish/dish.interface';
 import AppError from '@/utils/errors/app.error';
+import Review from '../review/review.interface';
+import Dish from '@/resources/dish/dish.interface';
 
 
 class DishService {
     private dish = dishModel;
+    private review = reviewModel;
 
     public async getDishes(
         filters: { [key: string]: any },
@@ -16,7 +19,7 @@ class DishService {
 
     public async createDish(
         dishData: Dish
-    ): Promise<Dish | Error> {
+    ): Promise<Dish> {
         return await this.dish.create(dishData);
     }
 
@@ -38,7 +41,12 @@ class DishService {
         id: string,
         fields: { [key: string]: number }
     ): Promise<Partial<Dish>> {
-        const dish = await this.dish.findById(id, fields);
+        let dish;
+        if (fields['reviews']) {
+            dish = await this.dish.findById(id, fields).populate('reviews');
+        } else {
+            dish = await this.dish.findById(id, fields);
+        }
         if (dish) return dish;
         
         throw new AppError(404, `Cannot get dish with id ${id}`);
@@ -50,6 +58,19 @@ class DishService {
         const dish = await this.dish.findByIdAndDelete(id);
 
         if (!dish) throw new AppError(404, `Cannot delete dish with id ${id}`);
+    }
+
+    public async getDishReviews(
+        id: string,
+        filters: { [key: string]: any },
+        fields: { [key: string]: number },
+        pagination: { skip: number, limit: number }
+    ): Promise<Partial<Review>[]> {
+        return this.review.find(
+            { dish: id, ...filters },
+            fields,
+            pagination
+        );
     }
 }
 

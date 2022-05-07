@@ -8,6 +8,14 @@ class ReviewService {
     private review = reviewModel;
     private orders = orderModel
 
+    public async getReviews(
+        filters: { [key: string]: any },
+        fields: { [key: string]: number },
+        pagination: { skip: number, limit: number }
+    ): Promise<Partial<Review>[]> {
+        return this.review.find(filters, fields, pagination);
+    }
+
     public async createReview(
         userId: string,
         dishId: string,
@@ -56,20 +64,13 @@ class ReviewService {
 
     public async getReview(
         id: string,
+        fields: { [key: string]: number }
     ): Promise<Review> {
-        const review = await this.review.findById(id);
+        const review = await this.review.findById(id, fields);
         if (!review) throw new AppError(404, `Cannot find review with id ${id}`);
         
         return review;
     }
-
-    // public async getReviews(
-    //     dishId: string,
-    // ): Promise<Review[]> {
-    //     const result = await this.review.find({dish: dishId});
-    //     if (result) return result;
-    //     throw new AppError(400, `Cannot get reviews`);
-    // }
 }
 
 

@@ -1,10 +1,10 @@
 import { Schema, model } from 'mongoose';
-import Global from "@/resources/global/global.interface";
+import Config from "@/resources/config/config.interface";
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 
 
-const GlobalSchema = new Schema(
+const ConfigSchema = new Schema(
     {
         persistence: {
             type: String,
@@ -26,9 +26,10 @@ const GlobalSchema = new Schema(
     },
 
     {
-        versionKey: false
+        versionKey: false,
+        collection: 'config'
     }
 );
 
 
-export default model<Global>('globals', GlobalSchema);
+export default model<Config>('Config', ConfigSchema);

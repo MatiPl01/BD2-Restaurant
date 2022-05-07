@@ -3,12 +3,15 @@ import selectFieldsMiddleware from "@/middleware/requests/select-fields.middlewa
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
 import updateMiddleware from "@/middleware/requests/update.middleware";
+import authenticate from '@/middleware/auth/authentication.middleware';
 import DishService from "@/resources/dish/dish.service"
+import restrictTo from '@/middleware/auth/authorization.middleware';
 import Controller from "@/utils/interfaces/controller.interface";
 import catchAsync from "@/utils/errors/catch-async";
 import validation from "@/resources/dish/dish.validation";
-import Dish from "./dish.interface";
 import response from "@/utils/response";
+import RoleEnum from "@/utils/enums/role.enum";
+import Dish from "./dish.interface";
 
 
 class DishController implements Controller {
@@ -29,6 +32,8 @@ class DishController implements Controller {
                 this.getDishes
             )
             .post(
+                authenticate,
+                restrictTo(RoleEnum.MANAGER),
                 validationMiddleware(validation.createDish),
                 this.createDish
             );
@@ -40,11 +45,25 @@ class DishController implements Controller {
                 this.getDish
             )
             .patch(
+                authenticate,
+                restrictTo(RoleEnum.MANAGER),
                 validationMiddleware(validation.updateDish),
                 updateMiddleware,
                 this.updateDish
             )
-            .delete(this.deleteDish);
+            .delete(
+                authenticate,
+                restrictTo(RoleEnum.MANAGER),
+                this.deleteDish
+            );
+
+        this.router
+            .route('/:id/reviews')
+            .get(
+                filteringMiddleware,
+                selectFieldsMiddleware,
+                this.getDishReviews
+            );
     }
 
     private getDishes = catchAsync(async (
@@ -105,6 +124,26 @@ class DishController implements Controller {
         await this.dishService.deleteDish(id);
 
         response.json(res, 204, null);
+    })
+
+    private getDishReviews = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const id = req.params.id;
+        const { filters, fields } = req;
+        const { page, limit } = req.query;
+        const pageNum = +(page || 0) || 1;
+        const limitNum = +(limit || 0) || 30;
+
+        const pagination = {
+            skip: (pageNum - 1) * limitNum,
+            limit: limitNum
+        }
+
+        const reviews = await this.dishService.getDishReviews(id, filters, fields, pagination);
+
+        response.json(res, 200, reviews);
     })
 }
 

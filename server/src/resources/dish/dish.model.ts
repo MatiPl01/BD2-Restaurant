@@ -127,20 +127,21 @@ const DishSchema = new Schema(
                 ],
                 required: [true, 'Please provide dish images gallery']
             }
-        },
-
-        reviews: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Review'
-            }
-        ]
+        }
     },
 
     {
-        versionKey: false
+        versionKey: false,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
     }
 );
+
+DishSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'dish',
+    localField: '_id'
+})
 
 
 export default model<Dish>('Dish', DishSchema);

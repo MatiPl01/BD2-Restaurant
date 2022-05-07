@@ -7,7 +7,7 @@ import App from './app';
 import CurrencyController from '@/resources/currency/currency.controller';
 import DishController from '@/resources/dish/dish.controller';
 import ExchangeRateController from "@/resources/exchange-rate/exchange-rate.controller";
-import GlobalController from "@/resources/global/global.controller";
+import GlobalController from "@/resources/config/config.controller";
 import OrderController from '@/resources/order/order.controller';
 import ReviewController from '@/resources/review/review.controller';
 import UserController from '@/resources/user/user.controller';

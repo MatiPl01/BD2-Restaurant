@@ -1,5 +1,7 @@
 import { Request, Response, Router } from "express";
+import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
+import filteringMiddleware from "@/middleware/requests/filtering.middleware";
 import updateMiddleware from "@/middleware/requests/update.middleware";
 import ReviewService from "./review.service";
 import authenticate from '@/middleware/auth/authentication.middleware';
@@ -7,7 +9,6 @@ import restrictTo from '@/middleware/auth/authorization.middleware';
 import Controller from "@/utils/interfaces/controller.interface";
 import catchAsync from "@/utils/errors/catch-async";
 import response from "@/utils/response";
-import AppError from "@/utils/errors/app.error";
 import validate from "@/resources/review/review.validation";
 import RoleEnum from "@/utils/enums/role.enum";
 
@@ -24,10 +25,10 @@ class ReviewController implements Controller {
     private initializeRoutes(): void {
         this.router
             .route('/')
-            .delete(
-                authenticate,
-                restrictTo(RoleEnum.USER),
-                this.deleteReview
+            .get(
+                filteringMiddleware,
+                selectFieldsMiddleware,
+                this.getReviews
             )
             .post(
                 authenticate,
@@ -39,6 +40,7 @@ class ReviewController implements Controller {
         this.router
             .route('/:id')
             .get(
+                selectFieldsMiddleware,
                 this.getReview
             )
             .patch(
@@ -47,16 +49,38 @@ class ReviewController implements Controller {
                 validationMiddleware(validate.editReview),
                 updateMiddleware,
                 this.editReview
+            )
+            .delete(
+                authenticate,
+                restrictTo(RoleEnum.USER),
+                this.deleteReview
             );
     }
+
+    private getReviews = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const { filters, fields } = req;
+        const { page, limit } = req.query;
+        const pageNum = +(page || 0) || 1;
+        const limitNum = +(limit || 0) || 30;
+
+        const pagination = {
+            skip: (pageNum - 1) * limitNum,
+            limit: limitNum
+        }
+
+        const dishes = await this.reviewService.getReviews(filters, fields, pagination);
+
+        response.json(res, 200, dishes);
+    })
 
     private createReview = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
         const user = req.user;
-
-        if (!user) throw new AppError(404, 'No user logged in');
         const { dish, rating, body } = req.body;
 
         const review = await this.reviewService.createReview(user.id, dish, rating, body);
@@ -87,19 +111,11 @@ class ReviewController implements Controller {
         res: Response
     ): Promise<void> => {
         const id = req.params.id;
-        const review = await this.reviewService.getReview(id);
+        const { fields } = req;
+        const review = await this.reviewService.getReview(id, fields);
 
         response.json(res, 200, review);
     })
-
-    // private getReviews = catchAsync(async (
-    //     req: Request,
-    //     res: Response
-    // ): Promise<void> => {
-    //     const dishId=req.query.id as string;
-    //     const result = await this.reviewService.getReviews(dishId);
-    //     response.json(res, 200, result);
-    // })
 }
 
 

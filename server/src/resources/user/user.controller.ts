@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';
@@ -11,6 +11,7 @@ import RoleEnum from '@/utils/enums/role.enum';
 import AppError from '@/utils/errors/app.error';
 import validate from '@/resources/user/user.validation';
 import response from '@/utils/response';
+import filteringMiddleware from '@/middleware/requests/filtering.middleware';
 
 
 class UserController implements Controller {
@@ -80,6 +81,15 @@ class UserController implements Controller {
             )
 
         this.router
+            .route('/reviews')
+            .get(
+                authenticate,
+                filteringMiddleware,
+                selectFieldsMiddleware,
+                this.getCurrentUserReviews
+            );
+
+        this.router
             .route('/:id')
             .get(
                 authenticate, // Use this before restrictTo to make it work
@@ -92,6 +102,14 @@ class UserController implements Controller {
                 restrictTo(RoleEnum.ADMIN),
                 this.deleteUser
             );
+
+        this.router
+            .route('/:id/reviews')
+            .get(
+                filteringMiddleware,
+                selectFieldsMiddleware,
+                this.getUserReviews
+            )
     }
 
     private register = catchAsync(async (
@@ -126,7 +144,6 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const { email, password } = req.body;
-
         const token = await this.userService.login(email, password);
 
         this.sendToken(res, token);
@@ -136,9 +153,6 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        let { user } = req;
-        if (!user) throw new AppError(404, 'No user logged in');
-
         response.json(res, 200, req.user);
     })
 
@@ -147,8 +161,6 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const { user } = req;
-
-        if (!user) throw new AppError(404, 'No user logged in');
         await this.userService.deactivateUser(user.id);
 
         response.json(res, 204, null);
@@ -160,7 +172,6 @@ class UserController implements Controller {
     ): Promise<void> => {
         const id = req.params.id;
         const fields = req.fields;
-        console.log(id, fields, req.user.roles)
         const user = await this.userService.getUser(id, fields);
 
         response.json(res, 200, user);
@@ -205,8 +216,6 @@ class UserController implements Controller {
     ): Promise<void> => {
         const { user } = req;
         const { currPassword, newPassword } = req.body;
-
-        if (!user) throw new AppError(404, 'No user logged in');
         const token = await this.userService.updatePassword(user.id, currPassword, newPassword);
 
         this.sendToken(res, token);
@@ -217,11 +226,39 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-
-        if (!user) throw new AppError(404, 'No user logged in');
         const updatedUser = await this.userService.updateUser(user.id, req.body);
         
         response.json(res, 201, updatedUser);
+    })
+
+    private getUserReviews = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const userID = req.params.id;
+        const { filters, fields } = req;
+        const { page, limit } = req.query;
+        const pageNum = +(page || 0) || 1;
+        const limitNum = +(limit || 0) || 30;
+
+        const pagination = {
+            skip: (pageNum - 1) * limitNum,
+            limit: limitNum
+        }
+
+        const reviews = await this.userService.getUserReviews(userID, filters, fields, pagination);
+
+        response.json(res, 200, reviews);
+    })
+
+    private getCurrentUserReviews = catchAsync(async (
+        req: Request,
+        res: Response,
+        next: NextFunction
+    ): Promise<void> => {
+        const user = req.user;
+        req.params.id = user.id;
+        this.getUserReviews(req, res, next);
     })
 
     private sendToken = async (
@@ -234,7 +271,8 @@ class UserController implements Controller {
             expires: new Date(
                 Date.now() + Number(JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000
             ),
-            secure: NODE_ENV === 'production', // Make cookie secure only in production
+            // Make cookie secure only in production
+            secure: NODE_ENV === 'production', 
             httpOnly: true
         });
 

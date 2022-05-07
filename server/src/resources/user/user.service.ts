@@ -1,9 +1,11 @@
+import reviewModel from '@/resources/review/review.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
 import emailer from '@/utils/emailer';
 import token from '@/utils/token';
 import User from '@/resources/user/user.interface';
 import crypto from 'crypto';
+import Review from '../review/review.interface';
 
 
 type Address = {
@@ -21,6 +23,7 @@ type Address = {
 
 class UserService {
     private user = UserModel;
+    private review = reviewModel;
 
     public async register(
         firstName: string,
@@ -165,6 +168,19 @@ class UserService {
         if (updatedUser) return updatedUser;
 
         throw new AppError(400, `Cannot update user with id ${id}`);
+    }
+
+    public async getUserReviews(
+        id: string,
+        filters: { [key: string]: any },
+        fields: { [key: string]: number },
+        pagination: { skip: number, limit: number }
+    ): Promise<Partial<Review>[]> {
+        return await this.review.find(
+            { user: id, ...filters },
+            fields,
+            pagination
+        );
     }
 }
 
