@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import {model, Schema} from 'mongoose';
 import ExchangeRate from "@/resources/exchange-rate/exchange-rate.interface";
 import CurrencyEnum from '@/utils/enums/currency.enum';
 
@@ -10,7 +10,7 @@ const exchangeRateSchema = new Schema(
             min: [0, 'Exchange rate cannot be lower than 0'],
             required: [true, 'Exchange rate is required'],
         },
-        
+
         from: {
             type: String,
             required: [true, 'Please provide a currency \'from\' code'],
@@ -29,7 +29,7 @@ const exchangeRateSchema = new Schema(
             },
         },
     },
-    { 
+    {
         timestamps: true,
         versionKey: false
     }

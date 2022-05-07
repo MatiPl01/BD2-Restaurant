@@ -4,9 +4,9 @@ import Token from '@/utils/interfaces/token.interface';
 
 
 const create = (user: User): string => {
-    const { JWT_SECRET, JWT_EXPIRES_IN } = process.env;
+    const {JWT_SECRET, JWT_EXPIRES_IN} = process.env;
 
-    return jwt.sign({ id: user._id }, JWT_SECRET as jwt.Secret, {
+    return jwt.sign({id: user._id}, JWT_SECRET as jwt.Secret, {
         expiresIn: JWT_EXPIRES_IN
     });
 };
@@ -28,7 +28,7 @@ const verify = async (
 };
 
 
-export default { 
+export default {
     create,
     verify
 };

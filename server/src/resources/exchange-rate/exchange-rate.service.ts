@@ -7,28 +7,28 @@ class ExchangeRateService {
     private exchangeRate = ExchangeRateModel
 
     public async getExchangeRate(
-        from: string, 
+        from: string,
         to: string
     ): Promise<ExchangeRate> {
-        const result = await this.exchangeRate.findOne({ from, to });
+        const result = await this.exchangeRate.findOne({from, to});
         if (result) return result;
 
-        throw new AppError(404, `Cannot find Exchange Rate from ${from} to ${to}`);
+        throw new AppError(500, `Cannot find Exchange Rate from ${from} to ${to}`);
     };
 
     public async updateExchangeRate(
-        from: string, 
-        to: string, 
+        from: string,
+        to: string,
         rate: number
     ): Promise<ExchangeRate> {
         const result = await this.exchangeRate.findOneAndUpdate(
-            { from, to },
-            { rate },
-            { new: true }
+            {from, to},
+            {rate},
+            {new: true}
         );
         if (result) return result;
 
-        throw new AppError(400, `Cannot update Exchange Rate from ${from} to ${to}`);
+        throw new AppError(501, `Cannot update Exchange Rate from ${from} to ${to}`);
     }
 }
 

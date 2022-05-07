@@ -2,13 +2,9 @@ import CurrencyEnum from '@/utils/enums/currency.enum';
 import Joi from 'joi';
 
 
-const createOrder = Joi.object({
+const bodyCreateOrder = Joi.object({
     items: Joi.array().items(Joi.object({
-        dish: Joi.string().required().messages({
-            'any.required': 'DishID is required'
-        }),
-
-        dishName: Joi.string().trim().min(2).max(40).required().messages({
+        dish: Joi.string().trim().min(2).max(40).required().messages({
             'any.required': 'Dish name is required',
             'string.trim': 'Dish name should have no spaces at the beginning and at the end',
             'string.min': 'Dish name should contain at least 2 characters',
@@ -34,5 +30,5 @@ const createOrder = Joi.object({
 
 
 export default {
-    createOrder
+    bodyCreateOrder
 };

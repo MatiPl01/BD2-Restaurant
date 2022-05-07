@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import {Request, Response, Router} from "express";
 import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
@@ -11,6 +11,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import response from "@/utils/response";
 import validate from "@/resources/review/review.validation";
 import RoleEnum from "@/utils/enums/role.enum";
+import AppError from "@/utils/errors/app.error";
 
 
 class ReviewController implements Controller {
@@ -33,10 +34,10 @@ class ReviewController implements Controller {
             .post(
                 authenticate,
                 restrictTo(RoleEnum.USER),
-                validationMiddleware(validate.createReview),
+                validationMiddleware(validate.bodyCreateReview, null, null),
                 this.createReview
             );
-            
+
         this.router
             .route('/:id')
             .get(
@@ -46,7 +47,7 @@ class ReviewController implements Controller {
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.USER),
-                validationMiddleware(validate.editReview),
+                validationMiddleware(validate.bodyEditReview, null, null),
                 updateMiddleware,
                 this.editReview
             )
@@ -61,8 +62,8 @@ class ReviewController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const { filters, fields } = req;
-        const { page, limit } = req.query;
+        const {filters, fields} = req;
+        const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -73,7 +74,7 @@ class ReviewController implements Controller {
 
         const dishes = await this.reviewService.getReviews(filters, fields, pagination);
 
-        response.json(res, 200, dishes);
+        await response.json(res, 200, dishes);
     })
 
     private createReview = catchAsync(async (
@@ -81,29 +82,32 @@ class ReviewController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        const { dish, rating, body } = req.body;
-
-        const review = await this.reviewService.createReview(user.id, dish, rating, body);
-        response.json(res, 200, review);
+        const {dish, rating, body} = req.body;
+        const review = await this.reviewService.createReview(user.login, dish, rating, body);
+        await response.json(res, 200, review);
     })
 
     private deleteReview = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.query.id as string;
-        const review = await this.reviewService.deleteReview(id);
-        response.json(res, 200, review);
+        const user = req.user;
+        if (!user) throw new AppError(400, 'No user logged in');
+        const id = req.params.id as string;
+        const review = await this.reviewService.deleteReview(id, user.login);
+        await response.json(res, 200, review);
     })
 
     private editReview = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
+        const user = req.user;
+        if (!user) throw new AppError(400, 'No user logged in');
         const id = req.params.id;
-        const review = await this.reviewService.editReview(id, req.body);
+        const review = await this.reviewService.editReview(id, req.body, user.login);
 
-        response.json(res, 200, review);
+        await response.json(res, 200, review);
     })
 
     private getReview = catchAsync(async (
@@ -111,10 +115,10 @@ class ReviewController implements Controller {
         res: Response
     ): Promise<void> => {
         const id = req.params.id;
-        const { fields } = req;
+        const {fields} = req;
         const review = await this.reviewService.getReview(id, fields);
 
-        response.json(res, 200, review);
+        await response.json(res, 200, review);
     })
 }
 

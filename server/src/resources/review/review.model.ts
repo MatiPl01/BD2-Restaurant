@@ -1,19 +1,19 @@
 import Review from '@/resources/review/review.interface';
-import { Schema, model } from 'mongoose';
+import {model, Schema} from 'mongoose';
 
 
 const reviewSchema = new Schema(
     {
         user: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: 'User',
-            required: [true, 'Please provide user id'],
+            required: [true, 'Please provide user login'],
         },
 
         dish: {
-            type: Schema.Types.ObjectId,
+            type: String,
             ref: 'Dish',
-            required: [true, 'Please provide dish id']
+            required: [true, 'Please provide dish name']
         },
 
         order: {
@@ -45,7 +45,7 @@ const reviewSchema = new Schema(
     }
 );
 
-reviewSchema.pre<Review>(/^find/, function(next) {
+reviewSchema.pre<Review>(/^find/, function (next) {
     this.populate([
         {
             path: 'user',
@@ -56,7 +56,7 @@ reviewSchema.pre<Review>(/^find/, function(next) {
             select: 'name'
         }
     ]);
-    
+
     next();
 });
 

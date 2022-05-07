@@ -9,7 +9,7 @@ const sendMail = async (
         EMAIL_USERNAME,
         EMAIL_PASSWORD,
         EMAIL_HOST,
-        EMAIL_PORT        
+        EMAIL_PORT
     } = process.env;
 
     const transporter = nodemailer.createTransport({
@@ -22,7 +22,7 @@ const sendMail = async (
     })
 
     // Create email message object
-    const { to, subject, text } = options;
+    const {to, subject, text} = options;
     const emailOptions = {
         from: 'Yummyfood <noreply@yummyfood.com>',
         to, subject, text

@@ -1,8 +1,10 @@
-import { Router, Request, Response } from 'express';
+import {Request, Response, Router} from 'express';
 import CurrencyService from '@/resources/currency/currency.service';
 import Controller from '@/utils/interfaces/controller.interface';
 import catchAsync from "@/utils/errors/catch-async";
 import response from '@/utils/response';
+import validationMiddleware from "@/middleware/validation.middleware";
+import validate from "@/resources/currency/currency.validation";
 
 
 class CurrencyController implements Controller {
@@ -21,7 +23,10 @@ class CurrencyController implements Controller {
 
         this.router
             .route('/:code')
-            .get(this.getCurrency);
+            .get(
+                validationMiddleware(null, validate.paramsUpdatePersistence, null),
+                this.getCurrency
+            );
     }
 
     private getCurrency = catchAsync(async (
@@ -31,7 +36,7 @@ class CurrencyController implements Controller {
         const code = req.params.code as string;
         const currency = await this.currencyService.getCurrency(code);
 
-        response.json(res, 200, currency);
+        await response.json(res, 200, currency);
     })
 
     private getAllCurrencies = catchAsync(async (
@@ -40,8 +45,9 @@ class CurrencyController implements Controller {
     ): Promise<void> => {
         const currencies = await this.currencyService.getAllCurrencies();
 
-        response.json(res, 200, currencies);
+        await response.json(res, 200, currencies);
     })
+
 }
 
 

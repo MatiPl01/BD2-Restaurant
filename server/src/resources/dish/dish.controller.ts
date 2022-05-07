@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import {Request, Response, Router} from "express";
 import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
@@ -27,7 +27,7 @@ class DishController implements Controller {
         this.router
             .route('/')
             .get(
-                validationMiddleware(validation.getDish),
+                validationMiddleware(validation.bodyGetDish, null, null),
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 this.getDishes
@@ -35,21 +35,21 @@ class DishController implements Controller {
             .post(
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
-                validationMiddleware(validation.createDish),
+                validationMiddleware(validation.bodyCreateDish, null, null),
                 this.createDish
             );
 
         this.router
             .route('/:id')
             .get(
-                validationMiddleware(validation.getDish),
+                validationMiddleware(validation.bodyGetDish, null, null),
                 selectFieldsMiddleware,
                 this.getDish
             )
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
-                validationMiddleware(validation.updateDish),
+                validationMiddleware(validation.bodyUpdateDish, null, null),
                 updateMiddleware,
                 this.updateDish
             )
@@ -72,9 +72,9 @@ class DishController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const { filters, fields } = req;
-        const { page, limit } = req.query;
-        const { currency } = req.body;
+        const {filters, fields} = req;
+        const {page, limit} = req.query;
+        const {currency} = req.body;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -82,15 +82,15 @@ class DishController implements Controller {
             skip: (pageNum - 1) * limitNum,
             limit: limitNum
         }
-        
+
         const dishes = await this.dishService.getDishes(
-            filters, 
-            fields, 
+            filters,
+            fields,
             pagination,
             currency
         );
 
-        response.json(res, 200, dishes);
+        await response.json(res, 200, dishes);
     })
 
     private createDish = catchAsync(async (
@@ -100,7 +100,7 @@ class DishController implements Controller {
         const dishData: Dish = req.body;
         const dish = await this.dishService.createDish(dishData);
 
-        response.json(res, 201, dish);
+        await response.json(res, 201, dish);
     })
 
     private getDish = catchAsync(async (
@@ -109,14 +109,14 @@ class DishController implements Controller {
     ): Promise<void> => {
         const id = req.params.id;
         const fields = req.fields;
-        const { currency } = req.body;
+        const {currency} = req.body;
         const dish = await this.dishService.getDish(
-            id, 
+            id,
             fields,
             currency
         );
 
-        response.json(res, 200, dish);
+        await response.json(res, 200, dish);
     })
 
     private updateDish = catchAsync(async (
@@ -126,7 +126,7 @@ class DishController implements Controller {
         const id = req.params.id;
         const updatedDish = await this.dishService.updateDish(id, req.body);
 
-        response.json(res, 201, updatedDish);
+        await response.json(res, 201, updatedDish);
     })
 
     private deleteDish = catchAsync(async (
@@ -136,7 +136,7 @@ class DishController implements Controller {
         const id = req.params.id;
         await this.dishService.deleteDish(id);
 
-        response.json(res, 204, null);
+        await response.json(res, 204, null);
     })
 
     private getDishReviews = catchAsync(async (
@@ -144,8 +144,8 @@ class DishController implements Controller {
         res: Response
     ): Promise<void> => {
         const id = req.params.id;
-        const { filters, fields } = req;
-        const { page, limit } = req.query;
+        const {filters, fields} = req;
+        const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -156,7 +156,7 @@ class DishController implements Controller {
 
         const reviews = await this.dishService.getDishReviews(id, filters, fields, pagination);
 
-        response.json(res, 200, reviews);
+        await response.json(res, 200, reviews);
     })
 }
 

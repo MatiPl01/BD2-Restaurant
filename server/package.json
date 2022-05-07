@@ -54,7 +54,7 @@
     "module-alias": "^2.2.2",
     "mongoose": "^6.3.0",
     "morgan": "^1.10.0",
-    "nodemailer": "^6.7.4",
+    "nodemailer": "^6.7.5",
     "xss-clean": "^0.1.1"
   },
   "_moduleAliases": {

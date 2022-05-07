@@ -1,7 +1,7 @@
 import Joi from "@/utils/validation/mongoose.validation";
 
 
-const dishValidators = {
+const bodyDishValidators = {
     name: Joi.string().trim().min(2).max(40).required().messages({
         'any.required': 'Please provide a dish name',
         'string.trim': 'Dish name should have no spaces at the beginning and at the end',
@@ -101,18 +101,18 @@ const dishValidators = {
 };
 
 
-const createDish = Joi.object(dishValidators);
+const bodyCreateDish = Joi.object(bodyDishValidators);
 
-const updateDish = Joi.object({
-    name: dishValidators.name.optional(),
-    category: dishValidators.category.optional(),
-    cuisine: dishValidators.cuisine.optional(),
-    type: dishValidators.type.optional(),
-    ingredients: dishValidators.ingredients.optional(),
-    stock: dishValidators.stock.optional(),
-    currency: dishValidators.currency.optional(),
-    unitPrice: dishValidators.unitPrice.optional(),
-    description: dishValidators.description.optional(),
+const bodyUpdateDish = Joi.object({
+    name: bodyDishValidators.name.optional(),
+    category: bodyDishValidators.category.optional(),
+    cuisine: bodyDishValidators.cuisine.optional(),
+    type: bodyDishValidators.type.optional(),
+    ingredients: bodyDishValidators.ingredients.optional(),
+    stock: bodyDishValidators.stock.optional(),
+    currency: bodyDishValidators.currency.optional(),
+    unitPrice: bodyDishValidators.unitPrice.optional(),
+    description: bodyDishValidators.description.optional(),
     images: Joi.object({
         coverIdx: Joi.number().integer().min(0).messages({
             'number.integer': 'Cover index must be an integer number',
@@ -121,12 +121,12 @@ const updateDish = Joi.object({
 
         gallery: Joi.object().pattern(
             // Gallery index
-            Joi.number().integer().min(0), 
+            Joi.number().integer().min(0),
             // Galery value
             Joi.object({
                 breakpoints: Joi.object().pattern(
                     // Breakpoint index
-                    Joi.number().integer().min(0), 
+                    Joi.number().integer().min(0),
                     // Breakpoint value
                     Joi.number().min(0)
                 ),
@@ -142,13 +142,13 @@ const updateDish = Joi.object({
     })
 });
 
-const getDish = Joi.object({
-    currency: dishValidators.currency.optional()
+const bodyGetDish = Joi.object({
+    currency: bodyDishValidators.currency.optional()
 });
 
 
-export default { 
-    createDish, 
-    updateDish,
-    getDish
+export default {
+    bodyCreateDish,
+    bodyUpdateDish,
+    bodyGetDish
 };

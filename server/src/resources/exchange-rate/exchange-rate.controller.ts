@@ -1,10 +1,14 @@
-import { Router, Request, Response } from 'express';
+import {Request, Response, Router} from 'express';
 import Controller from '@/utils/interfaces/controller.interface';
 import validationMiddleware from '@/middleware/validation.middleware';
 import validate from '@/resources/exchange-rate/exchange-rate.validation'
 import ExchangeRateService from './exchange-rate.service';
 import catchAsync from "@/utils/errors/catch-async";
 import response from '@/utils/response';
+import authenticate from "@/middleware/auth/authentication.middleware";
+import restrictTo from "@/middleware/auth/authorization.middleware";
+import RoleEnum from "@/utils/enums/role.enum";
+import updateMiddleware from "@/middleware/requests/update.middleware";
 
 
 class ExchangeRateController implements Controller {
@@ -19,9 +23,17 @@ class ExchangeRateController implements Controller {
     private initializeRoutes(): void {
         this.router
             .route('/')
-            .get(this.getExchangeRate)
+            .get(
+                validationMiddleware(null, null, validate.queryExchangeRate),
+                this.getExchangeRate
+            )
+        this.router
+            .route('/:rate')
             .patch(
-                validationMiddleware(validate.updateExchangeRate),
+                validationMiddleware(null, validate.paramsUpdateExchangeRate, validate.queryExchangeRate),
+                authenticate,
+                restrictTo(RoleEnum.ADMIN),
+                updateMiddleware,
                 this.updateExchangeRate
             );
     }
@@ -34,7 +46,7 @@ class ExchangeRateController implements Controller {
         const to = req.query.to as string;
         const result = await this.exchangeRateService.getExchangeRate(from, to);
 
-        response.json(res, 200, result);
+        await response.json(res, 200, result);
     })
 
     private updateExchangeRate = catchAsync(async (
@@ -43,10 +55,10 @@ class ExchangeRateController implements Controller {
     ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
-        const { rate } = req.body;
+        const rate = parseFloat(req.params.rate);
         const updatedExchangeRate = await this.exchangeRateService.updateExchangeRate(from, to, rate);
 
-        response.json(res, 201, updatedExchangeRate);
+        await response.json(res, 200, updatedExchangeRate);
     })
 }
 

@@ -7,8 +7,9 @@ class OrderService {
 
     public async createOrder(
         orderData: Order,
-        userId: string
+        userLogin: string
     ): Promise<Order> {
+        console.log(userLogin)
         const {
             items,
             currency,
@@ -16,7 +17,7 @@ class OrderService {
         } = orderData;
 
         return await this.orders.create({
-            user: userId,
+            user: userLogin,
             items,
             currency,
             totalPrice
@@ -24,12 +25,12 @@ class OrderService {
     };
 
     public async getOrders(
-        userId: string,
+        userLogin: string,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
     ): Promise<Order[]> {
-        return await this.orders.find({ user: userId, ...filters }, fields, pagination);
+        return this.orders.find({user: userLogin, ...filters}, fields, pagination);
     }
 }
 

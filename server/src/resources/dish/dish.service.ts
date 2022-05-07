@@ -68,7 +68,7 @@ class DishService {
         // The line below forces dish model to run 'save' middleware
         if (dish) {
             if (updatedProps.currency || updatedProps.unitPrice !== undefined) {
-                await dish.update({ $set: updatedProps }, { new: true });
+                await dish.update({$set: updatedProps}, {new: true});
                 await dish.updateMainUnitPrice();
                 await dish.save();
             }
@@ -94,8 +94,9 @@ class DishService {
         if (dish) {
             if (currency) await this.changeDishCurrency(dish, currency);
             return dish;
-        };
-        
+        }
+
+
         throw new AppError(404, `Cannot get dish with id ${id}`);
     }
 
@@ -114,7 +115,7 @@ class DishService {
         pagination: { skip: number, limit: number }
     ): Promise<Partial<Review>[]> {
         return this.review.find(
-            { dish: id, ...filters },
+            {dish: id, ...filters},
             fields,
             pagination
         );
@@ -138,7 +139,7 @@ class DishService {
     ): Promise<number> {
         const config = await configModel.findOne();
         if (!config) throw new AppError(404, 'Config was not found in the database');
-        
+
         return await this.exchangeCurrency(amount, from, config.mainCurrency);
     }
 
@@ -160,7 +161,7 @@ class DishService {
 
         if (dish.unitPrice !== undefined) {
             dish.unitPrice = await this.exchangeCurrency(dish.unitPrice, from, to);
-        }   
+        }
     }
 }
 

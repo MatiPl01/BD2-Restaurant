@@ -57,7 +57,7 @@ class UserService {
         email: string,
         password: string
     ): Promise<string> {
-        const user = await this.user.findOne({ email }).select('+password');
+        const user = await this.user.findOne({email}).select('+password');
 
         if (user && await user.isValidPassword(password, user.password)) {
             return token.create(user);
@@ -69,7 +69,7 @@ class UserService {
     public async deactivateUser(
         id: string
     ): Promise<void> {
-        await this.user.findByIdAndUpdate(id, { active: false });
+        await this.user.findByIdAndUpdate(id, {active: false});
     }
 
     public async getUser(
@@ -94,7 +94,7 @@ class UserService {
         url: string,
         email: string
     ): Promise<void> {
-        const user = await this.user.findOne({ email });
+        const user = await this.user.findOne({email});
 
         if (!user) throw new AppError(404, `Cannot find user with email: ${email}`);
 
@@ -110,7 +110,7 @@ class UserService {
             });
         } catch (error) {
             user.passwordResetToken = user.passwordResetExpirationTimestamp = undefined;
-            await user.save({ validateBeforeSave: false });
+            await user.save({validateBeforeSave: false});
 
             throw new AppError(500, 'There was an error sending the email. Try again later!');
         }
@@ -125,9 +125,9 @@ class UserService {
             .update(resetToken)
             .digest('hex');
 
-        const user = await UserModel.findOne({ 
+        const user = await UserModel.findOne({
             passwordResetToken: hashedToken,
-            passwordResetExpirationTimestamp: { $gt: Date.now() }
+            passwordResetExpirationTimestamp: {$gt: Date.now()}
         });
 
         if (!user) throw new AppError(400, 'Token is invalid or has expired');
@@ -162,8 +162,8 @@ class UserService {
     ): Promise<User> {
         const updatedUser = await this.user.findByIdAndUpdate(
             id,
-            { $set: updatedProps },
-            { new: true }
+            {$set: updatedProps},
+            {new: true}
         );
         if (updatedUser) return updatedUser;
 
@@ -177,7 +177,7 @@ class UserService {
         pagination: { skip: number, limit: number }
     ): Promise<Partial<Review>[]> {
         return await this.review.find(
-            { user: id, ...filters },
+            {user: id, ...filters},
             fields,
             pagination
         );

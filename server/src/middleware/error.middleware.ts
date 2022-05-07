@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import {Request, Response} from 'express';
 import mongoError from '@/utils/errors/mongo.error';
 import jwtError from '@/utils/errors/jwt.error';
 import IError from '@/utils/interfaces/error.interface';
@@ -20,10 +20,10 @@ const sendErrorProd = (error: IError, res: Response) => {
             status: error.statusMessage,
             message: error.message
         });
-    // Otherwise, if an error is unexpected, send the generic message to the user    
+        // Otherwise, if an error is unexpected, send the generic message to the user
     } else {
         console.error('Error 💥', error);
-        
+
         res.status(500).json({
             status: 'error',
             message: 'Ooops! Something unexpected has happened!'
@@ -34,19 +34,18 @@ const sendErrorProd = (error: IError, res: Response) => {
 const errorMiddleware = (
     error: IError,
     req: Request,
-    res: Response,
-    next: NextFunction
+    res: Response
 ): void => {
     error.status = error.status || 500;
     error.statusMessage = error.statusMessage || 'error';
-    
+
     switch (process.env.NODE_ENV) {
         case 'development':
             return sendErrorDev(error, res);
         case 'production':
             let err: IError = error;
-            
-            if (err.name === 'CastError') 
+
+            if (err.name === 'CastError')
                 err = mongoError.handleCastError(err);
             else if (err.code === 11000)
                 err = mongoError.handleDuplicateField(err);

@@ -18,7 +18,7 @@ const addressValidators = {
         'string.max': 'Last name shouldn\'t be longer than 30 characters'
     }),
     // Example phone number: +48123123123 (with Poland country code)
-    phone: Joi.string().trim().pattern(/^(\+|00)[1-9][0-9 \-\(\)\.]{7,32}$/).required().messages({
+    phone: Joi.string().trim().pattern(/^(\+|00)[1-9][0-9 \-().]{7,32}$/).required().messages({
         'any.required': 'Please provide phone number',
         'string.trim': 'Phone number cannot start with and end with spaces',
         'string.pattern.base': 'Wrong phone number format'
@@ -134,18 +134,18 @@ const userValidators = {
     banned: Joi.bool()
 };
 
-const register = Joi.object(userValidators);
+const bodyRegister = Joi.object(userValidators);
 
-const login = Joi.object({
+const bodyLogin = Joi.object({
     email: userValidators.email,
     password: userValidators.password
 });
 
-const forgotPassword = Joi.object({
+const bodyForgotPassword = Joi.object({
     email: userValidators.email
 });
 
-const resetPassword = Joi.object({
+const bodyResetPassword = Joi.object({
     newPassword: userValidators.password
 });
 
@@ -155,7 +155,7 @@ const passwordMessages = {
     'string.min': 'User password must contain at least 8 characters',
     'string.max': 'User password must contain at most 40 characters'
 };
-const updatePassword = Joi.object({
+const bodyUpdatePassword = Joi.object({
     currPassword: passwordValidator.messages({
         'any.required': 'Please provide the current password',
         ...passwordMessages
@@ -166,10 +166,10 @@ const updatePassword = Joi.object({
     })
 });
 
-const updateUser = Joi.object({
+const bodyUpdateUser = Joi.object({
     firstName: userValidators.firstName.optional(),
     lastName: userValidators.lastName.optional(),
-    login: userValidators.login.optional(),
+    bodyLogin: userValidators.login.optional(),
     email: userValidators.email.optional(),
     defaultCurrency: userValidators.defaultCurrency.optional(),
     addresses: {
@@ -191,11 +191,11 @@ const updateUser = Joi.object({
 
 Object.entries(addressValidators)
 
-export default { 
-    register, 
-    login,
-    forgotPassword,
-    resetPassword,
-    updatePassword,
-    updateUser
+export default {
+    bodyRegister,
+    bodyLogin,
+    bodyForgotPassword,
+    bodyResetPassword,
+    bodyUpdatePassword,
+    bodyUpdateUser
 };

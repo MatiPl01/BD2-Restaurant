@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import {model, Schema} from 'mongoose';
 import Currency from '@/resources/currency/currency.interface';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 
@@ -26,19 +26,19 @@ const currencySchema = new Schema(
         name: { // e.g. United States Dollar
             type: String,
             required: [true, 'Currency name is required'],
-            unique: [true, 'CUrrency name must be unique'],
+            unique: [true, 'Currency name must be unique'],
             maxlength: [50, 'Currency name must have at most 50 letters']
         },
     },
 
-    { 
+    {
         timestamps: true,
         versionKey: false
     }
 );
 
 // Add indexes on the specific fields of the documents
-currencySchema.index({ code: 1 });
+currencySchema.index({code: 1});
 
 
 export default model<Currency>('Currency', currencySchema);

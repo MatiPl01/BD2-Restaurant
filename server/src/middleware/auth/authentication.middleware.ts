@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import {NextFunction, Request, Response} from 'express';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
 import Token from '@/utils/interfaces/token.interface';
@@ -22,7 +22,7 @@ const authenticationMiddleware = catchAsync(async (
 
     // Get JWT token from the Bearer header
     const accessToken = bearer.split('Bearer ')[1].trim();
-    
+
     // Verify the token
     const payload: Token | jwt.JsonWebTokenError = await token.verify(accessToken);
     if (payload instanceof jwt.JsonWebTokenError) return next(error);
@@ -30,7 +30,7 @@ const authenticationMiddleware = catchAsync(async (
     // Select the user user belonging to the jwt token
     const user = await UserModel.findById(payload.id);
     if (!user) return next(new AppError(
-        401, 
+        401,
         'The user belonging to this token does no longer exist.'
     ));
 
@@ -38,7 +38,7 @@ const authenticationMiddleware = catchAsync(async (
     // (The user needs to log in again using the new password)
     if (user.wasPasswordChangedAfter(payload.iat)) {
         return next(new AppError(
-            401, 
+            401,
             'User password was recently changed. Please log in again using your new password.'
         ));
     }

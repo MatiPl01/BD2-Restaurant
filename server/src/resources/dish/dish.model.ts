@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import {model, Schema} from 'mongoose';
 import Dish from '@/resources/dish/dish.interface';
 import exchangeRateModel from '../exchange-rate/exchange-rate.model';
 import configModel from '../config/config.model';
@@ -46,7 +46,7 @@ const dishSchema = new Schema(
         ingredients: {
             type: [{
                 type: String,
-                minlength: [1, 'Dish ingredient should be not empty string'],   
+                minlength: [1, 'Dish ingredient should be not empty string'],
             }],
             required: [true, 'Please provide dish ingredients']
         },
@@ -141,13 +141,13 @@ const dishSchema = new Schema(
 
     {
         versionKey: false,
-        toJSON: { virtuals: true },
-        toObject: { virtuals: true }
+        toJSON: {virtuals: true},
+        toObject: {virtuals: true}
     }
 );
 
 // Add indexes on the specific fields of the documents
-dishSchema.index({ category: 1, cuisine: 1, ratingsAverage: 1 });
+dishSchema.index({category: 1, cuisine: 1, ratingsAverage: 1});
 
 dishSchema.virtual('reviews', {
     ref: 'Review',
@@ -155,15 +155,15 @@ dishSchema.virtual('reviews', {
     localField: '_id'
 });
 
-dishSchema.pre<Dish>('validate', async function(
+dishSchema.pre<Dish>('validate', async function (
     next
 ): Promise<void> {
     await this.updateMainUnitPrice()
     next();
 });
 
-dishSchema.methods.updateMainUnitPrice = async function(): Promise<void> {
-    const { unitPrice, currency: from } = this;
+dishSchema.methods.updateMainUnitPrice = async function (): Promise<void> {
+    const {unitPrice, currency: from} = this;
 
     const config = await configModel.findOne();
     if (!config) throw new AppError(404, 'Cannot find config in a database');
@@ -174,7 +174,7 @@ dishSchema.methods.updateMainUnitPrice = async function(): Promise<void> {
         return;
     }
 
-    const exchangeRate = await exchangeRateModel.findOne({ from, to });
+    const exchangeRate = await exchangeRateModel.findOne({from, to});
     if (!exchangeRate) {
         throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
     }

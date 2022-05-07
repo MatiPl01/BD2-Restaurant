@@ -1,5 +1,5 @@
 import RoleEnum from '@/utils/enums/role.enum';
-import { Document, Schema } from 'mongoose';
+import {Document, Schema} from 'mongoose';
 
 
 export default interface User extends Document {
@@ -28,7 +28,7 @@ export default interface User extends Document {
     defaultCurrency: string;
     active: boolean;
     banned: boolean;
-    
+
     passwordChangedAt?: Date;
     passwordResetToken?: string;
     passwordResetExpirationTimestamp?: Date;
@@ -36,8 +36,8 @@ export default interface User extends Document {
     find(selector: object): void;
 
     isValidPassword(
-        inputPassword: 
-        string, userPassword: string
+        inputPassword:
+            string, userPassword: string
     ): Promise<Error | boolean>;
 
     wasPasswordChangedAfter(

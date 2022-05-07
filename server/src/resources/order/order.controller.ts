@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import {Request, Response, Router} from "express";
 import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
@@ -32,7 +32,7 @@ class OrderController implements Controller {
             )
             .post(
                 authenticate,
-                validationMiddleware(validate.createOrder),
+                validationMiddleware(validate.bodyCreateOrder, null, null),
                 this.createOrder
             );
     }
@@ -42,10 +42,10 @@ class OrderController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        if (!user) throw new AppError(404, 'No user logged in');
+        if (!user) throw new AppError(400, 'No user logged in');
         const orderData: Order = req.body
-        const result = await this.orderService.createOrder(orderData,user.id);
-        response.json(res, 200, result);
+        const result = await this.orderService.createOrder(orderData, user.login);
+        await response.json(res, 200, result);
     })
 
     private getOrders = catchAsync(async (
@@ -53,10 +53,10 @@ class OrderController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        if (!user) throw new AppError(404, 'No user logged in');
+        if (!user) throw new AppError(400, 'No user logged in');
 
-        const { filters, fields } = req;
-        const { page, limit } = req.query;
+        const {filters, fields} = req;
+        const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -66,7 +66,7 @@ class OrderController implements Controller {
         }
 
         const result = await this.orderService.getOrders(user.id, filters, fields, pagination);
-        response.json(res, 200, result);
+        await response.json(res, 200, result);
     })
 }
 

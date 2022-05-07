@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import {model, Schema} from 'mongoose';
 import Config from "@/resources/config/config.interface";
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import PersistenceEnum from '@/utils/enums/persistence.enum';

@@ -1,10 +1,10 @@
-import { Document, Schema } from 'mongoose';
+import {Document, Schema} from 'mongoose';
 
 
 export default interface Review extends Document {
     // Custom properties
-    user: Schema.Types.ObjectId;
-    dish: Schema.Types.ObjectId;
+    user: string;
+    dish: string;
     order: Schema.Types.ObjectId;
     rating: number,
     body: string[],

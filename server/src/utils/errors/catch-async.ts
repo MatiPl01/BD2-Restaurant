@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import {NextFunction, Request, Response} from "express";
 
 
 const catchAsync = (
     fn: (req: Request, res: Response, next: NextFunction
-) => Promise<Response | void>) => {
+    ) => Promise<Response | void>) => {
     return (req: Request, res: Response, next: NextFunction) => {
         // If an error occurred while executing a function,
         // catch this error and pass it to the next function

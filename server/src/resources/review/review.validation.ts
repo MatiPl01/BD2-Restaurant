@@ -2,7 +2,7 @@ import Joi from "@/utils/validation/mongoose.validation";
 
 
 const reviewValidators = {
-    dish: Joi.ObjectId().required().messages({
+    dish: Joi.string().required().messages({
         'any.required': 'Please provide dish id'
     }),
 
@@ -24,15 +24,15 @@ const reviewValidators = {
 };
 
 
-const createReview = Joi.object(reviewValidators);
+const bodyCreateReview = Joi.object(reviewValidators);
 
-const editReview = Joi.object({
+const bodyEditReview = Joi.object({
     body: reviewValidators.body,
     rating: reviewValidators.rating.optional()
 });
 
 
 export default {
-    createReview,
-    editReview
+    bodyCreateReview,
+    bodyEditReview
 };

@@ -1,4 +1,4 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, {Application, NextFunction, Request, Response} from 'express';
 import mongoSanitize from 'express-mongo-sanitize';
 import compression from 'compression';
 import mongoose from 'mongoose';
@@ -32,6 +32,21 @@ class App {
         this.initializeErrorHandling();
     }
 
+    private static initializeDatabaseConnection(): void {
+        const {MONGO_USER, MONGO_PASSWORD, MONGO_PATH} = process.env;
+
+        mongoose.connect(
+            `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`
+        ).then(() => {
+            console.log('🚀 Database was successfully connected')
+        });
+    }
+
+    private static exit(): void {
+        console.log('👋 The server has been shut down. Goodbye!');
+        process.exit(1);
+    }
+
     public listen(): void {
         this.server = this.express.listen(this.port, () => {
             console.log(`App listening on the port ${this.port}`);
@@ -54,7 +69,7 @@ class App {
         // Prevent parameter pollution
         this.express.use(hpp());
         // Parse url with the querystring library
-        this.express.use(express.urlencoded({ extended: false }));
+        this.express.use(express.urlencoded({extended: false}));
         // Response bodies compression
         this.express.use(compression());
     }
@@ -67,16 +82,6 @@ class App {
 
     private initializeErrorHandling(): void {
         this.express.use(ErrorMiddleware);
-    }
-
-    private static initializeDatabaseConnection(): void {
-        const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
-
-        mongoose.connect(
-            `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`
-        ).then(() => {
-            console.log('🚀 Database was successfully connected')
-        });
     }
 
     private initializeUnhandledRoute(): void {
@@ -103,11 +108,6 @@ class App {
 
         if (this.server) this.server.close(App.exit);
         else App.exit();
-    }
-
-    private static exit(): void {
-        console.log('👋 The server has been shut down. Goodbye!');
-        process.exit(1);
     }
 }
 

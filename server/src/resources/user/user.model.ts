@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import {model, Schema} from 'mongoose';
 import RoleEnum from '@/utils/enums/role.enum';
 import User from '@/resources/user/user.interface';
 import bcrypt from 'bcrypt';
@@ -87,7 +87,7 @@ const UserSchema = new Schema(
                         required: [true, 'Please provide phone number'],
                         trim: [true, 'Phone number cannot start with and end with spaces'],
                         validate: {
-                            validator: (phone: string) => /^(\+|00)[1-9][0-9 \-\(\)\.]{7,32}$/.test(phone),
+                            validator: (phone: string) => /^(\+|00)[1-9][0-9 \-().]{7,32}$/.test(phone),
                             message: 'Wrong phone number format'
                         }
                     },
@@ -193,7 +193,7 @@ const UserSchema = new Schema(
             type: Boolean,
             default: true
         },
-        
+
         banned: {
             type: Boolean,
             default: false
@@ -216,7 +216,7 @@ const UserSchema = new Schema(
         }
     },
 
-    { 
+    {
         timestamps: true,
         versionKey: false
     }
@@ -231,15 +231,15 @@ UserSchema.pre<User>('save', async function (
     next();
 });
 
-UserSchema.pre<User>(/^find/, function(
+UserSchema.pre<User>(/^find/, function (
     next
 ): void {
-    this.find({ active: { $ne: false } });
+    this.find({active: {$ne: false}});
     next();
 });
 
 UserSchema.methods.isValidPassword = async function (
-    inputPassword: string, 
+    inputPassword: string,
     userPassword: string
 ): Promise<boolean> {
     return await bcrypt.compare(inputPassword, userPassword);
@@ -263,14 +263,15 @@ UserSchema.methods.createPasswordResetToken = async function (): Promise<string>
         .createHash('sha256')
         .update(resetToken)
         .digest('hex');
-    
+
+
     // Calculate and save token expiration date
-    const { PASSWORD_RESET_TOKEN_EXPIRES_IN } = process.env;
+    const {PASSWORD_RESET_TOKEN_EXPIRES_IN} = process.env;
     const exp = ((PASSWORD_RESET_TOKEN_EXPIRES_IN || 10) as number);
     this.passwordResetExpirationTimestamp = Date.now() + exp * 1000;
 
     // Save the user model
-    this.save({ validateBeforeSave: false });
+    this.save({validateBeforeSave: false});
 
     return resetToken;
 };

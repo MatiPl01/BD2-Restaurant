@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import {NextFunction, Request, Response} from 'express';
 
 
 const parseNestedObjects = (nestedObject: { [key: string]: any }) => {
@@ -10,8 +10,7 @@ const parseNestedObjects = (nestedObject: { [key: string]: any }) => {
             Object.keys(res).forEach(a => {
                 final[`${k}.${a}`] = res[a];
             })
-        }
-        else
+        } else
             final[k] = nestedObject[k];
     })
     return final;

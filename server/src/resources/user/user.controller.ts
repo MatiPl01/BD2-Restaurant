@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import {NextFunction, Request, Response, Router} from 'express';
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';
@@ -37,28 +37,28 @@ class UserController implements Controller {
         this.router
             .route('/register')
             .post(
-                validationMiddleware(validate.register),
+                validationMiddleware(validate.bodyRegister, null, null),
                 this.register
             );
 
         this.router
             .route('/login')
             .post(
-                validationMiddleware(validate.login),
+                validationMiddleware(validate.bodyLogin, null, null),
                 this.login
             );
 
         this.router
             .route('/forgot-password')
             .post(
-                validationMiddleware(validate.forgotPassword),
+                validationMiddleware(validate.bodyForgotPassword, null, null),
                 this.forgotPassword
             );
 
         this.router
             .route('/reset-password/:token')
             .patch(
-                validationMiddleware(validate.resetPassword),
+                validationMiddleware(validate.bodyResetPassword, null, null),
                 this.resetPassword
             );
 
@@ -66,7 +66,7 @@ class UserController implements Controller {
             .route('/update-password')
             .patch(
                 authenticate,
-                validationMiddleware(validate.updatePassword),
+                validationMiddleware(validate.bodyUpdatePassword, null, null),
                 this.updatePassword
             );
 
@@ -74,7 +74,7 @@ class UserController implements Controller {
             .route('/update')
             .patch(
                 authenticate,
-                validationMiddleware(validate.updateUser),
+                validationMiddleware(validate.bodyUpdateUser, null, null),
                 updateMiddleware,
                 this.updateCurrentUser
             )
@@ -115,14 +115,15 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const { 
-            firstName, 
-            lastName, 
-            login, 
-            email, 
-            password, 
-            addresses, 
-            defaultCurrency } = req.body;
+        const {
+            firstName,
+            lastName,
+            login,
+            email,
+            password,
+            addresses,
+            defaultCurrency
+        } = req.body;
 
         const token = await this.userService.register(
             firstName,
@@ -135,34 +136,34 @@ class UserController implements Controller {
             defaultCurrency || 'PLN'
         );
 
-        this.sendToken(res, token);
+        await this.sendToken(res, token);
     })
 
     private login = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        const { email, password } = req.body;
+        const {email, password} = req.body;
         const token = await this.userService.login(email, password);
 
-        this.sendToken(res, token);
+        await this.sendToken(res, token);
     })
 
     private getCurrentUser = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        response.json(res, 200, req.user);
+        await response.json(res, 200, req.user);
     })
 
     private deactivateCurrentUser = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        const { user } = req;
+        const {user} = req;
         await this.userService.deactivateUser(user.id);
 
-        response.json(res, 204, null);
+        await response.json(res, 204, null);
     })
 
     private getUser = catchAsync(async (
@@ -173,7 +174,7 @@ class UserController implements Controller {
         const fields = req.fields;
         const user = await this.userService.getUser(id, fields);
 
-        response.json(res, 200, user);
+        await response.json(res, 200, user);
     })
 
     private deleteUser = catchAsync(async (
@@ -182,19 +183,19 @@ class UserController implements Controller {
     ): Promise<void> => {
         const id = req.params.id;
         await this.userService.deleteUser(id);
-        
-        response.json(res, 204, null);
+
+        await response.json(res, 204, null);
     })
 
     private forgotPassword = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        const { email } = req.body;
+        const {email} = req.body;
         const url = `${req.protocol}://${req.get('host')}/api/${process.env.API_VERSION}/${this.PATH}/reset-password`
         await this.userService.forgotPassword(url, email);
 
-        response.json(res, 200, 'Token has been sent to the specified email!');
+        await response.json(res, 200, 'Token has been sent to the specified email!');
     })
 
     private resetPassword = catchAsync(async (
@@ -202,22 +203,22 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const resetToken = req.params.token;
-        const { newPassword } = req.body;
-        
+        const {newPassword} = req.body;
+
         const token = await this.userService.resetPassword(resetToken, newPassword);
 
-        this.sendToken(res, token);
+        await this.sendToken(res, token);
     })
 
     private updatePassword = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        const { user } = req;
-        const { currPassword, newPassword } = req.body;
+        const {user} = req;
+        const {currPassword, newPassword} = req.body;
         const token = await this.userService.updatePassword(user.id, currPassword, newPassword);
 
-        this.sendToken(res, token);
+        await this.sendToken(res, token);
     })
 
     private updateCurrentUser = catchAsync(async (
@@ -226,8 +227,8 @@ class UserController implements Controller {
     ): Promise<void> => {
         const user = req.user;
         const updatedUser = await this.userService.updateUser(user.id, req.body);
-        
-        response.json(res, 201, updatedUser);
+
+        await response.json(res, 201, updatedUser);
     })
 
     private getUserReviews = catchAsync(async (
@@ -235,8 +236,8 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const userID = req.params.id;
-        const { filters, fields } = req;
-        const { page, limit } = req.query;
+        const {filters, fields} = req;
+        const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -247,7 +248,7 @@ class UserController implements Controller {
 
         const reviews = await this.userService.getUserReviews(userID, filters, fields, pagination);
 
-        response.json(res, 200, reviews);
+        await response.json(res, 200, reviews);
     })
 
     private getCurrentUserReviews = catchAsync(async (
@@ -264,18 +265,18 @@ class UserController implements Controller {
         res: Response,
         token: string
     ): Promise<void> => {
-        const { JWT_COOKIE_EXPIRES_IN, NODE_ENV } = process.env;
+        const {JWT_COOKIE_EXPIRES_IN, NODE_ENV} = process.env;
 
-        response.cookie(res, 'jwt', token, {
+        await response.cookie(res, 'jwt', token, {
             expires: new Date(
                 Date.now() + Number(JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000
             ),
             // Make cookie secure only in production
-            secure: NODE_ENV === 'production', 
+            secure: NODE_ENV === 'production',
             httpOnly: true
         });
-
-        response.json(res, 200, token); // TODO - this probably should not send token
+        // TODO - this probably should not send token
+        await response.json(res, 200, token);
     }
 }
 
