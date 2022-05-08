@@ -1,8 +1,9 @@
 import {model, Schema} from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import dishModel from '../dish/dish.model';
-import Order from '@/resources/order/order.interface';
+import currency from '@/utils/currency';
 import AppError from '@/utils/errors/app.error';
+import Order from '@/resources/order/order.interface';
 
 
 const orderItem = new Schema(
@@ -84,17 +85,27 @@ orderSchema.pre<Order>('validate', async function (
 ): Promise<void> {
     if (!this.isModified()) return next();
 
+    // Save dishName and unitPrice for each dish in the order
+    // (unitPrice will be in the same currency as the order currency)
+    for (const item of this.items) {
+        const dishID = item.dish;
+        const dish = await dishModel.findById(dishID);
+
+        if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`));
+
+        item.dishName = dish.name;
+        item.unitPrice = await currency.exchangeCurrency(
+            dish.unitPrice, 
+            dish.currency as CurrencyEnum, 
+            this.currency as CurrencyEnum
+        );
+    }
+
     // Calculate the total price
     this.totalPrice = Math.ceil(this.items.reduce((total, item) => {
         return total + item.quantity * item.unitPrice
     }, 0) * 100) / 100;
-    
-    for (const item of this.items) {
-        const dishID = item.dish;
-        const dish = await dishModel.findById(dishID);
-        if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`))
-        item.dishName = dish.name;
-    }
+
     next();
 });
 
