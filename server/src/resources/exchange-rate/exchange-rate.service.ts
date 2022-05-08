@@ -28,15 +28,24 @@ class ExchangeRateService {
         from: string,
         to: string,
         rate: number
-    ): Promise<ExchangeRate> {
-        const exchangeRate = await this.exchangeRate.findOneAndUpdate(
+    ): Promise<ExchangeRate[]> {
+        const rate1 = Math.ceil(rate * 10000) / 10000;
+        const exchangeRate1 = await this.exchangeRate.findOneAndUpdate(
             {from, to},
-            {rate},
+            {$set: {rate: rate1}},
             {new: true}
         );
-        if (exchangeRate) return exchangeRate;
+        if (!exchangeRate1) throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
 
-        throw new AppError(501, `Cannot update Exchange Rate from ${from} to ${to}`);
+        const rate2 = Math.ceil(1 / rate * 10000) / 10000;
+        const exchangeRate2 = await this.exchangeRate.findOneAndUpdate(
+            {from: to, to: from},
+            {$set: {rate: rate2}},
+            {new: true}
+        );
+        if (!exchangeRate2) throw new AppError(404, `Cannot find exchange rate from ${to} to ${from}`);
+
+        return [exchangeRate1, exchangeRate2];
     }
 }
 

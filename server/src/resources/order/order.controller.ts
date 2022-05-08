@@ -31,7 +31,7 @@ class OrderController implements Controller {
             )
             .post(
                 authenticate,
-                validationMiddleware(validate.bodyCreateOrder),
+                validationMiddleware(validate.body.createOrder),
                 this.createOrder
             );
     }

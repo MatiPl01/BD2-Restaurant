@@ -25,19 +25,19 @@ class ExchangeRateController implements Controller {
         this.router
             .route('/')
             .get(
-                validationMiddleware(undefined, undefined, validate.queryExchangeRate),
+                validationMiddleware(undefined, undefined, validate.query.exchangeRate),
                 this.getExchangeRate
             )
             .post(
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(validate.createExchangeRate),
+                validationMiddleware(validate.body.createExchangeRate),
                 this.createExchangeRate
             )
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(undefined, validate.paramsUpdateExchangeRate, validate.queryExchangeRate),
+                validationMiddleware(undefined, validate.params.updateExchangeRate, validate.query.exchangeRate),
                 updateMiddleware,
                 this.updateExchangeRate
             );            
@@ -73,7 +73,7 @@ class ExchangeRateController implements Controller {
     ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
-        const rate = parseFloat(req.params.rate);
+        const {rate} = req.body;
         const updatedExchangeRate = await this.exchangeRateService.updateExchangeRate(from, to, rate);
 
         await response.json(res, 200, updatedExchangeRate);

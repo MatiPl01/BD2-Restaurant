@@ -35,9 +35,8 @@ const exchangeRateSchema = new Schema(
     }
 );
 
+
 exchangeRateSchema.index({ from: 1, to: 1 }, { unique: true });
 
-const exchangeRateModel = model<ExchangeRate>('ExchangeRate', exchangeRateSchema);
 
-
-export default exchangeRateModel;
+export default model<ExchangeRate>('ExchangeRate', exchangeRateSchema);

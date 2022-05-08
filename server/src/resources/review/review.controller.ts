@@ -34,7 +34,7 @@ class ReviewController implements Controller {
             .post(
                 authenticate,
                 restrictTo(RoleEnum.USER),
-                validationMiddleware(validate.bodyCreateReview),
+                validationMiddleware(validate.body.createReview),
                 this.createReview
             );
 
@@ -47,7 +47,7 @@ class ReviewController implements Controller {
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.USER),
-                validationMiddleware(validate.bodyEditReview),
+                validationMiddleware(validate.body.editReview),
                 updateMiddleware,
                 this.editReview
             )

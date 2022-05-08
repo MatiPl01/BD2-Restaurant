@@ -1,7 +1,7 @@
 import Joi from "@/utils/validation/mongoose.validation";
 
 
-const bodyDishValidators = {
+const dishBodyValidators = {
     name: Joi.string().trim().min(2).max(40).required().messages({
         'any.required': 'Please provide a dish name',
         'string.trim': 'Dish name should have no spaces at the beginning and at the end',
@@ -101,54 +101,54 @@ const bodyDishValidators = {
 };
 
 
-const bodyCreateDish = Joi.object(bodyDishValidators);
+const body = {
+    createDish: Joi.object(dishBodyValidators),
 
-const bodyUpdateDish = Joi.object({
-    name: bodyDishValidators.name.optional(),
-    category: bodyDishValidators.category.optional(),
-    cuisine: bodyDishValidators.cuisine.optional(),
-    type: bodyDishValidators.type.optional(),
-    ingredients: bodyDishValidators.ingredients.optional(),
-    stock: bodyDishValidators.stock.optional(),
-    currency: bodyDishValidators.currency.optional(),
-    unitPrice: bodyDishValidators.unitPrice.optional(),
-    description: bodyDishValidators.description.optional(),
-    images: Joi.object({
-        coverIdx: Joi.number().integer().min(0).messages({
-            'number.integer': 'Cover index must be an integer number',
-            'number.min': 'Cover index cannot be lower than 0'
-        }),
+    updateDish: Joi.object({
+        name: dishBodyValidators.name.optional(),
+        category: dishBodyValidators.category.optional(),
+        cuisine: dishBodyValidators.cuisine.optional(),
+        type: dishBodyValidators.type.optional(),
+        ingredients: dishBodyValidators.ingredients.optional(),
+        stock: dishBodyValidators.stock.optional(),
+        currency: dishBodyValidators.currency.optional(),
+        unitPrice: dishBodyValidators.unitPrice.optional(),
+        description: dishBodyValidators.description.optional(),
+        images: Joi.object({
+            coverIdx: Joi.number().integer().min(0).messages({
+                'number.integer': 'Cover index must be an integer number',
+                'number.min': 'Cover index cannot be lower than 0'
+            }),
 
-        gallery: Joi.object().pattern(
-            // Gallery index
-            Joi.number().integer().min(0),
-            // Galery value
-            Joi.object({
-                breakpoints: Joi.object().pattern(
-                    // Breakpoint index
-                    Joi.number().integer().min(0),
-                    // Breakpoint value
-                    Joi.number().min(0)
-                ),
+            gallery: Joi.object().pattern(
+                // Gallery index
+                Joi.number().integer().min(0),
+                // Galery value
+                Joi.object({
+                    breakpoints: Joi.object().pattern(
+                        // Breakpoint index
+                        Joi.number().integer().min(0),
+                        // Breakpoint value
+                        Joi.number().min(0)
+                    ),
 
-                paths: Joi.object().pattern(
-                    // Path index
-                    Joi.number().integer().min(0),
-                    // Path string
-                    Joi.string().trim()
-                )
-            })
-        )
+                    paths: Joi.object().pattern(
+                        // Path index
+                        Joi.number().integer().min(0),
+                        // Path string
+                        Joi.string().trim()
+                    )
+                })
+            )
+        })
+    }),
+
+    getDish: Joi.object({
+        currency: dishBodyValidators.currency.optional()
     })
-});
-
-const bodyGetDish = Joi.object({
-    currency: bodyDishValidators.currency.optional()
-});
+}
 
 
 export default {
-    bodyCreateDish,
-    bodyUpdateDish,
-    bodyGetDish
+    body
 };

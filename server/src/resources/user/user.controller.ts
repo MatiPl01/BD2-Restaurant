@@ -31,7 +31,7 @@ class UserController implements Controller {
             )
             .patch(
                 authenticate,
-                validationMiddleware(validate.bodyUpdateUser),
+                validationMiddleware(validate.body.updateUser),
                 updateMiddleware,
                 this.updateCurrentUser
             )
@@ -43,28 +43,28 @@ class UserController implements Controller {
         this.router
             .route('/register')
             .post(
-                validationMiddleware(validate.bodyRegister),
+                validationMiddleware(validate.body.register),
                 this.register
             );
 
         this.router
             .route('/login')
             .post(
-                validationMiddleware(validate.bodyLogin),
+                validationMiddleware(validate.body.login),
                 this.login
             );
 
         this.router
             .route('/forgot-password')
             .post(
-                validationMiddleware(validate.bodyForgotPassword),
+                validationMiddleware(validate.body.forgotPassword),
                 this.forgotPassword
             );
 
         this.router
             .route('/reset-password/:token')
             .patch(
-                validationMiddleware(validate.bodyResetPassword),
+                validationMiddleware(validate.body.resetPassword),
                 this.resetPassword
             );
 
@@ -72,7 +72,7 @@ class UserController implements Controller {
             .route('/update-password')
             .patch(
                 authenticate,
-                validationMiddleware(validate.bodyUpdatePassword),
+                validationMiddleware(validate.body.updatePassword),
                 this.updatePassword
             );
 

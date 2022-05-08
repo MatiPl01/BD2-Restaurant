@@ -28,7 +28,7 @@ class DishController implements Controller {
         this.router
             .route('/')
             .get(
-                validationMiddleware(validation.bodyGetDish),
+                validationMiddleware(validation.body.getDish),
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 this.getDishes
@@ -36,21 +36,21 @@ class DishController implements Controller {
             .post(
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
-                validationMiddleware(validation.bodyCreateDish),
+                validationMiddleware(validation.body.createDish),
                 this.createDish
             );
 
         this.router
             .route('/:id')
             .get(
-                validationMiddleware(validation.bodyGetDish),
+                validationMiddleware(validation.body.getDish),
                 selectFieldsMiddleware,
                 this.getDish
             )
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
-                validationMiddleware(validation.bodyUpdateDish),
+                validationMiddleware(validation.body.updateDish),
                 updateMiddleware,
                 this.updateDish
             )

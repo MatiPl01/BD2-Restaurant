@@ -31,7 +31,7 @@ class ConfigController implements Controller {
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(validate.updateConfig),
+                validationMiddleware(validate.body.updateConfig),
                 updateMiddleware,
                 this.updateConfig
             );

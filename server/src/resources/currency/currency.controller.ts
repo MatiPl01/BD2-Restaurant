@@ -24,7 +24,7 @@ class CurrencyController implements Controller {
         this.router
             .route('/:code')
             .get(
-                validationMiddleware(undefined, validate.paramsUpdatePersistence),
+                validationMiddleware(undefined, validate.params.updatePersistence),
                 this.getCurrency
             );
     }

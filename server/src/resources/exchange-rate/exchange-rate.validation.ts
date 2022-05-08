@@ -1,5 +1,5 @@
-import Joi from 'joi';
 import CurrencyEnum from "@/utils/enums/currency.enum";
+import Joi from 'joi';
 
 
 const exchangeRateValidators = {
@@ -13,21 +13,27 @@ const exchangeRateValidators = {
     })
 }
 
-const paramsUpdateExchangeRate = Joi.object({
-    from: exchangeRateValidators.from.optional(),
-    to: exchangeRateValidators.to.optional(),
-});
+const params = {
+    updateExchangeRate: Joi.object({
+        from: exchangeRateValidators.from.optional(),
+        to: exchangeRateValidators.to.optional(),
+    })
+}
 
-const queryExchangeRate = Joi.object({
-    from: exchangeRateValidators,
-    to: exchangeRateValidators,
-});
+const query = {
+    exchangeRate: Joi.object({
+        from: exchangeRateValidators.from,
+        to: exchangeRateValidators.to,
+    })
+};
 
-const createExchangeRate = Joi.object(exchangeRateValidators);
+const body = {
+    createExchangeRate: Joi.object(exchangeRateValidators)
+}
 
 
 export default {
-    paramsUpdateExchangeRate, 
-    createExchangeRate,
-    queryExchangeRate
+    body,
+    params,
+    query
 };

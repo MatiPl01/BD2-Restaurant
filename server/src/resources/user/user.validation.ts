@@ -134,69 +134,66 @@ const userValidators = {
     banned: Joi.bool()
 };
 
-const bodyRegister = Joi.object(userValidators);
-
-const bodyLogin = Joi.object({
-    email: userValidators.email,
-    password: userValidators.password
-});
-
-const bodyForgotPassword = Joi.object({
-    email: userValidators.email
-});
-
-const bodyResetPassword = Joi.object({
-    newPassword: userValidators.password
-});
-
 const passwordValidator = Joi.string().trim().min(8).max(40).required();
 const passwordMessages = {
     'string.trim': 'User password cannot have spaces at the beginning and at the end',
     'string.min': 'User password must contain at least 8 characters',
     'string.max': 'User password must contain at most 40 characters'
 };
-const bodyUpdatePassword = Joi.object({
-    currPassword: passwordValidator.messages({
-        'any.required': 'Please provide the current password',
-        ...passwordMessages
+
+
+const body = {
+    register: Joi.object(userValidators),
+
+    login: Joi.object({
+        email: userValidators.email,
+        password: userValidators.password
     }),
-    newPassword: passwordValidator.messages({
-        'any.required': 'Please provide the new password',
-        ...passwordMessages
-    })
-});
 
-const bodyUpdateUser = Joi.object({
-    firstName: userValidators.firstName.optional(),
-    lastName: userValidators.lastName.optional(),
-    bodyLogin: userValidators.login.optional(),
-    email: userValidators.email.optional(),
-    defaultCurrency: userValidators.defaultCurrency.optional(),
-    addresses: {
-        defaultIdx: Joi.number().integer().min(0).messages({
-            'number.integer': 'Default address index must be an integer number',
-            'number.min': 'Default address index should not be lower than 0'
+    forgotPassword: Joi.object({
+        email: userValidators.email
+    }),
+
+    resetPassword: Joi.object({
+        newPassword: userValidators.password
+    }),
+
+    updatePassword: Joi.object({
+        currPassword: passwordValidator.messages({
+            'any.required': 'Please provide the current password',
+            ...passwordMessages
         }),
+        newPassword: passwordValidator.messages({
+            'any.required': 'Please provide the new password',
+            ...passwordMessages
+        })
+    }),
 
-        list: Joi.object().pattern(
-            // Address index
-            Joi.number().integer().min(0),
-            // Address fields
-            Joi.object(Object.fromEntries(
-                Object.entries(addressValidators).map(entry => [entry[0], entry[1].optional()])
-            ))
-        )
-    }
-});
+    updateUser: Joi.object({
+        firstName: userValidators.firstName.optional(),
+        lastName: userValidators.lastName.optional(),
+        bodyLogin: userValidators.login.optional(),
+        email: userValidators.email.optional(),
+        defaultCurrency: userValidators.defaultCurrency.optional(),
+        addresses: {
+            defaultIdx: Joi.number().integer().min(0).messages({
+                'number.integer': 'Default address index must be an integer number',
+                'number.min': 'Default address index should not be lower than 0'
+            }),
 
-Object.entries(addressValidators)
+            list: Joi.object().pattern(
+                // Address index
+                Joi.number().integer().min(0),
+                // Address fields
+                Joi.object(Object.fromEntries(
+                    Object.entries(addressValidators).map(entry => [entry[0], entry[1].optional()])
+                ))
+            )
+        }
+    })
+}
 
 
 export default {
-    bodyRegister,
-    bodyLogin,
-    bodyForgotPassword,
-    bodyResetPassword,
-    bodyUpdatePassword,
-    bodyUpdateUser
+    body
 };
