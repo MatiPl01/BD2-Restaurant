@@ -2,8 +2,46 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "src",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "@app/*": [
+        "app/"
+      ],
+      "@env/*": [
+        "environments/*"
+      ],
+      "@about/*": [
+        "app/modules/about/*"
+      ],
+      "@admin/*": [
+        "app/modules/admin/*"
+      ],
+      "@auth/*": [
+        "app/modules/auth/*"
+      ],
+      "@cart/*": [
+        "app/modules/cart/*"
+      ],
+      "@core/*": [
+        "app/modules/core/*"
+      ],
+      "@dishes/*": [
+        "app/modules/dishes/*"
+      ],
+      "@home/*": [
+        "app/modules/home/*"
+      ],
+      "@manager/*": [
+        "app/modules/manager/*"
+      ],
+      "@profile/*": [
+        "app/modules/profile/*"
+      ],
+      "@shared/*": [
+        "app/modules/shared/*"
+      ]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitOverride": true,

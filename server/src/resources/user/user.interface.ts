@@ -2,6 +2,11 @@ import {Document, Schema} from 'mongoose';
 import RoleEnum from '@/utils/enums/role.enum';
 
 
+export type UserCart = {
+    dish: Schema.Types.ObjectId,
+    quantity: number
+}[]
+
 export default interface User extends Document {
     firstName: string;
     lastName: string;
@@ -21,10 +26,7 @@ export default interface User extends Document {
     }[];
     roles: RoleEnum;
     orders: Schema.Types.ObjectId[];
-    cart: {
-        dish: Schema.Types.ObjectId,
-        quantity: number
-    };
+    cart: UserCart;
     defaultCurrency: string;
     active: boolean;
     banned: boolean;

@@ -11,6 +11,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import RoleEnum from '@/utils/enums/role.enum';
 import validate from '@/resources/user/user.validation';
 import response from '@/utils/response';
+import {Schema} from 'mongoose';
 
 
 class UserController implements Controller {
@@ -84,6 +85,25 @@ class UserController implements Controller {
                 selectFieldsMiddleware,
                 this.getCurrentUserReviews
             );
+
+        this.router
+            .route('/cart')
+            .get(
+                authenticate,
+                restrictTo(RoleEnum.USER),
+                this.getUserCart
+            )
+            .post(
+                authenticate,
+                restrictTo(RoleEnum.USER),
+                validationMiddleware(validate.body.setUserCart),
+                this.setUserCart
+            )
+            .delete(
+                authenticate,
+                restrictTo(RoleEnum.USER),
+                this.clearUserCart
+            )
 
         this.router
             .route('/:id')
@@ -167,7 +187,7 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.params.id;
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const fields = req.fields;
         const user = await this.userService.getUser(id, fields);
 
@@ -178,7 +198,7 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.params.id;
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         await this.userService.deleteUser(id);
 
         await response.json(res, 204, null);
@@ -232,7 +252,7 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const userID = req.params.id;
+        const userID = (req.params.id as unknown) as Schema.Types.ObjectId;
         const {filters, fields} = req;
         const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;
@@ -248,6 +268,31 @@ class UserController implements Controller {
         await response.json(res, 200, reviews);
     })
 
+    private getUserCart = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const cart = await this.userService.getUserCart(req.user);
+        
+        await response.json(res, 200, cart);
+    })
+
+    private setUserCart = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const newCart = await this.userService.setUserCart(req.user.id, req.body);
+        await response.json(res, 201, newCart);
+    })
+
+    private clearUserCart = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        await this.userService.setUserCart(req.user.id, []);
+        await response.json(res, 204, []);
+    })
+
     private getCurrentUserReviews = catchAsync(async (
         req: Request,
         res: Response,
@@ -255,7 +300,7 @@ class UserController implements Controller {
     ): Promise<void> => {
         const user = req.user;
         req.params.id = user.id;
-        this.getUserReviews(req, res, next);
+        await this.getUserReviews(req, res, next);
     })
 
     private sendToken = async (

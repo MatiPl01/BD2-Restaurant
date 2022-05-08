@@ -1,11 +1,13 @@
 import reviewModel from '@/resources/review/review.model';
+import dishModel from '@/resources/dish/dish.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
+import {Schema} from 'mongoose';
 import emailer from '@/utils/emailer';
 import Review from '../review/review.interface';
 import crypto from 'crypto';
 import token from '@/utils/token';
-import User from '@/resources/user/user.interface';
+import User, { UserCart } from '@/resources/user/user.interface';
 
 
 type Address = {
@@ -23,6 +25,7 @@ type Address = {
 
 class UserService {
     private user = UserModel;
+    private dish = dishModel;
     private review = reviewModel;
 
     public async register(
@@ -67,13 +70,13 @@ class UserService {
     }
 
     public async deactivateUser(
-        id: string
+        id: Schema.Types.ObjectId
     ): Promise<void> {
         await this.user.findByIdAndUpdate(id, {active: false});
     }
 
     public async getUser(
-        id: string,
+        id: Schema.Types.ObjectId,
         fields: { [key: string]: number }
     ): Promise<Partial<User>> {
         const user = await this.user.findById(id, fields);
@@ -83,7 +86,7 @@ class UserService {
     }
 
     public async deleteUser(
-        id: string
+        id: Schema.Types.ObjectId
     ): Promise<void> {
         const user = await this.user.findByIdAndDelete(id);
 
@@ -138,7 +141,7 @@ class UserService {
     }
 
     public async updatePassword(
-        id: string,
+        id: Schema.Types.ObjectId,
         currPassword: string,
         newPassword: string
     ): Promise<string> {
@@ -157,8 +160,8 @@ class UserService {
     }
 
     public async updateUser(
-        id: string,
-        updatedProps: { [key: string]: number }
+        id: Schema.Types.ObjectId,
+        updatedProps: { [key: string]: any }
     ): Promise<User> {
         const updatedUser = await this.user.findByIdAndUpdate(
             id,
@@ -171,7 +174,7 @@ class UserService {
     }
 
     public async getUserReviews(
-        id: string,
+        id: Schema.Types.ObjectId,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
@@ -181,6 +184,44 @@ class UserService {
             fields,
             pagination
         );
+    }
+
+    public async getUserCart(
+        user: User,
+    ): Promise<UserCart> {
+        await user.populate([
+            {
+                path: 'cart',
+                populate: [
+                    {
+                        path: 'dish',
+                        select: 'name category cuisine type stock mainUnitPrice images'
+                    }
+                ]
+            }
+        ]);
+
+        return user.cart;
+    }
+
+    public async setUserCart(
+        id: Schema.Types.ObjectId,
+        cart: UserCart
+    ): Promise<UserCart> {
+        for (let {dish: dishID, quantity} of cart) {
+            const dish = await this.dish.findById(dishID);
+            
+            if (!dish) throw new AppError(404, `Cannot find dish with id ${dishID}`);
+            
+            if (dish.stock < quantity) {
+                throw new AppError(400, 'You cannot add more items than in stock');
+            }
+        }
+
+        const updatedUser = await this.user.findByIdAndUpdate(id, {cart});
+        if (!updatedUser) throw new AppError(400, `Unable to update cart for user with id ${id}`);
+
+        return cart; // I don't know why updatedUser.user is still not updated but GET returns the new cart
     }
 }
 

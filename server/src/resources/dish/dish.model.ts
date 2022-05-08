@@ -4,26 +4,27 @@ import configModel from '../config/config.model';
 import AppError from '@/utils/errors/app.error';
 import Dish from '@/resources/dish/dish.interface';
 
+
 const gallerySchema = new Schema({
         breakpoints: {
             type: [
                 {
                     type: Number,
                     min: [0, 'Dish image breakpoint should not be lower than 0'],
-                    required: [true, 'Please provide dishes image breakpoint']
+                    required: [true, 'Please provide dish image breakpoint']
                 }
             ],
-            required: [true, 'Please provide dishes images breakpoints']
+            required: [true, 'Please provide dish images breakpoints']
         },
         paths: {
             type: [
                 {
                     type: String,
                     trim: [true, 'Dish image path must have no spaces at the beginning ans ath the end'],
-                    required: [true, 'Please provide dishes image path']
+                    required: [true, 'Please provide dish image path']
                 }
             ],
-            required: [true, 'Please provide dishes images paths']
+            required: [true, 'Please provide dish images paths']
         }
     },
     {
@@ -37,7 +38,7 @@ const dishSchema = new Schema(
     {
         name: {
             type: String,
-            required: [true, 'Please provide a dishes name'],
+            required: [true, 'Please provide a dish name'],
             trim: [true, 'Dish name should have no spaces at the beginning and at the end'],
             unique: [true, 'Dish name should be unique'],
             minlength: [2, 'Dish name should contain at least 2 characters'],
@@ -46,7 +47,7 @@ const dishSchema = new Schema(
 
         category: {
             type: String,
-            required: [true, 'Please provide a dishes category'],
+            required: [true, 'Please provide a dish category'],
             trim: [true, 'Dish category should have no spaces at the beginning and at the end'],
             lowercase: [true, 'Dish category should be lowercase'],
             minlength: [2, 'Dish category should contain at least 2 characters'],
@@ -76,7 +77,7 @@ const dishSchema = new Schema(
                 type: String,
                 minlength: [1, 'Dish ingredient should be not empty string'],
             }],
-            required: [true, 'Please provide dishes ingredients']
+            required: [true, 'Please provide dish ingredients']
         },
 
         stock: {
@@ -93,19 +94,19 @@ const dishSchema = new Schema(
             type: String,
             uppercase: [true, 'Currency must be an uppercase 3-letter currency code'],
             length: [3, 'Currency code must have exactly 3 letters'],
-            required: [true, 'Please provide a dishes price currency']
+            required: [true, 'Please provide a dish price currency']
         },
 
         unitPrice: {
             type: Number,
             min: [0, 'Dish main price should be not lower than 0'],
-            required: [true, 'Please provide a dishes unit price']
+            required: [true, 'Please provide a dish unit price']
         },
 
         mainUnitPrice: {
             type: Number,
             min: [0, 'Dish main unit price should be not lower than 0'],
-            required: [true, 'Please provide a dishes main unit price'],
+            required: [true, 'Please provide a dish main unit price'],
             select: false
         },
 
@@ -119,12 +120,12 @@ const dishSchema = new Schema(
         ratingsCount: {
             type: Number,
             default: 0,
-            min: [0, 'Number of dishes reviews cannot be lower than 0']
+            min: [0, 'Number of dish reviews cannot be lower than 0']
         },
 
         description: {
             type: [String],
-            required: [true, 'Please provide dishes description']
+            required: [true, 'Please provide dish description']
         },
 
         images: {
@@ -139,7 +140,7 @@ const dishSchema = new Schema(
             },
             gallery: {
                 type: [gallerySchema],
-                required: [true, 'Please provide dishes images paths']
+                required: [true, 'Please provide dish images paths']
             }
         }
     },
@@ -186,5 +187,6 @@ dishSchema.methods.updateMainUnitPrice = async function (): Promise<void> {
 
     this.mainUnitPrice = Math.ceil(unitPrice * exchangeRate.rate * 100) / 100;
 };
+
 
 export default model<Dish>('Dish', dishSchema);

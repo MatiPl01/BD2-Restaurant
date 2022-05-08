@@ -1,6 +1,6 @@
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
-import Joi from 'joi';
+import Joi from "@/utils/validation/mongoose.validation";
 
 
 const addressValidators = {
@@ -66,6 +66,18 @@ const addressValidators = {
     }),
 };
 
+const cartItemValidators = {
+    dish: Joi.ObjectId().required().messages({
+        'any.required': 'Please provide cart dish ID'
+    }),
+
+    quantity: Joi.number().integer().min(1).required().messages({
+        'any.required': 'Please provide ordered dish quantity',
+        'number.min': 'Ordered dish quantity must be positive',
+        'number.integer': 'Ordered dish quantity must be an integer'
+    })
+}
+
 const userValidators = {
     firstName: Joi.string().min(1).max(30).required().messages({
         'any.required': 'Please provide user first name',
@@ -115,17 +127,11 @@ const userValidators = {
         Joi.string().valid(...Object.values(RoleEnum))
     ),
 
-    orders: Joi.array(),
-
-    cart: Joi.array().items(Joi.object({
-        dish: Joi.object().required(),
-
-        quantity: Joi.number().integer().min(1).required().messages({
-            'any.required': 'Please provide ordered dishes quantity',
-            'number.min': 'Ordered dishes quantity must be positive',
-            'number.integer': 'Ordered dishes quantity must be an integer'
-        })
+    orders: Joi.array().items(Joi.ObjectId().required().messages({
+        'any.required': 'Please provide order ID'
     })),
+
+    cart: Joi.array().items(Joi.object(cartItemValidators)),
 
     defaultCurrency: Joi.string().valid(...Object.values(CurrencyEnum)),
 
@@ -172,8 +178,7 @@ const body = {
     updateUser: Joi.object({
         firstName: userValidators.firstName.optional(),
         lastName: userValidators.lastName.optional(),
-        bodyLogin: userValidators.login.optional(),
-        email: userValidators.email.optional(),
+        login: userValidators.login.optional(),
         defaultCurrency: userValidators.defaultCurrency.optional(),
         addresses: {
             defaultIdx: Joi.number().integer().min(0).messages({
@@ -190,7 +195,9 @@ const body = {
                 ))
             )
         }
-    })
+    }),
+
+    setUserCart: Joi.array().items(Joi.object(cartItemValidators))
 }
 
 

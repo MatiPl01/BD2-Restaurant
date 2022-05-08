@@ -22,8 +22,6 @@ class DishService {
     ): Promise<Partial<Dish>[]> {
         let dishes: Dish[] = [];
 
-        if (filters.currency) throw new AppError(400, 'Currency filtering is not allowed');
-
         if (filters.unitPrice) {
             if (!currency) {
                 throw new AppError(400, 'Unit price filtering is not allowed without specified currency');
@@ -66,7 +64,7 @@ class DishService {
         updatedProps: { [key: string]: number }
     ): Promise<Dish> {
         const dish = await this.dish.findById(id);
-        // The line below forces dishes model to run 'save' middleware
+        // The line below forces dish model to run 'save' middleware
         if (dish) {
             if (updatedProps.currency || updatedProps.unitPrice !== undefined) {
                 await dish.update({$set: updatedProps}, {new: true});

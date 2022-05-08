@@ -4,6 +4,7 @@ import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
 import updateMiddleware from "@/middleware/requests/update.middleware";
 import authenticate from '@/middleware/auth/authentication.middleware';
+import CurrencyEnum from "@/utils/enums/currency.enum";
 import DishService from "@/resources/dish/dish.service"
 import restrictTo from '@/middleware/auth/authorization.middleware';
 import Controller from "@/utils/interfaces/controller.interface";
@@ -28,7 +29,6 @@ class DishController implements Controller {
         this.router
             .route('/')
             .get(
-                validationMiddleware(validation.body.getDish),
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 this.getDishes
@@ -43,7 +43,7 @@ class DishController implements Controller {
         this.router
             .route('/:id')
             .get(
-                validationMiddleware(validation.body.getDish),
+                validationMiddleware(undefined, undefined, validation.query.getDish),
                 selectFieldsMiddleware,
                 this.getDish
             )
@@ -74,8 +74,7 @@ class DishController implements Controller {
         res: Response
     ): Promise<void> => {
         const {filters, fields} = req;
-        const {page, limit} = req.query;
-        const {currency} = req.body;
+        const {page, limit, currency} = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -88,7 +87,7 @@ class DishController implements Controller {
             filters,
             fields,
             pagination,
-            currency
+            currency as CurrencyEnum
         );
 
         await response.json(res, 200, dishes);
@@ -110,11 +109,12 @@ class DishController implements Controller {
     ): Promise<void> => {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const fields = req.fields;
-        const {currency} = req.body;
+        const {currency} = req.query;
+        console.log(currency);
         const dish = await this.dishService.getDish(
             id,
             fields,
-            currency
+            currency as CurrencyEnum
         );
 
         await response.json(res, 200, dish);

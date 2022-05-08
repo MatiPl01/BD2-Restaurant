@@ -3,7 +3,7 @@ import {NextFunction, Request, Response} from 'express';
 
 const parseFilters = (req: Request) => { // TODO - improve this function (move excluded parameters somewhere else)
     const queryObj = {...req.query};
-    const excludedFields = new Set(['page', 'sort', 'limit', 'fields']);
+    const excludedFields = new Set(['page', 'sort', 'limit', 'fields', 'currency']);
     excludedFields.forEach(field => delete queryObj[field]);
     Object.keys(queryObj).forEach(key => {
         if (typeof queryObj[key] === 'string') {

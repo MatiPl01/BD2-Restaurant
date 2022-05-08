@@ -13,7 +13,7 @@ const reviewSchema = new Schema(
         dish: {
             type: Schema.Types.ObjectId,
             ref: 'Dish',
-            required: [true, 'Please provide dishes id']
+            required: [true, 'Please provide dish id']
         },
 
         dishName: {

@@ -8,6 +8,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 
+import { VisualizationService } from "./services/visualization.service";
+
 
 @NgModule({
   imports: [
@@ -23,7 +25,11 @@ import { NotFoundComponent } from './views/not-found/not-found.component';
     // Components
     NavbarComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+  ],
+
+  providers: [
+    VisualizationService
   ],
 
   exports: [

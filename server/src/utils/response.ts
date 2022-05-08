@@ -1,4 +1,5 @@
 import {CookieOptions, Response} from 'express';
+import ResponseStatus from './enums/response-status.interface';
 
 
 const getStatus = (
@@ -6,17 +7,17 @@ const getStatus = (
 ): string => {
     switch (Math.floor(statusCode / 100)) {
         case 1:
-            return 'information';
+            return ResponseStatus.INFO;
         case 2:
-            return 'success';
+            return ResponseStatus.SUCCESS;
         case 3:
-            return 'redirection';
+            return ResponseStatus.REDIRECTION;
         case 4:
-            return 'client error';
+            return ResponseStatus.CLIENT_ERROR;
         case 5:
-            return 'server error';
+            return ResponseStatus.SERVER_ERROR;
         default:
-            return 'unrecognized';
+            return ResponseStatus.UNRECOGNIZED;
     }
 }
 

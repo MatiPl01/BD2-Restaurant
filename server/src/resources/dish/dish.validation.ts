@@ -3,14 +3,14 @@ import Joi from "@/utils/validation/mongoose.validation";
 
 const dishBodyValidators = {
     name: Joi.string().trim().min(2).max(40).required().messages({
-        'any.required': 'Please provide a dishes name',
+        'any.required': 'Please provide a dish name',
         'string.trim': 'Dish name should have no spaces at the beginning and at the end',
         'string.min': 'Dish name should contain at least 2 characters',
         'string.max': 'Dish name shouldn\'t be longer than 40 characters'
     }),
 
     category: Joi.string().trim().lowercase().min(2).max(25).required().messages({
-        'any.required': 'Please provide a dishes category',
+        'any.required': 'Please provide a dish category',
         'string.trim': 'Dish category should have no spaces at the beginning and at the end',
         'string.lowercase': 'Dish category should be lowercase',
         'string.min': 'Dish category should contain at least 2 characters',
@@ -36,7 +36,7 @@ const dishBodyValidators = {
             'string.min': 'Dish ingredient should be not empty string'
         })
     ).required().messages({
-        'any.required': 'Please provide dishes ingredients'
+        'any.required': 'Please provide dish ingredients'
     }),
 
     stock: Joi.number().integer().min(0).messages({
@@ -45,13 +45,13 @@ const dishBodyValidators = {
     }),
 
     currency: Joi.string().uppercase().length(3).required().messages({
-        'any.required': 'Please provide a dishes price currency',
+        'any.required': 'Please provide a dish price currency',
         'string.uppercase': 'Currency must be an uppercase 3-letter currency code',
         'string.length': 'Currency code must have exactly 3 letters'
     }),
 
     unitPrice: Joi.number().min(0).required().messages({
-        'any.required': 'Please provide a dishes unit price',
+        'any.required': 'Please provide a dish unit price',
         'number.min': 'Dish price should be not lower than 0'
     }),
 
@@ -61,11 +61,11 @@ const dishBodyValidators = {
     }),
 
     ratingsCount: Joi.number().min(0).messages({
-        'number.min': 'Number of dishes reviews cannot be lower than 0'
+        'number.min': 'Number of dish reviews cannot be lower than 0'
     }),
 
     description: Joi.array().items(Joi.string()).required().messages({
-        'any.required': 'Please provide dishes description'
+        'any.required': 'Please provide dish description'
     }),
 
     images: Joi.object({
@@ -78,24 +78,24 @@ const dishBodyValidators = {
             {
                 breakpoints: Joi.array().items(
                     Joi.number().min(0).required().messages({
-                        'any.required': 'Please provide dishes image breakpoint',
+                        'any.required': 'Please provide dish image breakpoint',
                         'number.min': 'Dish image breakpoint should not be lower than 0'
                     })
                 ).required().messages({
-                    'any.required': 'Please provide dishes images breakpoints'
+                    'any.required': 'Please provide dish images breakpoints'
                 }),
 
                 paths: Joi.array().items(
                     Joi.string().trim().required().messages({
-                        'any.required': 'Please provide dishes image path',
+                        'any.required': 'Please provide dish image path',
                         'string.trim': 'Dish image path must have no spaces at the beginning ans ath the end'
                     })
                 ).required().messages({
-                    'any.required': 'Please provide dishes images paths'
+                    'any.required': 'Please provide dish images paths'
                 })
             }
         ).required().messages({
-            'any.required': 'Please provide dishes images gallery'
+            'any.required': 'Please provide dish images gallery'
         }))
     })
 };
@@ -141,8 +141,10 @@ const body = {
                 })
             )
         })
-    }),
+    })
+}
 
+const query = {
     getDish: Joi.object({
         currency: dishBodyValidators.currency.optional()
     })
@@ -150,5 +152,6 @@ const body = {
 
 
 export default {
-    body
+    body,
+    query
 };

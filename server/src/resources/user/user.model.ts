@@ -161,24 +161,27 @@ const userSchema = new Schema(
             ],
         },
 
-        cart: [
-            {
-                dish: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'Dishes',
-                },
+        cart: {
+            type: [
+                {
+                    dish: {
+                        type: Schema.Types.ObjectId,
+                        ref: 'Dish',
+                    },
 
-                quantity: {
-                    type: Number,
-                    required: [true, 'Please provide ordered dishes quantity'],
-                    min: [1, 'Ordered dishes quantity must be positive'],
-                    validate: {
-                        validator: Number.isInteger,
-                        message: 'Ordered dishes quantity must be an integer'
+                    quantity: {
+                        type: Number,
+                        required: [true, 'Please provide ordered dish quantity'],
+                        min: [1, 'Ordered dish quantity must be positive'],
+                        validate: {
+                            validator: Number.isInteger,
+                            message: 'Ordered dish quantity must be an integer'
+                        }
                     }
                 }
-            }
-        ],
+            ],
+            default: []
+        },
 
         defaultCurrency: {
             type: String,
