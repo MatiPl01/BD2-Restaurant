@@ -12,11 +12,6 @@ const bodyCreateOrder = Joi.object({
             'number.min': 'quantity cannot be lower than 1',
             'number.integer': 'Dish quantity should be an integer number',
             'any.required': 'Dish Name is required'
-        }),
-
-        unitPrice: Joi.number().min(0).required().messages({
-            'number.min': 'Unit Price cannot be lower than 0',
-            'any.required': 'Unit Price is required'
         })
     })).messages({
         'any.required': 'Please provide an array of ordered dishes'
