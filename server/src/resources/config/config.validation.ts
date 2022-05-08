@@ -8,7 +8,6 @@ const updateConfig = Joi.object({
     mainCurrency: Joi.string().valid(...Object.values(CurrencyEnum))
 });
 
-
 export default {
     updateConfig
 };

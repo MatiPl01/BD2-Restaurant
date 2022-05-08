@@ -1,11 +1,10 @@
 import AppError from '@/utils/errors/app.error';
 import {NextFunction, Request, RequestHandler, Response} from 'express';
 import Joi from 'joi';
-import CurrencyEnum from '@/utils/enums/currency.enum';
 
 const validationMiddleware = (
-    bodyValidators?: Joi.Schema, 
-    paramsValidators?: Joi.Schema, 
+    bodyValidators?: Joi.Schema,
+    paramsValidators?: Joi.Schema,
     queryValidators?: Joi.Schema
 ): RequestHandler => {
     return async (
@@ -32,9 +31,6 @@ const validationMiddleware = (
                 )
             }
             if (queryValidators) {
-                console.log(req.query)
-                console.log(...Object.values(CurrencyEnum))
-
                 req.query = await queryValidators.validateAsync(
                     req.query,
                     validationOptions

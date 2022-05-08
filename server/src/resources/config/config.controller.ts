@@ -43,7 +43,7 @@ class ConfigController implements Controller {
     ): Promise<void> => {
         const config = await this.configService.getConfig();
 
-        response.json(res, 200, config);
+        await response.json(res, 200, config);
     })
 
     private updateConfig = catchAsync(async (
@@ -52,7 +52,7 @@ class ConfigController implements Controller {
     ): Promise<Response | void> => {
         const updatedConfig = await this.configService.updateConfig(req.body);
 
-        response.json(res, 201, updatedConfig);
+        await response.json(res, 201, updatedConfig);
     })
 }
 
