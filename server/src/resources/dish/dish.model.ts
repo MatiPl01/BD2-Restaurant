@@ -4,6 +4,34 @@ import configModel from '../config/config.model';
 import AppError from '@/utils/errors/app.error';
 import Dish from '@/resources/dish/dish.interface';
 
+const gallerySchema = new Schema({
+        breakpoints: {
+            type: [
+                {
+                    type: Number,
+                    min: [0, 'Dish image breakpoint should not be lower than 0'],
+                    required: [true, 'Please provide dish image breakpoint']
+                }
+            ],
+            required: [true, 'Please provide dish images breakpoints']
+        },
+        paths: {
+            type: [
+                {
+                    type: String,
+                    trim: [true, 'Dish image path must have no spaces at the beginning ans ath the end'],
+                    required: [true, 'Please provide dish image path']
+                }
+            ],
+            required: [true, 'Please provide dish images paths']
+        }
+    },
+    {
+        _id: false,
+        timestamps: false,
+        versionKey: false
+    }
+)
 
 const dishSchema = new Schema(
     {
@@ -110,31 +138,8 @@ const dishSchema = new Schema(
                 },
             },
             gallery: {
-                type: [
-                    {
-                        breakpoints: {
-                            type: [
-                                {
-                                    type: Number,
-                                    min: [0, 'Dish image breakpoint should not be lower than 0'],
-                                    required: [true, 'Please provide dish image breakpoint']
-                                }
-                            ],
-                            required: [true, 'Please provide dish images breakpoints']
-                        },
-                        paths: {
-                            type: [
-                                {
-                                    type: String,
-                                    trim: [true, 'Dish image path must have no spaces at the beginning ans ath the end'],
-                                    required: [true, 'Please provide dish image path']
-                                }
-                            ],
-                            required: [true, 'Please provide dish images paths']
-                        },
-                    }
-                ],
-                required: [true, 'Please provide dish images gallery']
+                type: [gallerySchema],
+                required: [true, 'Please provide dish images paths']
             }
         }
     },

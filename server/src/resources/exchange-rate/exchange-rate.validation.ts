@@ -28,7 +28,11 @@ const query = {
 };
 
 const body = {
-    createExchangeRate: Joi.object(exchangeRateValidators)
+    createExchangeRate: Joi.object(exchangeRateValidators),
+
+    updateExchangeRate: Joi.object({
+        rate: exchangeRateValidators.rate
+    })
 }
 
 

@@ -37,10 +37,10 @@ class ExchangeRateController implements Controller {
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(undefined, validate.params.updateExchangeRate, validate.query.exchangeRate),
+                validationMiddleware(validate.body.updateExchangeRate, undefined, validate.query.exchangeRate),
                 updateMiddleware,
                 this.updateExchangeRate
-            );            
+            );
     }
 
     private getExchangeRate = catchAsync(async (

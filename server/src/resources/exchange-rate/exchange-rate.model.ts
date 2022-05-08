@@ -35,7 +35,6 @@ const exchangeRateSchema = new Schema(
     }
 );
 
-
 exchangeRateSchema.index({ from: 1, to: 1 }, { unique: true });
 
 

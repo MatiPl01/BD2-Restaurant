@@ -2,7 +2,6 @@ import reviewModel from './review.model';
 import orderModel from '@/resources/order/order.model';
 import AppError from "@/utils/errors/app.error";
 import Review from '@/resources/review/review.interface';
-import Order from "@/resources/order/order.interface";
 import {Schema} from 'mongoose';
 
 

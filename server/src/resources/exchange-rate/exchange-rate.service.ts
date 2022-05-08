@@ -18,10 +18,9 @@ class ExchangeRateService {
 
     public async createExchangeRate(
         exchangeRateData: ExchangeRate
-    ): Promise<ExchangeRate> { // TODO - add automatic creating reversed exchange rate        
-        const exchangeRate = await this.exchangeRate.create(exchangeRateData);
-    
-        return exchangeRate;
+    ): Promise<ExchangeRate> { // TODO - add automatic creating reversed exchange rate
+
+        return await this.exchangeRate.create(exchangeRateData);
     }
 
     public async updateExchangeRate(

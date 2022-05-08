@@ -5,7 +5,7 @@ import dishModel from "@/resources/dish/dish.model";
 import AppError from "./errors/app.error";
 import Dish from "@/resources/dish/dish.interface";
 
-// TODO - maybe change ExchangeRateService methods to static and 
+// TODO - maybe change ExchangeRateService methods to static and
 // don't use it as an instance in here
 const exchangeRateService = new ExchangeRateService();
 

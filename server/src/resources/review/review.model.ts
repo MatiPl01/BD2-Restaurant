@@ -1,7 +1,5 @@
 import Review from '@/resources/review/review.interface';
-import dishModel from '../dish/dish.model';
 import {model, Schema} from 'mongoose';
-import AppError from '@/utils/errors/app.error';
 
 
 const reviewSchema = new Schema(
@@ -66,17 +64,5 @@ reviewSchema.pre<Review>(/^find/, function (next) {
     next();
 });
 
-reviewSchema.pre<Review>('validate', async function (
-    next    
-): Promise<void> {
-    if (this.isModified('dish')) {
-        const dishID = this.dish;
-        const dishName = (await dishModel.findById(dishID))?.name;
-        
-        if (!dishName) return next(new AppError(404, `Cannot find dish with id ${dishID}`));
-
-        this.dishName = dishName;
-    }
-})
 
 export default model<Review>('Review', reviewSchema);

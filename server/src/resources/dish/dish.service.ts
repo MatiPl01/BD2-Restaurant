@@ -1,29 +1,31 @@
 import {Schema} from 'mongoose';
+import ExchangeRateService from '../exchange-rate/exchange-rate.service';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import reviewModel from '../review/review.model';
 import dishModel from './dish.model';
 import AppError from '@/utils/errors/app.error';
-import currency from '@/utils/currency';
 import Review from '../review/review.interface';
 import Dish from '@/resources/dish/dish.interface';
+import configModel from '../config/config.model';
 
 
 class DishService {
     private dish = dishModel;
     private review = reviewModel;
+    private exchangeRateService = new ExchangeRateService();
 
     public async getDishes(
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number },
-        targetCurrency?: CurrencyEnum
+        currency?: CurrencyEnum
     ): Promise<Partial<Dish>[]> {
         let dishes: Dish[] = [];
 
         if (filters.currency) throw new AppError(400, 'Currency filtering is not allowed');
 
         if (filters.unitPrice) {
-            if (!targetCurrency) {
+            if (!currency) {
                 throw new AppError(400, 'Unit price filtering is not allowed without specified currency');
             }
 
@@ -31,7 +33,7 @@ class DishService {
 
             if (filters.unitPrice) {
                 for (const [key, value] of Object.entries(filters.unitPrice)) {
-                    mainUnitPrice[key] = await currency.exchangeToMainCurrency(value as number, targetCurrency);
+                    mainUnitPrice[key] = await this.exchangeToMainCurrency(value as number, currency);
                 }
             }
 
@@ -46,8 +48,8 @@ class DishService {
             dishes = await this.dish.find(filters, fields, pagination);
         }
 
-        if (targetCurrency) {
-            for (const dish of dishes) await currency.changeDishCurrency(dish, targetCurrency);
+        if (currency) {
+            for (const dish of dishes) await this.changeDishCurrency(dish, currency);
         }
 
         return dishes;
@@ -81,7 +83,7 @@ class DishService {
     public async getDish(
         id: Schema.Types.ObjectId,
         fields: { [key: string]: number },
-        targetCurrency?: CurrencyEnum
+        currency?: CurrencyEnum
     ): Promise<Partial<Dish>> {
         let dish;
         if (fields['reviews']) {
@@ -91,7 +93,7 @@ class DishService {
         }
 
         if (dish) {
-            if (targetCurrency) await currency.changeDishCurrency(dish, targetCurrency);
+            if (currency) await this.changeDishCurrency(dish, currency);
             return dish;
         }
 
@@ -118,6 +120,49 @@ class DishService {
             fields,
             pagination
         );
+    }
+
+    private async exchangeCurrency(
+        amount: number,
+        from: CurrencyEnum,
+        to: CurrencyEnum,
+    ): Promise<number> {
+        let rate = 1;
+        if (from !== to) {
+            rate = (await this.exchangeRateService.getExchangeRate(from, to)).rate;
+        }
+        return Math.ceil(amount * rate * 100) / 100;
+    }
+
+    private async exchangeToMainCurrency(
+        amount: number,
+        from: CurrencyEnum
+    ): Promise<number> {
+        const config = await configModel.findOne();
+        if (!config) throw new AppError(404, 'Config was not found in the database');
+
+        return await this.exchangeCurrency(amount, from, config.mainCurrency);
+    }
+
+    private async changeDishCurrency(
+        dish: Dish,
+        to: CurrencyEnum
+    ): Promise<void> {
+        let from: CurrencyEnum;
+
+        if (dish.unitPrice === undefined && dish.currency === undefined) return;
+        if (dish.currency === undefined) {
+            const dishCurrency = (await this.dish.findById(dish.id))?.currency;
+            if (!dishCurrency) throw new AppError(404, `Cannot find dish with id ${dish.id}`);
+            from = dishCurrency as CurrencyEnum;
+        } else {
+            from = dish.currency as CurrencyEnum;
+            dish.currency = to;
+        }
+
+        if (dish.unitPrice !== undefined) {
+            dish.unitPrice = await this.exchangeCurrency(dish.unitPrice, from, to);
+        }
     }
 }
 
