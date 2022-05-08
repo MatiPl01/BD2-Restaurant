@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response, Router} from 'express';
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
+import filteringMiddleware from '@/middleware/requests/filtering.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';
 import authenticate from '@/middleware/auth/authentication.middleware';
 import UserService from '@/resources/user/user.service';
@@ -10,7 +11,6 @@ import catchAsync from "@/utils/errors/catch-async";
 import RoleEnum from '@/utils/enums/role.enum';
 import validate from '@/resources/user/user.validation';
 import response from '@/utils/response';
-import filteringMiddleware from '@/middleware/requests/filtering.middleware';
 
 
 class UserController implements Controller {
@@ -29,6 +29,12 @@ class UserController implements Controller {
                 authenticate,
                 this.getCurrentUser
             )
+            .patch(
+                authenticate,
+                validationMiddleware(validate.bodyUpdateUser),
+                updateMiddleware,
+                this.updateCurrentUser
+            )
             .delete(
                 authenticate,
                 this.deactivateCurrentUser
@@ -37,28 +43,28 @@ class UserController implements Controller {
         this.router
             .route('/register')
             .post(
-                validationMiddleware(validate.bodyRegister, null, null),
+                validationMiddleware(validate.bodyRegister),
                 this.register
             );
 
         this.router
             .route('/login')
             .post(
-                validationMiddleware(validate.bodyLogin, null, null),
+                validationMiddleware(validate.bodyLogin),
                 this.login
             );
 
         this.router
             .route('/forgot-password')
             .post(
-                validationMiddleware(validate.bodyForgotPassword, null, null),
+                validationMiddleware(validate.bodyForgotPassword),
                 this.forgotPassword
             );
 
         this.router
             .route('/reset-password/:token')
             .patch(
-                validationMiddleware(validate.bodyResetPassword, null, null),
+                validationMiddleware(validate.bodyResetPassword),
                 this.resetPassword
             );
 
@@ -66,18 +72,9 @@ class UserController implements Controller {
             .route('/update-password')
             .patch(
                 authenticate,
-                validationMiddleware(validate.bodyUpdatePassword, null, null),
+                validationMiddleware(validate.bodyUpdatePassword),
                 this.updatePassword
             );
-
-        this.router
-            .route('/update')
-            .patch(
-                authenticate,
-                validationMiddleware(validate.bodyUpdateUser, null, null),
-                updateMiddleware,
-                this.updateCurrentUser
-            )
 
         this.router
             .route('/reviews')
@@ -108,7 +105,7 @@ class UserController implements Controller {
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 this.getUserReviews
-            )
+            );
     }
 
     private register = catchAsync(async (
@@ -133,7 +130,7 @@ class UserController implements Controller {
             password,
             addresses,
             ['user'],
-            defaultCurrency || 'PLN'
+            defaultCurrency || process.env.DEFAULT_CURRENCY
         );
 
         await this.sendToken(res, token);

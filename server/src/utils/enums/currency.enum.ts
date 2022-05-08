@@ -1,6 +1,7 @@
 enum CurrencyEnum {
     PLN = 'PLN',
-    USD = 'USD'
+    USD = 'USD',
+    EUR = 'EUR'
 }
 
 

@@ -3,6 +3,8 @@ import orderModel from '@/resources/order/order.model';
 import AppError from "@/utils/errors/app.error";
 import Review from '@/resources/review/review.interface';
 import Order from "@/resources/order/order.interface";
+import Dish from '../dish/dish.interface';
+import {Schema} from 'mongoose';
 
 
 class ReviewService {
@@ -18,16 +20,17 @@ class ReviewService {
     }
 
     public async createReview(
-        userId: string,
-        dishId: string,
+        userID: Schema.Types.ObjectId,
+        dish: Dish,
         rating: number,
         body: string[]
     ): Promise<Review> { // TODO - maybe improve (check if added review before, etc.)
-        const temp: Order[] = await this.orders.find({userId}).sort({"createdAt": -1}).limit(1)
-        if ((Date.now() - temp[0].createdAt) / (1000 * 60 * 60 * 24) > 7) throw new AppError(400, `Cannot add review after 7 days`);
+        const temp: Order[] = await this.orders.find({userID}).sort({"createdAt": -1}).limit(1)
+        if ((Date.now() - temp[0].createdAt) / (1000 * 60 * 60 * 24) > 7) throw new AppError(401, `Cannot add review after 7 days`);
         const result = await this.review.create({
-            user: userId,
-            dish: dishId,
+            user: userID,
+            dish: dish.id,
+            dishName: dish.name,
             order: temp[0]._id,
             rating: rating,
             body: body,
@@ -37,15 +40,15 @@ class ReviewService {
     };
 
     public async editReview(
-        id: string,
-        updatedProps: { [key: string]: number },
-        userLogin: string
+        id: Schema.Types.ObjectId,
+        userID: Schema.Types.ObjectId,
+        updatedProps: { [key: string]: number }
     ): Promise<Review> { // TODO - maybe improve (check if modified before - maybe limit the number of changes)
-        const review = await this.review.findById({_id: id, user: userLogin});
-        if (!review) throw new AppError(404, `Review with id ${id} for user ${userLogin} was not found`);
+        const review = await this.review.findById({ _id: id, user: userID});
+        if (!review) throw new AppError(404, `User ${userID} has not review with id ${id}`);
 
         if (Date.now() > +review.createdAt + 1000 * 60 * 60 * 24 * 7) {
-            throw new AppError(703, `Cannot edit review after 7 days`);
+            throw new AppError(401, `Cannot edit review after 7 days`);
         }
 
         return await this.review.findByIdAndUpdate(
@@ -56,20 +59,20 @@ class ReviewService {
     }
 
     public async deleteReview(
-        id: string,
-        userLogin: string
+        id: Schema.Types.ObjectId,
+        userID: Schema.Types.ObjectId,
     ): Promise<void> {
-        const review = await this.review.findByIdAndDelete({_id: id, user: userLogin});
+        const review = await this.review.findByIdAndDelete({_id: id, user: userID});
 
-        if (!review) throw new AppError(400, `Cannot delete review with id ${id} for user ${userLogin}`);
+        if (!review) throw new AppError(400, `Cannot delete review with id ${id} for user ${userID}`);
     }
 
     public async getReview(
-        id: string,
+        id: Schema.Types.ObjectId,
         fields: { [key: string]: number }
     ): Promise<Review> {
         const review = await this.review.findById(id, fields);
-        if (!review) throw new AppError(702, `Cannot find review with id ${id}`);
+        if (!review) throw new AppError(404, `Cannot find review with id ${id}`);
 
         return review;
     }

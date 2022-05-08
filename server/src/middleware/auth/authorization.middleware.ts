@@ -1,6 +1,6 @@
+import {NextFunction, Request, Response} from "express";
 import RoleEnum from "@/utils/enums/role.enum";
 import AppError from "@/utils/errors/app.error";
-import {NextFunction, Request, Response} from "express";
 
 
 const authorizationMiddleware = (...roles: RoleEnum[]) => {
@@ -15,7 +15,7 @@ const authorizationMiddleware = (...roles: RoleEnum[]) => {
             role => req.user.roles.includes(role)
         ).length) return next();
 
-        return next(new AppError(403, 'You are not allowed to perform this action'));
+        throw new AppError(403, 'You are not allowed to perform this action');
     }
 }
 

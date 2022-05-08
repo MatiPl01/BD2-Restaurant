@@ -1,12 +1,12 @@
 import {model, Schema} from 'mongoose';
+import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
-import User from '@/resources/user/user.interface';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import CurrencyEnum from '@/utils/enums/currency.enum';
+import User from '@/resources/user/user.interface';
 
 
-const UserSchema = new Schema(
+const userSchema = new Schema(
     {
         firstName: {
             type: String,
@@ -182,7 +182,7 @@ const UserSchema = new Schema(
 
         defaultCurrency: {
             type: String,
-            default: 'PLN',
+            default: process.env.DEFAULT_CURRENCY,
             enum: {
                 values: Object.values(CurrencyEnum),
                 message: `Available roles are: ${Object.values(CurrencyEnum).join(', ')}`
@@ -222,7 +222,7 @@ const UserSchema = new Schema(
     }
 );
 
-UserSchema.pre<User>('save', async function (
+userSchema.pre<User>('save', async function (
     next
 ): Promise<void> {
     if (!this.isModified('password')) return next();
@@ -231,21 +231,21 @@ UserSchema.pre<User>('save', async function (
     next();
 });
 
-UserSchema.pre<User>(/^find/, function (
+userSchema.pre<User>(/^find/, function (
     next
 ): void {
     this.find({active: {$ne: false}});
     next();
 });
 
-UserSchema.methods.isValidPassword = async function (
+userSchema.methods.isValidPassword = async function (
     inputPassword: string,
     userPassword: string
 ): Promise<boolean> {
     return await bcrypt.compare(inputPassword, userPassword);
 };
 
-UserSchema.methods.wasPasswordChangedAfter = function (
+userSchema.methods.wasPasswordChangedAfter = function (
     timestamp: number
 ): boolean {
     if (this.passwordChangedAt) {
@@ -255,7 +255,7 @@ UserSchema.methods.wasPasswordChangedAfter = function (
     return false;
 };
 
-UserSchema.methods.createPasswordResetToken = async function (): Promise<string> {
+userSchema.methods.createPasswordResetToken = async function (): Promise<string> {
     const resetToken = crypto.randomBytes(32).toString('hex');
 
     // Save hashed reset token in the user model
@@ -276,7 +276,7 @@ UserSchema.methods.createPasswordResetToken = async function (): Promise<string>
     return resetToken;
 };
 
-UserSchema.methods.updatePassword = async function (
+userSchema.methods.updatePassword = async function (
     password: string,
     saveUser: boolean = true
 ): Promise<void> {
@@ -285,7 +285,7 @@ UserSchema.methods.updatePassword = async function (
     if (saveUser) await this.save();
 };
 
-UserSchema.methods.resetPassword = async function (
+userSchema.methods.resetPassword = async function (
     password: string
 ): Promise<void> {
     this.updatePassword(password, false);
@@ -295,4 +295,4 @@ UserSchema.methods.resetPassword = async function (
 };
 
 
-export default model<User>('User', UserSchema);
+export default model<User>('User', userSchema);

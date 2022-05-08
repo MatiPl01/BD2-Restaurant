@@ -1,3 +1,4 @@
+import {Schema} from 'mongoose';
 import ExchangeRateService from '../exchange-rate/exchange-rate.service';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import reviewModel from '../review/review.model';
@@ -61,7 +62,7 @@ class DishService {
     }
 
     public async updateDish(
-        id: string,
+        id: Schema.Types.ObjectId,
         updatedProps: { [key: string]: number }
     ): Promise<Dish> {
         const dish = await this.dish.findById(id);
@@ -80,7 +81,7 @@ class DishService {
     }
 
     public async getDish(
-        id: string,
+        id: Schema.Types.ObjectId,
         fields: { [key: string]: number },
         currency?: CurrencyEnum
     ): Promise<Partial<Dish>> {
@@ -101,7 +102,7 @@ class DishService {
     }
 
     public async deleteDish(
-        id: string
+        id: Schema.Types.ObjectId
     ): Promise<void> {
         const dish = await this.dish.findByIdAndDelete(id);
 
@@ -109,7 +110,7 @@ class DishService {
     }
 
     public async getDishReviews(
-        id: string,
+        id: Schema.Types.ObjectId,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }

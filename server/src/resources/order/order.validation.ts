@@ -4,11 +4,8 @@ import Joi from 'joi';
 
 const bodyCreateOrder = Joi.object({
     items: Joi.array().items(Joi.object({
-        dish: Joi.string().trim().min(2).max(40).required().messages({
-            'any.required': 'Dish name is required',
-            'string.trim': 'Dish name should have no spaces at the beginning and at the end',
-            'string.min': 'Dish name should contain at least 2 characters',
-            'string.max': 'Dish name shouldn\'t be longer than 40 characters'
+        dish: Joi.string().required().messages({
+            'any.required': 'DishID is required'
         }),
 
         quantity: Joi.number().integer().min(1).required().messages({

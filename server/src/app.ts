@@ -8,7 +8,7 @@ import cors from 'cors';
 import xss from 'xss-clean';
 import hpp from 'hpp';
 
-import ErrorMiddleware from '@/middleware/error.middleware';
+import errorMiddleware from '@/middleware/error.middleware';
 import Controller from '@/utils/interfaces/controller.interface';
 import AppError from '@/utils/errors/app.error';
 
@@ -81,7 +81,7 @@ class App {
     }
 
     private initializeErrorHandling(): void {
-        this.express.use(ErrorMiddleware);
+        this.express.use(errorMiddleware);
     }
 
     private initializeUnhandledRoute(): void {

@@ -1,10 +1,10 @@
-import {NextFunction, Request, Response} from 'express';
+import { Request, Response, NextFunction } from 'express';
+import catchAsync from '@/utils/errors/catch-async';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
 import Token from '@/utils/interfaces/token.interface';
 import token from '@/utils/token';
 import jwt from 'jsonwebtoken';
-import catchAsync from '@/utils/errors/catch-async';
 
 
 const authenticationMiddleware = catchAsync(async (

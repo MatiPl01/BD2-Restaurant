@@ -1,9 +1,9 @@
 import {Request, Response, Router} from 'express';
+import validationMiddleware from "@/middleware/validation.middleware";
 import CurrencyService from '@/resources/currency/currency.service';
 import Controller from '@/utils/interfaces/controller.interface';
 import catchAsync from "@/utils/errors/catch-async";
 import response from '@/utils/response';
-import validationMiddleware from "@/middleware/validation.middleware";
 import validate from "@/resources/currency/currency.validation";
 
 
@@ -24,7 +24,7 @@ class CurrencyController implements Controller {
         this.router
             .route('/:code')
             .get(
-                validationMiddleware(null, validate.paramsUpdatePersistence, null),
+                validationMiddleware(undefined, validate.paramsUpdatePersistence),
                 this.getCurrency
             );
     }
@@ -47,7 +47,6 @@ class CurrencyController implements Controller {
 
         await response.json(res, 200, currencies);
     })
-
 }
 
 

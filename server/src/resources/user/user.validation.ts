@@ -191,6 +191,7 @@ const bodyUpdateUser = Joi.object({
 
 Object.entries(addressValidators)
 
+
 export default {
     bodyRegister,
     bodyLogin,

@@ -1,4 +1,4 @@
-import {Request, Response, Router} from 'express';
+import {Router, Request, Response} from 'express';
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';
@@ -23,73 +23,36 @@ class ConfigController implements Controller {
 
     private initializeRoutes(): void {
         this.router
-            .route('/persistence')
+            .route('/')
             .get(
                 selectFieldsMiddleware,
-                this.getPersistence
-            );
-        this.router
-            .route('/persistence/:value')
+                this.getConfig
+            )
             .patch(
-                validationMiddleware(null, validate.paramsUpdatePersistence, null),
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
+                validationMiddleware(validate.updateConfig),
                 updateMiddleware,
-                this.updatePersistence
-            );
-        this.router
-            .route('/main_currency')
-            .get(
-                selectFieldsMiddleware,
-                this.getMainCurrency
-            );
-        this.router
-            .route('/main_currency/:value')
-            .patch(
-                validationMiddleware(null, validate.paramsUpdateMainCurrency, null),
-                authenticate,
-                restrictTo(RoleEnum.ADMIN),
-                updateMiddleware,
-                this.updateMainCurrency
+                this.updateConfig
             );
     }
 
-    private getPersistence = catchAsync(async (
+    private getConfig = catchAsync(async (
         req: Request,
         res: Response
-    ): Promise<Response | void> => {
-        const result = await this.configService.getPersistence();
+    ): Promise<void> => {
+        const config = await this.configService.getConfig();
 
-        await response.json(res, 200, result);
+        response.json(res, 200, config);
     })
 
-    private updatePersistence = catchAsync(async (
+    private updateConfig = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<Response | void> => {
-        const newPersistence = req.params.value;
-        const updatedPersistence = await this.configService.updatePersistence(newPersistence);
+        const updatedConfig = await this.configService.updateConfig(req.body);
 
-        await response.json(res, 200, updatedPersistence);
-    })
-
-    private getMainCurrency = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<Response | void> => {
-        const result = await this.configService.getMainCurrency();
-
-        await response.json(res, 200, result);
-    })
-
-    private updateMainCurrency = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<Response | void> => {
-        const newMainCurrency = req.params.value;
-        const updatedMainCurrency = await this.configService.updateMainCurrency(newMainCurrency);
-
-        await response.json(res, 200, updatedMainCurrency);
+        response.json(res, 201, updatedConfig);
     })
 }
 

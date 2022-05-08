@@ -6,6 +6,13 @@ const reviewValidators = {
         'any.required': 'Please provide dish id'
     }),
 
+    dishName: Joi.string().trim().min(2).max(40).required().messages({
+        'any.required': 'Dish name is required',
+        'string.trim': 'Dish name should have no spaces at the beginning and at the end',
+        'string.min': 'Dish name should contain at least 2 characters',
+        'string.max': 'Dish name shouldn\'t be longer than 40 characters'
+    }),
+
     order: Joi.ObjectId().required().messages({
         'any.required': 'Please provide order id'
     }),

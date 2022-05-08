@@ -11,7 +11,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import response from "@/utils/response";
 import validate from "@/resources/review/review.validation";
 import RoleEnum from "@/utils/enums/role.enum";
-import AppError from "@/utils/errors/app.error";
+import {Schema} from 'mongoose';
 
 
 class ReviewController implements Controller {
@@ -34,7 +34,7 @@ class ReviewController implements Controller {
             .post(
                 authenticate,
                 restrictTo(RoleEnum.USER),
-                validationMiddleware(validate.bodyCreateReview, null, null),
+                validationMiddleware(validate.bodyCreateReview),
                 this.createReview
             );
 
@@ -47,7 +47,7 @@ class ReviewController implements Controller {
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.USER),
-                validationMiddleware(validate.bodyEditReview, null, null),
+                validationMiddleware(validate.bodyEditReview),
                 updateMiddleware,
                 this.editReview
             )
@@ -83,7 +83,7 @@ class ReviewController implements Controller {
     ): Promise<void> => {
         const user = req.user;
         const {dish, rating, body} = req.body;
-        const review = await this.reviewService.createReview(user.login, dish, rating, body);
+        const review = await this.reviewService.createReview(user.id, dish, rating, body);
         await response.json(res, 200, review);
     })
 
@@ -92,9 +92,8 @@ class ReviewController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        if (!user) throw new AppError(400, 'No user logged in');
-        const id = req.params.id as string;
-        const review = await this.reviewService.deleteReview(id, user.login);
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
+        const review = await this.reviewService.deleteReview(id, user.id);
         await response.json(res, 200, review);
     })
 
@@ -103,10 +102,8 @@ class ReviewController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        if (!user) throw new AppError(400, 'No user logged in');
-        const id = req.params.id;
-        const review = await this.reviewService.editReview(id, req.body, user.login);
-
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
+        const review = await this.reviewService.editReview(id, user.id, req.body);
         await response.json(res, 200, review);
     })
 
@@ -114,10 +111,9 @@ class ReviewController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.params.id;
         const {fields} = req;
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.getReview(id, fields);
-
         await response.json(res, 200, review);
     })
 }

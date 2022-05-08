@@ -1,8 +1,8 @@
 import {model, Schema} from 'mongoose';
-import Dish from '@/resources/dish/dish.interface';
 import exchangeRateModel from '../exchange-rate/exchange-rate.model';
 import configModel from '../config/config.model';
 import AppError from '@/utils/errors/app.error';
+import Dish from '@/resources/dish/dish.interface';
 
 
 const dishSchema = new Schema(

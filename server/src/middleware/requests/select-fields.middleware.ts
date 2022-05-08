@@ -5,7 +5,7 @@ import catchAsync from "@/utils/errors/catch-async";
 
 const parseFields = (fields: string) => {
     let mode = 0;
-    const error = new AppError(400, "Inconsistent parameters select options.");
+    const error = new AppError(400, 'Inconsistent parameters select options.');
     const result: { [key: string]: number } = {};
 
     fields.split(',').forEach(field => {

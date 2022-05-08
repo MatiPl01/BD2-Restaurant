@@ -2,10 +2,10 @@ import reviewModel from '@/resources/review/review.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
 import emailer from '@/utils/emailer';
+import Review from '../review/review.interface';
+import crypto from 'crypto';
 import token from '@/utils/token';
 import User from '@/resources/user/user.interface';
-import crypto from 'crypto';
-import Review from '../review/review.interface';
 
 
 type Address = {

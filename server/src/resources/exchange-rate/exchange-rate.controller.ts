@@ -1,14 +1,15 @@
 import {Request, Response, Router} from 'express';
-import Controller from '@/utils/interfaces/controller.interface';
 import validationMiddleware from '@/middleware/validation.middleware';
-import validate from '@/resources/exchange-rate/exchange-rate.validation'
 import ExchangeRateService from './exchange-rate.service';
-import catchAsync from "@/utils/errors/catch-async";
-import response from '@/utils/response';
+import updateMiddleware from "@/middleware/requests/update.middleware";
 import authenticate from "@/middleware/auth/authentication.middleware";
 import restrictTo from "@/middleware/auth/authorization.middleware";
+import catchAsync from "@/utils/errors/catch-async";
+import Controller from '@/utils/interfaces/controller.interface';
+import validate from '@/resources/exchange-rate/exchange-rate.validation'
+import response from '@/utils/response';
 import RoleEnum from "@/utils/enums/role.enum";
-import updateMiddleware from "@/middleware/requests/update.middleware";
+import AppError from '@/utils/errors/app.error';
 
 
 class ExchangeRateController implements Controller {
@@ -24,18 +25,22 @@ class ExchangeRateController implements Controller {
         this.router
             .route('/')
             .get(
-                validationMiddleware(null, null, validate.queryExchangeRate),
+                validationMiddleware(undefined, undefined, validate.queryExchangeRate),
                 this.getExchangeRate
             )
-        this.router
-            .route('/:rate')
-            .patch(
-                validationMiddleware(null, validate.paramsUpdateExchangeRate, validate.queryExchangeRate),
+            .post(
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
+                validationMiddleware(validate.createExchangeRate),
+                this.createExchangeRate
+            )
+            .patch(
+                authenticate,
+                restrictTo(RoleEnum.ADMIN),
+                validationMiddleware(undefined, validate.paramsUpdateExchangeRate, validate.queryExchangeRate),
                 updateMiddleware,
                 this.updateExchangeRate
-            );
+            );            
     }
 
     private getExchangeRate = catchAsync(async (
@@ -47,6 +52,19 @@ class ExchangeRateController implements Controller {
         const result = await this.exchangeRateService.getExchangeRate(from, to);
 
         await response.json(res, 200, result);
+    })
+
+    private createExchangeRate = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const data = req.body;
+        if (data.from === data.to) {
+            throw new AppError(400, 'Unable to create exchange rate to the same value as initial');
+        }
+        const exchangeRate = await this.exchangeRateService.createExchangeRate(data);
+
+        await response.json(res, 201, exchangeRate);
     })
 
     private updateExchangeRate = catchAsync(async (

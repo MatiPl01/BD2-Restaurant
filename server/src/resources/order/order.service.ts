@@ -1,15 +1,15 @@
 import Order from '@/resources/order/order.interface';
 import orderModel from './order.model';
+import {Schema} from 'mongoose';
 
 
 class OrderService {
     private orders = orderModel;
 
     public async createOrder(
-        orderData: Order,
-        userLogin: string
+        userID: Schema.Types.ObjectId,
+        orderData: Order
     ): Promise<Order> {
-        console.log(userLogin)
         const {
             items,
             currency,
@@ -17,7 +17,7 @@ class OrderService {
         } = orderData;
 
         return await this.orders.create({
-            user: userLogin,
+            user: userID,
             items,
             currency,
             totalPrice
@@ -25,12 +25,12 @@ class OrderService {
     };
 
     public async getOrders(
-        userLogin: string,
+        userID: Schema.Types.ObjectId,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
     ): Promise<Order[]> {
-        return this.orders.find({user: userLogin, ...filters}, fields, pagination);
+        return this.orders.find({user: userID, ...filters}, fields, pagination);
     }
 }
 

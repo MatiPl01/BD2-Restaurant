@@ -10,23 +10,31 @@ class ExchangeRateService {
         from: string,
         to: string
     ): Promise<ExchangeRate> {
-        const result = await this.exchangeRate.findOne({from, to});
-        if (result) return result;
+        const exchangeRate = await this.exchangeRate.findOne({from, to});
+        if (exchangeRate) return exchangeRate;
 
         throw new AppError(500, `Cannot find Exchange Rate from ${from} to ${to}`);
-    };
+    }
+
+    public async createExchangeRate(
+        exchangeRateData: ExchangeRate
+    ): Promise<ExchangeRate> { // TODO - add automatic creating reversed exchange rate        
+        const exchangeRate = await this.exchangeRate.create(exchangeRateData);
+    
+        return exchangeRate;
+    }
 
     public async updateExchangeRate(
         from: string,
         to: string,
         rate: number
     ): Promise<ExchangeRate> {
-        const result = await this.exchangeRate.findOneAndUpdate(
+        const exchangeRate = await this.exchangeRate.findOneAndUpdate(
             {from, to},
             {rate},
             {new: true}
         );
-        if (result) return result;
+        if (exchangeRate) return exchangeRate;
 
         throw new AppError(501, `Cannot update Exchange Rate from ${from} to ${to}`);
     }

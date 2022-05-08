@@ -6,7 +6,6 @@ import authenticate from '@/middleware/auth/authentication.middleware';
 import OrderService from "./order.service";
 import Controller from "@/utils/interfaces/controller.interface";
 import catchAsync from "@/utils/errors/catch-async";
-import AppError from "@/utils/errors/app.error";
 import validate from "@/resources/order/order.validation";
 import response from "@/utils/response";
 import Order from "@/resources/order/order.interface";
@@ -32,7 +31,7 @@ class OrderController implements Controller {
             )
             .post(
                 authenticate,
-                validationMiddleware(validate.bodyCreateOrder, null, null),
+                validationMiddleware(validate.bodyCreateOrder),
                 this.createOrder
             );
     }
@@ -42,9 +41,8 @@ class OrderController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        if (!user) throw new AppError(400, 'No user logged in');
         const orderData: Order = req.body
-        const result = await this.orderService.createOrder(orderData, user.login);
+        const result = await this.orderService.createOrder(user.id, orderData);
         await response.json(res, 200, result);
     })
 
@@ -53,8 +51,6 @@ class OrderController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        if (!user) throw new AppError(400, 'No user logged in');
-
         const {filters, fields} = req;
         const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;

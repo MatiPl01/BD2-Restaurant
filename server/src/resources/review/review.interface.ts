@@ -3,9 +3,10 @@ import {Document, Schema} from 'mongoose';
 
 export default interface Review extends Document {
     // Custom properties
-    user: string;
-    dish: string;
+    user: Schema.Types.ObjectId;
+    dish: Schema.Types.ObjectId;
     order: Schema.Types.ObjectId;
+    dishName: string;
     rating: number,
     body: string[],
 

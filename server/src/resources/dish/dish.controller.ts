@@ -11,6 +11,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import validation from "@/resources/dish/dish.validation";
 import response from "@/utils/response";
 import RoleEnum from "@/utils/enums/role.enum";
+import {Schema} from 'mongoose';
 import Dish from "./dish.interface";
 
 
@@ -27,7 +28,7 @@ class DishController implements Controller {
         this.router
             .route('/')
             .get(
-                validationMiddleware(validation.bodyGetDish, null, null),
+                validationMiddleware(validation.bodyGetDish),
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 this.getDishes
@@ -35,21 +36,21 @@ class DishController implements Controller {
             .post(
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
-                validationMiddleware(validation.bodyCreateDish, null, null),
+                validationMiddleware(validation.bodyCreateDish),
                 this.createDish
             );
 
         this.router
             .route('/:id')
             .get(
-                validationMiddleware(validation.bodyGetDish, null, null),
+                validationMiddleware(validation.bodyGetDish),
                 selectFieldsMiddleware,
                 this.getDish
             )
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
-                validationMiddleware(validation.bodyUpdateDish, null, null),
+                validationMiddleware(validation.bodyUpdateDish),
                 updateMiddleware,
                 this.updateDish
             )
@@ -107,7 +108,7 @@ class DishController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.params.id;
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const fields = req.fields;
         const {currency} = req.body;
         const dish = await this.dishService.getDish(
@@ -123,7 +124,7 @@ class DishController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.params.id;
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;;
         const updatedDish = await this.dishService.updateDish(id, req.body);
 
         await response.json(res, 201, updatedDish);
@@ -133,7 +134,7 @@ class DishController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.params.id;
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;;
         await this.dishService.deleteDish(id);
 
         await response.json(res, 204, null);
@@ -143,7 +144,7 @@ class DishController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const id = req.params.id;
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;;
         const {filters, fields} = req;
         const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;

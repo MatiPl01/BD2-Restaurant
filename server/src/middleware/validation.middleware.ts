@@ -1,9 +1,13 @@
 import AppError from '@/utils/errors/app.error';
 import {NextFunction, Request, RequestHandler, Response} from 'express';
 import Joi from 'joi';
+import CurrencyEnum from '@/utils/enums/currency.enum';
 
-
-const validationMiddleware = (schemaBody: Joi.Schema | null, schemaParams: Joi.Schema | null, schemaQuery: Joi.Schema | null): RequestHandler => {
+const validationMiddleware = (
+    bodyValidators?: Joi.Schema, 
+    paramsValidators?: Joi.Schema, 
+    queryValidators?: Joi.Schema
+): RequestHandler => {
     return async (
         req: Request,
         res: Response,
@@ -15,28 +19,32 @@ const validationMiddleware = (schemaBody: Joi.Schema | null, schemaParams: Joi.S
         };
 
         try {
-            if (schemaBody !== null) {
-                req.body = await schemaBody.validateAsync(
+            if (bodyValidators) {
+                req.body = await bodyValidators.validateAsync(
                     req.body,
                     validationOptions
                 );
             }
-            if (schemaParams !== null) {
-                req.params = await schemaParams.validateAsync(
+            if (paramsValidators) {
+                req.params = await paramsValidators.validateAsync(
                     req.params,
                     validationOptions
                 )
             }
-            if (schemaQuery !== null) {
-                req.query = await schemaQuery.validateAsync(
+            if (queryValidators) {
+                console.log(req.query)
+                console.log(...Object.values(CurrencyEnum))
+
+                req.query = await queryValidators.validateAsync(
                     req.query,
                     validationOptions
                 )
             }
+
             next();
-        } catch (e: any) {
+        } catch (err: any) {
             const errors: string[] = [];
-            e.details.forEach((error: Joi.ValidationErrorItem) => {
+            err.details.forEach((error: Joi.ValidationErrorItem) => {
                 errors.push(error.message);
             });
             next(new AppError(400, errors.join('\n').replace(/"/g, "'")));

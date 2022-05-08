@@ -5,15 +5,23 @@ import {model, Schema} from 'mongoose';
 const reviewSchema = new Schema(
     {
         user: {
-            type: String,
+            type: Schema.Types.ObjectId,
             ref: 'User',
-            required: [true, 'Please provide user login'],
+            required: [true, 'Please provide user id'],
         },
 
         dish: {
-            type: String,
+            type: Schema.Types.ObjectId,
             ref: 'Dish',
-            required: [true, 'Please provide dish name']
+            required: [true, 'Please provide dish id']
+        },
+
+        dishName: {
+            type: String,
+            trim: [true, 'Dish name should have no spaces at the beginning and at the end'],
+            minlength: [2, 'Dish name should contain at least 2 characters'],
+            maxlength: [40, 'Dish name shouldn\'t be longer than 40 characters'],
+            required: [true, 'Dish Name is required'],
         },
 
         order: {
@@ -50,14 +58,11 @@ reviewSchema.pre<Review>(/^find/, function (next) {
         {
             path: 'user',
             select: 'firstName lastName'
-        },
-        {
-            path: 'dish',
-            select: 'name'
         }
     ]);
 
     next();
 });
+
 
 export default model<Review>('Review', reviewSchema);
