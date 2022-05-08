@@ -1,6 +1,7 @@
 import {model, Schema} from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
+import dishModel from '../dish/dish.model';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import User from '@/resources/user/user.interface';
@@ -167,6 +168,7 @@ const userSchema = new Schema(
                     dish: {
                         type: Schema.Types.ObjectId,
                         ref: 'Dish',
+                        required: [true, 'Please provide dish ID']
                     },
 
                     quantity: {

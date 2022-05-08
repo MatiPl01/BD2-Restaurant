@@ -3,12 +3,14 @@ import dishModel from '@/resources/dish/dish.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
 import {Schema} from 'mongoose';
+import currency from '../../utils/currency';
 import emailer from '@/utils/emailer';
 import Review from '../review/review.interface';
 import crypto from 'crypto';
 import token from '@/utils/token';
-import User, { UserCart } from '@/resources/user/user.interface';
-
+import User, { CartItem, UpdatedCartItem } from '@/resources/user/user.interface';
+import Dish from '../dish/dish.interface';
+import CurrencyEnum from '@/utils/enums/currency.enum';
 
 type Address = {
     firstName: String,
@@ -188,26 +190,38 @@ class UserService {
 
     public async getUserCart(
         user: User,
-    ): Promise<UserCart> {
-        await user.populate([
-            {
-                path: 'cart',
-                populate: [
-                    {
-                        path: 'dish',
-                        select: 'name category cuisine type stock mainUnitPrice images'
-                    }
-                ]
-            }
-        ]);
+        targetCurrency?: CurrencyEnum
+    ): Promise<UpdatedCartItem[]> {
+        const userCart: CartItem[] = [];
+        const detailedCart: UpdatedCartItem[] = [];
 
-        return user.cart;
+        for (const cartItem of user.cart) {
+            const {dish: dishID, quantity} = cartItem;
+            
+            const dish = await dishModel.findById(dishID);
+            if (dish) {
+                userCart.push({
+                    ...cartItem,
+                    stock: -1
+                });
+
+                detailedCart.push(await this.createCartItem(
+                    dish, 
+                    quantity, 
+                    targetCurrency
+                ));
+            }
+        }
+
+        user.update();
+
+        return detailedCart;
     }
 
     public async setUserCart(
         id: Schema.Types.ObjectId,
-        cart: UserCart
-    ): Promise<UserCart> {
+        cart: CartItem[]
+    ): Promise<CartItem[]> {
         for (let {dish: dishID, quantity} of cart) {
             const dish = await this.dish.findById(dishID);
             
@@ -222,6 +236,44 @@ class UserService {
         if (!updatedUser) throw new AppError(400, `Unable to update cart for user with id ${id}`);
 
         return cart; // I don't know why updatedUser.user is still not updated but GET returns the new cart
+    }
+
+    private async createCartItem(
+        dish: Dish, 
+        quantity: number,
+        targetCurrency?: CurrencyEnum
+    ): Promise<UpdatedCartItem> {
+        let unitPrice: number;
+        const dishCurrency = dish.currency as CurrencyEnum;
+
+        if (targetCurrency) {
+            unitPrice = await currency.exchangeCurrency(
+                dish.unitPrice,
+                dishCurrency,
+                targetCurrency
+            );
+        } else {
+            unitPrice = dish.unitPrice
+        }
+
+        const {coverIdx, gallery} = dish.images;
+        const {breakpoints, paths} = gallery[coverIdx];
+
+        return {
+            dish: dish.id,
+            dishName: dish.name,
+            category: dish.category,
+            cuisine: dish.cuisine,
+            type: dish.type,
+            unitPrice,
+            quantity,
+            stock: dish.stock,
+            currency: targetCurrency ? targetCurrency : dishCurrency,
+            image: {
+                breakpoints,
+                paths
+            }
+        };
     }
 }
 

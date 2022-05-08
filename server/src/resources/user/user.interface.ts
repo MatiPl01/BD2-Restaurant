@@ -1,11 +1,29 @@
 import {Document, Schema} from 'mongoose';
+import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
 
 
-export type UserCart = {
-    dish: Schema.Types.ObjectId,
-    quantity: number
-}[]
+export interface CartItem {
+    dish: Schema.Types.ObjectId;
+    quantity: number;
+    stock?: number
+}
+
+export interface UpdatedCartItem {
+    dish: Schema.Types.ObjectId;
+    dishName: string;
+    category: string;
+    cuisine: string;
+    type: string;
+    unitPrice: number;
+    quantity: number;
+    currency: CurrencyEnum;
+    stock: number;
+    image: {
+        breakpoints: number[],
+        paths: string[]
+    };
+}
 
 export default interface User extends Document {
     firstName: string;
@@ -26,7 +44,7 @@ export default interface User extends Document {
     }[];
     roles: RoleEnum;
     orders: Schema.Types.ObjectId[];
-    cart: UserCart;
+    cart: CartItem[];
     defaultCurrency: string;
     active: boolean;
     banned: boolean;

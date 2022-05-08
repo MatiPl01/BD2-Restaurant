@@ -3,6 +3,7 @@ import selectFieldsMiddleware from '@/middleware/requests/select-fields.middlewa
 import validationMiddleware from '@/middleware/validation.middleware';
 import filteringMiddleware from '@/middleware/requests/filtering.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';
+import CurrencyEnum from '@/utils/enums/currency.enum';
 import authenticate from '@/middleware/auth/authentication.middleware';
 import UserService from '@/resources/user/user.service';
 import restrictTo from '@/middleware/auth/authorization.middleware';
@@ -272,7 +273,11 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const cart = await this.userService.getUserCart(req.user);
+        const {currency} = req.query;
+        const cart = await this.userService.getUserCart(
+            req.user, 
+            currency as CurrencyEnum
+        );
         
         await response.json(res, 200, cart);
     })

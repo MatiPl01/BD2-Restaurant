@@ -1,3 +1,4 @@
+@use 'sass:math';
 @use '../utils/sizes' as s;
 @use '../utils/colors' as c;
 @use '../utils/constants' as n;
@@ -558,7 +559,7 @@
 
     &__links .nav-bar__item {
       $duration: 1s;
-      $half-duration: $duration / 2;
+      $half-duration: math.div($duration, 2);
 
       &::after {
         animation: mobile-nav-item-line-hide .3s both;
