@@ -66,7 +66,7 @@ class DishService {
         updatedProps: { [key: string]: number }
     ): Promise<Dish> {
         const dish = await this.dish.findById(id);
-        // The line below forces dish model to run 'save' middleware
+        // The line below forces dishes model to run 'save' middleware
         if (dish) {
             if (updatedProps.currency || updatedProps.unitPrice !== undefined) {
                 await dish.update({$set: updatedProps}, {new: true});

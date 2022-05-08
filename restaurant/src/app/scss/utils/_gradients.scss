@@ -1,12 +1,53 @@
-$black: #000;
-$white: #fff;
+@use 'colors' as c;
 
-$gray-light-1: #fafafa;
-$gray-light-2: #dfdfdf;
-$gray-light-3: #ccc;
-$gray-light-4: #a3a3a3;
+// CSS gradients
+$primary: linear-gradient(
+    65deg,
+    c.$primary,
+    c.$secondary)
+mix(c.$primary, c.$secondary);
 
-$gray-dark-1: #111;
-$gray-dark-2: #333;
-$gray-dark-3: #575757;
-$gray-dark-4: #767676;
+$red: linear-gradient(
+    65deg,
+    c.$red,
+    c.$red-light)
+mix(c.$red, c.$red-light);
+
+$blue: linear-gradient(
+    65deg,
+    c.$blue,
+    c.$blue-light)
+mix(c.$blue, c.$blue-light);
+
+$green: linear-gradient(
+    65deg,
+    c.$green,
+    c.$green-light)
+mix(c.$green, c.$green-light);
+
+$orange: linear-gradient(
+    65deg,
+    c.$orange,
+    c.$orange-light)
+mix(c.$orange, c.$orange-light);
+
+$gray: linear-gradient(
+    65deg,
+    c.$gray-dark-3,
+    c.$gray-light-4)
+mix(c.$gray-dark-3, c.$gray-light-4);
+
+// HTML gradients (for SVG icons)
+.gradient {
+  height: 0;
+  width: 0;
+  position: absolute;
+  visibility: hidden;
+
+  &--1 {
+    .stop-color {
+      &--1 { stop-color: c.$primary };
+      &--2 { stop-color: c.$secondary};
+    }
+  }
+}

@@ -1,17 +1,39 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { FormsModule } from "@angular/forms";
+
+import { AppRoutingModule } from "../../app-routing.module";
+
+import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { NotFoundComponent } from './views/not-found/not-found.component';
 
 
 @NgModule({
-  declarations: [
-  
-    NavBarComponent,
-       FooterComponent
-  ],
   imports: [
-    CommonModule
+    // Built-in modules
+    CommonModule,
+    FormsModule,
+
+    // Out modules
+    AppRoutingModule
+  ],
+
+  declarations: [
+    // Components
+    NavbarComponent,
+    FooterComponent,
+    NotFoundComponent
+  ],
+
+  exports: [
+    // Our modules
+    AppRoutingModule,
+
+    // Components
+    NavbarComponent,
+    FooterComponent,
+    NotFoundComponent
   ]
 })
 export class CoreModule {}

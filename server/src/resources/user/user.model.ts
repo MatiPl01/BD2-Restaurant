@@ -170,11 +170,11 @@ const userSchema = new Schema(
 
                 quantity: {
                     type: Number,
-                    required: [true, 'Please provide ordered dish quantity'],
-                    min: [1, 'Ordered dish quantity must be positive'],
+                    required: [true, 'Please provide ordered dishes quantity'],
+                    min: [1, 'Ordered dishes quantity must be positive'],
                     validate: {
                         validator: Number.isInteger,
-                        message: 'Ordered dish quantity must be an integer'
+                        message: 'Ordered dishes quantity must be an integer'
                     }
                 }
             }

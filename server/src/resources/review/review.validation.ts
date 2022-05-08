@@ -3,7 +3,7 @@ import Joi from "@/utils/validation/mongoose.validation";
 
 const reviewBodyValidators = {
     dish: Joi.string().required().messages({
-        'any.required': 'Please provide dish id'
+        'any.required': 'Please provide dishes id'
     }),
 
     order: Joi.ObjectId().required().messages({

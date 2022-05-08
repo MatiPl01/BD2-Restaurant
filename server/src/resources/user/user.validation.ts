@@ -121,9 +121,9 @@ const userValidators = {
         dish: Joi.object().required(),
 
         quantity: Joi.number().integer().min(1).required().messages({
-            'any.required': 'Please provide ordered dish quantity',
-            'number.min': 'Ordered dish quantity must be positive',
-            'number.integer': 'Ordered dish quantity must be an integer'
+            'any.required': 'Please provide ordered dishes quantity',
+            'number.min': 'Ordered dishes quantity must be positive',
+            'number.integer': 'Ordered dishes quantity must be an integer'
         })
     })),
 

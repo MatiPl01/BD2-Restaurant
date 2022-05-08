@@ -24,17 +24,17 @@ const orderItem = new Schema(
         quantity: {
             type: Number,
             required: [true, 'Dish quantity is required'],
-            min: [1, 'Ordered dish quantity must be positive'],
+            min: [1, 'Ordered dishes quantity must be positive'],
             validate: {
                 validator: Number.isInteger,
-                message: 'Ordered dish quantity must be an integer'
+                message: 'Ordered dishes quantity must be an integer'
             }
         },
 
         unitPrice: {
             type: Number,
             required: [true, 'Dish Unit Price is required'],
-            min: [0, 'Ordered dish Unit Price must be positive']
+            min: [0, 'Ordered dishes Unit Price must be positive']
         },
     },
     {
