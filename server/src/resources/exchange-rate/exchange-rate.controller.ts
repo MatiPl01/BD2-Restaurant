@@ -37,7 +37,7 @@ class ExchangeRateController implements Controller {
             .patch(
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(undefined, validate.paramsUpdateExchangeRate, validate.queryExchangeRate),
+                validationMiddleware(validate.bodyUpdateExchangeRate,undefined, validate.queryExchangeRate),
                 updateMiddleware,
                 this.updateExchangeRate
             );
@@ -73,7 +73,7 @@ class ExchangeRateController implements Controller {
     ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
-        const rate = parseFloat(req.params.rate);
+        const rate = parseFloat(req.body.rate);
         const updatedExchangeRate = await this.exchangeRateService.updateExchangeRate(from, to, rate);
 
         await response.json(res, 200, updatedExchangeRate);

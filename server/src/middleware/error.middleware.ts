@@ -20,7 +20,7 @@ const sendErrorProd = (error: IError, res: Response) => {
             status: error.statusMessage,
             message: error.message
         });
-        // Otherwise, if an error is unexpected, send the generic message to the user    
+        // Otherwise, if an error is unexpected, send the generic message to the user
     } else {
         console.error('Error 💥', error);
 
