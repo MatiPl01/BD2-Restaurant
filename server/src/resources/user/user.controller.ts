@@ -13,6 +13,7 @@ import RoleEnum from '@/utils/enums/role.enum';
 import validate from '@/resources/user/user.validation';
 import response from '@/utils/response';
 import {Schema} from 'mongoose';
+import AppError from '@/utils/errors/app.error';
 
 
 class UserController implements Controller {
@@ -143,7 +144,7 @@ class UserController implements Controller {
             defaultCurrency
         } = req.body;
 
-        const token = await this.userService.register(
+        const {token, user} = await this.userService.register(
             firstName,
             lastName,
             nickName,
@@ -154,7 +155,7 @@ class UserController implements Controller {
             defaultCurrency || process.env.DEFAULT_CURRENCY
         );
 
-        await this.sendToken(res, token);
+        await this.sendToken(res, token, {user});
     })
 
     private login = catchAsync(async (
@@ -162,16 +163,16 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const {email, password} = req.body;
-        const token = await this.userService.login(email, password);
+        const {token, user} = await this.userService.login(email, password);
 
-        await this.sendToken(res, {token});
+        await this.sendToken(res, token, {user});
     })
 
     private getCurrentUser = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        await response.json(res, 200, {user: req.user});
+        await response.json(res, 200, req.user);
     })
 
     private deactivateCurrentUser = catchAsync(async (
@@ -192,7 +193,7 @@ class UserController implements Controller {
         const fields = req.fields;
         const user = await this.userService.getUser(id, fields);
 
-        await response.json(res, 200, {user});
+        await response.json(res, 200, user);
     })
 
     private deleteUser = catchAsync(async (
@@ -225,7 +226,7 @@ class UserController implements Controller {
 
         const token = await this.userService.resetPassword(resetToken, newPassword);
 
-        await this.sendToken(res, {token});
+        await this.sendToken(res, token);
     })
 
     private updatePassword = catchAsync(async (
@@ -246,7 +247,7 @@ class UserController implements Controller {
         const user = req.user;
         const updatedUser = await this.userService.updateUser(user.id, req.body);
 
-        await response.json(res, 201, {user: updatedUser});
+        await response.json(res, 201, updatedUser);
     })
 
     private getUserReviews = catchAsync(async (
@@ -266,7 +267,7 @@ class UserController implements Controller {
 
         const reviews = await this.userService.getUserReviews(userID, filters, fields, pagination);
 
-        await response.json(res, 200, {reviews});
+        await response.json(res, 200, reviews);
     })
 
     private getUserCart = catchAsync(async (
@@ -279,7 +280,7 @@ class UserController implements Controller {
             currency as CurrencyEnum
         );
         
-        await response.json(res, 200, {cart});
+        await response.json(res, 200, cart);
     })
 
     private setUserCart = catchAsync(async (
@@ -287,7 +288,7 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const newCart = await this.userService.setUserCart(req.user.id, req.body);
-        await response.json(res, 201, {cart: newCart});
+        await response.json(res, 201, newCart);
     })
 
     private clearUserCart = catchAsync(async (
@@ -310,20 +311,30 @@ class UserController implements Controller {
 
     private sendToken = async (
         res: Response,
-        token: string
+        token: string,
+        body?: {[key: string]: {[key: string]: any}}
     ): Promise<void> => {
         const {JWT_COOKIE_EXPIRES_IN, NODE_ENV} = process.env;
+        if (JWT_COOKIE_EXPIRES_IN === undefined) {
+            throw new AppError(500, 'Cannot send token');
+        }
 
-        await response.cookie(res, 'jwt', token, {
+        // TODO - fix cookie not being received by the Angular app 
+        // (probably another domain is the culprit)
+        const cookieOptions: { [key: string]: any } = {
             expires: new Date(
-                Date.now() + Number(JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000
+                Date.now() + +JWT_COOKIE_EXPIRES_IN * 1000
             ),
-            // Make cookie secure only in production
-            secure: NODE_ENV === 'production',
             httpOnly: true
-        });
+        }
 
-        await response.json(res, 200, {token});
+        if (NODE_ENV === 'production') cookieOptions.secure = true;
+
+        await response.cookie(res, 'jwt', token, cookieOptions);
+        await response.json(res, 200, {
+            ...(body || {}),
+            token
+        });
     }
 }
 

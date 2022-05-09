@@ -6,6 +6,86 @@ import crypto from 'crypto';
 import User from '@/resources/user/user.interface';
 
 
+const userAddressSchema = new Schema(
+    {
+        firstName: {
+            type: String,
+            required: [true, 'Please provide first name'],
+            trim: [true, 'First name cannot start with and end with spaces'],
+            minlength: [1, 'First name should have at least 1 letter'],
+            maxlength: [30, 'First name shouldn\'t be longer than 30 characters']
+        },
+
+        lastName: {
+            type: String,
+            required: [true, 'Please provide last name'],
+            trim: [true, 'Last name cannot start with and end with spaces'],
+            minlength: [1, 'Last name should have at least 1 letter'],
+            maxlength: [30, 'Last name shouldn\'t be longer than 30 characters']
+        },
+
+        phone: {
+            type: String,
+            required: [true, 'Please provide phone number'],
+            trim: [true, 'Phone number cannot start with and end with spaces'],
+            validate: {
+                validator: (phone: string) => /^(\+|00)[1-9][0-9 \-().]{7,32}$/.test(phone),
+                message: 'Wrong phone number format'
+            }
+        },
+
+        country: {
+            type: String,
+            required: [true, 'Please provide county name'],
+            trim: [true, 'Country name cannot start with and end with spaces'],
+            minlength: [4, 'Country name should have at least 4 letters'],
+            maxlength: [60, 'Country name must have at most 60 letters']
+        },
+
+        postalCode: {
+            type: String,
+            required: [true, 'Please provide a postal (zip) code'],
+            trim: [true, 'Postal code cannot start with and end with spaces'],
+            minlength: [5, 'Postal code should have at least 5 characters'],
+            maxlength: [10, 'Postal code should have at most 10 characters']
+        },
+
+        city: {
+            type: String,
+            required: [true, 'Please provide a city name'],
+            trim: [true, 'City cannot start with and end with spaces'],
+            minlength: [1, 'City name should be not empty string'],
+            maxlength: [100, 'City name should be not longer than 100 letters'],
+        },
+
+        street: {
+            type: String,
+            required: [true, 'Please provide a street name'],
+            trim: [true, 'Street cannot start with and end with spaces'],
+            minlength: [1, 'Street name should be not empty string'],
+            maxlength: [100, 'Street name should be not longer than 100 letters'],
+        },
+
+        streetNumber: {
+            type: String,
+            required: [true, 'Street number is required'],
+            trim: [true, 'Street number cannot start with and end with spaces'],
+            minlength: [1, 'Street number should be not empty string'],
+            maxlength: [10, 'Street number should be not longer than 10 characters'],
+        },
+
+        flatNumber: {
+            type: String,
+            trim: [true, 'Flat number cannot start with and end with spaces'],
+            minlength: [1, 'Flat number should be not empty string'],
+            maxlength: [10, 'Flat number should be not longer than 10 characters'],
+        },
+    },
+    {
+        _id: false
+    }
+)
+
 const userSchema = new Schema(
     {
         firstName: {
@@ -64,82 +144,7 @@ const userSchema = new Schema(
                 }
             },
 
-            list: [
-                {
-                    firstName: {
-                        type: String,
-                        required: [true, 'Please provide first name'],
-                        trim: [true, 'First name cannot start with and end with spaces'],
-                        minlength: [1, 'First name should have at least 1 letter'],
-                        maxlength: [30, 'First name shouldn\'t be longer than 30 characters']
-                    },
-
-                    lastName: {
-                        type: String,
-                        required: [true, 'Please provide last name'],
-                        trim: [true, 'Last name cannot start with and end with spaces'],
-                        minlength: [1, 'Last name should have at least 1 letter'],
-                        maxlength: [30, 'Last name shouldn\'t be longer than 30 characters']
-                    },
-
-                    phone: {
-                        type: String,
-                        required: [true, 'Please provide phone number'],
-                        trim: [true, 'Phone number cannot start with and end with spaces'],
-                        validate: {
-                            validator: (phone: string) => /^(\+|00)[1-9][0-9 \-().]{7,32}$/.test(phone),
-                            message: 'Wrong phone number format'
-                        }
-                    },
-
-                    country: {
-                        type: String,
-                        required: [true, 'Please provide county name'],
-                        trim: [true, 'Country name cannot start with and end with spaces'],
-                        minlength: [4, 'Country name should have at least 4 letters'],
-                        maxlength: [60, 'Country name must have at most 60 letters']
-                    },
-
-                    postalCode: {
-                        type: String,
-                        required: [true, 'Please provide a postal (zip) code'],
-                        trim: [true, 'Postal code cannot start with and end with spaces'],
-                        minlength: [5, 'Postal code should have at least 5 characters'],
-                        maxlength: [10, 'Postal code should have at most 10 characters']
-                    },
-
-                    city: {
-                        type: String,
-                        required: [true, 'Please provide a city name'],
-                        trim: [true, 'City cannot start with and end with spaces'],
-                        minlength: [1, 'City name should be not empty string'],
-                        maxlength: [100, 'City name should be not longer than 100 letters'],
-                    },
-
-                    street: {
-                        type: String,
-                        required: [true, 'Please provide a street name'],
-                        trim: [true, 'Street cannot start with and end with spaces'],
-                        minlength: [1, 'Street name should be not empty string'],
-                        maxlength: [100, 'Street name should be not longer than 100 letters'],
-                    },
-
-                    streetNumber: {
-                        type: String,
-                        required: [true, 'Street number is required'],
-                        trim: [true, 'Street number cannot start with and end with spaces'],
-                        minlength: [1, 'Street number should be not empty string'],
-                        maxlength: [10, 'Street number should be not longer than 10 characters'],
-                    },
-
-                    flatNumber: {
-                        type: String,
-                        trim: [true, 'Flat number cannot start with and end with spaces'],
-                        minlength: [1, 'Flat number should be not empty string'],
-                        maxlength: [10, 'Flat number should be not longer than 10 characters'],
-                    }
-                }
-            ]
+            list: [userAddressSchema]
         },
 
         roles: {

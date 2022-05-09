@@ -44,10 +44,10 @@ export default interface User extends Document {
     email: string;
     password: string;
     addresses: Address[];
-    roles: RoleEnum;
+    roles: RoleEnum[];
     orders: Schema.Types.ObjectId[];
     cart: CartItem[];
-    defaultCurrency: string;
+    defaultCurrency: CurrencyEnum;
     active: boolean;
     banned: boolean;
 

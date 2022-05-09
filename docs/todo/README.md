@@ -2,7 +2,8 @@
 
 ## Backend
 ### TODO
-- Replace duplicated code with handler factory functions
+- [ ] Replace duplicated code with handler factory functions,
+- [ ] Add language specific error messages (especially there in responses from the server),
  
 ### **User**
 

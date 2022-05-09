@@ -9,5 +9,5 @@ export enum ApiPathEnum {
   USER_CART = 'users/cart',
   USER_REVIEWS = 'users/reviews',
   LOGIN = 'users/login',
-  REGISTER = 'dishes/register'
+  REGISTER = 'users/register'
 }

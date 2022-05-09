@@ -11,8 +11,8 @@
         </div>
         <div class="form__column form__column--right">
           <input class="form__input" type="email" name="email" id="email"
-                 placeholder="Wprowadź adres email" required ngModel #email="ngModel">
-          <p class="form__help" *ngIf="!email.valid && email.touched">
+                 placeholder="Wprowadź adres email" required ngModel #email="ngModel" (input)="onEmailInput()">
+          <p class="form__help" *ngIf="(!email.valid || !isEmailValid) && email.touched">
             Podaj prawidłowy adres e-mail
           </p>
         </div>
@@ -23,17 +23,16 @@
         </div>
         <div class="form__column form__column--right">
           <input class="form__input" type="password" name="password" id="password" placeholder="Wprowadź hasło" required
-                 ngModel #password="ngModel">
+                 ngModel minlength="8" maxlength="40" #password="ngModel">
+          <p class="form__help" *ngIf="!password.valid && password.touched">
+            Podaj hasło (od 8 do 40 znaków)
+          </p>
         </div>
       </li>
     </ul>
 
-    <p class="form__error">
-      <span class="form__error-message" *ngIf="errorMsg">Nieprawidłowy email lub hasło</span>&nbsp;
-    </p>
-
     <div class="form__buttons">
-      <input type="submit" class="form__button form__button--save" value="Zaloguj" [disabled]="!f.valid">
+      <input type="submit" class="form__button form__button--save" value="Zaloguj" [disabled]="!f.valid || !isEmailValid">
       <input type="reset" class="form__button form__button--reset" value="Wyczyść">
     </div>
   </form>

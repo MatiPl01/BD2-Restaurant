@@ -90,7 +90,7 @@ class DishController implements Controller {
             currency as CurrencyEnum
         );
 
-        await response.json(res, 200, {dishes});
+        await response.json(res, 200, dishes);
     })
 
     private createDish = catchAsync(async (
@@ -100,7 +100,7 @@ class DishController implements Controller {
         const dishData: Dish = req.body;
         const dish = await this.dishService.createDish(dishData);
 
-        await response.json(res, 201, {dish});
+        await response.json(res, 201, dish);
     })
 
     private getDish = catchAsync(async (
@@ -116,7 +116,7 @@ class DishController implements Controller {
             currency as CurrencyEnum
         );
 
-        await response.json(res, 200, {dish});
+        await response.json(res, 200, dish);
     })
 
     private updateDish = catchAsync(async (
@@ -126,7 +126,7 @@ class DishController implements Controller {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const updatedDish = await this.dishService.updateDish(id, req.body);
 
-        await response.json(res, 201, {data: updatedDish});
+        await response.json(res, 201, updatedDish);
     })
 
     private deleteDish = catchAsync(async (
@@ -156,7 +156,7 @@ class DishController implements Controller {
 
         const reviews = await this.dishService.getDishReviews(id, filters, fields, pagination);
 
-        await response.json(res, 200, {reviews});
+        await response.json(res, 200, reviews);
     })
 }
 

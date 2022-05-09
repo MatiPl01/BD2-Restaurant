@@ -44,7 +44,7 @@ class OrderController implements Controller {
         const user = req.user;
         const orderData: Order = req.body
         const order = await this.orderService.createOrder(user.id, orderData);
-        await response.json(res, 200, {order});
+        await response.json(res, 200, order);
     })
 
     private getUserOrders = catchAsync(async (
@@ -69,7 +69,7 @@ class OrderController implements Controller {
             pagination,
             currency as CurrencyEnum | undefined
         );
-        await response.json(res, 200, {orders});
+        await response.json(res, 200, orders);
     })
 }
 

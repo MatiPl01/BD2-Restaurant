@@ -1,21 +1,22 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RegisterCredentials } from "@auth/interfaces/register-credentials.interface";
 import { NgForm } from "@angular/forms";
+import { AuthHelperService } from "@auth/services/auth-helper.service";
 
 @Component({
   selector: 'app-register-form',
   templateUrl: './register-form.component.html'
 })
 export class RegisterFormComponent {
-  @Input() errorMsg!: string
-  @Output() registerEvent = new EventEmitter<RegisterCredentials>()
-  @ViewChild('f') form!: NgForm
+  @ViewChild('f') form!: NgForm;
 
-  isEmailValid: boolean = false;
+  public isEmailValid: boolean = false;
+
+  constructor(private authHelperService: AuthHelperService) {}
 
   onSubmit(form: NgForm): void {
     if (form.valid && this.isEmailValid && form.value.password === form.value.repeatedPassword) {
-      const userData: RegisterCredentials = {
+      const credentials: RegisterCredentials = {
         firstName: form.value.firstName,
         lastName: form.value.lastName,
         nickName: form.value.nickName,
@@ -23,7 +24,7 @@ export class RegisterFormComponent {
         password: form.value.password
       }
 
-      this.registerEvent.emit(userData);
+      this.authHelperService.register(credentials);
     }
   }
 

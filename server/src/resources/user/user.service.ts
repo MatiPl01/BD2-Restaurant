@@ -30,7 +30,7 @@ class UserService {
         defaultCurrency: string,
         active: boolean = true,
         banned: boolean = false
-    ): Promise<string> {
+    ): Promise<{token: string, user: User}> {
         const user = await this.user.create({
             firstName,
             lastName,
@@ -44,17 +44,23 @@ class UserService {
             banned
         });
 
-        return token.create(user);
+        return {
+            token: token.create(user),
+            user
+        };
     }
 
     public async login(
         email: string,
         password: string
-    ): Promise<string> {
+    ): Promise<{token: string, user: User}> {
         const user = await this.user.findOne({email}).select('+password');
 
         if (user && await user.isValidPassword(password, user.password)) {
-            return token.create(user);
+            return {
+                token: token.create(user),
+                user
+            };
         }
 
         throw new AppError(401, 'Wrong credentials given');

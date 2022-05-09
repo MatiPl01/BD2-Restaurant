@@ -30,7 +30,13 @@
       </li>
     </menu>
 
-    <section class="auth-view__form">
+    <section class="auth-view__error-section">
+      <p class="auth-view__error">
+        <span class="auth-view__error-message" *ngIf="errorMsg" [innerHTML]="errorMsg"></span>
+      </p>
+    </section>
+
+    <section class="auth-view__form" *ngIf="!isLoading">
       <router-outlet></router-outlet>
     </section>
   </section>

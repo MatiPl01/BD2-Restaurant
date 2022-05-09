@@ -1,13 +1,16 @@
 // Built-in modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 // Our modules
 import { CoreModule } from './modules/core/core.module';
 
 // Components
 import { AppComponent } from './app.component';
+
+// Services
+import { AuthInterceptorService } from '@auth/interceptors/auth.interceptor.service';
 
 
 @NgModule({
@@ -25,6 +28,7 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
 
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
