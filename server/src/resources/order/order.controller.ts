@@ -43,8 +43,8 @@ class OrderController implements Controller {
     ): Promise<void> => {
         const user = req.user;
         const orderData: Order = req.body
-        const result = await this.orderService.createOrder(user.id, orderData);
-        await response.json(res, 200, result);
+        const order = await this.orderService.createOrder(user.id, orderData);
+        await response.json(res, 200, {order});
     })
 
     private getUserOrders = catchAsync(async (
@@ -62,14 +62,14 @@ class OrderController implements Controller {
             limit: limitNum
         }
 
-        const result = await this.orderService.getUserOrders(
+        const orders = await this.orderService.getUserOrders(
             user.id, 
             filters, 
             fields,
             pagination,
             currency as CurrencyEnum | undefined
         );
-        await response.json(res, 200, result);
+        await response.json(res, 200, {orders});
     })
 }
 

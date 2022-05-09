@@ -1,0 +1,42 @@
+@use '../utils/sizes' as sz;
+@use "../utils/colors" as c;
+@use "../utils/gradients" as g;
+
+// Window scrollbar
+::-webkit-scrollbar {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  &-thumb {
+    background: g.$primary;
+  }
+
+  &-track {
+    background-color: c.$gray-dark-1;
+
+    &:hover {
+      background-color: c.$gray-dark-2;
+    }
+  }
+}
+
+// Content scrollbar
+body {
+  ::-webkit-scrollbar {
+    width: sz.$content-scrollbar-size;
+    height: sz.$content-scrollbar-size;
+
+    &-thumb {
+      background: c.$gray-dark-3;
+      border-radius: sz.$content-scrollbar-size;
+    }
+
+    &-track {
+      background-color: rgba(c.$gray-dark-4, .25);
+
+      &:hover {
+        background-color: rgba(c.$gray-dark-4, .65);
+      }
+    }
+  }
+}

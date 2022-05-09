@@ -36,7 +36,7 @@ class CurrencyController implements Controller {
         const code = req.params.code as string;
         const currency = await this.currencyService.getCurrency(code);
 
-        await response.json(res, 200, currency);
+        await response.json(res, 200, {currency});
     })
 
     private getAllCurrencies = catchAsync(async (
@@ -45,7 +45,7 @@ class CurrencyController implements Controller {
     ): Promise<void> => {
         const currencies = await this.currencyService.getAllCurrencies();
 
-        await response.json(res, 200, currencies);
+        await response.json(res, 200, {currencies});
     })
 }
 

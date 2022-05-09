@@ -74,7 +74,7 @@ class ReviewController implements Controller {
 
         const dishes = await this.reviewService.getReviews(filters, fields, pagination);
 
-        await response.json(res, 200, dishes);
+        await response.json(res, 200, {dishes});
     })
 
     private createReview = catchAsync(async (
@@ -84,7 +84,7 @@ class ReviewController implements Controller {
         const user = req.user;
         const {dish: dishID, order: OrderID, rating, body} = req.body;
         const review = await this.reviewService.createReview(user.id, dishID, OrderID, rating, body);
-        await response.json(res, 200, review);
+        await response.json(res, 200, {review});
     })
 
     private deleteReview = catchAsync(async (
@@ -94,7 +94,7 @@ class ReviewController implements Controller {
         const user = req.user;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.deleteReview(id, user.id);
-        await response.json(res, 200, review);
+        await response.json(res, 200, {review});
     })
 
     private editReview = catchAsync(async (
@@ -104,7 +104,7 @@ class ReviewController implements Controller {
         const user = req.user;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.editReview(id, user.id, req.body);
-        await response.json(res, 200, review);
+        await response.json(res, 200, {review});
     })
 
     private getReview = catchAsync(async (
@@ -114,7 +114,7 @@ class ReviewController implements Controller {
         const {fields} = req;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.getReview(id, fields);
-        await response.json(res, 200, review);
+        await response.json(res, 200, {review});
     })
 }
 

@@ -1,7 +1,7 @@
-<main class="login-page">
-  <section class="login-page__photo">
+<main class="auth-view">
+  <section class="auth-view__photo">
     <app-responsive-image
-      class="login-page__image"
+      class="auth-view__image"
       [breakpoints]="[400, 600, 1000, 1400, 1920]"
       [paths]="[
           'https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/pexels-julie-aagaard-2097090.jpg',
@@ -15,28 +15,23 @@
     ></app-responsive-image>
   </section>
 
-  <section class="login-page__content">
-    <app-loading-spinner [visible]="isLoading"></app-loading-spinner>
+  <section class="auth-view__content">
+    <app-loading-spinner
+      class="auth-view__loader"
+      [visible]="isLoading"
+    ></app-loading-spinner>
 
-    <menu class="login-page__menu">
-      <li class="login-page__menu-tab" (click)="setOpenTab('login')" [ngClass]="{active: openTab === 'login'}">
-        <h4 class="login-page__menu-text">Logowanie</h4>
+    <menu class="auth-view__menu">
+      <li class="auth-view__menu-item" routerLinkActive="active">
+        <a class="auth-view__menu-link" routerLink="login">Logowanie</a>
       </li>
-      <li class="login-page__menu-tab" (click)="setOpenTab('register')" [ngClass]="{active: openTab === 'register'}">
-        <h4 class="login-page__menu-text">Rejestracja</h4>
+      <li class="auth-view__menu-item" routerLinkActive="active">
+        <a class="auth-view__menu-link" routerLink="register">Rejestracja</a>
       </li>
     </menu>
 
-    <header class="login-page__header">
-      <h3 class="login-page__heading heading-primary" *ngIf="openTab === 'login'">Zaloguj się</h3>
-      <h3 class="login-page__heading heading-primary" *ngIf="openTab === 'register'">Zarejestruj się</h3>
-    </header>
-
-    <section class="login-page__form">
-      <app-login-form *ngIf="openTab === 'login'" (loginEvent)="onLogin($event)" [errorMsg]="loginErrorMsg"></app-login-form>
-      <app-registration-form *ngIf="openTab === 'register'" (registrationEvent)="onRegistration($event)" [errorMsg]="registrationErrorMsg"></app-registration-form>
+    <section class="auth-view__form">
+      <router-outlet></router-outlet>
     </section>
   </section>
 </main>
-
-<!--<router-outlet></router-outlet>-->

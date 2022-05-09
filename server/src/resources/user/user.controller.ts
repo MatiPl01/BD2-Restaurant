@@ -164,14 +164,14 @@ class UserController implements Controller {
         const {email, password} = req.body;
         const token = await this.userService.login(email, password);
 
-        await this.sendToken(res, token);
+        await this.sendToken(res, {token});
     })
 
     private getCurrentUser = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        await response.json(res, 200, req.user);
+        await response.json(res, 200, {user: req.user});
     })
 
     private deactivateCurrentUser = catchAsync(async (
@@ -192,7 +192,7 @@ class UserController implements Controller {
         const fields = req.fields;
         const user = await this.userService.getUser(id, fields);
 
-        await response.json(res, 200, user);
+        await response.json(res, 200, {user});
     })
 
     private deleteUser = catchAsync(async (
@@ -225,7 +225,7 @@ class UserController implements Controller {
 
         const token = await this.userService.resetPassword(resetToken, newPassword);
 
-        await this.sendToken(res, token);
+        await this.sendToken(res, {token});
     })
 
     private updatePassword = catchAsync(async (
@@ -246,7 +246,7 @@ class UserController implements Controller {
         const user = req.user;
         const updatedUser = await this.userService.updateUser(user.id, req.body);
 
-        await response.json(res, 201, updatedUser);
+        await response.json(res, 201, {user: updatedUser});
     })
 
     private getUserReviews = catchAsync(async (
@@ -266,7 +266,7 @@ class UserController implements Controller {
 
         const reviews = await this.userService.getUserReviews(userID, filters, fields, pagination);
 
-        await response.json(res, 200, reviews);
+        await response.json(res, 200, {reviews});
     })
 
     private getUserCart = catchAsync(async (
@@ -279,7 +279,7 @@ class UserController implements Controller {
             currency as CurrencyEnum
         );
         
-        await response.json(res, 200, cart);
+        await response.json(res, 200, {cart});
     })
 
     private setUserCart = catchAsync(async (
@@ -287,7 +287,7 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const newCart = await this.userService.setUserCart(req.user.id, req.body);
-        await response.json(res, 201, newCart);
+        await response.json(res, 201, {cart: newCart});
     })
 
     private clearUserCart = catchAsync(async (
@@ -305,7 +305,7 @@ class UserController implements Controller {
     ): Promise<void> => {
         const user = req.user;
         req.params.id = user.id;
-        await this.getUserReviews(req, res, next);
+        this.getUserReviews(req, res, next);
     })
 
     private sendToken = async (
@@ -322,8 +322,8 @@ class UserController implements Controller {
             secure: NODE_ENV === 'production',
             httpOnly: true
         });
-        // TODO - this probably should not send token
-        await response.json(res, 200, token);
+
+        await response.json(res, 200, {token});
     }
 }
 

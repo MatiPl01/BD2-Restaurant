@@ -1,0 +1,12 @@
+body {
+  &.no-scroll {
+    overflow-y: hidden !important;
+    height: 100vh !important;
+  }
+}
+
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}

@@ -49,9 +49,9 @@ class ExchangeRateController implements Controller {
     ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
-        const result = await this.exchangeRateService.getExchangeRate(from, to);
+        const exchangeRate = await this.exchangeRateService.getExchangeRate(from, to);
 
-        await response.json(res, 200, result);
+        await response.json(res, 200, {exchangeRate});
     })
 
     private createExchangeRate = catchAsync(async (
@@ -64,7 +64,7 @@ class ExchangeRateController implements Controller {
         }
         const exchangeRate = await this.exchangeRateService.createExchangeRate(data);
 
-        await response.json(res, 201, exchangeRate);
+        await response.json(res, 201, {exchangeRate});
     })
 
     private updateExchangeRate = catchAsync(async (
@@ -76,7 +76,7 @@ class ExchangeRateController implements Controller {
         const {rate} = req.body;
         const updatedExchangeRate = await this.exchangeRateService.updateExchangeRate(from, to, rate);
 
-        await response.json(res, 200, updatedExchangeRate);
+        await response.json(res, 200, {exchangeRate: updatedExchangeRate});
     })
 }
 

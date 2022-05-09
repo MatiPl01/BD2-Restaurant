@@ -1,0 +1,100 @@
+@use '../utils/sizes' as s;
+@use '../utils/colors' as c;
+@use '../utils/mixins' as *;
+
+.auth-view {
+  position: relative;
+  display: flex;
+  height: 100vh;
+  overflow-y: hidden;
+
+  &__photo {
+    height: 100%;
+    position: sticky;
+    flex-basis: 60vw;
+    top: s.$nav-bar-height;
+  }
+
+  &__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  &__loader {
+    position: absolute;
+    pointer-events: none;
+    inset: 0;
+  }
+
+  &__menu {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    padding: 4rem;
+
+    &-link {
+      font-size: 2rem;
+      color: c.$gray-dark-3;
+      text-decoration: none;
+    }
+
+    &-item {
+      cursor: pointer;
+
+      &.active {
+        border-bottom: .3rem solid c.$primary;
+        color: c.$gray-dark-1;
+
+        .login-page__menu-link {
+          color: c.$gray-dark-1;
+        }
+      }
+    }
+  }
+
+  &__form {
+    flex-grow: 1;
+    padding: 4rem 4rem 15rem;
+    min-height: 60rem;
+    @include flex-center;
+  }
+
+  .login-form,
+  .register-form {
+    &__header {
+      margin-bottom: 5rem;
+    }
+  }
+
+  @include respond(tab-land) {
+    &__photo {
+      flex-basis: 50vw;
+    }
+  }
+
+  @include respond(tab-port) {
+    flex-direction: column;
+
+    &__photo {
+      flex-basis: 50vh;
+      top: 0;
+    }
+
+    &__content {
+      padding: 4rem;
+      z-index: 1;
+      margin: 0;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-color: c.$white;
+      }
+    }
+  }
+}

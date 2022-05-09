@@ -1,27 +1,25 @@
 @mixin respond($breakpoint) {
-  @if $breakpoint == phone {
-    // <= 600px
-    @media only screen and (max-width: 37.5em) {
-      @content;
-    }
+  @if $breakpoint == phone {       // <= 600px
+    @media only screen and (max-width: 37.5em) { @content };
   }
-  @if $breakpoint == tab-port {
-    // <= 900px
-    @media only screen and (max-width: 56.25em) {
-      @content;
-    }
+  @if $breakpoint == tab-port {    // <= 900px
+    @media only screen and (max-width: 56.25em) { @content };
   }
-  @if $breakpoint == tab-land {
-    // <= 1200px
-    @media only screen and (max-width: 75em) {
-      @content;
-    }
+  @if $breakpoint == tab-land {    // <= 1200px
+    @media only screen and (max-width: 75em) { @content };
   }
-  @if $breakpoint == big-desktop {
-    // >= 1800px
-    @media only screen and (min-width: 112.5em) {
-      @content;
-    }
+  @if $breakpoint == big-desktop { // >= 1800px
+    @media only screen and (min-width: 112.5em) { @content };
+  }
+
+  @if $breakpoint == not-phone {    // >= 600px
+    @media only screen and (min-width: 37.5em) { @content };
+  }
+  @if $breakpoint == not-tab-port { // >= 900px
+    @media only screen and (min-width: 56.25em) { @content };
+  }
+  @if $breakpoint == not-tab-land { // >= 1200px
+    @media only screen and (min-width: 75em) { @content };
   }
 }
 
@@ -42,4 +40,19 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+
+@mixin emphasize-first-letter($background, $size) {
+  @supports (-webkit-background-clip: text) or (background-clip: text) {
+    &::first-letter {
+      background-size: 125%;
+      font-size: $size;
+      background: $background;
+      padding: 0 1rem;
+      margin: 0 -.75rem;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+  }
 }
