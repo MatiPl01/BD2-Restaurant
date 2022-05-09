@@ -4,13 +4,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 // Our modules
-import { CoreModule } from './modules/core/core.module';
+import { CoreModule } from '@core/core.module';
 
 // Components
 import { AppComponent } from './app.component';
 
 // Services
 import { AuthInterceptorService } from '@auth/interceptors/auth.interceptor.service';
+
+// Directives
+import { AuthorizationDirective } from "@auth/directives/authorization.directive";
 
 
 @NgModule({
@@ -25,6 +28,8 @@ import { AuthInterceptorService } from '@auth/interceptors/auth.interceptor.serv
 
   // Components
   declarations: [
+    AuthorizationDirective,
+
     AppComponent
   ],
 

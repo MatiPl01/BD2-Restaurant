@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { AuthService } from '@auth/services/auth.service'
+import { AuthenticationService } from '@auth/services/authentication.service'
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import { AuthService } from '@auth/services/auth.service'
 export class AppComponent {
   title = 'Restaurant'
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthenticationService) {
     // Try to login again the user
     this.authService.autoLogin();
   }

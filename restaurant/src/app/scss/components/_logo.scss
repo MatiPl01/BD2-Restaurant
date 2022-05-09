@@ -1,0 +1,37 @@
+@use '../utils/sizes' as sz;
+@use '../utils/colors' as c;
+
+.logo {
+  display: flex;
+  gap: 1rem;
+  text-decoration: none;
+
+  &__icon {
+    fill: c.$black;
+    width: .75 * sz.$nav-bar-height;
+    height: .75 * sz.$nav-bar-height;
+  }
+
+  &__headings {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__heading {
+    font-family: Pacifico, Arial, Helvetica, sans-serif;
+
+    &--primary {
+      margin-top: -.05 * sz.$nav-bar-height;
+      font-size: .3 * sz.$nav-bar-height;
+      font-weight: 700;
+      color: c.$black;
+    }
+
+    &--secondary {
+      margin-top: -.75rem;
+      font-size: .175 * sz.$nav-bar-height;
+      color: c.$gray-dark-2;
+    }
+  }
+}

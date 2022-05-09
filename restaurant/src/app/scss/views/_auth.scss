@@ -5,131 +5,50 @@
 @use '../utils/shadows' as sh;
 
 .auth-view {
-  position: relative;
+  min-height: 100vh;
   display: flex;
-  height: 100vh;
-  overflow-y: hidden;
+
+  & > * {
+    flex: 1 1 0;
+  }
 
   &__photo {
-    height: 100%;
-    position: sticky;
-    flex-basis: 60vw;
-    top: s.$nav-bar-height;
+
+    & > * {
+      display: none;
+    }
   }
 
   &__content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    position: relative;
-  }
-
-  &__loader {
-    position: absolute;
-    pointer-events: none;
-    inset: 0;
+    background-color: c.$red;
   }
 
   &__menu {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-    padding: 4rem;
-
-    &-link {
-      font-size: 2rem;
-      color: c.$gray-dark-3;
-      text-decoration: none;
-    }
 
     &-item {
-      cursor: pointer;
 
-      &.active {
-        border-bottom: .3rem solid c.$primary;
-        color: c.$gray-dark-1;
+    }
 
-        .login-page__menu-link {
-          color: c.$gray-dark-1;
-        }
-      }
+    &-link {
+
+    }
+  }
+
+  &__error {
+
+    &-message {
+
     }
   }
 
   &__form {
-    flex-grow: 1;
-    padding: 0 4rem;
-    margin-bottom: 10rem;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    flex-direction: column;
-    position: relative;
+
   }
 
-  &__error-section {
-    position: relative;
-  }
+  .auth-form {
 
-  &__error {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: g.$red;
-    margin: 0 auto;
-    width: 70%;
-    border-radius: .5rem;
-    box-shadow: sh.$black-normal-medium;
-    z-index: 1;
-    
-    &-message {
-      color: c.$white;
-      padding: 2rem 3rem;
-      font-size: 1.8rem;
-      font-weight: bold;
-      display: block;      
-    }
-  }
+    &__heading {
 
-  .login-form,
-  .register-form {
-    max-width: 50rem;
-    margin: 0 auto;
-
-    &__header {
-      margin-bottom: 5rem;
-    }
-  }
-
-  @include respond(tab-land) {
-    &__photo {
-      flex-basis: 50vw;
-    }
-  }
-
-  @include respond(tab-port) {
-    flex-direction: column;
-
-    &__photo {
-      flex-basis: 50vh;
-      top: 0;
-    }
-
-    &__content {
-      padding: 4rem;
-      z-index: 1;
-      margin: 0;
-      position: relative;
-
-      &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        background-color: c.$white;
-      }
     }
   }
 }

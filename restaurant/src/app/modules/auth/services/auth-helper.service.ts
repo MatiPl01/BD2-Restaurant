@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from "@angular/core";
-import { AuthService } from "@auth/services/auth.service";
+import { AuthenticationService } from "@auth/services/authentication.service";
 import { LoginCredentials } from "@auth/interfaces/login-credentials.interface";
 import { HttpResponse } from "@shared/interfaces/http-response.interface";
 import { RegisterCredentials } from "@auth/interfaces/register-credentials.interface";
@@ -9,7 +9,7 @@ import { AuthData } from "@auth/interfaces/auth.interface";
 export class AuthHelperService {
   public authEvent = new EventEmitter<HttpResponse<AuthData> | null>();
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthenticationService) {}
 
   public login(credentials: LoginCredentials): void {
     // Emit null at the beginning of the authentication process

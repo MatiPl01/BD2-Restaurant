@@ -13,9 +13,9 @@ export default class User {
   private lastName: string;
   private nickName: string;
   private orders: string[];
-  private readonly roles: RoleEnum[];
   private readonly updatedAt: Date;
   private readonly createdAt: Date;
+  private readonly _roles: RoleEnum[];
   private readonly _token: string;
 
   constructor(user: UserData, token: string) {
@@ -28,24 +28,31 @@ export default class User {
     this.lastName = user.lastName;
     this.nickName = user.nickName;
     this.orders = user.orders;
-    this.roles = user.roles;
-    this.updatedAt = user.updatedAt;
-    this.createdAt = user.createdAt;
+    this.updatedAt = new Date(user.updatedAt);
+    this.createdAt = new Date(user.createdAt);
+    this._roles = user.roles;
     this._token = token;
   }
 
   get token(): string | null {
-    const expTimestamp = this.getTokenExpirationTime();
-    const currTimestamp = Math.floor((new Date).getTime() / 1000);
-    return currTimestamp > expTimestamp ? this._token : null;
+    return this.tokenExpirationDuration > 0 ? this._token : null;
   }
 
-  public getTokenExpirationTime(): number {
+  get tokenExpirationTimestamp(): number {
     return this.parseToken().exp;
+  }
+
+  get roles(): RoleEnum[] {
+    return [...this._roles];
+  }
+
+  get tokenExpirationDuration(): number {
+    const expTimestamp = this.tokenExpirationTimestamp * 1000;
+    const currTimestamp = Math.floor((new Date).getTime());
+    return expTimestamp - currTimestamp;
   }
 
   private parseToken() {
     return JSON.parse(atob(this._token.split('.')[1]));
   }
 }
-

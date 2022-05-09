@@ -44,41 +44,6 @@
     height: 100%;
   }
 
-  &__logo {
-    display: flex;
-    gap: 1rem;
-    text-decoration: none;
-  }
-
-  &__icon {
-    fill: c.$black;
-    width: .75 * s.$nav-bar-height;
-    height: .75 * s.$nav-bar-height;
-  }
-
-  &__headings {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  &__heading {
-    font-family: Pacifico, Arial, Helvetica, sans-serif;
-
-    &--primary {
-      margin-top: -.05 * s.$nav-bar-height;
-      font-size: .3 * s.$nav-bar-height;
-      font-weight: 700;
-      color: c.$black;
-    }
-
-    &--secondary {
-      margin-top: -.75rem;
-      font-size: .175 * s.$nav-bar-height;
-      color: c.$gray-dark-2;
-    }
-  }
-
   &__controls,
   &__links,
   &__buttons {

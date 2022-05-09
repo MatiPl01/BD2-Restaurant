@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core"
 
 @Component({
-  selector: 'app-loading-spinner',
+  selector: 'shared-loading-spinner',
   template: `
     <div class="loading-spinner" [ngClass]="{visible}">
       <svg class="loading-spinner__svg" viewBox="0 0 32 32">

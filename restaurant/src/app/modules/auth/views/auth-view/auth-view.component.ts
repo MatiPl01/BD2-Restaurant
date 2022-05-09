@@ -1,8 +1,8 @@
 import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnDestroy } from '@angular/core';
+import { AuthHelperService } from "@auth/services/auth-helper.service";
 import { ResponseStatus } from "@shared/enums/response-status.enum";
 import { Subscription } from "rxjs";
-import { AuthHelperService } from "@auth/services/auth-helper.service";
 import { HttpResponse } from "@shared/interfaces/http-response.interface";
 import { AuthData } from "@auth/interfaces/auth.interface";
 
@@ -11,7 +11,6 @@ import { AuthData } from "@auth/interfaces/auth.interface";
   templateUrl: './auth-view.component.html'
 })
 export class AuthViewComponent implements OnDestroy {
-  private static readonly REDIRECT_TO = 'login';
   private readonly subscription: Subscription;
   public errorMsg: string = '';
   public isLoading: boolean = false;
@@ -19,8 +18,6 @@ export class AuthViewComponent implements OnDestroy {
   constructor(private authHelperService: AuthHelperService,
               private route: ActivatedRoute,
               private router: Router) {
-    // Redirect to the login page if no sub-route was specified
-    if (!this.route.children.length) this.redirect(AuthViewComponent.REDIRECT_TO);
     this.subscription = this.authHelperService.authEvent.subscribe(this.handleAuthEvent.bind(this));
   }
 

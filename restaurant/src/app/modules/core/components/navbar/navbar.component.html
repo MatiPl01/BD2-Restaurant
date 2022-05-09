@@ -1,5 +1,4 @@
-<script src="navbar.component.ts"></script><input type="checkbox" class="nav-bar__checkbox" id="nav-toggle"
-                                                  [(ngModel)]="isToggleChecked" (change)="onToggle()">
+<input type="checkbox" class="nav-bar__checkbox" id="nav-toggle" [(ngModel)]="isToggleChecked" (change)="onToggle()">
 
 <nav class="nav-bar"
      [ngClass]="{'nav-bar--header': isHeaderVisible, 'nav-bar--normal': !isHeaderVisible, 'no-anim': !displayAnimation}">
@@ -19,19 +18,7 @@
   <div class="nav-bar__mobile-bg"></div>
 
   <div class="nav-bar__content">
-    <a routerLink="/" class="nav-bar__logo">
-      <svg class="nav-bar__icon">
-        <use href="assets/svg/logo.svg#logo"></use>
-      </svg>
-      <div class="nav-bar__headings">
-        <h2 class="nav-bar__heading nav-bar__heading--primary">
-          YummyFood
-        </h2>
-        <h3 class="nav-bar__heading nav-bar__heading--secondary">
-          Tanio, szybko, smacznie
-        </h3>
-      </div>
-    </a>
+    <shared-logo></shared-logo>
 
     <div class="nav-bar__controls">
       <ul class="nav-bar__links">
@@ -41,12 +28,15 @@
         </li>
 
         <li class="nav-bar__item">
-          <a class="nav-bar__link" routerLink="/dishes" routerLinkActive="active"
-             (click)="onRouteClick()"><span>Dania</span></a>
+          <a class="nav-bar__link" routerLink="/dishes" routerLinkActive="active" (click)="onRouteClick()">
+            <span>Dania</span>
+          </a>
         </li>
 
         <li class="nav-bar__item">
-          <a routerLink="/about" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()"><span>O restauracji</span></a>
+          <a routerLink="/about" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()">
+            <span>O restauracji</span>
+          </a>
         </li>
 
         <li class="nav-bar__item nav-bar__item--cart">
@@ -66,7 +56,9 @@
         </li>
 
         <li class="nav-bar__item nav-bar__item--admin">
-          <a routerLink="/admin-panel" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()"><span>Panel amina</span></a>
+          <a routerLink="/admin-panel" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()">
+            <span>Panel amina</span>
+          </a>
         </li>
 
         <li class="nav-bar__item nav-bar__item--manager">
@@ -93,7 +85,7 @@
         </li>
 
         <li class="nav-bar__item nav-bar__item--login" *ngIf="'TODO !user'" (click)="onRouteClick()">
-          <a routerLink="/login" class="nav-bar__button nav-bar__button--login" title="Zaloguj lub zarejestruj się">
+          <a routerLink="/auth" class="nav-bar__button nav-bar__button--login" title="Zaloguj lub zarejestruj się">
             <svg class="nav-bar__button-icon">
               <use href="assets/svg/icons.svg#lock-open"></use>
             </svg>

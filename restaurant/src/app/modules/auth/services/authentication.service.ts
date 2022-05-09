@@ -5,15 +5,15 @@ import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { BehaviorSubject, catchError, firstValueFrom, Observable, Subject, tap, throwError } from "rxjs";
 import { AuthData } from "@auth/interfaces/auth.interface";
 import { RegisterCredentials } from "@auth/interfaces/register-credentials.interface";
-import User from "@auth/models/user";
 import { PersistenceEnum } from "@shared/enums/persistence.enum";
 import { Config } from "@shared/interfaces/config.interface";
 import { HttpResponse } from "@shared/interfaces/http-response.interface";
+import User from "@auth/models/user";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthenticationService {
   private static readonly SAVE_USER_KEY = 'user';
   private static readonly ERR_MSG = 'Wystąpił niezidentyfikowany problem';
   private logoutTimeout: ReturnType<typeof setTimeout> | null = null;
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   public logout(): void {
-    // this.user.next(null);
+    this.user.next(null);
     this.removeStoredUser();
 
     if (this.logoutTimeout) {
@@ -65,17 +65,16 @@ export class AuthService {
   }
 
   public autoLogin(): void {
-    // Try to load an user from the browser storage
+    // Try to load the user from the browser storage
     const user = this.loadUser();
     // Return if no user was found
     if (!user) return;
     // If a token is valid (hasn't expired), log in an user again
     if (user.token) {
-      const expTime = user.getTokenExpirationTime();
-      const timeout = new Date(expTime).getTimezoneOffset() - new Date().getTime();
-      this.autoLogout(timeout);
+      // Setup the auto logout
+      this.autoLogout(user.tokenExpirationDuration);
       // Save the user
-      // this.user.next(user);
+      this.user.next(user);
     }
   }
 
@@ -86,19 +85,19 @@ export class AuthService {
   }
 
   private handleError(err: { error?: { message: string } }): Observable<never> {
-    let errMsg = AuthService.ERR_MSG;
+    let errMsg = AuthenticationService.ERR_MSG;
     if (err.error) errMsg = err.error.message;
     return throwError(() => errMsg);
   }
 
   private authenticate(res: HttpResponse<AuthData>): void {
-    if (!res.data) throw new Error(AuthService.ERR_MSG);
+    if (!res.data) throw new Error(AuthenticationService.ERR_MSG);
     const { user: userData, token } = res.data;
     console.log(res);
     const user = new User(userData, token);
-    // this._user.next(user);
+    this._user.next(user);
+    this.autoLogout(user.tokenExpirationDuration);
     this.storeUser();
-
   }
 
   private async storeUser(): Promise<void> {
@@ -107,30 +106,30 @@ export class AuthService {
 
     console.log(persistence)
 
-    // this._user.subscribe(user => {
-    //   if (!user) return;
+    this._user.subscribe(user => {
+      if (!user) return;
 
-    //   if (persistence === PersistenceEnum.LOCAL) {
-    //     localStorage.setItem(AuthService.SAVE_USER_KEY, JSON.stringify(user));
-    //   } else if (persistence === PersistenceEnum.SESSION) {
-    //     sessionStorage.setItem(AuthService.SAVE_USER_KEY, JSON.stringify(user));
-    //   }
-    // });
+      if (persistence === PersistenceEnum.LOCAL) {
+        localStorage.setItem(AuthenticationService.SAVE_USER_KEY, JSON.stringify(user));
+      } else if (persistence === PersistenceEnum.SESSION) {
+        sessionStorage.setItem(AuthenticationService.SAVE_USER_KEY, JSON.stringify(user));
+      }
+    });
   }
 
   private removeStoredUser(): void {
-    localStorage.removeItem(AuthService.SAVE_USER_KEY);
-    sessionStorage.removeItem(AuthService.SAVE_USER_KEY);
+    localStorage.removeItem(AuthenticationService.SAVE_USER_KEY);
+    sessionStorage.removeItem(AuthenticationService.SAVE_USER_KEY);
   }
 
   private loadUser(): User | null {
-    const userData = localStorage.getItem(AuthService.SAVE_USER_KEY)
-                  || sessionStorage.getItem(AuthService.SAVE_USER_KEY);
+    const userData = localStorage.getItem(AuthenticationService.SAVE_USER_KEY)
+                  || sessionStorage.getItem(AuthenticationService.SAVE_USER_KEY);
 
     if (!userData) return null;
     const data = JSON.parse(userData);
     const user = new User(data, data._token);
-    // this._user.next(user);
+    this._user.next(user);
     return user;
   }
 }

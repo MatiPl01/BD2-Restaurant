@@ -16,10 +16,12 @@
   </section>
 
   <section class="auth-view__content">
-    <app-loading-spinner
+    <shared-logo></shared-logo>
+
+    <shared-loading-spinner
       class="auth-view__loader"
       [visible]="isLoading"
-    ></app-loading-spinner>
+    ></shared-loading-spinner>
 
     <menu class="auth-view__menu">
       <li class="auth-view__menu-item" routerLinkActive="active">
@@ -30,11 +32,9 @@
       </li>
     </menu>
 
-    <section class="auth-view__error-section">
-      <p class="auth-view__error">
-        <span class="auth-view__error-message" *ngIf="errorMsg" [innerHTML]="errorMsg"></span>
-      </p>
-    </section>
+    <article class="auth-view__error">
+      <span class="auth-view__error-message" *ngIf="errorMsg" [innerHTML]="errorMsg"></span>
+    </article>
 
     <section class="auth-view__form" *ngIf="!isLoading">
       <router-outlet></router-outlet>

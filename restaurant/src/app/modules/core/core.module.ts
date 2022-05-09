@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from "../../app-routing.module";
+import { SharedModule } from "@shared/shared.module";
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { NotFoundComponent } from './views/not-found/not-found.component';
 
+import { NotFoundComponent } from './views/not-found/not-found.component';
 import { VisualizationService } from "./services/visualization.service";
 
 
@@ -18,7 +19,8 @@ import { VisualizationService } from "./services/visualization.service";
     FormsModule,
 
     // Out modules
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
 
   declarations: [

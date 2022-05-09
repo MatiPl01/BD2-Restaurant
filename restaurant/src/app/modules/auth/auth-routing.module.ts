@@ -8,13 +8,25 @@ const routes: Routes = [
   {
     path: '',
     component: AuthViewComponent,
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    component: AuthViewComponent,
     children: [
       {
-        path: 'login',
+        path: '',
         component: LoginFormComponent
-      },
+      }
+    ]
+  },
+  {
+    path: 'register',
+    component: AuthViewComponent,
+    children: [
       {
-        path: 'register',
+        path: '',
         component: RegisterFormComponent
       }
     ]
