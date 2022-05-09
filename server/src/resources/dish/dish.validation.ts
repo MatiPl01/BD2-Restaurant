@@ -146,7 +146,8 @@ const body = {
 
 const query = {
     getDish: Joi.object({
-        currency: dishBodyValidators.currency.optional()
+        currency: dishBodyValidators.currency.optional(),
+        fields: Joi.string()
     })
 }
 

@@ -3,14 +3,26 @@ import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
 
 
+export type Address = {
+    firstName: String,
+    lastName: String,
+    phone: String,
+    country: String,
+    postalCode: String,
+    city: String,
+    street: String,
+    streetNumber: String,
+    flatNumber?: String
+}
+
 export interface CartItem {
     dish: Schema.Types.ObjectId;
     quantity: number;
     stock?: number
 }
 
-export interface UpdatedCartItem {
-    dish: Schema.Types.ObjectId;
+export interface DetailedCartItem {
+    dishID: Schema.Types.ObjectId;
     dishName: string;
     category: string;
     cuisine: string;
@@ -28,20 +40,10 @@ export interface UpdatedCartItem {
 export default interface User extends Document {
     firstName: string;
     lastName: string;
-    login: string;
+    nickName: string;
     email: string;
     password: string;
-    addresses: {
-        firstName: string,
-        lastName: string,
-        phone: string,
-        country: string,
-        postalCode: string,
-        city: string,
-        street: string,
-        streetNumber: string,
-        flatNumber?: string
-    }[];
+    addresses: Address[];
     roles: RoleEnum;
     orders: Schema.Types.ObjectId[];
     cart: CartItem[];

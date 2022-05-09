@@ -23,8 +23,7 @@ class ReviewService {
         orderID: Schema.Types.ObjectId,
         rating: number,
         body: string[]
-    ): Promise<Review> { // TODO - maybe improve (check if added review before, etc.)
-        // const temp: Order[] = await this.orders.find({userID}).sort({createdAt: -1}).limit(1);
+    ): Promise<Review> { // TODO - maybe improve
         const order = await this.orders.findById(orderID);
 
         if (!order) {
@@ -37,6 +36,10 @@ class ReviewService {
 
         if ((Date.now() - order.createdAt) / (1000 * 60 * 60 * 24) > 7) {
             throw new AppError(400, 'Cannot add review after 7 days');
+        }
+
+        if (await this.review.find({user: userID, dish: dishID, order: orderID})) {
+            throw new AppError(400, 'You have already added review for this dish from this order');
         }
 
         const result = await this.review.create({
@@ -57,7 +60,7 @@ class ReviewService {
         updatedProps: { [key: string]: number }
     ): Promise<Review> { // TODO - maybe improve (check if modified before - maybe limit the number of changes)
         const review = await this.review.findById({ _id: id, user: userID});
-        if (!review) throw new AppError(404, `User ${userID} has not review with id ${id}`);
+        if (!review) throw new AppError(404, 'You are not allowed to edit this review');
 
         if (Date.now() > +review.createdAt + 1000 * 60 * 60 * 24 * 7) {
             throw new AppError(401, 'Cannot edit review after 7 days');
@@ -76,7 +79,7 @@ class ReviewService {
     ): Promise<void> {
         const review = await this.review.findByIdAndDelete({_id: id, user: userID});
 
-        if (!review) throw new AppError(400, `Cannot delete review with id ${id} for user ${userID}`);
+        if (!review) throw new AppError(400, 'Cannot delete review');
     }
 
     public async getReview(

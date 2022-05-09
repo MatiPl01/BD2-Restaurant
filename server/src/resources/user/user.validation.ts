@@ -93,11 +93,11 @@ const userValidators = {
         'string.max': 'User last name shouldn\'t be longer than 30 characters'
     }),
 
-    login: Joi.string().trim().min(3).max(20).required().messages({
-        'any.required': 'Please provide user login',
-        'string.trim': 'User login cannot have spaces at the beginning and at the end',
-        'string.min': 'User login must contain at least 3 characters',
-        'string.max': 'User login cannot be longer than 20 characters'
+    nickName: Joi.string().trim().min(3).max(20).required().messages({
+        'any.required': 'Please provide user nick name',
+        'string.trim': 'User nick name cannot have spaces at the beginning and at the end',
+        'string.min': 'User nick name must contain at least 3 characters',
+        'string.max': 'User nick name cannot be longer than 20 characters'
     }),
 
     email: Joi.string().trim().min(3).max(320).email().required().messages({
@@ -178,7 +178,7 @@ const body = {
     updateUser: Joi.object({
         firstName: userValidators.firstName.optional(),
         lastName: userValidators.lastName.optional(),
-        login: userValidators.login.optional(),
+        nickName: userValidators.nickName.optional(),
         defaultCurrency: userValidators.defaultCurrency.optional(),
         addresses: {
             defaultIdx: Joi.number().integer().min(0).messages({

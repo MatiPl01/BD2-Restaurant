@@ -3,6 +3,7 @@ import selectFieldsMiddleware from "@/middleware/requests/select-fields.middlewa
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
 import authenticate from '@/middleware/auth/authentication.middleware';
+import CurrencyEnum from "@/utils/enums/currency.enum";
 import OrderService from "./order.service";
 import Controller from "@/utils/interfaces/controller.interface";
 import catchAsync from "@/utils/errors/catch-async";
@@ -27,7 +28,7 @@ class OrderController implements Controller {
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 authenticate,
-                this.getOrders
+                this.getUserOrders
             )
             .post(
                 authenticate,
@@ -46,13 +47,13 @@ class OrderController implements Controller {
         await response.json(res, 200, result);
     })
 
-    private getOrders = catchAsync(async (
+    private getUserOrders = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
         const user = req.user;
         const {filters, fields} = req;
-        const {page, limit} = req.query;
+        const {page, limit, currency} = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -61,7 +62,13 @@ class OrderController implements Controller {
             limit: limitNum
         }
 
-        const result = await this.orderService.getOrders(user.id, filters, fields, pagination);
+        const result = await this.orderService.getUserOrders(
+            user.id, 
+            filters, 
+            fields,
+            pagination,
+            currency as CurrencyEnum | undefined
+        );
         await response.json(res, 200, result);
     })
 }

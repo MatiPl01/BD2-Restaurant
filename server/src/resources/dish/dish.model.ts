@@ -164,7 +164,9 @@ dishSchema.virtual('reviews', {
 dishSchema.pre<Dish>('validate', async function (
     next
 ): Promise<void> {
-    await this.updateMainUnitPrice()
+    if (this.isModified('currency') || this.isModified('unitPrice')) {
+        await this.updateMainUnitPrice();
+    }
     next();
 });
 

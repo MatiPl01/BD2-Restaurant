@@ -11,11 +11,12 @@ const authorizationMiddleware = (...roles: RoleEnum[]) => {
     ): Promise<Response | void> => {
         // Go to the next middleware if the user that is logged in has at least
         // one of the specified roles
-        if (req.user && roles.filter(
-            role => req.user.roles.includes(role)
-        ).length) return next();
+        const roleSet = new Set(roles);
+        for (const role of req.user.roles) {
+            if (roleSet.has(role as RoleEnum)) return next();
+        }
 
-        throw new AppError(403, 'You are not allowed to perform this action');
+        next(new AppError(403, 'You are not allowed to perform this action'));
     }
 }
 

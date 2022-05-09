@@ -1,5 +1,6 @@
 import Config from '@/resources/config/config.interface';
 import AppError from '@/utils/errors/app.error';
+import dishModel from '../dish/dish.model';
 import ConfigModel from '@/resources/config/config.model';
 
 
@@ -21,7 +22,15 @@ class ConfigService {
             { $set: updatedProps },
             { new: true }
         );
-        if (updatedConfig) return updatedConfig;
+
+        if (updatedConfig) {
+            // Update the main price of all dishes if the main currency was changed
+            for (const dish of await dishModel.find()) {
+                await dish.updateMainUnitPrice();
+                await dish.save();
+            };
+            return updatedConfig;
+        }
 
         throw new AppError(400, 'Cannot update config');
     };

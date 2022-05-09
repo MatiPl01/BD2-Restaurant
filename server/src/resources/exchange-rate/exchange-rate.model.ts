@@ -35,6 +35,8 @@ const exchangeRateSchema = new Schema(
     }
 );
 
+// Add indexes on the specific fields of the documents
+// (This index also ensures that there will be no more repetitions of the same (from, to) pairs)
 exchangeRateSchema.index({ from: 1, to: 1 }, { unique: true });
 
 

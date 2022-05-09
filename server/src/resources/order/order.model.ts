@@ -1,8 +1,9 @@
 import {model, Schema} from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import dishModel from '../dish/dish.model';
-import Order from '@/resources/order/order.interface';
 import AppError from '@/utils/errors/app.error';
+import currency from '@/utils/currency';
+import Order from '@/resources/order/order.interface';
 
 
 const orderItem = new Schema(
@@ -79,22 +80,33 @@ const orderSchema = new Schema(
     }
 );
 
+// Add indexes on the specific fields of the documents
+orderSchema.index({user: 1, 'items.dish': 1});
+
 orderSchema.pre<Order>('validate', async function (
     next
 ): Promise<void> {
     if (!this.isModified()) return next();
 
-    // Calculate the total price
-    this.totalPrice = Math.ceil(this.items.reduce((total, item) => {
-        return total + item.quantity * item.unitPrice
-    }, 0) * 100) / 100;
+    const orderCurrency = this.currency;
+    let totalPrice = 0;
 
     for (const item of this.items) {
         const dishID = item.dish;
         const dish = await dishModel.findById(dishID);
-        if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`))
+        if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`));
+
         item.dishName = dish.name;
+        item.unitPrice = await currency.exchangeCurrency(
+            dish.unitPrice,
+            dish.currency as CurrencyEnum,
+            orderCurrency as CurrencyEnum
+        );
+        totalPrice += item.unitPrice * item.quantity;
     }
+    
+    this.totalPrice = Math.ceil(totalPrice * 100) / 100;
+
     next();
 });
 

@@ -27,6 +27,7 @@ const authenticationMiddleware = catchAsync(async (
     const payload: Token | jwt.JsonWebTokenError = await token.verify(accessToken);
     if (payload instanceof jwt.JsonWebTokenError) return next(error);
 
+
     // Select the user user belonging to the jwt token
     const user = await UserModel.findById(payload.id);
     if (!user) return next(new AppError(

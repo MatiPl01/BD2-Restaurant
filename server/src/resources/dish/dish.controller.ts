@@ -110,7 +110,6 @@ class DishController implements Controller {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const fields = req.fields;
         const {currency} = req.query;
-        console.log(currency);
         const dish = await this.dishService.getDish(
             id,
             fields,

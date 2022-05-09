@@ -136,7 +136,7 @@ class UserController implements Controller {
         const {
             firstName,
             lastName,
-            login,
+            nickName,
             email,
             password,
             addresses,
@@ -146,7 +146,7 @@ class UserController implements Controller {
         const token = await this.userService.register(
             firstName,
             lastName,
-            login,
+            nickName,
             email,
             password,
             addresses,

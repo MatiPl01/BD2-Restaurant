@@ -1,4 +1,7 @@
+import User, {CartItem, DetailedCartItem} from '@/resources/user/user.interface';
+import CurrencyEnum from '@/utils/enums/currency.enum';
 import reviewModel from '@/resources/review/review.model';
+import {Address} from '@/resources/user/user.interface';
 import dishModel from '@/resources/dish/dish.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
@@ -8,21 +11,7 @@ import emailer from '@/utils/emailer';
 import Review from '../review/review.interface';
 import crypto from 'crypto';
 import token from '@/utils/token';
-import User, { CartItem, UpdatedCartItem } from '@/resources/user/user.interface';
 import Dish from '../dish/dish.interface';
-import CurrencyEnum from '@/utils/enums/currency.enum';
-
-type Address = {
-    firstName: String,
-    lastName: String,
-    phone: String,
-    country: String,
-    postalCode: String,
-    city: String,
-    street: String,
-    streetNumber: String,
-    flatNumber: String
-}
 
 
 class UserService {
@@ -33,7 +22,7 @@ class UserService {
     public async register(
         firstName: string,
         lastName: string,
-        login: string,
+        nickName: string,
         email: string,
         password: string,
         addresses: Address[],
@@ -45,7 +34,7 @@ class UserService {
         const user = await this.user.create({
             firstName,
             lastName,
-            login,
+            nickName,
             email,
             password,
             addresses,
@@ -191,20 +180,14 @@ class UserService {
     public async getUserCart(
         user: User,
         targetCurrency?: CurrencyEnum
-    ): Promise<UpdatedCartItem[]> {
-        const userCart: CartItem[] = [];
-        const detailedCart: UpdatedCartItem[] = [];
+    ): Promise<DetailedCartItem[]> {
+        const detailedCart: DetailedCartItem[] = [];
 
         for (const cartItem of user.cart) {
             const {dish: dishID, quantity} = cartItem;
             
             const dish = await dishModel.findById(dishID);
             if (dish) {
-                userCart.push({
-                    ...cartItem,
-                    stock: -1
-                });
-
                 detailedCart.push(await this.createCartItem(
                     dish, 
                     quantity, 
@@ -212,8 +195,6 @@ class UserService {
                 ));
             }
         }
-
-        user.update();
 
         return detailedCart;
     }
@@ -242,7 +223,7 @@ class UserService {
         dish: Dish, 
         quantity: number,
         targetCurrency?: CurrencyEnum
-    ): Promise<UpdatedCartItem> {
+    ): Promise<DetailedCartItem> {
         let unitPrice: number;
         const dishCurrency = dish.currency as CurrencyEnum;
 
@@ -260,7 +241,7 @@ class UserService {
         const {breakpoints, paths} = gallery[coverIdx];
 
         return {
-            dish: dish.id,
+            dishID: dish.id,
             dishName: dish.name,
             category: dish.category,
             cuisine: dish.cuisine,

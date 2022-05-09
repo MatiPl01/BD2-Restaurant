@@ -1,4 +1,3 @@
-import { CartItem } from "@cart/interfaces/cart.interface";
+import { DetailedCartItem } from "@cart/interfaces/detailed-cart-item.interface";
 
-
-export type Cart = CartItem[];
+export type Cart = DetailedCartItem[];

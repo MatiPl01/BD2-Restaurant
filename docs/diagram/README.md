@@ -12,7 +12,7 @@ Collection of user data
 
 - FirstName: String
 - LastName: String
-- Login: String
+- Nickname: String
 - Email: String 
 - Password: String (Hash)
 - Addresses

@@ -1,5 +1,7 @@
-import Review from '@/resources/review/review.interface';
 import {model, Schema} from 'mongoose';
+import dishModel from '../dish/dish.model';
+import AppError from '@/utils/errors/app.error';
+import Review from '@/resources/review/review.interface';
 
 
 const reviewSchema = new Schema(
@@ -52,6 +54,20 @@ const reviewSchema = new Schema(
         versionKey: false
     }
 );
+
+// Add indexes on the specific fields of the documents
+reviewSchema.index({user: 1, dish: 1, rating: 1});
+
+reviewSchema.pre<Review>('validate', async function(
+    next
+): Promise<void> {
+    const dishID = this.dish;
+    const dish = await dishModel.findById(dishID);
+    if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`))
+
+    this.dishName = dish.name;
+    next();
+});
 
 reviewSchema.pre<Review>(/^find/, function (next) {
     this.populate([

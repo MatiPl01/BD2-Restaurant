@@ -1,7 +1,6 @@
 import {model, Schema} from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
-import dishModel from '../dish/dish.model';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import User from '@/resources/user/user.interface';
@@ -25,13 +24,13 @@ const userSchema = new Schema(
             maxlength: [30, 'User last name shouldn\'t be longer than 30 characters']
         },
 
-        login: {
+        nickName: {
             type: String,
-            required: [true, 'Please provide user login'],
-            unique: [true, 'User login is already in use'],
-            trim: [true, 'User login cannot have spaces at the beginning and at the end'],
-            minlength: [3, 'User login must contain at least 3 characters'],
-            maxlength: [20, 'User login cannot be longer than 20 characters']
+            required: [true, 'Please provide user nick name'],
+            unique: [true, 'User nick name is already in use'],
+            trim: [true, 'User nick name cannot have spaces at the beginning and at the end'],
+            minlength: [3, 'User nick name must contain at least 3 characters'],
+            maxlength: [20, 'User nick name cannot be longer than 20 characters']
         },
 
         email: {
