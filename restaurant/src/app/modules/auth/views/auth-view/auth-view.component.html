@@ -1,6 +1,6 @@
 <main class="auth-view">
   <section class="auth-view__photo">
-    <app-responsive-image
+    <shared-responsive-image
       class="auth-view__image"
       [breakpoints]="[400, 600, 1000, 1400, 1920]"
       [paths]="[
@@ -12,7 +12,7 @@
         ]"
       [sizes]="'100vw'"
       [alt]="'Przykładowa potrawa'"
-    ></app-responsive-image>
+    ></shared-responsive-image>
   </section>
 
   <section class="auth-view__content">
@@ -25,10 +25,10 @@
 
     <menu class="auth-view__menu">
       <li class="auth-view__menu-item" routerLinkActive="active">
-        <a class="auth-view__menu-link" routerLink="login">Logowanie</a>
+        <a class="auth-view__menu-link" routerLink="../login">Logowanie</a>
       </li>
       <li class="auth-view__menu-item" routerLinkActive="active">
-        <a class="auth-view__menu-link" routerLink="register">Rejestracja</a>
+        <a class="auth-view__menu-link" routerLink="../register">Rejestracja</a>
       </li>
     </menu>
 

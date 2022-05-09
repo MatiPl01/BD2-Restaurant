@@ -1,17 +1,17 @@
-import { Injectable } from "@angular/core"
 import { HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular/common/http"
-import { exhaustMap, first } from "rxjs/operators"
 import { AuthenticationService } from "@auth/services/authentication.service"
-import User from "@auth/models/user"
+import { exhaustMap, first } from "rxjs/operators"
+import { Injectable } from "@angular/core"
+import User from "@shared/models/user"
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthInterceptorService implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthenticationService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    return this.authService.user.pipe(
+    return this.authService.userSubject.pipe(
       first(),
       exhaustMap((user: User | null) => {
         // Try to make an original request if there is no user logged in

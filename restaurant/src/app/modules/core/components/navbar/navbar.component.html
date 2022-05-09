@@ -1,4 +1,5 @@
-<input type="checkbox" class="nav-bar__checkbox" id="nav-toggle" [(ngModel)]="isToggleChecked" (change)="onToggle()">
+<script src="../../../shared/services/currency.service.ts"></script>
+<script src="navbar.component.ts"></script><input type="checkbox" class="nav-bar__checkbox" id="nav-toggle" [(ngModel)]="isToggleChecked" (change)="onToggle()">
 
 <nav class="nav-bar"
      [ngClass]="{'nav-bar--header': isHeaderVisible, 'nav-bar--normal': !isHeaderVisible, 'no-anim': !displayAnimation}">
@@ -23,24 +24,31 @@
     <div class="nav-bar__controls">
       <ul class="nav-bar__links">
         <li class="nav-bar__item">
-          <a class="nav-bar__link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-             (click)="onRouteClick()"><span>Strona główna</span></a>
-        </li>
-
-        <li class="nav-bar__item">
           <a class="nav-bar__link" routerLink="/dishes" routerLinkActive="active" (click)="onRouteClick()">
             <span>Dania</span>
           </a>
         </li>
 
         <li class="nav-bar__item">
-          <a routerLink="/about" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()">
+          <a class="nav-bar__link" routerLink="/about" routerLinkActive="active" (click)="onRouteClick()">
             <span>O restauracji</span>
           </a>
         </li>
 
-        <li class="nav-bar__item nav-bar__item--cart">
-          <a routerLink="/cart" routerLinkActive="active" class="nav-bar__link nav-bar__button nav-bar__button--cart"
+        <li class="nav-bar__item nav-bar__item--admin" *restrictTo="[RoleEnum.ADMIN]">
+          <a routerLink="/admin-panel" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()">
+            <span>Panel amina</span>
+          </a>
+        </li>
+
+        <li class="nav-bar__item nav-bar__item--manager" *restrictTo="[RoleEnum.MANAGER]">
+          <a routerLink="/manager-panel" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()">
+            <span>Panel managera</span>
+          </a>
+        </li>
+
+        <li class="nav-bar__item nav-bar__item--cart" *restrictTo="[RoleEnum.USER]">
+          <a class="nav-bar__link nav-bar__button nav-bar__button--cart" routerLink="/cart" routerLinkActive="active"
              title="Pokaż potrawy dodane do koszyka" [attr.data-items-count]="'TODO this.orderService.totalQuantity'"
              [ngClass]="{'big-quantity': 'TODO orderService.totalQuantity >= 10'}"
              (click)="onRouteClick()">
@@ -54,54 +62,37 @@
             <span class="nav-bar__button-text">Koszyk</span>
           </a>
         </li>
-
-        <li class="nav-bar__item nav-bar__item--admin">
-          <a routerLink="/admin-panel" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()">
-            <span>Panel amina</span>
-          </a>
-        </li>
-
-        <li class="nav-bar__item nav-bar__item--manager">
-          <a routerLink="/manager-panel" routerLinkActive="active" class="nav-bar__link"
-             (click)="onRouteClick()"><span>Panel managera</span></a>
-        </li>
       </ul>
 
       <ul class="nav-bar__buttons">
-<!--        <li *ifRole="['manager', 'admin']" class="nav-bar__item nav-bar__item&#45;&#45;add">-->
-<!--          <a routerLink="/add-dish" class="nav-bar__button nav-bar__button&#45;&#45;add" title="Dodaj nowe danie"-->
-<!--             (click)="onRouteClick()">-->
-<!--            <svg class="nav-bar__button-icon" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus"-->
-<!--                 role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">-->
-<!--              <path-->
-<!--                d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z">-->
-<!--              </path>-->
-<!--            </svg>-->
-<!--          </a>-->
-<!--        </li>-->
-
         <li class="nav-bar__item nav-bar__item--currency">
-          <!--          TODO <app-choose-currency title="Wybierz walutę"></app-choose-currency>-->
+<!--                    TODO <app-choose-currency title="Wybierz walutę"></app-choose-currency>-->
         </li>
 
-        <li class="nav-bar__item nav-bar__item--login" *ngIf="'TODO !user'" (click)="onRouteClick()">
+        <li class="nav-bar__item nav-bar__item--login" *ngIf="!user; else logout" (click)="onRouteClick()">
           <a routerLink="/auth" class="nav-bar__button nav-bar__button--login" title="Zaloguj lub zarejestruj się">
             <svg class="nav-bar__button-icon">
-              <use href="assets/svg/icons.svg#lock-open"></use>
+              <use href="assets/svg/icons.svg#lock-close"></use>
             </svg>
             <span class="nav-bar__button-text">Zaloguj</span>
           </a>
         </li>
 
-        <li class="nav-bar__item nav-bar__item--user" *ngIf="'TODO user'">
-          <div class="nav-bar__user">
-            <span class="nav-bar__user-name">{{ 'TODO user.getName()' }}</span>
-          </div>
-          <a class="nav-bar__button nav-bar__button--logout" title="Wyloguj się" (click)="onLogoutClick()">
-            <span class="nav-bar__button-text">Wyloguj</span>
-          </a>
-        </li>
+        <ng-template #logout>
+          <li class="nav-bar__item nav-bar__item--user" #logout>
+            <div class="nav-bar__user">
+              <span class="nav-bar__user-name">{{ user && user.nickName }}</span>
+            </div>
+            <a class="nav-bar__button nav-bar__button--logout" title="Wyloguj się" (click)="onLogoutClick()">
+              <span class="nav-bar__button-text">Wyloguj</span>
+            </a>
+          </li>
+        </ng-template>
       </ul>
     </div>
+  </div>
+
+  <div *ngIf="visualizationService.isLoading | async" class="mat-progress-bar mat-progress-bar--indeterminate">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 </nav>

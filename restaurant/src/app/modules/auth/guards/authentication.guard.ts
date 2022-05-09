@@ -1,6 +1,6 @@
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { map, Observable } from "rxjs";
 import { AuthenticationService } from "@auth/services/authentication.service";
+import { map, Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import { first } from "rxjs/operators";
 
@@ -8,14 +8,14 @@ import { first } from "rxjs/operators";
   providedIn: 'root'
 })
 export class AuthenticationGuard implements CanActivate {
-  constructor(private authService: AuthenticationService,
+  constructor(private authenticationService: AuthenticationService,
               private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.authService.user.pipe(
+    return this.authenticationService.userSubject.pipe(
       first(),
       map(user => {
         // Return true if the user is currently logged in

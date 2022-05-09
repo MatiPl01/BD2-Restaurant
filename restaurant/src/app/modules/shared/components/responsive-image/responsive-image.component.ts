@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core'
 
 @Component({
-  selector: 'app-responsive-image',
+  selector: 'shared-responsive-image',
   template: `
     <img class="img-responsive"
          loading="lazy"

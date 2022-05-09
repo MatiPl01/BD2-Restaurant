@@ -1,13 +1,20 @@
 import { Injectable, EventEmitter } from '@angular/core'
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class VisualizationService {
-  headerVisibilityChangedEvent = new EventEmitter<boolean>();
-  scrollAvailabilityChangedEvent = new EventEmitter<boolean>();
-  popupDisplayChangedEvent = new EventEmitter<boolean>();
-  menuToggleEvent = new EventEmitter<boolean>();
+  headerVisibilityChangedEvent = new EventEmitter<boolean>()
+  scrollAvailabilityChangedEvent = new EventEmitter<boolean>()
+  popupDisplayChangedEvent = new EventEmitter<boolean>()
+  menuToggleEvent = new EventEmitter<boolean>()
+
+  private readonly _isLoading = new BehaviorSubject<boolean>(false);
+
+  get isLoading(): BehaviorSubject<boolean> {
+    return this._isLoading;
+  }
 
   notifyHeaderVisible(isVisible: boolean): void {
     this.headerVisibilityChangedEvent.emit(isVisible);

@@ -5,16 +5,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 // Our modules
 import { CoreModule } from '@core/core.module';
+import { SharedModule } from "@shared/shared.module";
 
 // Components
 import { AppComponent } from './app.component';
 
-// Services
-import { AuthInterceptorService } from '@auth/interceptors/auth.interceptor.service';
-
-// Directives
-import { AuthorizationDirective } from "@auth/directives/authorization.directive";
-
+// Interceptor Services
+import { AuthInterceptor } from '@auth/interceptors/auth-interceptor.service';
+import { HttpRequestInterceptor } from "@core/interceptors/http-request.interceptor";
 
 @NgModule({
   imports: [
@@ -23,17 +21,19 @@ import { AuthorizationDirective } from "@auth/directives/authorization.directive
     HttpClientModule,
 
     // Our modules
-    CoreModule
+    CoreModule,
+    SharedModule
   ],
 
   // Components
   declarations: [
-    AuthorizationDirective,
-
     AppComponent
   ],
 
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

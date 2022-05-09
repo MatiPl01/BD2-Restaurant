@@ -15,7 +15,7 @@ export class AuthorizationService {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const allowedRolesSet = new Set(allowedRoles);
 
-    return this.authenticationService.user.pipe(
+    return this.authenticationService.userSubject.pipe(
       first(),
       map(user => {
         if (!user) return false;

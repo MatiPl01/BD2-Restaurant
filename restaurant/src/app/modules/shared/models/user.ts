@@ -3,34 +3,35 @@ import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { CartItem } from "@cart/interfaces/cart-item.interface";
 import { RoleEnum } from "@shared/enums/role.enum";
 
+// TODO - maybe make these fields not public
 export default class User {
-  private addresses: Address[];
-  private banned: boolean;
-  private cart: CartItem[];
-  private defaultCurrency: CurrencyEnum;
-  private email: string;
-  private firstName: string;
-  private lastName: string;
-  private nickName: string;
-  private orders: string[];
-  private readonly updatedAt: Date;
-  private readonly createdAt: Date;
-  private readonly _roles: RoleEnum[];
-  private readonly _token: string;
+  public addresses: Address[];
+  public banned: boolean;
+  public cart: CartItem[];
+  public email: string;
+  public firstName: string;
+  public lastName: string;
+  public orders: string[];
+  public nickName: string;
+  public currency: CurrencyEnum;
+  public readonly updatedAt: Date;
+  public readonly createdAt: Date;
+  public readonly roles: RoleEnum[];
+  public readonly _token: string;
 
   constructor(user: UserData, token: string) {
     this.addresses = user.addresses;
     this.banned = user.banned;
     this.cart = user.cart;
-    this.defaultCurrency = user.defaultCurrency;
     this.email = user.email;
     this.firstName = user.firstName;
     this.lastName = user.lastName;
-    this.nickName = user.nickName;
     this.orders = user.orders;
     this.updatedAt = new Date(user.updatedAt);
     this.createdAt = new Date(user.createdAt);
-    this._roles = user.roles;
+    this.nickName = user.nickName;
+    this.currency = user.defaultCurrency;
+    this.roles = user.roles;
     this._token = token;
   }
 
@@ -40,10 +41,6 @@ export default class User {
 
   get tokenExpirationTimestamp(): number {
     return this.parseToken().exp;
-  }
-
-  get roles(): RoleEnum[] {
-    return [...this._roles];
   }
 
   get tokenExpirationDuration(): number {

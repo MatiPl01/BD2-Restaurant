@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-dish-view',
+  selector: 'dishes-dish-view',
   templateUrl: './dish-view.component.html'
 })
 export class DishViewComponent implements OnInit {

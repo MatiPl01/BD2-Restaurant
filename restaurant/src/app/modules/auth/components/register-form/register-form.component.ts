@@ -4,7 +4,7 @@ import { NgForm } from "@angular/forms";
 import { AuthHelperService } from "@auth/services/auth-helper.service";
 
 @Component({
-  selector: 'app-register-form',
+  selector: 'auth-register-form',
   templateUrl: './register-form.component.html'
 })
 export class RegisterFormComponent {

@@ -22,9 +22,8 @@ export class AuthorizationDirective implements OnInit, OnDestroy {
   ngOnInit() {
     // Check if the user has any of the roles specified
     this.subscriptions.push(
-      this.authenticationService.user.subscribe(async () => {
+      this.authenticationService.userSubject.subscribe(async () => {
         if (await this.authorizationService.isAuthorized(this.restrictTo)) {
-          console.log('AUTHORIZED')
           // Display a component if the user is authorized to see this component
           this.viewContainerRef.createEmbeddedView(this.templateRef);
         }

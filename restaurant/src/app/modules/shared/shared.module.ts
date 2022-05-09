@@ -4,24 +4,31 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { ResponsiveImageComponent } from './components/responsive-image/responsive-image.component';
 import { LogoComponent } from './components/logo/logo.component';
 import { RouterModule } from "@angular/router";
-
+import { BtnSelectComponent } from './components/btn-select/btn-select.component';
+import { FormsModule } from "@angular/forms";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
+    MatProgressBarModule
   ],
   declarations: [
     LoadingSpinnerComponent,
     ResponsiveImageComponent,
-    LogoComponent
+    LogoComponent,
+    BtnSelectComponent
   ],
   exports: [
     CommonModule,
+    MatProgressBarModule,
 
     LoadingSpinnerComponent,
     ResponsiveImageComponent,
-    LogoComponent
+    LogoComponent,
+    BtnSelectComponent
   ]
 })
 export class SharedModule {}

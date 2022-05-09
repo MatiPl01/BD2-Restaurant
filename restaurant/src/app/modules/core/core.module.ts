@@ -9,7 +9,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { NotFoundComponent } from './views/not-found/not-found.component';
-import { VisualizationService } from "./services/visualization.service";
+import { CurrencyService } from "@shared/services/currency.service";
+import { AuthorizationDirective } from "@auth/directives/authorization.directive";
 
 
 @NgModule({
@@ -24,6 +25,9 @@ import { VisualizationService } from "./services/visualization.service";
   ],
 
   declarations: [
+    // Directives
+    AuthorizationDirective,
+
     // Components
     NavbarComponent,
     FooterComponent,
@@ -31,7 +35,7 @@ import { VisualizationService } from "./services/visualization.service";
   ],
 
   providers: [
-    VisualizationService
+    CurrencyService
   ],
 
   exports: [
