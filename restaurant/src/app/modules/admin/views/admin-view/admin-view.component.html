@@ -1,1 +1,23 @@
-<p>admin-view works!</p>
+<main class="admin-console">
+  <div style="height: 200px;width: 200px"></div>
+  <article class="persistence">
+    Chose persistence<br>
+    <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.NONE)>NONE</button>
+    <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.SESSION)>SESSION</button>
+    <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.LOCAL)>LOCAL</button>
+  </article>
+  <article class="userRoles">
+    Chose role for user:
+    <div *ngFor="let user of UserList">
+      <div>{{user.nickName}}</div>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.USER,user,true)>ADD USER</button>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.USER,user,false)>REMOVE USER</button>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.MANAGER,user,true)>ADD MOD</button>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.MANAGER,user,false)>REMOVE MOD</button>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.ADMIN,user,true)>ADD ADMIN</button>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.ADMIN,user,false)>REMOVE ADMIN</button>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserBan(true,user)>BAN</button>
+      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserBan(false,user)>UNBAN</button>
+    </div>
+  </article>
+</main>

@@ -15,6 +15,7 @@ export interface Address {
 }
 
 export default interface UserData {
+  _id:any,
   firstName: string;
   lastName: string;
   nickName: string;

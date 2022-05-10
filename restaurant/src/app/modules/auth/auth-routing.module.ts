@@ -27,7 +27,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: RegisterFormComponent      
+        component: RegisterFormComponent
       }
     ]
   }

@@ -128,6 +128,12 @@ class UserController implements Controller {
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
                 this.deleteUser
+            )
+            .patch(
+                authenticate,
+                restrictTo(RoleEnum.ADMIN),
+                validationMiddleware(validate.body.updateUserByAdmin),
+                this.updateUserById
             );
 
         this.router
@@ -138,24 +144,6 @@ class UserController implements Controller {
                 this.getUserReviews
             );
 
-        // TODO - maybe change these endpoints to one endpoint in which admin can update either user's roles or user's ban status
-        this.router
-            .route('/:id/roles')
-            .patch(
-                authenticate,
-                restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(validate.body.updateUserRoles),
-                this.updateUserRoles
-            );
-
-        this.router
-            .route('/:id/banned')
-            .patch(
-                authenticate,
-                restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(validate.body.updateUserBanStatus),
-                this.updateUserBanStatus
-            );
     }
 
     private register = catchAsync(async (
@@ -233,27 +221,14 @@ class UserController implements Controller {
 
         await response.json(res, 204, null);
     })
-
-    private updateUserRoles = catchAsync(async (
+    private updateUserById = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const roles = req.body.roles;
-        const user = await this.userService.updateUser(id, {roles});
+        const updatedUser = await this.userService.updateUser(id, req.body);
 
-        await response.json(res, 200, user);
-    })
-
-    private updateUserBanStatus = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const banned = req.body.banned;
-        const user = await this.userService.updateUser(id, {banned});
-
-        await response.json(res, 200, user);
+        await response.json(res, 201, updatedUser);
     })
 
     private getUsers = catchAsync(async (

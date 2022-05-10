@@ -197,6 +197,11 @@ const body = {
         }
     }),
 
+    updateUserByAdmin:Joi.object({
+        roles:userValidators.roles.optional(),
+        banned:userValidators.banned.optional()
+    }),
+
     setUserCart: Joi.array().items(Joi.object(cartItemValidators)),
 
     updateUserRoles: Joi.object({

@@ -80,7 +80,7 @@ export class AuthService {
   }
 
   private authenticate(data: AuthData): void {
-    console.log(data);
+    // console.log(data);
     const { user: userData, token } = data;
     const user = new User(userData, token);
     this._user.next(user);
@@ -88,13 +88,12 @@ export class AuthService {
     this.storeUser();
   }
 
-  private async storeUser(): Promise<void> {
+  public async storeUser(): Promise<void> {
     const persistence = await this.getPersistence();
     if (persistence === PersistenceEnum.NONE) return;
 
     this._user.subscribe(user => {
       if (!user) return;
-
       if (persistence === PersistenceEnum.LOCAL) {
         localStorage.setItem(AuthService.SAVE_USER_KEY, JSON.stringify(user));
       } else if (persistence === PersistenceEnum.SESSION) {
@@ -103,7 +102,7 @@ export class AuthService {
     });
   }
 
-  private removeStoredUser(): void {
+  public removeStoredUser(): void {
     localStorage.removeItem(AuthService.SAVE_USER_KEY);
     sessionStorage.removeItem(AuthService.SAVE_USER_KEY);
   }
