@@ -45,7 +45,6 @@ export default interface User extends Document {
     password: string;
     addresses: Address[];
     roles: RoleEnum[];
-    orders: Schema.Types.ObjectId[];
     cart: CartItem[];
     defaultCurrency: CurrencyEnum;
     active: boolean;

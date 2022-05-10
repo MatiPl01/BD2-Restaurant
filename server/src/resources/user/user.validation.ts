@@ -197,7 +197,15 @@ const body = {
         }
     }),
 
-    setUserCart: Joi.array().items(Joi.object(cartItemValidators))
+    setUserCart: Joi.array().items(Joi.object(cartItemValidators)),
+
+    updateUserRoles: Joi.object({
+        roles: userValidators.roles
+    }),
+
+    updateUserBanStatus: Joi.object({
+        banned: userValidators.banned
+    }),
 }
 
 

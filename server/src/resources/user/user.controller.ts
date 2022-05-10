@@ -106,6 +106,13 @@ class UserController implements Controller {
                 restrictTo(RoleEnum.USER),
                 this.clearUserCart
             )
+        this.router.route('/all')
+            .get(
+                authenticate,
+                restrictTo(RoleEnum.ADMIN),
+                validationMiddleware(),
+                this.getUsers
+            )
 
         this.router
             .route('/:id')
@@ -127,6 +134,24 @@ class UserController implements Controller {
                 filteringMiddleware,
                 selectFieldsMiddleware,
                 this.getUserReviews
+            );
+
+        this.router
+            .route('/:id/roles')
+            .patch(
+                authenticate,
+                restrictTo(RoleEnum.ADMIN),
+                validationMiddleware(validate.body.updateUserRoles),
+                this.updateUserRoles
+            );
+
+        this.router
+            .route('/:id/banned')
+            .patch(
+                authenticate,
+                restrictTo(RoleEnum.ADMIN),
+                validationMiddleware(validate.body.updateUserBanStatus),
+                this.updateUserBanStatus
             );
     }
 
@@ -206,6 +231,47 @@ class UserController implements Controller {
         await response.json(res, 204, null);
     })
 
+    private updateUserRoles = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
+        const roles = req.body.roles;
+        const user = await this.userService.updateUserRoles(id, roles);
+
+        await response.json(res, 200, user);
+    })
+
+    private updateUserBanStatus = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
+        const banStatus = req.body.banned;
+        const user = await this.userService.updateUserBanStatus(id, banStatus);
+
+        await response.json(res, 200, user);
+    })
+
+    private getUsers = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const {page, limit} = req.query;
+        const pageNum = +(page || 0) || 1;
+        const limitNum = +(limit || 0) || 30;
+
+        const pagination = {
+            skip: (pageNum - 1) * limitNum,
+            limit: limitNum
+        }
+
+        const users = await this.userService.getUsers(pagination);
+
+        await response.json(res, 200, users);
+    })
+
+
     private forgotPassword = catchAsync(async (
         req: Request,
         res: Response
@@ -276,10 +342,10 @@ class UserController implements Controller {
     ): Promise<void> => {
         const {currency} = req.query;
         const cart = await this.userService.getUserCart(
-            req.user, 
+            req.user,
             currency as CurrencyEnum
         );
-        
+
         await response.json(res, 200, cart);
     })
 
@@ -312,7 +378,7 @@ class UserController implements Controller {
     private sendToken = async (
         res: Response,
         token: string,
-        body?: {[key: string]: {[key: string]: any}}
+        body?: { [key: string]: { [key: string]: any } }
     ): Promise<void> => {
         const {JWT_COOKIE_EXPIRES_IN, NODE_ENV} = process.env;
         if (JWT_COOKIE_EXPIRES_IN === undefined) {

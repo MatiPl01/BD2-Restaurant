@@ -1,7 +1,6 @@
-import User, {CartItem, DetailedCartItem} from '@/resources/user/user.interface';
+import User, {Address, CartItem, DetailedCartItem} from '@/resources/user/user.interface';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import reviewModel from '@/resources/review/review.model';
-import {Address} from '@/resources/user/user.interface';
 import dishModel from '@/resources/dish/dish.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
@@ -30,7 +29,7 @@ class UserService {
         defaultCurrency: string,
         active: boolean = true,
         banned: boolean = false
-    ): Promise<{token: string, user: User}> {
+    ): Promise<{ token: string, user: User }> {
         const user = await this.user.create({
             firstName,
             lastName,
@@ -53,7 +52,7 @@ class UserService {
     public async login(
         email: string,
         password: string
-    ): Promise<{token: string, user: User}> {
+    ): Promise<{ token: string, user: User }> {
         const user = await this.user.findOne({email}).select('+password');
 
         if (user && await user.isValidPassword(password, user.password)) {
@@ -89,6 +88,34 @@ class UserService {
 
         if (!user) throw new AppError(404, `Cannot delete user with id ${id}`);
     }
+
+    public async updateUserRoles(
+        id: Schema.Types.ObjectId,
+        newRoles: [String]
+    ): Promise<Partial<User>> {
+        await this.user.findByIdAndUpdate(id, {roles: newRoles});
+        const user = await this.user.findById(id);
+        if (user) return user;
+        throw new AppError(404, `Cannot update roles for user with id ${id}`);
+    }
+
+    public async updateUserBanStatus(
+        id: Schema.Types.ObjectId,
+        newBanStatus: Boolean
+    ): Promise<Partial<User>> {
+        await this.user.findByIdAndUpdate(id, {banned: newBanStatus});
+        const user = await this.user.findById(id);
+        if (user) return user;
+        throw new AppError(404, `Cannot update Ban Status for user with id ${id}`);
+    }
+
+    public async getUsers(
+        pagination: { skip: number, limit: number },
+    ): Promise<Partial<User>[]> {
+        console.log(pagination);
+        return this.dish.find({}, {}, pagination);
+    }
+
 
     public async forgotPassword(
         url: string,
@@ -191,12 +218,12 @@ class UserService {
 
         for (const cartItem of user.cart) {
             const {dish: dishID, quantity} = cartItem;
-            
+
             const dish = await dishModel.findById(dishID);
             if (dish) {
                 detailedCart.push(await this.createCartItem(
-                    dish, 
-                    quantity, 
+                    dish,
+                    quantity,
                     targetCurrency
                 ));
             }
@@ -211,9 +238,9 @@ class UserService {
     ): Promise<CartItem[]> {
         for (let {dish: dishID, quantity} of cart) {
             const dish = await this.dish.findById(dishID);
-            
+
             if (!dish) throw new AppError(404, `Cannot find dish with id ${dishID}`);
-            
+
             if (dish.stock < quantity) {
                 throw new AppError(400, 'You cannot add more items than in stock');
             }
@@ -226,7 +253,7 @@ class UserService {
     }
 
     private async createCartItem(
-        dish: Dish, 
+        dish: Dish,
         quantity: number,
         targetCurrency?: CurrencyEnum
     ): Promise<DetailedCartItem> {
