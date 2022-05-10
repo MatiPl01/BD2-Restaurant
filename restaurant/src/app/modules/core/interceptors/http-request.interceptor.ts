@@ -41,10 +41,8 @@ export class HttpRequestInterceptor implements HttpInterceptor {
 
   private static createErrorMsg(err: HttpErrorResponse): string {
     let errorMsg = '💥 Coś się pali!'; // TODO - change this error message
-    if (err.error instanceof ErrorEvent) {
+    if (err.error instanceof ErrorEvent || err.status) {
       errorMsg = err.error.message;
-    } else {
-      if (err.status) errorMsg = err.error;
     }
     return errorMsg;
   }

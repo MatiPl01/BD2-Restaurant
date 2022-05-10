@@ -24,3 +24,58 @@
     left: 100%;
   }
 }
+
+@keyframes slide-in-bottom {
+  from {
+    transform: translateY(-7.5rem);
+  }
+}
+
+@keyframes fade-in-bottom {
+  from {
+    transform: translateY(-7.5rem);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    transform: translateX(7.5rem);
+  }
+}
+
+@keyframes show-nav-content {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes mobile-nav-item-line-show {
+  from {
+    width: 0;
+    left: 0;
+  }
+  40%,
+  to {
+    width: 100%;
+    left: 0;
+  }
+}
+
+@keyframes mobile-nav-item-line-hide {
+  from {
+    width: 100%;
+    left: 0;
+  }
+  to {
+    width: 0;
+    left: 100%;
+  }
+}
+
+@keyframes mobile-nav-item-text-show {
+  from {
+    transform: translateY(100%);
+  }
+}

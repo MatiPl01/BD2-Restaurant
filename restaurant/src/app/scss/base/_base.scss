@@ -1,9 +1,23 @@
+@use '../utils/gradients' as g;
+@use '../utils/colors' as c;
+
 body {
   &.no-scroll {
     overflow-y: hidden !important;
     height: 100vh !important;
   }
 }
+
+.content {
+  transition: margin .3s ease-in;
+  
+  &.nav-open {
+    transition: margin .35s .13s ease-in-out;
+    $translate: max(10vw, 15rem);
+    margin: 0 calc(-1 * $translate) 0 $translate;
+  }
+}
+
 
 .hidden {
   opacity: 0;

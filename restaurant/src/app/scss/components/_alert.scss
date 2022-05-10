@@ -3,7 +3,6 @@
 @use '../utils/shadows' as sh;
 
 .alert {
-  background: g.$red;
   width: 30rem;
   height: 15rem;
   position: fixed;
@@ -11,12 +10,36 @@
   right: 2rem;
   z-index: 999;
   box-shadow: sh.$black-normal-medium;
-  transition: right .3s ease-in-out;
-
+  transition: all .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border-radius: .5rem;
+  overflow: hidden;
+  
   &__message {
     color: c.$white;
     font-weight: 600;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    line-height: 1.4;
+    overflow-y: auto;
+    padding: 2rem;
+    padding-right: 3rem;
+    height: 100%;
+    text-shadow: sh.$black-normal-small;
+  }
+
+  &__button {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    fill: c.$white;
+    filter: drop-shadow(sh.$black-strong-small);
+  }
+
+  &[data-type="error"] {
+    background: g.$red;
+  }
+
+  &[data-type="success"] {
+    background: g.$green;
   }
 
   &.hidden {

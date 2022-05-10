@@ -8,12 +8,16 @@ export class VisualizationService {
   headerVisibilityChangedEvent = new EventEmitter<boolean>()
   scrollAvailabilityChangedEvent = new EventEmitter<boolean>()
   popupDisplayChangedEvent = new EventEmitter<boolean>()
-  menuToggleEvent = new EventEmitter<boolean>()
-
+  
   private readonly _isLoading = new BehaviorSubject<boolean>(false);
+  private readonly _isNavOpen = new BehaviorSubject<boolean>(false);
 
   get isLoading(): BehaviorSubject<boolean> {
     return this._isLoading;
+  }
+
+  get isNavOpen(): BehaviorSubject<boolean> {
+    return this._isNavOpen;
   }
 
   notifyHeaderVisible(isVisible: boolean): void {
@@ -21,7 +25,7 @@ export class VisualizationService {
   }
 
   notifyNavMenuToggle(isOpen: boolean): void {
-    this.menuToggleEvent.emit(isOpen);
+    this._isNavOpen.next(isOpen);
   }
 
   scrollY(offset: number, isSmooth: boolean = true): void {

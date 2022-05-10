@@ -23,6 +23,12 @@
     <div class="nav-bar__controls">
       <ul class="nav-bar__links">
         <li class="nav-bar__item">
+          <a class="nav-bar__link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="onRouteClick()">
+            <span>Strona główna</span>
+          </a>
+        </li>
+
+        <li class="nav-bar__item">
           <a class="nav-bar__link" routerLink="/dishes" routerLinkActive="active" (click)="onRouteClick()">
             <span>Dania</span>
           </a>
@@ -77,6 +83,7 @@
           </a>
         </li>
 
+        <!-- TODO - make user part better -->
         <ng-template #logout>
           <li class="nav-bar__item nav-bar__item--user" #logout>
             <div class="nav-bar__user">

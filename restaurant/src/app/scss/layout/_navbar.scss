@@ -1,7 +1,7 @@
 @use 'sass:math';
 @use '../utils/sizes' as s;
 @use '../utils/colors' as c;
-@use '../utils/constants' as n;
+@use '../utils/constants' as cs;
 @use '../utils/gradients' as g;
 @use '../utils/mixins' as *;
 
@@ -14,7 +14,7 @@
   z-index: 1000;
 
   &__content {
-    width: s.$content-width;
+    width: 80vw;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -128,21 +128,6 @@
     }
   }
 
-  // Styles for normal nav-bar
-  &--normal {
-    @include respond(tab-land) {
-      .nav-bar__button-text {
-        display: none;
-      }
-    }
-
-    @include respond(tab-port) {
-      .nav-bar__button-text {
-        display: block;
-      }
-    }
-  }
-
   @include respond(not-tab-port) {
     // Styles for normal nav-bar
     &--normal {
@@ -192,7 +177,7 @@
         }
 
         &__item {
-          @for $i from 0 through n.$header-nav-bar-links {
+          @for $i from 0 through cs.$header-nav-bar-links {
             &:nth-child(#{$i}) {
               animation: fade-in-bottom .75s (.75 + .1 * $i) * 1s backwards;
             }
@@ -295,6 +280,12 @@
     }
   }
 
+  @include respond(tab-land) {
+    &__content {
+      width: 90vw;
+    }
+  }
+
   @include respond(tab-port) {
     background: transparent;
     justify-content: flex-end;
@@ -303,14 +294,14 @@
     &__buttons {
       display: grid;
       grid-template-rows: 1fr 1fr;
-      grid-template-columns: repeat(n.$mobile-nav-bar-buttons, auto);
+      grid-template-columns: repeat(cs.$max-nav-bar-buttons, auto);
 
       .nav-bar {
         &__item {
           &--user,
           &--login {
             grid-row: 1 / 2;
-            grid-column: 1 / span n.$mobile-nav-bar-buttons;
+            grid-column: 1 / span cs.$max-nav-bar-buttons;
             // flex-direction: row;
             // justify-content: center;
             // align-items: center;
@@ -343,6 +334,10 @@
       right: 2rem;
       top: 2rem;
       pointer-events: all;
+
+      &-icon {
+        font-size: 5rem;
+      }
 
       &::after {
         content: '';
@@ -512,7 +507,7 @@
         animation: mobile-nav-item-line-show $half-duration both;
       }
 
-      @for $i from 0 through n.$mobile-nav-bar-links {
+      @for $i from 0 through cs.$max-nav-bar-links {
         &:nth-child(#{$i}) {
           &::before {
             animation: mobile-nav-item-line-show $half-duration (.2 + .1 * $i) * 1s both, mobile-nav-item-line-hide .4 * $half-duration (1.6 * $half-duration + .2 + .1 * $i) forwards;
@@ -534,7 +529,7 @@
 
     &__buttons {
       .nav-bar__item {
-        @for $i from 0 through n.$mobile-nav-bar-buttons {
+        @for $i from 0 through cs.$max-nav-bar-links {
           &:nth-child(#{$i}) {
             animation: fade-in-top .5s (.5 + .1 * $i) * 1s backwards;
           }

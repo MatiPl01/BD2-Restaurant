@@ -41,7 +41,7 @@ mix(c.$gray-dark-3, c.$gray-light-4);
 .gradient {
   height: 0;
   width: 0;
-  position: absolute;
+  position: fixed;
   visibility: hidden;
 
   &--1 {

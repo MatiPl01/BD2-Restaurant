@@ -12,7 +12,6 @@ export class AlertService {
   }
 
   public success(message: string): void {
-    console.log(message)
     this.emitEvent(AlertType.SUCCESS, message);
   }
 
