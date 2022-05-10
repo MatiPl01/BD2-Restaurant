@@ -33,7 +33,10 @@
             "styles": [
               "src/app/scss/main.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "query-string"
+            ]
           },
           "configurations": {
             "production": {
