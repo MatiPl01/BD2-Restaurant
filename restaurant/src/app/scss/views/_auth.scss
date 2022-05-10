@@ -1,4 +1,4 @@
-@use '../utils/sizes' as s;
+@use '../utils/sizes' as sz;
 @use '../utils/colors' as c;
 @use '../utils/mixins' as *;
 @use '../utils/gradients' as g;
@@ -7,48 +7,91 @@
 .auth-view {
   min-height: 100vh;
   display: flex;
+  padding-top: sz.$nav-bar-height;
 
   & > * {
     flex: 1 1 0;
   }
 
   &__photo {
-
-    & > * {
-      display: none;
-    }
+    position: relative;
   }
 
   &__content {
-    background-color: c.$red;
+    height: 100%;
+    background-color: c.$white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 4rem;
+    max-width: 75rem;
+    margin: 0 auto;
+
+    & > * {
+      flex-grow: 1;
+
+      &:last-child {
+        flex-shrink: 0;
+      }
+    }
   }
 
   &__menu {
-
-    &-item {
-
-    }
-
+    display: flex;
+    list-style: none;
+    position: relative;
+    gap: 2rem;
+    align-items: flex-start;
+    
     &-link {
+      font-size: 2rem;
+      color: c.$gray-dark-2;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    
+    &-item {
+      border-bottom: .4rem solid transparent;
 
+      &.active {
+        border-bottom: .4rem solid c.$primary;
+      }
     }
   }
 
-  &__error {
-
-    &-message {
-
-    }
+  &__loader {
+    position: absolute;
+    pointer-events: none;
+    inset: 0;
   }
 
   &__form {
-
+    margin-top: 2rem;
   }
 
   .auth-form {
-
     &__heading {
+      margin-bottom: 5vh;
+      margin-left: 5rem;
+    }
+  }
 
+  @include respond(tab-port) {
+    flex-direction: column;
+    padding-top: 0;
+
+    &__photo {
+      max-height: calc(100vh - 25rem);
+      position: sticky;
+      top: 0;
+
+      &::before {
+        content: '';
+        float: left;
+        padding-bottom: 100%;
+        min-height: 60rem;
+      }
     }
   }
 }

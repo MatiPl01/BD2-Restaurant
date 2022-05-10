@@ -15,29 +15,24 @@
     ></shared-responsive-image>
   </section>
 
-  <section class="auth-view__content">
-    <shared-logo></shared-logo>
+  <div class="auth-view__content-wrapper">
+    <section class="auth-view__content">
+      <shared-loading-spinner class="auth-view__loader" [visible]="isLoading"></shared-loading-spinner>
 
-    <shared-loading-spinner
-      class="auth-view__loader"
-      [visible]="isLoading"
-    ></shared-loading-spinner>
+      <menu class="auth-view__menu">
+        <li class="auth-view__menu-item" routerLinkActive="active">
+          <a class="auth-view__menu-link" routerLink="../login">Logowanie</a>
+        </li>
+        <li class="auth-view__menu-item" routerLinkActive="active">
+          <a class="auth-view__menu-link" routerLink="../register">Rejestracja</a>
+        </li>
+      </menu>
 
-    <menu class="auth-view__menu">
-      <li class="auth-view__menu-item" routerLinkActive="active">
-        <a class="auth-view__menu-link" routerLink="../login">Logowanie</a>
-      </li>
-      <li class="auth-view__menu-item" routerLinkActive="active">
-        <a class="auth-view__menu-link" routerLink="../register">Rejestracja</a>
-      </li>
-    </menu>
+      <section class="auth-view__form" *ngIf="!isLoading">
+        <router-outlet></router-outlet>
+      </section>
 
-    <article class="auth-view__error">
-      <span class="auth-view__error-message" *ngIf="errorMsg" [innerHTML]="errorMsg"></span>
-    </article>
-
-    <section class="auth-view__form" *ngIf="!isLoading">
-      <router-outlet></router-outlet>
+      <div></div>
     </section>
-  </section>
+  </div>
 </main>

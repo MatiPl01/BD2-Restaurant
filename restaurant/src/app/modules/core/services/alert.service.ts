@@ -1,18 +1,22 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
+import { AlertType } from "@core/enums/alert-type.enum";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlertService {
-  // TODO - handle and display error using this service
+  public alertEvent = new EventEmitter<{ type: AlertType, message: string }>();
 
   public error(message: string): void {
-    // TODO - add some error badge
-    console.log('ERROR WAS REGISTERED', message);
+    this.emitEvent(AlertType.ERROR, message);
   }
 
   public success(message: string): void {
-    // TODO - ADD something like you are successfully logged in etc.
-    console.log('SUCCESS WAS REGISTERED', message);
+    console.log(message)
+    this.emitEvent(AlertType.SUCCESS, message);
+  }
+
+  private emitEvent(type: AlertType, message: string): void {
+    this.alertEvent.emit({ type, message });
   }
 }

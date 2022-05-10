@@ -1,4 +1,4 @@
-import { AuthenticationService } from "@auth/services/authentication.service";
+import { AuthService } from "@auth/services/auth.service";
 import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { HttpService } from "@core/services/http.service";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
@@ -7,11 +7,11 @@ import User from "@shared/models/user";
 
 @Injectable()
 export class UserService {
-  constructor(private authenticationService: AuthenticationService,
+  constructor(private authService: AuthService,
               private httpService: HttpService) {}
 
   get user(): User | null {
-    return this.authenticationService.user;
+    return this.authService.user;
   }
 
   public updateDefaultCurrency(currency: CurrencyEnum): void {

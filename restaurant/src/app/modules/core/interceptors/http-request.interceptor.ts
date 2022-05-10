@@ -24,7 +24,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     return next.handle(req)
       .pipe(
         filter(event => event instanceof HttpResponse),
-        catchError(this.handleError),
+        catchError(this.handleError.bind(this)),
         map(HttpRequestInterceptor.parseResponseBody.bind(this)),
         finalize(() => {
           this.visualizationService.isLoading.next(false);
@@ -36,7 +36,7 @@ export class HttpRequestInterceptor implements HttpInterceptor {
     const errMsg = HttpRequestInterceptor.createErrorMsg(err);
     console.error(err);
     this.errorService.error(errMsg);
-    throw throwError(err.error);
+    throw throwError(() => err.error);
   }
 
   private static createErrorMsg(err: HttpErrorResponse): string {

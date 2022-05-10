@@ -1,6 +1,6 @@
 import { BehaviorSubject, firstValueFrom, Subscription } from "rxjs";
 import { Injectable, OnDestroy } from "@angular/core";
-import { AuthenticationService } from "@auth/services/authentication.service";
+import { AuthService } from "@auth/services/auth.service";
 import { HttpService } from "@core/services/http.service";
 import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
@@ -17,11 +17,11 @@ export class CurrencyService implements OnDestroy{
 
   constructor(private httpService: HttpService,
               private userService: UserService,
-              private authenticationService: AuthenticationService) {
+              private authService: AuthService) {
     this.loadCurrency();
 
     this.subscriptions.push(
-      this.authenticationService.userSubject.subscribe(this.loadCurrency.bind(this))
+      this.authService.userSubject.subscribe(this.loadCurrency.bind(this))
     )
   }
 
@@ -47,12 +47,12 @@ export class CurrencyService implements OnDestroy{
   public async updateCurrency(currency: CurrencyEnum): Promise<void> {
     if (this.currency === currency) return;
     this._currency.next(currency);
-    const user = this.authenticationService.user;
+    const user = this.authService.user;
     if (user) this.userService.updateDefaultCurrency(currency);
   }
 
   private async loadCurrency(): Promise<void> {
-    const user = this.authenticationService.user;
+    const user = this.authService.user;
     if (!user) this._currency.next(await this.getMainCurrency());
     else this._currency.next(user.currency);
   }

@@ -1,0 +1,25 @@
+@use '../utils/colors' as c;
+@use '../utils/gradients' as g;
+@use '../utils/shadows' as sh;
+
+.alert {
+  background: g.$red;
+  width: 30rem;
+  height: 15rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  box-shadow: sh.$black-normal-medium;
+  transition: right .3s ease-in-out;
+
+  &__message {
+    color: c.$white;
+    font-weight: 600;
+    font-size: 1.4rem;
+  }
+
+  &.hidden {
+    right: -100%;
+  }
+}

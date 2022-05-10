@@ -5,28 +5,6 @@
 @use '../utils/gradients' as g;
 @use '../utils/mixins' as *;
 
-@mixin cart-counter {
-  &::before {
-    content: attr(data-items-count);
-    position: absolute;
-    right: -1.5rem;
-    bottom: -.5rem;
-    color: c.$white;
-    font-family: Poppins, Arial, Helvetica, sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    text-shadow: 0 0 .3rem rgba(c.$black, .5);
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 .5rem rgba(c.$black, .3);
-    background: g.$orange;
-    pointer-events: none;
-  }
-}
 
 .nav-bar {
   position: fixed;

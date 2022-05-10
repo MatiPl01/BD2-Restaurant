@@ -6,29 +6,32 @@ import { LogoComponent } from './components/logo/logo.component';
 import { RouterModule } from "@angular/router";
 import { BtnSelectComponent } from './components/btn-select/btn-select.component';
 import { FormsModule } from "@angular/forms";
-import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { LoadingBarComponent } from "@shared/components/loading-bar/loading-bar.component";
+import { AlertComponent } from "@shared/components/alert/alert.component";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule,
-    MatProgressBarModule
+    FormsModule
   ],
   declarations: [
     LoadingSpinnerComponent,
     ResponsiveImageComponent,
     LogoComponent,
-    BtnSelectComponent
+    BtnSelectComponent,
+    LoadingBarComponent,
+    AlertComponent
   ],
   exports: [
     CommonModule,
-    MatProgressBarModule,
 
     LoadingSpinnerComponent,
     ResponsiveImageComponent,
     LogoComponent,
-    BtnSelectComponent
+    BtnSelectComponent,
+    LoadingBarComponent,
+    AlertComponent
   ]
 })
 export class SharedModule {}

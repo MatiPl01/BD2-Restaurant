@@ -1,0 +1,22 @@
+@use '../utils/animations' as *;
+@use '../utils/shadows' as sh;
+@use '../utils/colors' as c;
+
+.loading-bar {
+  width: 100%;
+  height: 5px;
+  background-color: rgba(c.$gray-light-2, .25);
+  box-shadow: sh.$black-light-small;
+  position: absolute;
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 0;
+    left: 0;
+    background-color: c.$primary;
+
+    animation: loading-bar-indeterminate 1.5s linear infinite;
+  }
+}

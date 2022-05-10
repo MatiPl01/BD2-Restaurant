@@ -1,10 +1,9 @@
-<script src="../../../shared/services/currency.service.ts"></script>
-<script src="navbar.component.ts"></script><input type="checkbox" class="nav-bar__checkbox" id="nav-toggle" [(ngModel)]="isToggleChecked" (change)="onToggle()">
+<input type="checkbox" class="nav-bar__checkbox" id="nav-toggle" [(ngModel)]="isToggleChecked" (change)="onToggle()">
 
 <nav class="nav-bar"
      [ngClass]="{'nav-bar--header': isHeaderVisible, 'nav-bar--normal': !isHeaderVisible, 'no-anim': !displayAnimation}">
   <button class="nav-bar__toggle" [ngClass]="{'nav-bar__toggle--hidden': !isNavToggleVisible}"
-          [attr.data-items-count]="'TODO this.orderService.totalQuantity'">
+          [attr.data-items-count]="user?.cart?.length || 0">
     <label for="nav-toggle" class="nav-bar__label">
       <svg class="nav-bar__toggle-icon" viewBox="0 0 100 100">
         <path class="nav-bar__toggle-line nav-bar__toggle-line--1"
@@ -49,8 +48,8 @@
 
         <li class="nav-bar__item nav-bar__item--cart" *restrictTo="[RoleEnum.USER]">
           <a class="nav-bar__link nav-bar__button nav-bar__button--cart" routerLink="/cart" routerLinkActive="active"
-             title="Pokaż potrawy dodane do koszyka" [attr.data-items-count]="'TODO this.orderService.totalQuantity'"
-             [ngClass]="{'big-quantity': 'TODO orderService.totalQuantity >= 10'}"
+             title="Pokaż potrawy dodane do koszyka" [attr.data-items-count]="user?.cart?.length || 0"
+             [ngClass]="{'big-quantity': (user?.cart?.length || 0) >= 10}"
              (click)="onRouteClick()">
             <svg class="nav-bar__button-icon" aria-hidden="true" focusable="false" data-prefix="fas"
                  data-icon="shopping-cart"
@@ -92,7 +91,5 @@
     </div>
   </div>
 
-  <div *ngIf="visualizationService.isLoading | async" class="mat-progress-bar mat-progress-bar--indeterminate">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </div>
+  <shared-loading-bar *ngIf="visualizationService.isLoading | async"></shared-loading-bar>
 </nav>

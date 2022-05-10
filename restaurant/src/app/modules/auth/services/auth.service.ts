@@ -12,7 +12,7 @@ import User from "@shared/models/user";
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AuthService {
   private static readonly SAVE_USER_KEY = 'user';
   private logoutTimeout: ReturnType<typeof setTimeout> | null = null;
   private _user = new BehaviorSubject<User | null>(null);
@@ -28,7 +28,6 @@ export class AuthenticationService {
   }
 
   public login(credentials: LoginCredentials): Observable<AuthData> {
-    console.log('login', credentials)
     return this.httpService
       .post<AuthData>(ApiPathEnum.LOGIN, credentials)
       .pipe(tap(this.authenticate.bind(this)));
@@ -49,6 +48,7 @@ export class AuthenticationService {
       this.logoutTimeout = null;
     }
 
+    // TODO - do something better than
     window.location.reload();
   }
 
@@ -92,27 +92,25 @@ export class AuthenticationService {
     const persistence = await this.getPersistence();
     if (persistence === PersistenceEnum.NONE) return;
 
-    console.log(persistence)
-
     this._user.subscribe(user => {
       if (!user) return;
 
       if (persistence === PersistenceEnum.LOCAL) {
-        localStorage.setItem(AuthenticationService.SAVE_USER_KEY, JSON.stringify(user));
+        localStorage.setItem(AuthService.SAVE_USER_KEY, JSON.stringify(user));
       } else if (persistence === PersistenceEnum.SESSION) {
-        sessionStorage.setItem(AuthenticationService.SAVE_USER_KEY, JSON.stringify(user));
+        sessionStorage.setItem(AuthService.SAVE_USER_KEY, JSON.stringify(user));
       }
     });
   }
 
   private removeStoredUser(): void {
-    localStorage.removeItem(AuthenticationService.SAVE_USER_KEY);
-    sessionStorage.removeItem(AuthenticationService.SAVE_USER_KEY);
+    localStorage.removeItem(AuthService.SAVE_USER_KEY);
+    sessionStorage.removeItem(AuthService.SAVE_USER_KEY);
   }
 
   private loadUser(): User | null {
-    const userData = localStorage.getItem(AuthenticationService.SAVE_USER_KEY)
-                  || sessionStorage.getItem(AuthenticationService.SAVE_USER_KEY);
+    const userData = localStorage.getItem(AuthService.SAVE_USER_KEY)
+                  || sessionStorage.getItem(AuthService.SAVE_USER_KEY);
 
     if (!userData) return null;
     const data = JSON.parse(userData);

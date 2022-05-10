@@ -1,5 +1,5 @@
 import { NavigationEnd, NavigationStart, Router } from '@angular/router'
-import { AuthenticationService } from "@auth/services/authentication.service";
+import { AuthService } from "@auth/services/auth.service";
 import { Component, OnDestroy } from '@angular/core'
 import { VisualizationService } from "@core/services/visualization.service";
 import { Subscription } from 'rxjs'
@@ -22,7 +22,7 @@ export class NavbarComponent implements OnDestroy {
 
   constructor(private router: Router,
               public visualizationService: VisualizationService,
-              private authenticationService: AuthenticationService) {
+              private authService: AuthService) {
     this.router.events.forEach((event: any) => {
       if (event instanceof NavigationStart) {
         // Close mobile navbar menu if an url has changed
@@ -39,8 +39,9 @@ export class NavbarComponent implements OnDestroy {
         this.visualizationService.popupDisplayChangedEvent.subscribe(isDisplayed => {
           this.isNavToggleVisible = !isDisplayed;
         }),
-        this.authenticationService.userSubject.subscribe(user => {
+        this.authService.userSubject.subscribe(user => {
           console.log('NEW USER', user)
+          // TODO - optimize behavioral subject - IDK why this gets called so many times
           this.user = user;
         })
       )
@@ -56,7 +57,7 @@ export class NavbarComponent implements OnDestroy {
   }
 
   onLogoutClick(): void {
-    this.authenticationService.logout();
+    this.authService.logout();
     this.closeNavMenu();
   }
 
