@@ -5,6 +5,28 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import User from '@/resources/user/user.interface';
 
+const userCartSchema=new Schema(
+    {
+        dish: {
+            type: Schema.Types.ObjectId,
+            ref: 'Dish',
+            required: [true, 'Please provide dish ID']
+        },
+
+        quantity: {
+            type: Number,
+            required: [true, 'Please provide ordered dish quantity'],
+            min: [1, 'Ordered dish quantity must be positive'],
+            validate: {
+                validator: Number.isInteger,
+                message: 'Ordered dish quantity must be an integer'
+            }
+        }
+    },
+    {
+        _id: false
+    }
+)
 
 const userAddressSchema = new Schema(
     {
@@ -157,35 +179,8 @@ const userSchema = new Schema(
             default: [RoleEnum.USER]
         },
 
-        orders: {
-            type: [
-                {
-                    type: Schema.Types.ObjectId,
-                    ref: 'Orders'
-                }
-            ],
-        },
-
         cart: {
-            type: [
-                {
-                    dish: {
-                        type: Schema.Types.ObjectId,
-                        ref: 'Dish',
-                        required: [true, 'Please provide dish ID']
-                    },
-
-                    quantity: {
-                        type: Number,
-                        required: [true, 'Please provide ordered dish quantity'],
-                        min: [1, 'Ordered dish quantity must be positive'],
-                        validate: {
-                            validator: Number.isInteger,
-                            message: 'Ordered dish quantity must be an integer'
-                        }
-                    }
-                }
-            ],
+            type: [userCartSchema],
             default: []
         },
 
