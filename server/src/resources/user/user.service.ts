@@ -89,33 +89,13 @@ class UserService {
         if (!user) throw new AppError(404, `Cannot delete user with id ${id}`);
     }
 
-    public async updateUserRoles(
-        id: Schema.Types.ObjectId,
-        newRoles: [String]
-    ): Promise<Partial<User>> {
-        await this.user.findByIdAndUpdate(id, {roles: newRoles});
-        const user = await this.user.findById(id);
-        if (user) return user;
-        throw new AppError(404, `Cannot update roles for user with id ${id}`);
-    }
-
-    public async updateUserBanStatus(
-        id: Schema.Types.ObjectId,
-        newBanStatus: Boolean
-    ): Promise<Partial<User>> {
-        await this.user.findByIdAndUpdate(id, {banned: newBanStatus});
-        const user = await this.user.findById(id);
-        if (user) return user;
-        throw new AppError(404, `Cannot update Ban Status for user with id ${id}`);
-    }
-
     public async getUsers(
-        pagination: { skip: number, limit: number },
+        filters: { [key: string]: any },
+        fields: { [key: string]: number },
+        pagination: { skip: number, limit: number }
     ): Promise<Partial<User>[]> {
-        console.log(pagination);
-        return this.dish.find({}, {}, pagination);
+        return await this.user.find(filters, fields, pagination);
     }
-
 
     public async forgotPassword(
         url: string,

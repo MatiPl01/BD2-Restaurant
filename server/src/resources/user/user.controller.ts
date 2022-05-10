@@ -105,14 +105,16 @@ class UserController implements Controller {
                 authenticate,
                 restrictTo(RoleEnum.USER),
                 this.clearUserCart
-            )
+            );
+
         this.router.route('/all')
             .get(
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
-                validationMiddleware(),
+                filteringMiddleware,
+                selectFieldsMiddleware,
                 this.getUsers
-            )
+            );
 
         this.router
             .route('/:id')
@@ -136,6 +138,7 @@ class UserController implements Controller {
                 this.getUserReviews
             );
 
+        // TODO - maybe change these endpoints to one endpoint in which admin can update either user's roles or user's ban status
         this.router
             .route('/:id/roles')
             .patch(
@@ -237,7 +240,7 @@ class UserController implements Controller {
     ): Promise<void> => {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const roles = req.body.roles;
-        const user = await this.userService.updateUserRoles(id, roles);
+        const user = await this.userService.updateUser(id, {roles});
 
         await response.json(res, 200, user);
     })
@@ -247,8 +250,8 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const banStatus = req.body.banned;
-        const user = await this.userService.updateUserBanStatus(id, banStatus);
+        const banned = req.body.banned;
+        const user = await this.userService.updateUser(id, {banned});
 
         await response.json(res, 200, user);
     })
@@ -257,6 +260,7 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
+        const {filters, fields} = req;
         const {page, limit} = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
@@ -266,7 +270,11 @@ class UserController implements Controller {
             limit: limitNum
         }
 
-        const users = await this.userService.getUsers(pagination);
+        const users = await this.userService.getUsers(
+            filters,
+            fields,
+            pagination
+        );
 
         await response.json(res, 200, users);
     })
