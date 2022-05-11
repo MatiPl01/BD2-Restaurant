@@ -10,26 +10,23 @@
 
 Collection of user data
 
-```ts
+```js
 export interface UserData {
-  _id:any,
   firstName: string,
   lastName: string,
   nickName: string,
   email: string,
   addresses: Address[],
   roles: RoleEnum[],
-  orders: string[],
   cart: CartItem[],
   defaultCurrency: CurrencyEnum,
+  active:boolean,
   banned: boolean,
-  updatedAt: Date,
-  createdAt: Date,
 }
 
 ```
 
-```ts
+```js
 export interface Address {
   firstName: string,
   lastName: string,
@@ -42,13 +39,9 @@ export interface Address {
   flatNumber?: string,
 }
 ```
-```ts
+```js
 export interface CartItem {
-  dish: {
-    id: string,
-    name: string,
-    stock: number,
-  },
+  dish: string,
   quantity: number,
 }
 ```
@@ -61,9 +54,8 @@ export interface CartItem {
 
 Collection of menu data
 
-```ts
+```js
 export interface DishData {
-  _id: any,
   name: string,
   category: string,
   cuisine: string,
@@ -82,7 +74,7 @@ export interface DishData {
   mainUnitPrice: number,
 }
 ```
-```ts
+```js
 export interface ImageEntry {
   breakpoints: number[],
   paths: string[],
@@ -97,16 +89,13 @@ export interface ImageEntry {
 
 Collection of reviews and comments data
 
-```ts
+```js
 export interface ReviewData {
-  _id:string,
   user:string,
   dish:string,
   order:string,
   rating:number,
   body:string[],
-  createdAt:Date,
-  updatedAt:Date,
 }
 ```
 
@@ -118,16 +107,15 @@ export interface ReviewData {
 
 Collection of orders data
 
-```ts
+```js
 export interface OrderData {
-  _id:string,
   user:string,
   items:OrderItemsData[],
   currency:string,
   totalPrice:number,
 }
 ```
-```ts
+```js
 export interface OrderItemsData{
   dish:string,
   quantity:number,
@@ -144,7 +132,7 @@ export interface OrderItemsData{
 
 Collection of global config
 
-```ts
+```js
 export interface ConfigData{
   mainCurrency:string,
   persistence:PersistanceEnum,
@@ -159,9 +147,8 @@ export interface ConfigData{
 
 Collection of currencies data
 
-```ts
+```js
 export interface CurrencyData {
-  _id:any,
   code:CurrencyEnum,
   symbol:string,
   name:string,
@@ -176,9 +163,8 @@ export interface CurrencyData {
 
 Collection of exchange rates of currencies
 
-```ts
+```js
 export interface ExchangeRateData {
-  _id:any,
   rate:number,
   from:CurrencyEnum,
   to:CurrencyEnum,
