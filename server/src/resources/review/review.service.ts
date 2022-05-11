@@ -37,8 +37,8 @@ class ReviewService {
         if ((Date.now() - order.createdAt) / (1000 * 60 * 60 * 24) > 7) {
             throw new AppError(400, 'Cannot add review after 7 days');
         }
-
-        if (await this.review.find({user: userID, dish: dishID, order: orderID})) {
+        const review=await this.review.find({user: userID, dish: dishID, order: orderID})
+        if (review.length > 0) {
             throw new AppError(400, 'You have already added review for this dish from this order');
         }
 

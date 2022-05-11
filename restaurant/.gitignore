@@ -1,4 +1,4 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
+# See http://help.github.com/ignore-files/ for more about ignoring assets.
 
 # compiled output
 /dist
@@ -10,7 +10,7 @@
 # dependencies
 /node_modules
 
-# profiling files
+# profiling assets
 chrome-profiler-events*.json
 
 # IDEs and editors

@@ -183,7 +183,7 @@ class UserService {
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
     ): Promise<Partial<Review>[]> {
-        return await this.review.find(
+        return this.review.find(
             {user: id, ...filters},
             fields,
             pagination
