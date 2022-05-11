@@ -1,6 +1,6 @@
 ## Diagram
 
-![Diagram](/docs/diagram/assets/diagram.png)
+![Diagram](/docs/diagram/assets/diagram2.png)
 
 # TODO - update diagram to reflect changed properties
 
