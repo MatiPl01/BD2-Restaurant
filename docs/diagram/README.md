@@ -1,6 +1,6 @@
 ## Diagram
 
-![Diagram](/docs/diagram/files/diagram.png)
+![Diagram](/docs/diagram/assets/diagram.png)
 
 # TODO - update diagram to reflect changed properties
 
@@ -10,99 +10,181 @@
 
 Collection of user data
 
-- FirstName: String
-- LastName: String
-- Nickname: String
-- Email: String 
-- Password: String (Hash)
-- Addresses
-  - FirstName: String
-  - LastName: String
-  - Phone: String
-  - Country: String
-  - PostalCode: String
-  - City: String
-  - Street: String
-  - StreetNumber: String
-  - FlatNumber: String
-- Roles: String[]
-- Orders: mongoose.Types.ObjectId (Orders)
-- Reviews: mongoose.Types.ObjectId (Reviews)
-- Cart
-  - Dish: mongoose.Types.ObjectId (Dishes)
-  - Quantity: Number
-- DefaultCurrency: mongoose.Types.ObjectId (Currencies)
-- Active: Boolean
-- Banned: Boolean
+```ts
+export interface UserData {
+  _id:any,
+  firstName: string,
+  lastName: string,
+  nickName: string,
+  email: string,
+  addresses: Address[],
+  roles: RoleEnum[],
+  orders: string[],
+  cart: CartItem[],
+  defaultCurrency: CurrencyEnum,
+  banned: boolean,
+  updatedAt: Date,
+  createdAt: Date,
+}
+
+```
+
+```ts
+export interface Address {
+  firstName: string,
+  lastName: string,
+  phone: string,
+  country: string,
+  postalCode: string,
+  city: string,
+  street: string,
+  streetNumber: string,
+  flatNumber?: string,
+}
+```
+```ts
+export interface CartItem {
+  dish: {
+    id: string,
+    name: string,
+    stock: number,
+  },
+  quantity: number,
+}
+```
+
+##### Example
+
+![UserExample](/docs/diagram/assets/example_user.png)
 
 ### **Dishes**
 
 Collection of menu data
 
-- Name: String
-- Category: String
-- Cuisine: String
-- Type: String
-- Ingredients: String[]
-- Stock: Number
-- Currency: String
-- UnitPrice: Number
-- RatingsAverage: Number
-- RatingsCount: Number
-- Description: String[]
-- Images
-  - coverIdx: Number,
-  - gallery: {
-    - breakpoints: Number[],
-    - paths: String[]
-    
-    }[]
-- Reviews: mongoose.Types.ObjectId[] (Reviews)
+```ts
+export interface DishData {
+  _id: any,
+  name: string,
+  category: string,
+  cuisine: string,
+  type: string,
+  ingredients: string[],
+  stock: number,
+  currency: string,
+  unitPrice: number,
+  ratingsAverage: number,
+  ratingsCount: number,
+  description: string[],
+  images: {
+    coverIdx: number,
+    gallery: ImageEntry[],
+  },
+  mainUnitPrice: number,
+}
+```
+```ts
+export interface ImageEntry {
+  breakpoints: number[],
+  paths: string[],
+}
+```
+
+##### Example
+
+![DishesExample](/docs/diagram/assets/example_dishes.png)
 
 ### **Reviews**
 
 Collection of reviews and comments data
 
-- User: mongoose.Types.ObjectId (Users)
-- Dish: mongoose.Types.ObjectId (Dishes)
-- Order: mongoose.Types.ObjectId (Orders)
-- CreatedAt: Date
-- UpdatedAt: Date
-- Rating: Number
-- Body: String[]
+```ts
+export interface ReviewData {
+  _id:string,
+  user:string,
+  dish:string,
+  order:string,
+  rating:number,
+  body:string[],
+  createdAt:Date,
+  updatedAt:Date,
+}
+```
+
+##### Example
+
+![ReviewsExample](/docs/diagram/assets/example_reviews.png)
 
 ### **Orders**
 
 Collection of orders data
 
-- User: mongoose.Types.ObjectId (Users)
-- Items
-  - Dish: mongoose.Types.ObjectId (Dishes)
-  - Quantity: Number
-  - UnitPrice: Number
-- Date: Date
-- TotalPrice: Number
-- Currency: String
+```ts
+export interface OrderData {
+  _id:string,
+  user:string,
+  items:OrderItemsData[],
+  currency:string,
+  totalPrice:number,
+}
+```
+```ts
+export interface OrderItemsData{
+  dish:string,
+  quantity:number,
+  dishName:string,
+  unitPrice:number
+}
+```
 
-### **Globals**
+##### Example
 
-Collection of global values
+![OrdersExample](/docs/diagram/assets/example_orders.png)
 
-- Persistence: Number
-- MainCurrency: mongoose.Types.ObjectId[] (Currencies)
+### **Config**
+
+Collection of global config
+
+```ts
+export interface ConfigData{
+  mainCurrency:string,
+  persistence:PersistanceEnum,
+}
+```
+
+##### Example
+
+![ConfigExample](/docs/diagram/assets/example_config.png)
 
 ### **Currencies**
 
 Collection of currencies data
 
-- Code: String
-- Symbol: String
-- Name: String
+```ts
+export interface CurrencyData {
+  _id:any,
+  code:CurrencyEnum,
+  symbol:string,
+  name:string,
+}
+```
+
+##### Example
+
+![CurrenciesExample](/docs/diagram/assets/example_currencies.png)
 
 ### **ExchangeRates**
 
 Collection of exchange rates of currencies
 
-- Rate: Number
-- From: String
-- To: String
+```ts
+export interface ExchangeRateData {
+  _id:any,
+  rate:number,
+  from:CurrencyEnum,
+  to:CurrencyEnum,
+}
+```
+
+##### Example
+
+![ExchangeRateExample](/docs/diagram/assets/example_exchangeRates.png)
