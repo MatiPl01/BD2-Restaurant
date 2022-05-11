@@ -12,19 +12,16 @@ Collection of user data
 
 ```js
 export interface UserData {
-  _id:any,
   firstName: string,
   lastName: string,
   nickName: string,
   email: string,
   addresses: Address[],
   roles: RoleEnum[],
-  orders: string[],
   cart: CartItem[],
   defaultCurrency: CurrencyEnum,
+  active:boolean,
   banned: boolean,
-  updatedAt: Date,
-  createdAt: Date,
 }
 
 ```
@@ -44,11 +41,7 @@ export interface Address {
 ```
 ```js
 export interface CartItem {
-  dish: {
-    id: string,
-    name: string,
-    stock: number,
-  },
+  dish: string,
   quantity: number,
 }
 ```
@@ -63,7 +56,6 @@ Collection of menu data
 
 ```js
 export interface DishData {
-  _id: any,
   name: string,
   category: string,
   cuisine: string,
@@ -99,14 +91,11 @@ Collection of reviews and comments data
 
 ```js
 export interface ReviewData {
-  _id:string,
   user:string,
   dish:string,
   order:string,
   rating:number,
   body:string[],
-  createdAt:Date,
-  updatedAt:Date,
 }
 ```
 
@@ -120,7 +109,6 @@ Collection of orders data
 
 ```js
 export interface OrderData {
-  _id:string,
   user:string,
   items:OrderItemsData[],
   currency:string,
@@ -161,7 +149,6 @@ Collection of currencies data
 
 ```js
 export interface CurrencyData {
-  _id:any,
   code:CurrencyEnum,
   symbol:string,
   name:string,
@@ -178,7 +165,6 @@ Collection of exchange rates of currencies
 
 ```js
 export interface ExchangeRateData {
-  _id:any,
   rate:number,
   from:CurrencyEnum,
   to:CurrencyEnum,
