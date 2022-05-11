@@ -1,9 +1,15 @@
 # TODO LIST
+## Documentatuib
+
+- [ ] change documentation from interfaces to json with examples
+- [ ] diagram on documentation database is no good
 
 ## Backend
 ### TODO
 - [ ] Replace duplicated code with handler factory functions,
 - [ ] Add language specific error messages (especially there in responses from the server),
+- [ ] Remove duplicated code with filters.
+- [ ] Remove duplicated code with reviews (in reviews and dish)
  
 ### **User**
 
@@ -34,6 +40,7 @@
 
 - [X] Get ExchangeRates
 - [X] Edit ExchangeRateRatio `???`
+- [ ] Not actual exchange rate but in look History
 
 ### **Global**
 
@@ -53,6 +60,7 @@
 
 - [X] Add Order
 - [X] Get Orders for User
+- [ ] Validation to not buy more than in Stock
 
 ### **Currencies**
 
