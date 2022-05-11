@@ -61,4 +61,9 @@
 
 ## Frontend
 
+- [ ] Admin can change Main currency in Config  
+- [ ] User main curency is fetch from config
+- [ ] Dish main currency is updated after config change (Try triger Atlas)
+
 ### TODO
+
