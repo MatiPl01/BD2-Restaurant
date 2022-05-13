@@ -1,5 +1,5 @@
 import ExchangeRateService from "@/resources/exchange-rate/exchange-rate.service";
-import CurrencyEnum from "./enums/currency.enum";
+import { ClientSession } from 'mongoose';
 import configModel from "@/resources/config/config.model";
 import dishModel from "@/resources/dish/dish.model";
 import AppError from "./errors/app.error";
@@ -11,46 +11,51 @@ const exchangeRateService = new ExchangeRateService();
 
 const exchangeCurrency = async (
     amount: number,
-    from: CurrencyEnum,
-    to: CurrencyEnum
+    from: string,
+    to: string,
+    session?: ClientSession
 ) => {
     let rate = 1;
     if (from !== to) {
-        rate = (await exchangeRateService.getExchangeRate(from, to)).rate;
+        rate = (await exchangeRateService.getExchangeRate(from, to, session)).rate;
     }
-    return Math.ceil(amount * rate * 100) / 100;
+    return Math.ceil(amount * rate * 10000) / 10000;
 };
 
 const exchangeToMainCurrency = async (
     amount: number,
-    from: CurrencyEnum
+    from: string,
+    session?: ClientSession
 ): Promise<number> => {
-    const config = await configModel.findOne();
+    let config; 
+    if (session) config = await configModel.findOne({}, {}, { session });
+    else config = await configModel.findOne();
+
     if (!config) throw new AppError(404, 'Config was not found in the database');
 
-    return await exchangeCurrency(amount, from, config.mainCurrency);
-}
+    return await exchangeCurrency(amount, from, config.mainCurrency, session);
+};
 
 const changeDishCurrency = async (
     dish: Dish,
-    to: CurrencyEnum
+    to: string
 ): Promise<void> => {
-    let from: CurrencyEnum;
+    let from: string;
 
     if (dish.unitPrice === undefined && dish.currency === undefined) return;
     if (dish.currency === undefined) {
         const dishCurrency = (await dishModel.findById(dish.id))?.currency;
         if (!dishCurrency) throw new AppError(404, `Cannot find dish with id ${dish.id}`);
-        from = dishCurrency as CurrencyEnum;
+        from = dishCurrency;
     } else {
-        from = dish.currency as CurrencyEnum;
+        from = dish.currency;
         dish.currency = to;
     }
 
     if (dish.unitPrice !== undefined) {
         dish.unitPrice = await exchangeCurrency(dish.unitPrice, from, to);
     }
-}
+};
 
 
 export default {

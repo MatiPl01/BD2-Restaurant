@@ -1,13 +1,15 @@
-import CurrencyEnum from "./enums/currency.enum";
-import AppError from "./errors/app.error";
-import currency from "@/utils/currency";
+import singleTransaction from '@/utils/single-transaction';
+import { ClientSession } from 'mongoose';
+import AppError from './errors/app.error';
+import currency from '@/utils/currency';
 
 
 type Filters = { [key: string]: any };
 
-export const updateFiltersCurrency = async (
+export const updateFiltersCurrency = singleTransaction(async (
+    session: ClientSession,
     filters: Filters,
-    targetCurrency?: CurrencyEnum
+    targetCurrency?: string
 ): Promise<Filters> => {
     if (filters.unitPrice) {
         if (!targetCurrency) {
@@ -18,7 +20,7 @@ export const updateFiltersCurrency = async (
 
         if (filters.unitPrice) {
             for (const [key, value] of Object.entries(filters.unitPrice)) {
-                mainUnitPrice[key] = await currency.exchangeToMainCurrency(value as number, targetCurrency);
+                mainUnitPrice[key] = await currency.exchangeToMainCurrency(value as number, targetCurrency, session);
             }
         }
 
@@ -26,10 +28,12 @@ export const updateFiltersCurrency = async (
             ...filters,
             mainUnitPrice
         }
+        console.log(updatedFilters)
         delete updatedFilters.unitPrice;
+
 
         return updatedFilters;
     }
 
     return { ...filters };
-}
+});

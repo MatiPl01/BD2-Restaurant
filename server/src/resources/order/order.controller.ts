@@ -3,7 +3,6 @@ import selectFieldsMiddleware from "@/middleware/requests/select-fields.middlewa
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
 import authenticate from '@/middleware/auth/authentication.middleware';
-import CurrencyEnum from "@/utils/enums/currency.enum";
 import OrderService from "./order.service";
 import Controller from "@/utils/interfaces/controller.interface";
 import catchAsync from "@/utils/errors/catch-async";
@@ -67,7 +66,7 @@ class OrderController implements Controller {
             filters,
             fields,
             pagination,
-            currency as CurrencyEnum | undefined
+            currency as string | undefined
         );
         await response.json(res, 200, orders);
     })

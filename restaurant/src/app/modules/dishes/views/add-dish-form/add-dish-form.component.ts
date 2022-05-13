@@ -61,7 +61,6 @@ export class AddDishFormComponent{
   }
 
   private createDishObject(form: NgForm): DishData {
-    // @ts-ignore
     return {
       name: form.value.name,
       category: form.value?.category || 'pozostałe',
@@ -69,6 +68,7 @@ export class AddDishFormComponent{
       type: form.value?.type?.toLowerCase() || 'pozostałe',
       ingredients: form.value.ingredients?.trim().split(',').map((s: string) => s.trim()) || [],
       stock: form.value.stock,
+      // @ts-ignore
       currency: this.currencyService.currency,
       unitPrice: +form.value.price.replace(',', '.'),
       ratingsAverage: 0,

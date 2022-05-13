@@ -1,8 +1,8 @@
-import { model, Schema } from 'mongoose';
-import Config from "@/resources/config/config.interface";
-import CurrencyEnum from '@/utils/enums/currency.enum';
+import { model, Schema, ClientSession } from 'mongoose';
+import singleTransaction from '@/utils/single-transaction';
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 import dishModel from '../dish/dish.model';
+import Config from "@/resources/config/config.interface";
 
 
 const configSchema = new Schema(
@@ -16,13 +16,13 @@ const configSchema = new Schema(
             },
         },
 
-        mainCurrency: {
+        mainCurrency: { // e.g. USD
             type: String,
-            required: [true, 'Please provide the main currency'],
-            enum: {
-                values: Object.values(CurrencyEnum),
-                message: `Available roles are: ${Object.values(CurrencyEnum).join(', ')}`
-            },
+            required: [true, 'Please provide currency code'],
+            unique: [true, 'Currency code must be unique'],
+            trim: [true, 'Currency code cannot start with and end with spaces'],
+            length: [3, 'Currency code must contain 3 letters'],
+            uppercase: [true, 'Currency code must be uppercase']
         }
     },
 
@@ -33,20 +33,20 @@ const configSchema = new Schema(
 );
 
 configSchema.methods.updateMainCurrency = async function (
-  targetCurrency: CurrencyEnum  
+    targetCurrency: string  
 ): Promise<void> {
-    console.log(targetCurrency, this.mainCurrency);
-    if (targetCurrency !== this.mainCurrency) {
+    await singleTransaction(async (session: ClientSession) => {
+        if (targetCurrency === this.mainCurrency) return;
+
         this.mainCurrency = targetCurrency;
 
-        for (const dish of await dishModel.find()) {
-            if (dish.currency === targetCurrency) continue;
-            await dish.updateMainUnitPrice(targetCurrency);
+        for (const dish of await dishModel.find({}, {}, { session }).select('+mainUnitPrice')) {
+            await dish.updateMainUnitPrice.call(dish, targetCurrency, session);
         }
-    }
-
-    await this.save();
-};
+        
+        await this.save({ session });
+    })();
+}
 
 
 export default model<Config>('Config', configSchema);

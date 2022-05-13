@@ -3,7 +3,6 @@ import {HttpService} from "@core/services/http.service";
 import {Observable} from "rxjs";
 import {ApiPathEnum} from "@shared/enums/api-path.enum";
 import {DishData} from "@dishes/interfaces/dish.interface";
-import {CurrencyEnum} from "@shared/enums/currency.enum";
 import {DishFilterData} from "@dishes/interfaces/dish-filter.interface";
 import * as queryString from "query-string";
 
@@ -13,19 +12,20 @@ import * as queryString from "query-string";
 export class DishesService {
   constructor(private httpService: HttpService) {}
 
-  createDish(updatedFields: Partial<DishData>): Observable<DishData> {
-    return this.httpService.post<DishData>(ApiPathEnum.DISHES, updatedFields);
+  createDish(dishData: DishData): Observable<DishData> {
+    return this.httpService.post<DishData>(ApiPathEnum.DISHES, dishData);
   }
 
-  updateDish(updatedFields: Partial<DishData>,id:string): Observable<DishData> {
-    return this.httpService.patch<DishData>(ApiPathEnum.DISHES+'/'+id, updatedFields);
+  updateDish(id: string, updatedFields: Partial<DishData>): Observable<DishData> {
+    return this.httpService.patch<DishData>(`${ApiPathEnum.DISHES}/${id}`, updatedFields);
   }
 
-  getDish(id:string,currency:CurrencyEnum): Observable<DishData> {
-    return this.httpService.get<DishData>(ApiPathEnum.DISHES+'/'+id+'?currency='+currency);
+  getDish(id:string, currency?: string): Observable<DishData> {
+    const query = currency ? `?currency=${currency}` : '';
+    return this.httpService.get<DishData>(`${ApiPathEnum.DISHES}/${id}${query}`);
   }
 
-  getDishes(page:number,limit:number,currency:CurrencyEnum): Observable<DishData[]> {
+  getDishes(page: number, limit: number, currency?: string): Observable<DishData[]> {
     return this.httpService.get<DishData[]>(ApiPathEnum.DISHES+'?page='+page+'&limit='+limit+'+&currency='+currency);
   }
 
@@ -51,7 +51,4 @@ export class DishesService {
   deleteDish(id:number):void{
     this.httpService.delete<void>(ApiPathEnum.DISHES+'/'+id)
   }
-
-
 }
-

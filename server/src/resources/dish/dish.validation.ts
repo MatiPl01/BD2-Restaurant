@@ -144,7 +144,7 @@ const body = {
     })
 }
 
-const query = {
+const query = { // TODO more query validation (pagination, etc.)
     getDish: Joi.object({
         currency: dishBodyValidators.currency.optional(),
         fields: Joi.string()

@@ -1,15 +1,15 @@
 # TODO LIST
 ## Documentation
 
-- [ ] change interfaces to exemplary json objects
-- [ ] diagram for noSQL database is no good
+- [ ] Change interfaces to exemplary json objects
+- [ ] Diagram for noSQL database is no good
 
 ## Backend
 ### TODO
 - [ ] Replace duplicated code with handler factory functions,
 - [ ] Add language specific error messages (especially these in responses from the server),
 - [ ] Remove duplicated code in filters,
-- [ ] Remove duplicated code in reviews (in reviews and dish)
+- [ ] Remove duplicated code in reviews (in review and dish)
  
 ### **User**
 
@@ -40,7 +40,7 @@
 
 - [X] Get ExchangeRates
 - [X] Edit ExchangeRateRatio
-- [ ] Save previous exchange rates in the history (for orders made in the past)
+- [ ] Save previous exchange rates in the history (for orders placed in the past)
 
 ### **Global**
 

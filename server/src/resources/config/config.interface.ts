@@ -1,11 +1,10 @@
 import { Document } from 'mongoose';
-import CurrencyEnum from '@/utils/enums/currency.enum';
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 
 
 export default interface Config extends Document {
     persistence: PersistenceEnum;
-    mainCurrency: CurrencyEnum;
+    mainCurrency: string;
 
-    updateMainCurrency(currency: CurrencyEnum): void;
+    updateMainCurrency(currency: string): void;
 }

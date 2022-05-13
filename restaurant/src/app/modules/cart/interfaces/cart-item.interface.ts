@@ -1,5 +1,3 @@
-import { CurrencyEnum } from "@shared/enums/currency.enum";
-
 export interface CartItem {
   dish: {
     id: string,
@@ -17,7 +15,7 @@ export interface DetailedCartItem {
   type: string;
   unitPrice: number;
   quantity: number;
-  currency: CurrencyEnum;
+  currency: string;
   stock: number;
   image: {
     breakpoints: number[],

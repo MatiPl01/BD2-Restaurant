@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose';
-import CurrencyEnum from '@/utils/enums/currency.enum';
 import dishModel from '../dish/dish.model';
 import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
@@ -60,11 +59,11 @@ const orderSchema = new Schema(
 
         currency: {
             type: String,
-            required: [true, 'A currency must have a 3-letter code'],
-            enum: {
-                values: Object.values(CurrencyEnum),
-                message: `Available roles are: ${Object.values(CurrencyEnum).join(', ')}`
-            },
+            required: [true, 'Please provide currency code'],
+            unique: [true, 'Currency code must be unique'],
+            trim: [true, 'Currency code cannot start with and end with spaces'],
+            length: [3, 'Currency code must contain 3 letters'],
+            uppercase: [true, 'Currency code must be uppercase']
         },
 
         totalPrice: {
@@ -103,13 +102,13 @@ orderSchema.pre<Order>('validate', async function (
         item.dishName = dish.name;
         item.unitPrice = await currency.exchangeCurrency(
             dish.unitPrice,
-            dish.currency as CurrencyEnum,
-            orderCurrency as CurrencyEnum
+            dish.currency,
+            orderCurrency
         );
         totalPrice += unitPrice * quantity;
     }
 
-    this.totalPrice = Math.ceil(totalPrice * 100) / 100;
+    this.totalPrice = Math.ceil(totalPrice * 10000) / 10000;
 
     next();
 });

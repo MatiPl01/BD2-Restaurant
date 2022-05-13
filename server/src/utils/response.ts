@@ -19,7 +19,7 @@ const getStatus = (
         default:
             return ResponseStatus.UNRECOGNIZED;
     }
-}
+};
 
 const json = async (
     res: Response,
@@ -30,7 +30,7 @@ const json = async (
         status: getStatus(statusCode),
         data
     })
-}
+};
 
 const cookie = async (
     res: Response,
@@ -40,7 +40,7 @@ const cookie = async (
 ): Promise<Response> => {
     console.log('Sending cookie', name, val, options)
     return res.cookie(name, val, options);
-}
+};
 
 
 export default {

@@ -1,9 +1,8 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, ClientSession } from 'mongoose';
 import exchangeRateModel from '../exchange-rate/exchange-rate.model';
 import configModel from '../config/config.model';
 import AppError from '@/utils/errors/app.error';
 import Dish from '@/resources/dish/dish.interface';
-import CurrencyEnum from '@/utils/enums/currency.enum';
 
 
 const gallerySchema = new Schema({
@@ -172,28 +171,30 @@ dishSchema.pre<Dish>('validate', async function (
 });
 
 dishSchema.methods.updateMainUnitPrice = async function (
-    targetCurrency?: CurrencyEnum
+    targetCurrency?: string,
+    session?: ClientSession
 ): Promise<void> {
     const { unitPrice, currency: from } = this;
     let to = targetCurrency;
 
     if (!to) {
-        const config = await configModel.findOne();
+        const config = await configModel.findOne({}, {}, { session });
         if (!config) throw new AppError(404, 'Cannot find config in a database');
         to = config.mainCurrency;
     }
 
     if (from === to) {
         this.mainUnitPrice = unitPrice;
-        return;
+    } else {
+        const exchangeRate = await exchangeRateModel.findOne({ from, to }, {}, { session });
+        if (!exchangeRate) {
+            throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
+        }
+    
+        this.mainUnitPrice = Math.ceil(unitPrice * exchangeRate.rate * 10000) / 10000;
     }
 
-    const exchangeRate = await exchangeRateModel.findOne({ from, to });
-    if (!exchangeRate) {
-        throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
-    }
-
-    this.mainUnitPrice = Math.ceil(unitPrice * exchangeRate.rate * 100) / 100;
+    await this.save();
 };
 
 

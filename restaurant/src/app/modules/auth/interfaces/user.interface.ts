@@ -1,4 +1,3 @@
-import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { CartItem } from "@cart/interfaces/cart-item.interface";
 import { RoleEnum } from "@shared/enums/role.enum";
 
@@ -24,7 +23,7 @@ export default interface UserData {
   roles: RoleEnum[];
   orders: string[];
   cart: CartItem[];
-  defaultCurrency: CurrencyEnum;
+  defaultCurrency: string;
   banned: boolean;
   updatedAt: Date,
   createdAt: Date

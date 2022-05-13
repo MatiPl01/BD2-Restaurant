@@ -1,4 +1,4 @@
-import CurrencyEnum from '@/utils/enums/currency.enum';
+import { currencyValidators } from '../currency/currency.validation';
 import RoleEnum from '@/utils/enums/role.enum';
 import Joi from "@/utils/validation/mongoose.validation";
 
@@ -133,7 +133,7 @@ const userValidators = {
 
     cart: Joi.array().items(Joi.object(cartItemValidators)),
 
-    defaultCurrency: Joi.string().valid(...Object.values(CurrencyEnum)),
+    defaultCurrency: currencyValidators.code,
 
     active: Joi.bool(),
 

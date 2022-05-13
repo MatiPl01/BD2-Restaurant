@@ -10,15 +10,15 @@ Collection of user data
 
 ```js
 export interface UserData {
-  firstName: string,
-  lastName: string,
-  nickName: string,
-  email: string,
+  firstName: String,
+  lastName: String,
+  nickName: String,
+  email: String,
   addresses: Address[],
   roles: RoleEnum[],
   cart: CartItem[],
-  defaultCurrency: CurrencyEnum,
-  active:boolean,
+  defaultCurrency: String,
+  active: boolean,
   banned: boolean,
 }
 
@@ -26,20 +26,20 @@ export interface UserData {
 
 ```js
 export interface Address {
-  firstName: string,
-  lastName: string,
-  phone: string,
-  country: string,
-  postalCode: string,
-  city: string,
-  street: string,
-  streetNumber: string,
-  flatNumber?: string,
+  firstName: String,
+  lastName: String,
+  phone: String,
+  country: String,
+  postalCode: String,
+  city: String,
+  street: String,
+  streetNumber: String,
+  flatNumber?: String,
 }
 ```
 ```js
 export interface CartItem {
-  dish: string,
+  dish: String,
   quantity: number,
 }
 ```
@@ -54,17 +54,17 @@ Collection of menu data
 
 ```js
 export interface DishData {
-  name: string,
-  category: string,
-  cuisine: string,
-  type: string,
-  ingredients: string[],
+  name: String,
+  category: String,
+  cuisine: String,
+  type: String,
+  ingredients: String[],
   stock: number,
-  currency: string,
+  currency: String,
   unitPrice: number,
   ratingsAverage: number,
   ratingsCount: number,
-  description: string[],
+  description: String[],
   images: {
     coverIdx: number,
     gallery: ImageEntry[],
@@ -75,7 +75,7 @@ export interface DishData {
 ```js
 export interface ImageEntry {
   breakpoints: number[],
-  paths: string[],
+  paths: String[],
 }
 ```
 
@@ -89,11 +89,11 @@ Collection of reviews and comments data
 
 ```js
 export interface ReviewData {
-  user:string,
-  dish:string,
-  order:string,
-  rating:number,
-  body:string[],
+  user: String,
+  dish: String,
+  order: String,
+  rating: number,
+  body: String[],
 }
 ```
 
@@ -107,18 +107,18 @@ Collection of orders data
 
 ```js
 export interface OrderData {
-  user:string,
-  items:OrderItemsData[],
-  currency:string,
-  totalPrice:number,
+  user: String,
+  items: OrderItemsData[],
+  currency: String,
+  totalPrice: number,
 }
 ```
 ```js
 export interface OrderItemsData{
-  dish:string,
-  quantity:number,
-  dishName:string,
-  unitPrice:number
+  dish: String,
+  quantity: number,
+  dishName: String,
+  unitPrice: number
 }
 ```
 
@@ -132,8 +132,8 @@ Collection of global config
 
 ```js
 export interface ConfigData{
-  mainCurrency:string,
-  persistence:PersistanceEnum,
+  mainCurrency: String,
+  persistence: PersistanceEnum,
 }
 ```
 
@@ -147,9 +147,9 @@ Collection of currencies data
 
 ```js
 export interface CurrencyData {
-  code:CurrencyEnum,
-  symbol:string,
-  name:string,
+  code: String,
+  symbol: String,
+  name: String,
 }
 ```
 
@@ -163,9 +163,9 @@ Collection of exchange rates of currencies
 
 ```js
 export interface ExchangeRateData {
-  rate:number,
-  from:CurrencyEnum,
-  to:CurrencyEnum,
+  rate: number,
+  from: String,
+  to: String,
 }
 ```
 

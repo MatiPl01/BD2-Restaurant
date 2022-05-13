@@ -1,8 +1,7 @@
 import { model, Schema } from 'mongoose';
 import ExchangeRate from "@/resources/exchange-rate/exchange-rate.interface";
-import CurrencyEnum from '@/utils/enums/currency.enum';
 
-
+// TODO - maybe export repeated validation objects from models an import in other models
 const exchangeRateSchema = new Schema(
     {
         rate: {
@@ -11,22 +10,22 @@ const exchangeRateSchema = new Schema(
             required: [true, 'Exchange rate is required'],
         },
 
-        from: {
+        from: { // e.g. USD
             type: String,
-            required: [true, 'Please provide a currency \'from\' code'],
-            enum: {
-                values: Object.values(CurrencyEnum),
-                message: `Available roles are: ${Object.values(CurrencyEnum).join(', ')}`
-            },
+            required: [true, 'Please provide currency code'],
+            unique: [true, 'Currency code must be unique'],
+            trim: [true, 'Currency code cannot start with and end with spaces'],
+            length: [3, 'Currency code must contain 3 letters'],
+            uppercase: [true, 'Currency code must be uppercase']
         },
 
-        to: {
+        to: { // e.g. USD
             type: String,
-            required: [true, 'Please provide a currency \'to\' code'],
-            enum: {
-                values: Object.values(CurrencyEnum),
-                message: `Available roles are: ${Object.values(CurrencyEnum).join(', ')}`
-            },
+            required: [true, 'Please provide currency code'],
+            unique: [true, 'Currency code must be unique'],
+            trim: [true, 'Currency code cannot start with and end with spaces'],
+            length: [3, 'Currency code must contain 3 letters'],
+            uppercase: [true, 'Currency code must be uppercase']
         },
     },
     {

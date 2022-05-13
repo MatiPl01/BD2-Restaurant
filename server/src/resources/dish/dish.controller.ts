@@ -4,7 +4,6 @@ import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
 import updateMiddleware from "@/middleware/requests/update.middleware";
 import authenticate from '@/middleware/auth/authentication.middleware';
-import CurrencyEnum from "@/utils/enums/currency.enum";
 import DishService from "@/resources/dish/dish.service"
 import restrictTo from '@/middleware/auth/authorization.middleware';
 import Controller from "@/utils/interfaces/controller.interface";
@@ -87,7 +86,7 @@ class DishController implements Controller {
             filters,
             fields,
             pagination,
-            currency as CurrencyEnum
+            currency as string | undefined
         );
 
         await response.json(res, 200, dishes);
@@ -113,7 +112,7 @@ class DishController implements Controller {
         const dish = await this.dishService.getDish(
             id,
             fields,
-            currency as CurrencyEnum
+            currency as string | undefined
         );
 
         await response.json(res, 200, dish);

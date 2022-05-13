@@ -1,5 +1,4 @@
 import { Document, Schema } from 'mongoose';
-import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
 
 
@@ -29,7 +28,7 @@ export interface DetailedCartItem {
     type: string;
     unitPrice: number;
     quantity: number;
-    currency: CurrencyEnum;
+    currency: string;
     stock: number;
     image: {
         breakpoints: number[],
@@ -46,7 +45,7 @@ export default interface User extends Document {
     addresses: Address[];
     roles: RoleEnum[];
     cart: CartItem[];
-    defaultCurrency: CurrencyEnum;
+    defaultCurrency: string;
     active: boolean;
     banned: boolean;
 

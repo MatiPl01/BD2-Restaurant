@@ -1,11 +1,10 @@
-import CurrencyEnum from "@/utils/enums/currency.enum";
+import { currencyValidators } from '../currency/currency.validation';
 import Joi from 'joi';
 
-
 const exchangeRateValidators = {
-    from: Joi.string().valid(...Object.values(CurrencyEnum)).required(),
+    from: currencyValidators.code,
 
-    to: Joi.string().valid(...Object.values(CurrencyEnum)).required(),
+    to: currencyValidators.code,
 
     rate: Joi.number().min(0).required().messages({
         'number.min': 'Exchange rate cannot be lower than 0',

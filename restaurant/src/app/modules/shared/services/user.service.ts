@@ -1,5 +1,4 @@
 import { AuthService } from "@auth/services/auth.service";
-import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { HttpService } from "@core/services/http.service";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Injectable } from "@angular/core";
@@ -14,7 +13,7 @@ export class UserService {
     return this.authService.user;
   }
 
-  public updateDefaultCurrency(currency: CurrencyEnum): void {
+  public updateDefaultCurrency(currency: string): void {
     const user = this.user;
     if (!user) throw new Error('Cannot update user currency. No user is currently logged in');
     user.currency = currency;

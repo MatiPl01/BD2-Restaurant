@@ -1,5 +1,4 @@
 import UserData, { Address } from "@auth/interfaces/user.interface";
-import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { CartItem } from "@cart/interfaces/cart-item.interface";
 import { RoleEnum } from "@shared/enums/role.enum";
 
@@ -13,7 +12,7 @@ export default class User {
   public lastName: string;
   public orders: string[];
   public nickName: string;
-  public currency: CurrencyEnum;
+  public currency: string;
   public readonly updatedAt: Date;
   public readonly createdAt: Date;
   public readonly roles: RoleEnum[];

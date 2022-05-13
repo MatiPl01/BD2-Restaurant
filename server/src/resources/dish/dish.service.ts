@@ -1,6 +1,6 @@
 import { updateFiltersCurrency } from '@/utils/filters';
-import { Schema, connection } from 'mongoose';
-import CurrencyEnum from '@/utils/enums/currency.enum';
+import { Schema, ClientSession } from 'mongoose';
+import singleTransaction from '@/utils/single-transaction';
 import reviewModel from '../review/review.model';
 import dishModel from './dish.model';
 import AppError from '@/utils/errors/app.error';
@@ -17,7 +17,7 @@ class DishService {
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number },
-        targetCurrency?: CurrencyEnum
+        targetCurrency?: string
     ): Promise<Partial<Dish>[]> {
         filters = await updateFiltersCurrency(filters, targetCurrency);
         const dishes = await this.dish.find(filters, fields, pagination);
@@ -37,38 +37,27 @@ class DishService {
         return await this.dish.create(dishData);
     }
 
-    public async updateDish(
+    public updateDish = singleTransaction(async (
+        session: ClientSession,
         id: Schema.Types.ObjectId,
         updatedProps: { [key: string]: number }
-    ): Promise<Dish> {
-        const session = await connection.startSession();
-
-        try {
-            session.startTransaction();
-            const updatedDish = await this.dish.findByIdAndUpdate(
-                id,
-                { $set: updatedProps },
-                {
-                    session,
-                    new: true
-                }
-            );
-            if (!updatedDish) throw new AppError(400, `Cannot update dish with id ${id}`);
-            await updatedDish.save({ session });
-            await session.commitTransaction();
-            return updatedDish;
-        } catch (err) {
-            await session.abortTransaction();
-            throw err;
-        } finally {
-            await session.endSession();
-        }
-    }
+    ): Promise<Dish> => {
+        const updatedDish = await this.dish.findByIdAndUpdate(
+            id,
+            { $set: updatedProps },
+            { 
+                new: true,
+                session
+            }
+        );
+        if (!updatedDish) throw new AppError(400, `Cannot update dish with id ${id}`);
+        return await updatedDish.save({ session });
+    })
 
     public async getDish(
         id: Schema.Types.ObjectId,
         fields: { [key: string]: number },
-        targetCurrency?: CurrencyEnum
+        targetCurrency?: string
     ): Promise<Partial<Dish>> {
         let dish;
         if (fields['reviews']) {
@@ -91,9 +80,9 @@ class DishService {
     public async deleteDish(
         id: Schema.Types.ObjectId
     ): Promise<void> {
-        const dish = await this.dish.findByIdAndDelete(id);
+        const deletedDish = await this.dish.findByIdAndDelete(id);
 
-        if (!dish) throw new AppError(404, `Cannot delete dish with id ${id}`);
+        if (!deletedDish) throw new AppError(404, `Cannot delete dish with id ${id}`);
     }
 
     public async getDishReviews(

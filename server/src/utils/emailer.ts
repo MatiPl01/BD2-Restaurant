@@ -30,7 +30,7 @@ const sendMail = async (
 
     // Sent email message
     await transporter.sendMail(emailOptions);
-}
+};
 
 
 export default {

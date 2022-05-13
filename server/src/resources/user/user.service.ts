@@ -1,10 +1,9 @@
-import User, {Address, CartItem, DetailedCartItem} from '@/resources/user/user.interface';
-import CurrencyEnum from '@/utils/enums/currency.enum';
+import User, { Address, CartItem, DetailedCartItem } from '@/resources/user/user.interface';
 import reviewModel from '@/resources/review/review.model';
+import { Schema } from 'mongoose';
 import dishModel from '@/resources/dish/dish.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
-import {Schema} from 'mongoose';
 import currency from '../../utils/currency';
 import emailer from '@/utils/emailer';
 import Review from '../review/review.interface';
@@ -53,7 +52,7 @@ class UserService {
         email: string,
         password: string
     ): Promise<{ token: string, user: User }> {
-        const user = await this.user.findOne({email}).select('+password');
+        const user = await this.user.findOne({ email }).select('+password');
 
         if (user && await user.isValidPassword(password, user.password)) {
             return {
@@ -68,7 +67,7 @@ class UserService {
     public async deactivateUser(
         id: Schema.Types.ObjectId
     ): Promise<void> {
-        await this.user.findByIdAndUpdate(id, {active: false});
+        await this.user.findByIdAndUpdate(id, { active: false });
     }
 
     public async getUser(
@@ -101,7 +100,7 @@ class UserService {
         url: string,
         email: string
     ): Promise<void> {
-        const user = await this.user.findOne({email});
+        const user = await this.user.findOne({ email });
 
         if (!user) throw new AppError(404, `Cannot find user with email: ${email}`);
 
@@ -117,7 +116,7 @@ class UserService {
             });
         } catch (error) {
             user.passwordResetToken = user.passwordResetExpirationTimestamp = undefined;
-            await user.save({validateBeforeSave: false});
+            await user.save({ validateBeforeSave: false });
 
             throw new AppError(500, 'There was an error sending the email. Try again later!');
         }
@@ -134,7 +133,7 @@ class UserService {
 
         const user = await UserModel.findOne({
             passwordResetToken: hashedToken,
-            passwordResetExpirationTimestamp: {$gt: Date.now()}
+            passwordResetExpirationTimestamp: { $gt: Date.now() }
         });
 
         if (!user) throw new AppError(400, 'Token is invalid or has expired');
@@ -169,8 +168,8 @@ class UserService {
     ): Promise<User> {
         const updatedUser = await this.user.findByIdAndUpdate(
             id,
-            {$set: updatedProps},
-            {new: true}
+            { $set: updatedProps },
+            { new: true }
         );
         if (updatedUser) return updatedUser;
 
@@ -184,7 +183,7 @@ class UserService {
         pagination: { skip: number, limit: number }
     ): Promise<Partial<Review>[]> {
         return this.review.find(
-            {user: id, ...filters},
+            { user: id, ...filters },
             fields,
             pagination
         );
@@ -192,12 +191,12 @@ class UserService {
 
     public async getUserCart(
         user: User,
-        targetCurrency?: CurrencyEnum
+        targetCurrency?: string
     ): Promise<DetailedCartItem[]> {
         const detailedCart: DetailedCartItem[] = [];
 
         for (const cartItem of user.cart) {
-            const {dish: dishID, quantity} = cartItem;
+            const { dish: dishID, quantity } = cartItem;
 
             const dish = await dishModel.findById(dishID);
             if (dish) {
@@ -216,7 +215,7 @@ class UserService {
         id: Schema.Types.ObjectId,
         cart: CartItem[]
     ): Promise<CartItem[]> {
-        for (let {dish: dishID, quantity} of cart) {
+        for (let { dish: dishID, quantity } of cart) {
             const dish = await this.dish.findById(dishID);
 
             if (!dish) throw new AppError(404, `Cannot find dish with id ${dishID}`);
@@ -226,7 +225,7 @@ class UserService {
             }
         }
 
-        const updatedUser = await this.user.findByIdAndUpdate(id, {cart});
+        const updatedUser = await this.user.findByIdAndUpdate(id, { cart });
         if (!updatedUser) throw new AppError(400, `Unable to update cart for user with id ${id}`);
 
         return cart; // I don't know why updatedUser.user is still not updated but GET returns the new cart
@@ -235,10 +234,10 @@ class UserService {
     private async createCartItem(
         dish: Dish,
         quantity: number,
-        targetCurrency?: CurrencyEnum
+        targetCurrency?: string
     ): Promise<DetailedCartItem> {
         let unitPrice: number;
-        const dishCurrency = dish.currency as CurrencyEnum;
+        const dishCurrency = dish.currency;
 
         if (targetCurrency) {
             unitPrice = await currency.exchangeCurrency(
@@ -250,8 +249,8 @@ class UserService {
             unitPrice = dish.unitPrice
         }
 
-        const {coverIdx, gallery} = dish.images;
-        const {breakpoints, paths} = gallery[coverIdx];
+        const { coverIdx, gallery } = dish.images;
+        const { breakpoints, paths } = gallery[coverIdx];
 
         return {
             dishID: dish.id,

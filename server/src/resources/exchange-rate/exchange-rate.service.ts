@@ -1,4 +1,6 @@
+import { ClientSession } from 'mongoose';
 import ExchangeRateModel from '@/resources/exchange-rate/exchange-rate.model';
+import singleTransaction from '@/utils/single-transaction';
 import ExchangeRate from '@/resources/exchange-rate/exchange-rate.interface';
 import AppError from '@/utils/errors/app.error';
 
@@ -8,43 +10,85 @@ class ExchangeRateService {
 
     public async getExchangeRate(
         from: string,
-        to: string
+        to: string,
+        session?: ClientSession
     ): Promise<ExchangeRate> {
-        const exchangeRate = await this.exchangeRate.findOne({ from, to });
+        const exchangeRate = await this.exchangeRate.findOne({ from, to }, {}, { session });
         if (exchangeRate) return exchangeRate;
 
         throw new AppError(500, `Cannot find Exchange Rate from ${from} to ${to}`);
     }
 
-    public async createExchangeRate(
+    public createExchangeRate = singleTransaction(async (
+        session: ClientSession,
         exchangeRateData: ExchangeRate
-    ): Promise<ExchangeRate> { // TODO - add automatic creating reversed exchange rate
+    ): Promise<ExchangeRate[]> => {
+        exchangeRateData.rate = this.ceilDecimalDigits(exchangeRateData.rate);
 
-        return await this.exchangeRate.create(exchangeRateData);
-    }
+        const inverseExchangeRateData = {
+            from: exchangeRateData.to,
+            to: exchangeRateData.from,
+            rate: this.ceilDecimalDigits(1 / exchangeRateData.rate)
+        }
 
-    public async updateExchangeRate(
+        return await this.exchangeRate.create([
+            exchangeRateData,
+            inverseExchangeRateData
+        ], { session });
+    })
+
+    public updateExchangeRate = singleTransaction(async (
+        session: ClientSession,
         from: string,
         to: string,
         rate: number
-    ): Promise<ExchangeRate[]> {
-        const rate1 = Math.ceil(rate * 10000) / 10000;
-        const exchangeRate1 = await this.exchangeRate.findOneAndUpdate(
+    ): Promise<ExchangeRate[]> => {
+        return [
+            await this.updateExchangeRateHelper(from, to, rate, session),
+            await this.updateExchangeRateHelper(to, from, 1 / rate, session)
+        ];
+    })
+
+    public deleteExchangeRate = singleTransaction(async (
+        session: ClientSession,
+        from: string,
+        to: string
+    ): Promise<void> => {
+        if (from === to) {
+            throw new AppError(400, 'Both specified currencies must be different');
+        }
+
+        if (![
+            await this.exchangeRate.deleteOne({ from, to }, { session }),
+            await this.exchangeRate.deleteOne({ from: to, to: from }, { session })
+        ].every(res => res !== null)) {
+            throw new AppError(404, `Cannot delete exchange rate from ${from} to ${to}`);
+        }
+    })
+
+    private ceilDecimalDigits(
+        num: number, 
+        digitsCount: number = 4
+    ): number {
+        const pow = Math.pow(10, digitsCount);
+        return Math.ceil(num * pow) / pow;
+    }
+
+    private async updateExchangeRateHelper(
+        from: string,
+        to: string,
+        rate: number,
+        session?: ClientSession
+    ): Promise<ExchangeRate> {
+        const exchangeRate = await this.exchangeRate.findOneAndUpdate(
             { from, to },
-            { $set: { rate: rate1 } },
-            { new: true }
+            { $set: { rate: this.ceilDecimalDigits(rate) } },
+            session ? { new: true, session } : { new: true }
         );
-        if (!exchangeRate1) throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
 
-        const rate2 = Math.ceil(1 / rate * 10000) / 10000;
-        const exchangeRate2 = await this.exchangeRate.findOneAndUpdate(
-            { from: to, to: from },
-            { $set: { rate: rate2 } },
-            { new: true }
-        );
-        if (!exchangeRate2) throw new AppError(404, `Cannot find exchange rate from ${to} to ${from}`);
-
-        return [exchangeRate1, exchangeRate2];
+        if (exchangeRate) return exchangeRate;
+        
+        throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
     }
 }
 

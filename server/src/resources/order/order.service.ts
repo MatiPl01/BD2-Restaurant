@@ -1,10 +1,9 @@
 import { updateFiltersCurrency } from '@/utils/filters';
-import CurrencyEnum from '@/utils/enums/currency.enum';
+import { Schema } from 'mongoose';
 import orderModel from './order.model';
 import currency from '@/utils/currency';
-import { Schema } from 'mongoose';
-import Order from '@/resources/order/order.interface';
 import AppError from '@/utils/errors/app.error';
+import Order from '@/resources/order/order.interface';
 
 
 class OrderService {
@@ -31,7 +30,7 @@ class OrderService {
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number },
-        targetCurrency?: CurrencyEnum
+        targetCurrency?: string
     ): Promise<Order[]> {
         filters = await updateFiltersCurrency(filters, targetCurrency);
         const orders = await this.order.find(
@@ -54,7 +53,7 @@ class OrderService {
 
                         orderItem.unitPrice = await currency.exchangeCurrency(
                             orderItem.unitPrice,
-                            order.currency as CurrencyEnum,
+                            order.currency,
                             targetCurrency
                         );
                     }
@@ -63,7 +62,7 @@ class OrderService {
                 if (order.totalPrice) {
                     order.totalPrice = await currency.exchangeCurrency(
                         order.totalPrice,
-                        order.currency as CurrencyEnum,
+                        order.currency,
                         targetCurrency
                     );
                 }

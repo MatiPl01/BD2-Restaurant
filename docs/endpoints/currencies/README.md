@@ -38,7 +38,7 @@ Result:
 
 Endpoint:
 ```
-PATCH {{baseUrl}}/currencies/:CurrencyEnum
+PATCH {{baseUrl}}/currencies/:code
 ```
 Result:
 ```json

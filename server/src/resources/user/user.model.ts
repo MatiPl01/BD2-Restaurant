@@ -1,9 +1,11 @@
 import { model, Schema } from 'mongoose';
-import CurrencyEnum from '@/utils/enums/currency.enum';
+import configModel from '../config/config.model';
 import RoleEnum from '@/utils/enums/role.enum';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import User from '@/resources/user/user.interface';
+import AppError from '@/utils/errors/app.error';
+
 
 const userCartSchema = new Schema(
     {
@@ -186,11 +188,11 @@ const userSchema = new Schema(
 
         defaultCurrency: {
             type: String,
-            default: process.env.DEFAULT_CURRENCY,
-            enum: {
-                values: Object.values(CurrencyEnum),
-                message: `Available roles are: ${Object.values(CurrencyEnum).join(', ')}`
-            },
+            required: [true, 'Please provide currency code'],
+            unique: [true, 'Currency code must be unique'],
+            trim: [true, 'Currency code cannot start with and end with spaces'],
+            length: [3, 'Currency code must contain 3 letters'],
+            uppercase: [true, 'Currency code must be uppercase']
         },
 
         active: {
@@ -225,6 +227,21 @@ const userSchema = new Schema(
         versionKey: false
     }
 );
+
+
+userSchema.pre<User>('validate', async function (
+    next
+): Promise<void> {
+    if (!this.defaultCurrency) {
+        const config = await configModel.findOne();
+        if (!config || !config.mainCurrency) {
+            return next(new AppError(404, 'Cannot get main currency from the config'));
+        }
+
+        this.defaultCurrency = config.mainCurrency;
+    }
+    next();
+});
 
 userSchema.pre<User>('save', async function (
     next
