@@ -1,4 +1,4 @@
-import { Document } from 'mongoose';
+import { Document, ClientSession } from 'mongoose';
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 
 
@@ -6,5 +6,5 @@ export default interface Config extends Document {
     persistence: PersistenceEnum;
     mainCurrency: string;
 
-    updateMainCurrency(currency: string): void;
+    updateMainCurrency(currency: string, session?: ClientSession): void;
 }

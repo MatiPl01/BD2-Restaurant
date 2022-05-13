@@ -41,6 +41,7 @@
 - [X] Get ExchangeRates
 - [X] Edit ExchangeRateRatio
 - [ ] Save previous exchange rates in the history (for orders placed in the past)
+- [ ] Remove all exchange rates containing removed currency (use Atlas trigger)
 
 ### **Global**
 

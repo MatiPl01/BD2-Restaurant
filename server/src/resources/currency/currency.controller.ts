@@ -36,7 +36,7 @@ class CurrencyController implements Controller {
                 validationMiddleware(undefined, validate.params.currencyCode),
                 this.getCurrency
             )
-            .delete(
+            .delete( // TODO - add trigger to delete all exchange rates with this currency
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
                 validationMiddleware(undefined, validate.params.currencyCode),
@@ -48,7 +48,7 @@ class CurrencyController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const code = req.params.code as string;
+        const code: any = req.params.code;
         const currency = await this.currencyService.getCurrency(code);
 
         await response.json(res, 200, currency);

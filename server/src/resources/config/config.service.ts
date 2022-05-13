@@ -1,7 +1,8 @@
-import Config from '@/resources/config/config.interface';
-import AppError from '@/utils/errors/app.error';
-import dishModel from '../dish/dish.model';
+import { ClientSession } from 'mongoose';
+import singleTransaction from '@/utils/single-transaction';
 import ConfigModel from '@/resources/config/config.model';
+import AppError from '@/utils/errors/app.error';
+import Config from '@/resources/config/config.interface';
 
 
 class ConfigService {
@@ -14,26 +15,26 @@ class ConfigService {
         throw new AppError(404, 'Cannot get config');
     }
 
-    public async updateConfig(
+    public updateConfig = singleTransaction(async (
+        session: ClientSession,
         updatedProps: { [key: string]: any }
-    ): Promise<Config> {
+    ): Promise<Config> => {
         const { mainCurrency } = updatedProps;
         if (mainCurrency) delete updatedProps['mainCurrency'];
         
         const config = await this.config.findOneAndUpdate(
             {},
             { $set: updatedProps },
-            { new: true }
+            session ? { new: true, session } : { new: true }
         );
 
         if (config) {
-            await config.updateMainCurrency(mainCurrency);
-            await config.save(); // Call this to run pre('save') middleware
+            await config.updateMainCurrency(mainCurrency, session);
             return config;
         }
 
         throw new AppError(400, 'Cannot update config');
-    };
+    })
 }
 
 

@@ -33,19 +33,18 @@ const configSchema = new Schema(
 );
 
 configSchema.methods.updateMainCurrency = async function (
-    targetCurrency: string  
+    targetCurrency: string,
+    session?: ClientSession  
 ): Promise<void> {
-    await singleTransaction(async (session: ClientSession) => {
-        if (targetCurrency === this.mainCurrency) return;
+    if (targetCurrency === this.mainCurrency) return;
 
-        this.mainCurrency = targetCurrency;
+    this.mainCurrency = targetCurrency;
 
-        for (const dish of await dishModel.find({}, {}, { session }).select('+mainUnitPrice')) {
-            await dish.updateMainUnitPrice.call(dish, targetCurrency, session);
-        }
-        
-        await this.save({ session });
-    })();
+    for (const dish of await dishModel.find({}, {}, { session }).select('+mainUnitPrice')) {
+        await dish.updateMainUnitPrice.call(dish, targetCurrency, session);
+    }
+
+    await this.save({ session });
 }
 
 

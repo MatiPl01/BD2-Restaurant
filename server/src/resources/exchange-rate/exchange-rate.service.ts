@@ -2,11 +2,15 @@ import { ClientSession } from 'mongoose';
 import ExchangeRateModel from '@/resources/exchange-rate/exchange-rate.model';
 import singleTransaction from '@/utils/single-transaction';
 import ExchangeRate from '@/resources/exchange-rate/exchange-rate.interface';
+import configModel from '../config/config.model';
+import dishModel from '../dish/dish.model';
 import AppError from '@/utils/errors/app.error';
 
 
 class ExchangeRateService {
     private exchangeRate = ExchangeRateModel
+    private config = configModel;
+    private dish = dishModel;
 
     public async getExchangeRate(
         from: string,
@@ -43,10 +47,26 @@ class ExchangeRateService {
         to: string,
         rate: number
     ): Promise<ExchangeRate[]> => {
-        return [
+        const results = [
             await this.updateExchangeRateHelper(from, to, rate, session),
             await this.updateExchangeRateHelper(to, from, 1 / rate, session)
         ];
+
+        const config = await this.config.findOne({}, {}, { session });
+        if (!config || !config.mainCurrency) {
+            throw new AppError(404, 'Cannot get the main currency');
+        }
+
+        // Update the mainUnitPrice for all dishes for which the exchange rate
+        // was modified
+        if (to === config.mainCurrency) {
+            const dishes = await this.dish.find({ currency: from }, {}, { session });
+            for (const dish of dishes) {
+                await dish.updateMainUnitPrice(to, session);
+            }
+        }
+
+        return results;
     })
 
     public deleteExchangeRate = singleTransaction(async (

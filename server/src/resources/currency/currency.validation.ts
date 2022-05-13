@@ -25,7 +25,9 @@ export const currencyValidators = {
 
 
 const params = {
-    currencyCode: currencyValidators.code
+    currencyCode: Joi.object({
+        code: currencyValidators.code
+    })
 };
 
 const body = {

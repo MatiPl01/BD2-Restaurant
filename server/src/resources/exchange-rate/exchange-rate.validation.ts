@@ -14,8 +14,8 @@ const exchangeRateValidators = {
 
 const params = {
     updateExchangeRate: Joi.object({
-        from: exchangeRateValidators.from.optional(),
-        to: exchangeRateValidators.to.optional(),
+        from: exchangeRateValidators.from,
+        to: exchangeRateValidators.to,
     })
 }
 
