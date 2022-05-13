@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response, Router} from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
 import filteringMiddleware from '@/middleware/requests/filtering.middleware';
@@ -12,7 +12,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import RoleEnum from '@/utils/enums/role.enum';
 import validate from '@/resources/user/user.validation';
 import response from '@/utils/response';
-import {Schema} from 'mongoose';
+import { Schema } from 'mongoose';
 import AppError from '@/utils/errors/app.error';
 
 
@@ -143,7 +143,6 @@ class UserController implements Controller {
                 selectFieldsMiddleware,
                 this.getUserReviews
             );
-
     }
 
     private register = catchAsync(async (
@@ -160,7 +159,7 @@ class UserController implements Controller {
             defaultCurrency
         } = req.body;
 
-        const {token, user} = await this.userService.register(
+        const { token, user } = await this.userService.register(
             firstName,
             lastName,
             nickName,
@@ -171,17 +170,17 @@ class UserController implements Controller {
             defaultCurrency || process.env.DEFAULT_CURRENCY
         );
 
-        await this.sendToken(res, token, {user});
+        await this.sendToken(res, token, { user });
     })
 
     private login = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {email, password} = req.body;
-        const {token, user} = await this.userService.login(email, password);
+        const { email, password } = req.body;
+        const { token, user } = await this.userService.login(email, password);
 
-        await this.sendToken(res, token, {user});
+        await this.sendToken(res, token, { user });
     })
 
     private getCurrentUser = catchAsync(async (
@@ -195,7 +194,7 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {user} = req;
+        const { user } = req;
         await this.userService.deactivateUser(user.id);
 
         await response.json(res, 204, null);
@@ -235,8 +234,8 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {filters, fields} = req;
-        const {page, limit} = req.query;
+        const { filters, fields } = req;
+        const { page, limit } = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -259,7 +258,7 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {email} = req.body;
+        const { email } = req.body;
         const url = `${req.protocol}://${req.get('host')}/api/${process.env.API_VERSION}/${this.PATH}/reset-password`
         await this.userService.forgotPassword(url, email);
 
@@ -271,7 +270,7 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const resetToken = req.params.token;
-        const {newPassword} = req.body;
+        const { newPassword } = req.body;
 
         const token = await this.userService.resetPassword(resetToken, newPassword);
 
@@ -282,8 +281,8 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {user} = req;
-        const {currPassword, newPassword} = req.body;
+        const { user } = req;
+        const { currPassword, newPassword } = req.body;
         const token = await this.userService.updatePassword(user.id, currPassword, newPassword);
 
         await this.sendToken(res, token);
@@ -304,8 +303,8 @@ class UserController implements Controller {
         res: Response
     ): Promise<void> => {
         const userID = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const {filters, fields} = req;
-        const {page, limit} = req.query;
+        const { filters, fields } = req;
+        const { page, limit } = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -323,7 +322,7 @@ class UserController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {currency} = req.query;
+        const { currency } = req.query;
         const cart = await this.userService.getUserCart(
             req.user,
             currency as CurrencyEnum
@@ -363,7 +362,7 @@ class UserController implements Controller {
         token: string,
         body?: { [key: string]: { [key: string]: any } }
     ): Promise<void> => {
-        const {JWT_COOKIE_EXPIRES_IN, NODE_ENV} = process.env;
+        const { JWT_COOKIE_EXPIRES_IN, NODE_ENV } = process.env;
         if (JWT_COOKIE_EXPIRES_IN === undefined) {
             throw new AppError(500, 'Cannot send token');
         }

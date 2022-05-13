@@ -1,4 +1,4 @@
-import {model, Schema} from 'mongoose';
+import { model, Schema } from 'mongoose';
 import dishModel from '../dish/dish.model';
 import AppError from '@/utils/errors/app.error';
 import Review from '@/resources/review/review.interface';
@@ -56,9 +56,9 @@ const reviewSchema = new Schema(
 );
 
 // Add indexes on the specific fields of the documents
-reviewSchema.index({user: 1, dish: 1, rating: 1});
+reviewSchema.index({ user: 1, dish: 1, rating: 1 });
 
-reviewSchema.pre<Review>('validate', async function(
+reviewSchema.pre<Review>('validate', async function (
     next
 ): Promise<void> {
     const dishID = this.dish;

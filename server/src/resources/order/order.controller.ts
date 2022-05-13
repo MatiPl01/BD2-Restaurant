@@ -1,4 +1,4 @@
-import {Request, Response, Router} from "express";
+import { Request, Response, Router } from "express";
 import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
@@ -52,8 +52,8 @@ class OrderController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        const {filters, fields} = req;
-        const {page, limit, currency} = req.query;
+        const { filters, fields } = req;
+        const { page, limit, currency } = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -63,8 +63,8 @@ class OrderController implements Controller {
         }
 
         const orders = await this.orderService.getUserOrders(
-            user.id, 
-            filters, 
+            user.id,
+            filters,
             fields,
             pagination,
             currency as CurrencyEnum | undefined

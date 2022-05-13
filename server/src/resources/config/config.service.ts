@@ -15,21 +15,21 @@ class ConfigService {
     }
 
     public async updateConfig(
-        updatedProps: { [key: string]: number }
+        updatedProps: { [key: string]: any }
     ): Promise<Config> {
-        const updatedConfig = await this.config.findOneAndUpdate(
+        const { mainCurrency } = updatedProps;
+        if (mainCurrency) delete updatedProps['mainCurrency'];
+        
+        const config = await this.config.findOneAndUpdate(
             {},
             { $set: updatedProps },
             { new: true }
         );
 
-        if (updatedConfig) {
-            // Update the main price of all dishes if the main currency was changed
-            for (const dish of await dishModel.find()) {
-                await dish.updateMainUnitPrice();
-                await dish.save();
-            };
-            return updatedConfig;
+        if (config) {
+            await config.updateMainCurrency(mainCurrency);
+            await config.save(); // Call this to run pre('save') middleware
+            return config;
         }
 
         throw new AppError(400, 'Cannot update config');

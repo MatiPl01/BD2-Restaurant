@@ -22,7 +22,7 @@ const sendMail = async (
     })
 
     // Create email message object
-    const {to, subject, text} = options;
+    const { to, subject, text } = options;
     const emailOptions = {
         from: 'Yummyfood <noreply@yummyfood.com>',
         to, subject, text

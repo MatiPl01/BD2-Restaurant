@@ -1,32 +1,33 @@
-import {model, Schema} from 'mongoose';
+import { model, Schema } from 'mongoose';
 import exchangeRateModel from '../exchange-rate/exchange-rate.model';
 import configModel from '../config/config.model';
 import AppError from '@/utils/errors/app.error';
 import Dish from '@/resources/dish/dish.interface';
+import CurrencyEnum from '@/utils/enums/currency.enum';
 
 
 const gallerySchema = new Schema({
-        breakpoints: {
-            type: [
-                {
-                    type: Number,
-                    min: [0, 'Dish image breakpoint should not be lower than 0'],
-                    required: [true, 'Please provide dish image breakpoint']
-                }
-            ],
-            required: [true, 'Please provide dish images breakpoints']
-        },
-        paths: {
-            type: [
-                {
-                    type: String,
-                    trim: [true, 'Dish image path must have no spaces at the beginning ans ath the end'],
-                    required: [true, 'Please provide dish image path']
-                }
-            ],
-            required: [true, 'Please provide dish images paths']
-        }
+    breakpoints: {
+        type: [
+            {
+                type: Number,
+                min: [0, 'Dish image breakpoint should not be lower than 0'],
+                required: [true, 'Please provide dish image breakpoint']
+            }
+        ],
+        required: [true, 'Please provide dish images breakpoints']
     },
+    paths: {
+        type: [
+            {
+                type: String,
+                trim: [true, 'Dish image path must have no spaces at the beginning ans ath the end'],
+                required: [true, 'Please provide dish image path']
+            }
+        ],
+        required: [true, 'Please provide dish images paths']
+    }
+},
     {
         _id: false,
         timestamps: false,
@@ -147,13 +148,13 @@ const dishSchema = new Schema(
 
     {
         versionKey: false,
-        toJSON: {virtuals: true},
-        toObject: {virtuals: true}
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
     }
 );
 
 // Add indexes on the specific fields of the documents
-dishSchema.index({category: 1, cuisine: 1, ratingsAverage: 1});
+dishSchema.index({ category: 1, cuisine: 1, ratingsAverage: 1 });
 
 dishSchema.virtual('reviews', {
     ref: 'Review',
@@ -170,19 +171,24 @@ dishSchema.pre<Dish>('validate', async function (
     next();
 });
 
-dishSchema.methods.updateMainUnitPrice = async function (): Promise<void> {
-    const {unitPrice, currency: from} = this;
+dishSchema.methods.updateMainUnitPrice = async function (
+    targetCurrency?: CurrencyEnum
+): Promise<void> {
+    const { unitPrice, currency: from } = this;
+    let to = targetCurrency;
 
-    const config = await configModel.findOne();
-    if (!config) throw new AppError(404, 'Cannot find config in a database');
+    if (!to) {
+        const config = await configModel.findOne();
+        if (!config) throw new AppError(404, 'Cannot find config in a database');
+        to = config.mainCurrency;
+    }
 
-    const to = config.mainCurrency;
     if (from === to) {
         this.mainUnitPrice = unitPrice;
         return;
     }
 
-    const exchangeRate = await exchangeRateModel.findOne({from, to});
+    const exchangeRate = await exchangeRateModel.findOne({ from, to });
     if (!exchangeRate) {
         throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
     }

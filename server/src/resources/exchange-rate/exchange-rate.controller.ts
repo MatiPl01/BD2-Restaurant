@@ -1,4 +1,4 @@
-import {Request, Response, Router} from 'express';
+import { Request, Response, Router } from 'express';
 import validationMiddleware from '@/middleware/validation.middleware';
 import ExchangeRateService from './exchange-rate.service';
 import updateMiddleware from "@/middleware/requests/update.middleware";
@@ -73,7 +73,7 @@ class ExchangeRateController implements Controller {
     ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
-        const {rate} = req.body;
+        const { rate } = req.body;
         const updatedExchangeRate = await this.exchangeRateService.updateExchangeRate(from, to, rate);
 
         await response.json(res, 200, updatedExchangeRate);

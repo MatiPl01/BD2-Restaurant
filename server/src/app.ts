@@ -1,4 +1,4 @@
-import express, {Application, NextFunction, Request, Response} from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import mongoSanitize from 'express-mongo-sanitize';
 import compression from 'compression';
 import mongoose from 'mongoose';
@@ -33,7 +33,7 @@ class App {
     }
 
     private static initializeDatabaseConnection(): void {
-        const {MONGO_USER, MONGO_PASSWORD, MONGO_PATH} = process.env;
+        const { MONGO_USER, MONGO_PASSWORD, MONGO_PATH } = process.env;
 
         mongoose.connect(
             `mongodb+srv://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`
@@ -69,7 +69,7 @@ class App {
         // Prevent parameter pollution
         this.express.use(hpp());
         // Parse url with the querystring library
-        this.express.use(express.urlencoded({extended: false}));
+        this.express.use(express.urlencoded({ extended: false }));
         // Response bodies compression
         this.express.use(compression());
     }

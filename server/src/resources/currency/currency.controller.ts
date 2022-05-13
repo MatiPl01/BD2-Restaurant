@@ -1,4 +1,4 @@
-import {Request, Response, Router} from 'express';
+import { Request, Response, Router } from 'express';
 import validationMiddleware from "@/middleware/validation.middleware";
 import CurrencyService from '@/resources/currency/currency.service';
 import Controller from '@/utils/interfaces/controller.interface';

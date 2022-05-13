@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 import mongoError from '@/utils/errors/mongo.error';
 import jwtError from '@/utils/errors/jwt.error';
 import IError from '@/utils/interfaces/error.interface';

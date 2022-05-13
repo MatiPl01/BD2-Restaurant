@@ -1,4 +1,4 @@
-import {Request, Response, Router} from "express";
+import { Request, Response, Router } from "express";
 import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
@@ -11,7 +11,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import response from "@/utils/response";
 import validate from "@/resources/review/review.validation";
 import RoleEnum from "@/utils/enums/role.enum";
-import {Schema} from 'mongoose';
+import { Schema } from 'mongoose';
 
 
 class ReviewController implements Controller {
@@ -62,8 +62,8 @@ class ReviewController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {filters, fields} = req;
-        const {page, limit} = req.query;
+        const { filters, fields } = req;
+        const { page, limit } = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -82,7 +82,7 @@ class ReviewController implements Controller {
         res: Response
     ): Promise<void> => {
         const user = req.user;
-        const {dish: dishID, order: OrderID, rating, body} = req.body;
+        const { dish: dishID, order: OrderID, rating, body } = req.body;
         const review = await this.reviewService.createReview(user.id, dishID, OrderID, rating, body);
         await response.json(res, 200, review);
     })
@@ -111,7 +111,7 @@ class ReviewController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {fields} = req;
+        const { fields } = req;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.getReview(id, fields);
         await response.json(res, 200, review);

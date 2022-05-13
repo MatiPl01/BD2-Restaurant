@@ -7,7 +7,7 @@ class CurrencyService {
     private currencies = CurrencyModel;
 
     public async getCurrency(code: string): Promise<Currency> {
-        const result = await this.currencies.findOne({code});
+        const result = await this.currencies.findOne({ code });
         if (result) return result;
 
         throw new AppError(300, `Currency with code ${code} was not found`);

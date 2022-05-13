@@ -1,4 +1,4 @@
-import {cleanEnv, num, port, str} from 'envalid';
+import { cleanEnv, num, port, str } from 'envalid';
 
 
 const validateEnv = () => {
@@ -8,7 +8,7 @@ const validateEnv = () => {
         NODE_ENV: str({
             choices: ['development', 'production'],
         }),
-        PORT: port({default: 3000}),
+        PORT: port({ default: 3000 }),
 
         // Mongo database settings
         MONGO_PATH: str(),

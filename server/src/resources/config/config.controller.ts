@@ -1,4 +1,4 @@
-import {Router, Request, Response} from 'express';
+import { Router, Request, Response } from 'express';
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';

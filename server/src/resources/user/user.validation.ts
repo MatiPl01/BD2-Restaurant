@@ -149,6 +149,7 @@ const passwordMessages = {
 
 
 const body = {
+    // Restrict to: USER
     register: Joi.object(userValidators),
 
     login: Joi.object({
@@ -197,20 +198,13 @@ const body = {
         }
     }),
 
-    updateUserByAdmin:Joi.object({
-        roles:userValidators.roles.optional(),
-        banned:userValidators.banned.optional()
-    }),
-
     setUserCart: Joi.array().items(Joi.object(cartItemValidators)),
 
-    updateUserRoles: Joi.object({
-        roles: userValidators.roles
-    }),
-
-    updateUserBanStatus: Joi.object({
-        banned: userValidators.banned
-    }),
+    // Restrict to: ADMIN
+    updateUserByAdmin: Joi.object({
+        roles: userValidators.roles.optional(),
+        banned: userValidators.banned.optional()
+    })
 }
 
 

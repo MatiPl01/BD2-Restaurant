@@ -1,4 +1,4 @@
-import {model, Schema} from 'mongoose';
+import { model, Schema } from 'mongoose';
 import ExchangeRate from "@/resources/exchange-rate/exchange-rate.interface";
 import CurrencyEnum from '@/utils/enums/currency.enum';
 

@@ -1,4 +1,4 @@
-import {model, Schema} from 'mongoose';
+import { model, Schema } from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import dishModel from '../dish/dish.model';
 import AppError from '@/utils/errors/app.error';
@@ -81,7 +81,7 @@ const orderSchema = new Schema(
 );
 
 // Add indexes on the specific fields of the documents
-orderSchema.index({user: 1, 'items.dish': 1});
+orderSchema.index({ user: 1, 'items.dish': 1 });
 
 orderSchema.pre<Order>('validate', async function (
     next
@@ -92,9 +92,13 @@ orderSchema.pre<Order>('validate', async function (
     let totalPrice = 0;
 
     for (const item of this.items) {
-        const dishID = item.dish;
+        const { dish: dishID, quantity, unitPrice } = item;
         const dish = await dishModel.findById(dishID);
         if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`));
+
+        if (quantity > dish.stock) {
+            return next(new AppError(400, `Cannot buy ${quantity} units of dish with id ${dishID}. There are only ${dish.stock} units in stock.`));
+        }
 
         item.dishName = dish.name;
         item.unitPrice = await currency.exchangeCurrency(
@@ -102,9 +106,9 @@ orderSchema.pre<Order>('validate', async function (
             dish.currency as CurrencyEnum,
             orderCurrency as CurrencyEnum
         );
-        totalPrice += item.unitPrice * item.quantity;
+        totalPrice += unitPrice * quantity;
     }
-    
+
     this.totalPrice = Math.ceil(totalPrice * 100) / 100;
 
     next();

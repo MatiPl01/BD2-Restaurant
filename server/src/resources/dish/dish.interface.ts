@@ -1,4 +1,5 @@
-import {Document, Schema} from 'mongoose';
+import CurrencyEnum from '@/utils/enums/currency.enum';
+import { Document, Schema } from 'mongoose';
 
 
 export default interface Dish extends Document {
@@ -23,5 +24,5 @@ export default interface Dish extends Document {
     },
     reviews: Schema.Types.ObjectId[]
 
-    updateMainUnitPrice(): void;
+    updateMainUnitPrice(targetCurrency?: CurrencyEnum): void;
 }

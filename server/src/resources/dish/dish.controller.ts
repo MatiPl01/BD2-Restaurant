@@ -1,4 +1,4 @@
-import {Request, Response, Router} from "express";
+import { Request, Response, Router } from "express";
 import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
 import validationMiddleware from "@/middleware/validation.middleware";
 import filteringMiddleware from "@/middleware/requests/filtering.middleware";
@@ -12,7 +12,7 @@ import catchAsync from "@/utils/errors/catch-async";
 import validation from "@/resources/dish/dish.validation";
 import response from "@/utils/response";
 import RoleEnum from "@/utils/enums/role.enum";
-import {Schema} from 'mongoose';
+import { Schema } from 'mongoose';
 import Dish from "./dish.interface";
 
 
@@ -73,8 +73,8 @@ class DishController implements Controller {
         req: Request,
         res: Response
     ): Promise<void> => {
-        const {filters, fields} = req;
-        const {page, limit, currency} = req.query;
+        const { filters, fields } = req;
+        const { page, limit, currency } = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 
@@ -109,7 +109,7 @@ class DishController implements Controller {
     ): Promise<void> => {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const fields = req.fields;
-        const {currency} = req.query;
+        const { currency } = req.query;
         const dish = await this.dishService.getDish(
             id,
             fields,
@@ -144,8 +144,8 @@ class DishController implements Controller {
         res: Response
     ): Promise<void> => {
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const {filters, fields} = req;
-        const {page, limit} = req.query;
+        const { filters, fields } = req;
+        const { page, limit } = req.query;
         const pageNum = +(page || 0) || 1;
         const limitNum = +(limit || 0) || 30;
 

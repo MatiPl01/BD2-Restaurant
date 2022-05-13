@@ -1,5 +1,5 @@
-import {updateFiltersCurrency} from '@/utils/filters';
-import {Schema, connection} from 'mongoose';
+import { updateFiltersCurrency } from '@/utils/filters';
+import { Schema, connection } from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import reviewModel from '../review/review.model';
 import dishModel from './dish.model';
@@ -46,15 +46,15 @@ class DishService {
         try {
             session.startTransaction();
             const updatedDish = await this.dish.findByIdAndUpdate(
-                id, 
-                {$set: updatedProps}, 
+                id,
+                { $set: updatedProps },
                 {
                     session,
                     new: true
                 }
             );
             if (!updatedDish) throw new AppError(400, `Cannot update dish with id ${id}`);
-            await updatedDish.save({session});
+            await updatedDish.save({ session });
             await session.commitTransaction();
             return updatedDish;
         } catch (err) {
@@ -103,7 +103,7 @@ class DishService {
         pagination: { skip: number, limit: number }
     ): Promise<Partial<Review>[]> {
         return this.review.find(
-            {dish: id, ...filters},
+            { dish: id, ...filters },
             fields,
             pagination
         );

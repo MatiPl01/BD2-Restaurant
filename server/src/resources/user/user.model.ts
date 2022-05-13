@@ -1,11 +1,11 @@
-import {model, Schema} from 'mongoose';
+import { model, Schema } from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import User from '@/resources/user/user.interface';
 
-const userCartSchema=new Schema(
+const userCartSchema = new Schema(
     {
         dish: {
             type: Schema.Types.ObjectId,
@@ -238,7 +238,7 @@ userSchema.pre<User>('save', async function (
 userSchema.pre<User>(/^find/, function (
     next
 ): void {
-    this.find({active: {$ne: false}});
+    this.find({ active: { $ne: false } });
     next();
 });
 
@@ -270,12 +270,12 @@ userSchema.methods.createPasswordResetToken = async function (): Promise<string>
 
 
     // Calculate and save token expiration date
-    const {PASSWORD_RESET_TOKEN_EXPIRES_IN} = process.env;
+    const { PASSWORD_RESET_TOKEN_EXPIRES_IN } = process.env;
     const exp = ((PASSWORD_RESET_TOKEN_EXPIRES_IN || 10) as number);
     this.passwordResetExpirationTimestamp = Date.now() + exp * 1000;
 
     // Save the user model
-    this.save({validateBeforeSave: false});
+    this.save({ validateBeforeSave: false });
 
     return resetToken;
 };

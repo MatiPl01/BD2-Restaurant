@@ -1,4 +1,4 @@
-import {Document, Schema} from 'mongoose';
+import { Document, Schema } from 'mongoose';
 import CurrencyEnum from '@/utils/enums/currency.enum';
 import RoleEnum from '@/utils/enums/role.enum';
 

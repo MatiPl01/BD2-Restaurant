@@ -1,4 +1,4 @@
-import {CookieOptions, Response} from 'express';
+import { CookieOptions, Response } from 'express';
 import ResponseStatus from './enums/response-status.interface';
 
 
