@@ -1,5 +1,5 @@
-import { updateFiltersCurrency } from '@/utils/filters';
 import { Schema, ClientSession } from 'mongoose';
+import { updatePriceFilters } from '@/utils/filters';
 import singleTransaction from '@/utils/single-transaction';
 import reviewModel from '../review/review.model';
 import dishModel from './dish.model';
@@ -13,23 +13,29 @@ class DishService {
     private dish = dishModel;
     private review = reviewModel;
 
-    public async getDishes(
+    public getDishes = singleTransaction(async (
+        session: ClientSession,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number },
         targetCurrency?: string
-    ): Promise<Partial<Dish>[]> {
-        filters = await updateFiltersCurrency(filters, targetCurrency);
-        const dishes = await this.dish.find(filters, fields, pagination);
+    ): Promise<Partial<Dish>[]> => {
+        filters = await updatePriceFilters(filters, targetCurrency, session);
+        
+        const dishes = await this.dish.find(
+            filters, 
+            fields, 
+            { ...pagination, session }
+        );
 
         if (targetCurrency) {
             for (const dish of dishes) {
-                await currency.changeDishCurrency(dish, targetCurrency);
+                await currency.changeDishCurrency(dish, targetCurrency, undefined, session);
             }
         }
 
         return dishes;
-    }
+    })
 
     public async createDish(
         dishData: Dish
@@ -54,28 +60,29 @@ class DishService {
         return await updatedDish.save({ session });
     })
 
-    public async getDish(
+    public getDish = singleTransaction(async (
+        session: ClientSession,
         id: Schema.Types.ObjectId,
         fields: { [key: string]: number },
         targetCurrency?: string
-    ): Promise<Partial<Dish>> {
+    ): Promise<Partial<Dish>> => {
         let dish;
         if (fields['reviews']) {
-            dish = await this.dish.findById(id, fields).populate('reviews');
+            dish = await this.dish.findById(id, fields, { session }).populate('reviews');
         } else {
-            dish = await this.dish.findById(id, fields);
+            dish = await this.dish.findById(id, fields, { session });
         }
 
         if (dish) {
             if (targetCurrency) {
-                await currency.changeDishCurrency(dish, targetCurrency);
+                await currency.changeDishCurrency(dish, targetCurrency, undefined, session);
             }
             return dish;
         }
 
 
         throw new AppError(404, `Cannot get dish with id ${id}`);
-    }
+    })
 
     public async deleteDish(
         id: Schema.Types.ObjectId

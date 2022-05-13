@@ -1,5 +1,6 @@
-import { updateFiltersCurrency } from '@/utils/filters';
-import { Schema } from 'mongoose';
+import { Schema, ClientSession } from 'mongoose';
+import { updatePriceFilters } from '@/utils/filters';
+import singleTransaction from '@/utils/single-transaction';
 import orderModel from './order.model';
 import currency from '@/utils/currency';
 import AppError from '@/utils/errors/app.error';
@@ -25,14 +26,16 @@ class OrderService {
         });
     };
 
-    public async getUserOrders(
+    public getUserOrders = singleTransaction(async (
+        session: ClientSession,
         userID: Schema.Types.ObjectId,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number },
         targetCurrency?: string
-    ): Promise<Order[]> {
-        filters = await updateFiltersCurrency(filters, targetCurrency);
+    ): Promise<Order[]> => {
+        filters = await updatePriceFilters(filters, targetCurrency, session);
+
         const orders = await this.order.find(
             { user: userID, ...filters },
             fields,
@@ -54,7 +57,9 @@ class OrderService {
                         orderItem.unitPrice = await currency.exchangeCurrency(
                             orderItem.unitPrice,
                             order.currency,
-                            targetCurrency
+                            targetCurrency,
+                            new Date(order.createdAt),
+                            session
                         );
                     }
                 }
@@ -63,7 +68,9 @@ class OrderService {
                     order.totalPrice = await currency.exchangeCurrency(
                         order.totalPrice,
                         order.currency,
-                        targetCurrency
+                        targetCurrency,
+                        new Date(order.createdAt),
+                        session
                     );
                 }
 
@@ -72,7 +79,7 @@ class OrderService {
         }
 
         return orders;
-    }
+    })
 }
 
 export default OrderService;

@@ -1,6 +1,6 @@
 import User, { Address, CartItem, DetailedCartItem } from '@/resources/user/user.interface';
-import reviewModel from '@/resources/review/review.model';
 import { Schema } from 'mongoose';
+import reviewModel from '@/resources/review/review.model';
 import dishModel from '@/resources/dish/dish.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
@@ -243,7 +243,8 @@ class UserService {
             unitPrice = await currency.exchangeCurrency(
                 dish.unitPrice,
                 dishCurrency,
-                targetCurrency
+                targetCurrency,
+                undefined
             );
         } else {
             unitPrice = dish.unitPrice

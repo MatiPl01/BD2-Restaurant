@@ -15,58 +15,39 @@ class ExchangeRateService {
     public async getExchangeRate(
         from: string,
         to: string,
+        rateDate?: Date,
         session?: ClientSession
     ): Promise<ExchangeRate> {
-        const exchangeRate = await this.exchangeRate.findOne({ from, to }, {}, { session });
-        if (exchangeRate) return exchangeRate;
-
-        throw new AppError(500, `Cannot find Exchange Rate from ${from} to ${to}`);
+        let filter = rateDate ? { createdAt: { $lte: new Date(rateDate) } } : {};
+        const exchangeRate = await this.exchangeRate
+            .find({ from, to, ...filter }, {}, { session })
+            .sort({ createdAt: -1 })
+            .limit(1);
+        
+        if (!exchangeRate.length) throw new AppError(404, 
+            `Cannot find Exchange Rate from ${from} to ${to}${rateDate ? ' at ' + rateDate : ''}`
+        );
+        
+        return exchangeRate[0];
     }
 
     public createExchangeRate = singleTransaction(async (
         session: ClientSession,
         exchangeRateData: ExchangeRate
     ): Promise<ExchangeRate[]> => {
-        exchangeRateData.rate = this.ceilDecimalDigits(exchangeRateData.rate);
+        let { from, to, rate } = exchangeRateData;
+        rate = this.ceilDecimalDigits(rate);
+        await this.updateDishesUnitPrice(session, from, to, rate);
 
-        const inverseExchangeRateData = {
-            from: exchangeRateData.to,
-            to: exchangeRateData.from,
-            rate: this.ceilDecimalDigits(1 / exchangeRateData.rate)
-        }
+        rate = this.ceilDecimalDigits(1 / rate);
+        await this.updateDishesUnitPrice(session, to, from, rate);
+        
+        const inverseExchangeRateData = { from: to, to: from, rate };
 
         return await this.exchangeRate.create([
             exchangeRateData,
             inverseExchangeRateData
         ], { session });
-    })
-
-    public updateExchangeRate = singleTransaction(async (
-        session: ClientSession,
-        from: string,
-        to: string,
-        rate: number
-    ): Promise<ExchangeRate[]> => {
-        const results = [
-            await this.updateExchangeRateHelper(from, to, rate, session),
-            await this.updateExchangeRateHelper(to, from, 1 / rate, session)
-        ];
-
-        const config = await this.config.findOne({}, {}, { session });
-        if (!config || !config.mainCurrency) {
-            throw new AppError(404, 'Cannot get the main currency');
-        }
-
-        // Update the mainUnitPrice for all dishes for which the exchange rate
-        // was modified
-        if (to === config.mainCurrency) {
-            const dishes = await this.dish.find({ currency: from }, {}, { session });
-            for (const dish of dishes) {
-                await dish.updateMainUnitPrice(to, session);
-            }
-        }
-
-        return results;
     })
 
     public deleteExchangeRate = singleTransaction(async (
@@ -86,29 +67,36 @@ class ExchangeRateService {
         }
     })
 
+    private async updateDishesUnitPrice(
+        session: ClientSession,
+        from: string,
+        to: string,
+        rate: number
+    ): Promise<void> {
+        const exchangeRate = await this.exchangeRate.findOne({ from, to }, {}, { session });
+
+        if (exchangeRate) {
+            const config = await this.config.findOne().session(session);
+            if (!config || !config.mainCurrency) {
+                throw new AppError(404, 'Cannot get the main currency');
+            }
+
+            if (to === config.mainCurrency) {
+                const dishes = await this.dish.find({ currency: from }, {}, { session });
+                for (const dish of dishes) {
+                    dish.mainUnitPrice = this.ceilDecimalDigits(dish.unitPrice * rate);
+                    await dish.save({ session });
+                }
+            }
+        }
+    }
+
     private ceilDecimalDigits(
-        num: number, 
+        num: number,
         digitsCount: number = 4
     ): number {
         const pow = Math.pow(10, digitsCount);
         return Math.ceil(num * pow) / pow;
-    }
-
-    private async updateExchangeRateHelper(
-        from: string,
-        to: string,
-        rate: number,
-        session?: ClientSession
-    ): Promise<ExchangeRate> {
-        const exchangeRate = await this.exchangeRate.findOneAndUpdate(
-            { from, to },
-            { $set: { rate: this.ceilDecimalDigits(rate) } },
-            session ? { new: true, session } : { new: true }
-        );
-
-        if (exchangeRate) return exchangeRate;
-        
-        throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
     }
 }
 

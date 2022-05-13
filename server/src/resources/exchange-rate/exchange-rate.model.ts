@@ -13,7 +13,6 @@ const exchangeRateSchema = new Schema(
         from: { // e.g. USD
             type: String,
             required: [true, 'Please provide currency code'],
-            unique: [true, 'Currency code must be unique'],
             trim: [true, 'Currency code cannot start with and end with spaces'],
             length: [3, 'Currency code must contain 3 letters'],
             uppercase: [true, 'Currency code must be uppercase']
@@ -22,11 +21,10 @@ const exchangeRateSchema = new Schema(
         to: { // e.g. USD
             type: String,
             required: [true, 'Please provide currency code'],
-            unique: [true, 'Currency code must be unique'],
             trim: [true, 'Currency code cannot start with and end with spaces'],
             length: [3, 'Currency code must contain 3 letters'],
             uppercase: [true, 'Currency code must be uppercase']
-        },
+        }
     },
     {
         timestamps: true,
@@ -36,7 +34,8 @@ const exchangeRateSchema = new Schema(
 
 // Add indexes on the specific fields of the documents
 // (This index also ensures that there will be no more repetitions of the same (from, to) pairs)
-exchangeRateSchema.index({ from: 1, to: 1 }, { unique: true });
+exchangeRateSchema.index({ from: 1, to: 1 });
+exchangeRateSchema.index({ createdAt: -1 });
 
 
 export default model<ExchangeRate>('ExchangeRate', exchangeRateSchema);

@@ -6,5 +6,6 @@ export default interface ExchangeRate extends Document {
     from: string;
     to: string;
 
-    updateRate(rate: number): ExchangeRate;
+    createdAt: Date;
+    updatedAt: Date;
 }

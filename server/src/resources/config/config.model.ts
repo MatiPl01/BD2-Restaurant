@@ -1,5 +1,4 @@
 import { model, Schema, ClientSession } from 'mongoose';
-import singleTransaction from '@/utils/single-transaction';
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 import dishModel from '../dish/dish.model';
 import Config from "@/resources/config/config.interface";

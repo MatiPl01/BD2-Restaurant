@@ -153,7 +153,7 @@ const dishSchema = new Schema(
 );
 
 // Add indexes on the specific fields of the documents
-dishSchema.index({ category: 1, cuisine: 1, ratingsAverage: 1 });
+dishSchema.index({ category: 1, cuisine: 1, ratingsAverage: -1 });
 
 dishSchema.virtual('reviews', {
     ref: 'Review',
@@ -165,7 +165,11 @@ dishSchema.pre<Dish>('validate', async function (
     next
 ): Promise<void> {
     if (this.isModified('currency') || this.isModified('unitPrice')) {
-        await this.updateMainUnitPrice();
+        try {
+            await this.updateMainUnitPrice();
+        } catch (err) {
+            next(err as Error);
+        }
     }
     next();
 });
@@ -193,8 +197,6 @@ dishSchema.methods.updateMainUnitPrice = async function (
     
         this.mainUnitPrice = Math.ceil(unitPrice * exchangeRate.rate * 10000) / 10000;
     }
-
-    await this.save();
 };
 
 

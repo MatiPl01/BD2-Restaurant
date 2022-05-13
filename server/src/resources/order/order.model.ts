@@ -60,7 +60,6 @@ const orderSchema = new Schema(
         currency: {
             type: String,
             required: [true, 'Please provide currency code'],
-            unique: [true, 'Currency code must be unique'],
             trim: [true, 'Currency code cannot start with and end with spaces'],
             length: [3, 'Currency code must contain 3 letters'],
             uppercase: [true, 'Currency code must be uppercase']
@@ -91,7 +90,7 @@ orderSchema.pre<Order>('validate', async function (
     let totalPrice = 0;
 
     for (const item of this.items) {
-        const { dish: dishID, quantity, unitPrice } = item;
+        const { dish: dishID, quantity } = item;
         const dish = await dishModel.findById(dishID);
         if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`));
 
@@ -105,9 +104,10 @@ orderSchema.pre<Order>('validate', async function (
             dish.currency,
             orderCurrency
         );
-        totalPrice += unitPrice * quantity;
+        totalPrice += dish.unitPrice * quantity;
     }
 
+    console.log(totalPrice)
     this.totalPrice = Math.ceil(totalPrice * 10000) / 10000;
 
     next();

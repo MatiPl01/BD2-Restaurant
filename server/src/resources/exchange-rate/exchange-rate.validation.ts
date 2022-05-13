@@ -12,31 +12,20 @@ const exchangeRateValidators = {
     })
 }
 
-const params = {
-    updateExchangeRate: Joi.object({
-        from: exchangeRateValidators.from,
-        to: exchangeRateValidators.to,
-    })
-}
-
 const query = {
     exchangeRate: Joi.object({
         from: exchangeRateValidators.from,
         to: exchangeRateValidators.to,
+        date: Joi.date()
     })
 };
 
 const body = {
-    createExchangeRate: Joi.object(exchangeRateValidators),
-
-    updateExchangeRate: Joi.object({
-        rate: exchangeRateValidators.rate
-    })
+    createExchangeRate: Joi.object(exchangeRateValidators)
 }
 
 
 export default {
     body,
-    params,
     query
 };
