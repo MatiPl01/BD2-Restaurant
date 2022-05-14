@@ -75,7 +75,8 @@ class ExchangeRateController implements Controller {
     ): Promise<void> => {
         const from = req.query.from as string;
         const to = req.query.to as string;
-        await this.exchangeRateService.deleteExchangeRate(from, to);
+        const date = req.query.date && new Date(req.query.date as string);
+        await this.exchangeRateService.deleteExchangeRate(from, to, date);
         await response.json(res, 204, null);
     })
 }

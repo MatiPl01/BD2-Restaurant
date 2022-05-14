@@ -53,17 +53,36 @@ class ExchangeRateService {
     public deleteExchangeRate = singleTransaction(async (
         session: ClientSession,
         from: string,
-        to: string
+        to: string,
+        date?: Date
     ): Promise<void> => {
         if (from === to) {
             throw new AppError(400, 'Both specified currencies must be different');
         }
 
-        if (![
-            await this.exchangeRate.deleteOne({ from, to }, { session }),
-            await this.exchangeRate.deleteOne({ from: to, to: from }, { session })
-        ].every(res => res !== null)) {
-            throw new AppError(404, `Cannot delete exchange rate from ${from} to ${to}`);
+        const exchangeRates = [
+            await this.exchangeRate.find(
+                { from, to, createdAt: { $lte: date || new Date() } },
+                {},
+                { session }
+            )
+                .sort({ createdAt: -1 })
+                .limit(1),
+
+            await this.exchangeRate.find(
+                { from: to, to: from, createdAt: { $lte: date || new Date() } },
+                {},
+                { session }
+            )
+                .sort({ createdAt: -1 })
+                .limit(1)
+        ]
+        
+        for (const [exchangeRate] of exchangeRates) {
+            if (!exchangeRate) {
+                throw new AppError(404, `Cannot delete exchange rate from ${from} to ${to}${date ? ' at ' + date : ''}`);
+            }
+            await this.exchangeRate.findByIdAndDelete(exchangeRate._id);
         }
     })
 
@@ -91,7 +110,7 @@ class ExchangeRateService {
         }
     }
 
-    private ceilDecimalDigits(
+    public ceilDecimalDigits(
         num: number,
         digitsCount: number = 4
     ): number {

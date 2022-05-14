@@ -62,6 +62,7 @@
 - [X] Add Order
 - [X] Get User Orders
 - [X] Prevent buying more dish units than there are in stock
+- [ ] Change order status (e.g. cancel order if was misplaced)
 
 ### **Currencies**
 

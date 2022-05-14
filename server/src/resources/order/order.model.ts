@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import configModel from '../config/config.model';
 import dishModel from '../dish/dish.model';
 import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';

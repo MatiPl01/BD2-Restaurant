@@ -34,7 +34,7 @@ class ReviewService {
             throw new AppError(400, `Dish with id ${dishID} doesn't belong to the order with id ${orderID}`);
         }
 
-        if ((Date.now() - order.createdAt) / (1000 * 60 * 60 * 24) > 7) {
+        if ((Date.now() - Number(order.createdAt)) / (1000 * 60 * 60 * 24) > 7) {
             throw new AppError(400, 'Cannot add review after 7 days');
         }
         const review = await this.review.find({ user: userID, dish: dishID, order: orderID })

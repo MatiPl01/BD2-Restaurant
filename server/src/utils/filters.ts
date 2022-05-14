@@ -5,36 +5,57 @@ import currency from '@/utils/currency';
 
 type Filters = { [key: string]: any };
 
+export const asyncFilter = async <T>(
+    arr: T[], predicate: (value: T) => Promise<boolean>
+): Promise<T[]> => {
+    const filterMask = await Promise.all(arr.map(predicate));
+    return arr.filter((_: T, idx: number) => filterMask[idx]);
+};
+
 export const updatePriceFilters = async (
     filters: Filters,
-    targetCurrency?: string,
+    fromCurrency?: string,
     session?: ClientSession
 ): Promise<Filters> => {
-    if (filters.unitPrice) {
-        if (!targetCurrency) {
-            throw new AppError(400, 'Unit price filtering is not allowed without specified currency');
+    if (filters.unitPrice || filters.totalPrice) {
+        if (!fromCurrency) {
+            throw new AppError(400, 'Price filtering is not allowed without specified currency');
         }
 
-        const mainUnitPrice: { [key: string]: number } = {};
+        const updatedFilters: { [key: string]: number } = { ...filters };
 
         if (filters.unitPrice) {
-            for (const [key, value] of Object.entries(filters.unitPrice)) {
-                mainUnitPrice[key] = await currency.exchangeToMainCurrency(
-                    value as number, 
-                    targetCurrency, 
-                    session
-                );
-            }
+            const mainUnitPrice = await getUpdatedPriceFilters(filters.unitPrice, fromCurrency, session);
+            delete updatedFilters.unitPrice;
+            Object.assign(updatedFilters, { mainUnitPrice });
         }
 
-        const updatedFilters: { [key: string]: object } = {
-            ...filters,
-            mainUnitPrice
+        if (filters.totalPrice) {
+            const mainTotalPrice = await getUpdatedPriceFilters(filters.totalPrice, fromCurrency, session);
+            delete updatedFilters.totalPrice;
+            Object.assign(updatedFilters, { mainTotalPrice });
         }
-        delete updatedFilters.unitPrice;
 
         return updatedFilters;
     }
 
     return { ...filters };
+};
+
+const getUpdatedPriceFilters = async (
+    priceFilters: { [key: string]: number },
+    fromCurrency: string,
+    session?: ClientSession
+): Promise<{ [key: string]: number }> => {
+    const updatedFilters: { [key: string]: number } = {};
+
+    for (const [key, value] of Object.entries(priceFilters)) {
+        updatedFilters[key] = await currency.exchangeToMainCurrency(
+            value as number,
+            fromCurrency,
+            session
+        );
+    }
+
+    return updatedFilters;
 };
