@@ -1,6 +1,6 @@
 import { Component, HostListener, Output, ViewChild, EventEmitter, Input } from '@angular/core'
 import { NgForm } from '@angular/forms'
-import {CurrencyService} from "@shared/services/currency.service";
+import {CurrenciesService} from "@shared/services/currencies.service";
 import {AddedImage} from "@shared/interfaces/added-image.interface";
 import {DishesService} from "@dishes/services/dishes.service";
 import {DishData} from "@dishes/interfaces/dish.interface";
@@ -21,7 +21,7 @@ export class AddDishFormComponent{
   isWidthValid: boolean = true
   isGroupValid: boolean = true
 
-  constructor(public currencyService: CurrencyService, private dishesService: DishesService) {}
+  constructor(public currencyService: CurrenciesService, private dishesService: DishesService) {}
 
   @HostListener('reset')
   onReset() {

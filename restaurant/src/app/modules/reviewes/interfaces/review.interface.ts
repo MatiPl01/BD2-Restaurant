@@ -1,5 +1,5 @@
 export interface ReviewData {
-  _id:string,
+  _id?:any,
   user:string,
   dish:string,
   order:string,

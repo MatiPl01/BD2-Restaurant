@@ -9,7 +9,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 import { NotFoundComponent } from './views/not-found/not-found.component';
-import { CurrencyService } from "@shared/services/currency.service";
+import { CurrenciesService } from "@shared/services/currencies.service";
 import { AuthorizationDirective } from "@auth/directives/authorization.directive";
 
 
@@ -35,7 +35,7 @@ import { AuthorizationDirective } from "@auth/directives/authorization.directive
   ],
 
   providers: [
-    CurrencyService
+    CurrenciesService
   ],
 
   exports: [

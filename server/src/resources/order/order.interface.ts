@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 
-export default interface Order extends Document {
+export default interface OrderData extends Document {
     user: string;
     items: {
         dish: string,
@@ -9,7 +9,6 @@ export default interface Order extends Document {
         quantity: number,
         unitPrice: number
     }[];
-    date: Date;
     totalPrice: number;
     currency: string;
     createdAt: Date;

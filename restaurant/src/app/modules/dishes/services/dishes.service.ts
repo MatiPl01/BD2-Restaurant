@@ -5,6 +5,8 @@ import {ApiPathEnum} from "@shared/enums/api-path.enum";
 import {DishData} from "@dishes/interfaces/dish.interface";
 import {DishFilterData} from "@dishes/interfaces/dish-filter.interface";
 import * as queryString from "query-string";
+import {ReviewFilterData} from "../../reviewes/interfaces/review-filter.interface";
+import { ReviewData } from 'app/modules/reviewes/interfaces/review.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -44,9 +46,10 @@ export class DishesService {
     return this.httpService.get<DishData[]>(ApiPathEnum.DISHES+queryString.stringify({fields:fields},{arrayFormat: 'comma'}));
   }
 
-  // Code Duplication with Review Service
-  // getDishReviews(filter:ReviewFilterData):Observable<ReviewData[]>{
-  // }
+  getDishReviews(filter:ReviewFilterData):Observable<ReviewData[]>{
+    // TEST TO WORK
+    return this.httpService.get<ReviewData[]>(ApiPathEnum.DISHES+'?'+queryString.stringify(filter,{arrayFormat: 'comma'}));
+  }
 
   deleteDish(id:number):void{
     this.httpService.delete<void>(ApiPathEnum.DISHES+'/'+id)
