@@ -10,12 +10,14 @@ import Review from '../review/review.interface';
 import crypto from 'crypto';
 import token from '@/utils/token';
 import Dish from '../dish/dish.interface';
+import configModel from "@/resources/config/config.model";
 
 
 class UserService {
     private user = UserModel;
     private dish = dishModel;
     private review = reviewModel;
+    private config=configModel;
 
     public async register(
         firstName: string,
@@ -23,12 +25,9 @@ class UserService {
         nickName: string,
         email: string,
         password: string,
-        addresses: Address[],
-        roles: string[],
-        defaultCurrency: string,
-        active: boolean = true,
-        banned: boolean = false
+        addresses: Address[]
     ): Promise<{ token: string, user: User }> {
+        const currentCurrency =await this.config.find().limit(1).then(x=> x[0].mainCurrency);
         const user = await this.user.create({
             firstName,
             lastName,
@@ -36,10 +35,10 @@ class UserService {
             email,
             password,
             addresses,
-            roles,
-            defaultCurrency,
-            active,
-            banned
+            roles:['user'],
+            defaultCurrency:currentCurrency,
+            active:true,
+            banned:false
         });
 
         return {
@@ -93,7 +92,7 @@ class UserService {
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number }
     ): Promise<Partial<User>[]> {
-        return await this.user.find(filters, fields, pagination);
+        return this.user.find(filters, fields, pagination);
     }
 
     public async forgotPassword(
@@ -109,7 +108,7 @@ class UserService {
         const tokenExpiresIn = Number(process.env.PASSWORD_RESET_TOKEN_EXPIRES_IN);
 
         try {
-            emailer.sendMail({
+            await emailer.sendMail({
                 to: email,
                 subject: 'Yummyfood - Password reset token',
                 text: `To reset your password, please submit a PATCH request to the url provided below.\n\nPassword reset url:\n${resetUrl}\n\n(Token will expire in ${Math.floor(tokenExpiresIn / 60)} minutes and ${tokenExpiresIn % 60} seconds)`

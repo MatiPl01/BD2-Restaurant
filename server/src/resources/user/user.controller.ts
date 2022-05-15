@@ -154,8 +154,7 @@ class UserController implements Controller {
             nickName,
             email,
             password,
-            addresses,
-            defaultCurrency
+            addresses
         } = req.body;
 
         const { token, user } = await this.userService.register(
@@ -164,9 +163,7 @@ class UserController implements Controller {
             nickName,
             email,
             password,
-            addresses,
-            ['user'],
-            defaultCurrency || process.env.DEFAULT_CURRENCY
+            addresses
         );
 
         await this.sendToken(res, token, { user });

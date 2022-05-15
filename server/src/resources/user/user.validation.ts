@@ -150,7 +150,14 @@ const passwordMessages = {
 
 const body = {
     // Restrict to: USER
-    register: Joi.object(userValidators),
+    register: Joi.object({
+        firstName: userValidators.firstName,
+        lastName: userValidators.lastName,
+        nickName:userValidators.nickName,
+        email: userValidators.email,
+        password: userValidators.password,
+        addresses: userValidators.addresses,
+    }),
 
     login: Joi.object({
         email: userValidators.email,
