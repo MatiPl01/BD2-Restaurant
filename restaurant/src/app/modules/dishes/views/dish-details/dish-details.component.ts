@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core';
+import {DishData} from "@dishes/interfaces/dish.interface";
 
 @Component({
   selector: 'app-dish-details',
@@ -6,11 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class DishDetailsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class DishDetailsComponent {
+  @Input() dish!: DishData
 }

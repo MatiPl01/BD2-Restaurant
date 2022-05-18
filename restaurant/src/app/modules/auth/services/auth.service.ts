@@ -2,12 +2,14 @@ import { BehaviorSubject, firstValueFrom, Observable, tap } from "rxjs";
 import { RegisterCredentials } from "@auth/interfaces/register-credentials.interface";
 import { LoginCredentials } from "@auth/interfaces/login-credentials.interface";
 import { PersistenceEnum } from "@shared/enums/persistence.enum";
+import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { HttpService } from "@core/services/http.service";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Injectable } from "@angular/core";
 import { AuthData } from "@auth/interfaces/auth.interface";
 import { Config } from "@shared/interfaces/config.interface";
 import User from "@shared/models/user";
+import {ConfigService} from "@shared/services/config.service";
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +18,10 @@ export class AuthService {
   private static readonly SAVE_USER_KEY = 'user';
   private logoutTimeout: ReturnType<typeof setTimeout> | null = null;
   private _user = new BehaviorSubject<User | null>(null);
+  private defaultCurrency=CurrencyEnum.USD
 
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService,
+              private configService: ConfigService) {}
 
   get userSubject(): BehaviorSubject<User | null> {
     return this._user;
@@ -59,6 +63,17 @@ export class AuthService {
     return config.persistence;
   }
 
+  public async getCurrency():Promise<CurrencyEnum>{
+    const user = this.loadUser();
+    if (user){
+      return (CurrencyEnum as any)[user.defaultCurrency];
+    }
+    await this.configService.getConfig().subscribe(res=>{
+      return (CurrencyEnum as any)[res.mainCurrency]
+    })
+    return this.defaultCurrency
+  }
+
   public autoLogin(): void {
     // Try to load the user from the browser storage
     const user = this.loadUser();
@@ -80,7 +95,6 @@ export class AuthService {
   }
 
   private authenticate(data: AuthData): void {
-    // console.log(data);
     const { user: userData, token } = data;
     const user = new User(userData, token);
     this._user.next(user);
@@ -103,6 +117,7 @@ export class AuthService {
   }
 
   public removeStoredUser(): void {
+    // TODO MUST DO DUPLICATION NAV
     localStorage.removeItem(AuthService.SAVE_USER_KEY);
     sessionStorage.removeItem(AuthService.SAVE_USER_KEY);
   }

@@ -1,4 +1,4 @@
-import User, { Address, CartItem, DetailedCartItem } from '@/resources/user/user.interface';
+import User, {Address, CartItem, DetailedCartItem} from '@/resources/user/user.interface';
 import { Schema } from 'mongoose';
 import reviewModel from '@/resources/review/review.model';
 import dishModel from '@/resources/dish/dish.model';
@@ -208,6 +208,12 @@ class UserService {
         }
 
         return detailedCart;
+    }
+
+    public async getUserMiniCart(
+        user: User
+    ): Promise<CartItem[]> {
+        return user.cart;
     }
 
     public async setUserCart(

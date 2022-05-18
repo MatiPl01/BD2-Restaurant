@@ -1,16 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input} from '@angular/core'
+import { AuthService } from '@auth/services/auth.service';
+import {DishData} from "@dishes/interfaces/dish.interface";
+import {CurrenciesService} from "@shared/services/currencies.service";
+import {ExchangeRateService} from "@shared/services/exchange-rate.service";
 
 @Component({
   selector: 'app-dish-card',
-  templateUrl: './dish-card.component.html',
-  styles: [
-  ]
+  templateUrl: './dish-card.component.html'
 })
-export class DishCardComponent implements OnInit {
+export class DishCardComponent{
+  @Input() dish!: DishData
 
-  constructor() { }
+  constructor(public authService:AuthService) {}
 
-  ngOnInit(): void {
+  onRemoveClick() {
+    // this.removeDish.emit(this.dish)
   }
 
 }

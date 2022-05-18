@@ -45,15 +45,17 @@ import { ScrollTopBtnComponent } from './components/scroll-top-btn/scroll-top-bt
     RatingComponent,
     ScrollTopBtnComponent
   ],
-  exports: [
-    CommonModule,
+    exports: [
+        CommonModule,
 
-    LoadingSpinnerComponent,
-    ResponsiveImageComponent,
-    LogoComponent,
-    BtnSelectComponent,
-    LoadingBarComponent,
-    AlertComponent
-  ]
+        LoadingSpinnerComponent,
+        ResponsiveImageComponent,
+        LogoComponent,
+        BtnSelectComponent,
+        LoadingBarComponent,
+        AlertComponent,
+        RatingComponent,
+        PriceComponent
+    ]
 })
 export class SharedModule {}

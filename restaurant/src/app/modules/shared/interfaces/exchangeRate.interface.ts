@@ -1,6 +1,6 @@
 export interface ExchangeRateData {
   _id: any,
-  rate: Number,
+  rate: number,
   from: string,
   to: string,
 }

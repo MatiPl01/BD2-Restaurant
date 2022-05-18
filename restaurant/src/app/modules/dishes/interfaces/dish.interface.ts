@@ -1,7 +1,7 @@
 import {ImageEntry} from "@shared/interfaces/image-entry.interface";
 
 export interface DishData {
-  _id: any,
+  _id?: any,
   name: string,
   category: string,
   cuisine: string,
