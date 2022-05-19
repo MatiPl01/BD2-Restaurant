@@ -22,3 +22,8 @@ export interface DetailedCartItem {
     paths: string[]
   };
 }
+
+export interface MiniCartItem{
+  dish:string,
+  quantity:number,
+}

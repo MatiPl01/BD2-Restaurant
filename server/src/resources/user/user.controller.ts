@@ -105,6 +105,12 @@ class UserController implements Controller {
                 restrictTo(RoleEnum.USER),
                 this.clearUserCart
             );
+        this.router.route('/mini-cart')
+            .get(
+                authenticate,
+                restrictTo(RoleEnum.USER),
+                this.getUserMiniCart
+            )
 
         this.router.route('/all')
             .get(
@@ -324,6 +330,17 @@ class UserController implements Controller {
         const cart = await this.userService.getUserCart(
             req.user,
             currency as string | undefined
+        );
+
+        await response.json(res, 200, cart);
+    })
+
+    private getUserMiniCart = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const cart = await this.userService.getUserMiniCart(
+            req.user
         );
 
         await response.json(res, 200, cart);

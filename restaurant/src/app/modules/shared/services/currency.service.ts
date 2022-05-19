@@ -16,4 +16,11 @@ export class CurrencyService {
   getSpecificCurrency(code:string):Observable<CurrencyData>{
     return this.httpService.get<CurrencyData>(ApiPathEnum.CURRENCIES+'/'+code)
   }
+
+  // async getActualCurrency():Promise<CurrencyData>{
+  //   let currencySymbol = await this.authService.getCurrency()
+  //   let result:CurrencyData={} as CurrencyData
+  //   await this.getSpecificCurrency(currencySymbol.valueOf()).subscribe(res=>result=res)
+  //   return result;
+  // }
 }

@@ -47,17 +47,17 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     ScrollTopBtnComponent,
     PaginationComponent
   ],
-  exports: [
-    CommonModule,
+    exports: [
+      CommonModule,
 
-    LoadingSpinnerComponent,
-    ResponsiveImageComponent,
-    LogoComponent,
-    BtnSelectComponent,
-    LoadingBarComponent,
-    AlertComponent,
-    PaginationComponent,
-    RatingComponent
+      LoadingSpinnerComponent,
+      ResponsiveImageComponent,
+      LogoComponent,
+      BtnSelectComponent,
+      LoadingBarComponent,
+      AlertComponent,
+      PaginationComponent,
+      RatingComponent
   ]
 })
 export class SharedModule {}

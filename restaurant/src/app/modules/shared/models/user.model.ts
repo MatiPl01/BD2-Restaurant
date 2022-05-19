@@ -13,7 +13,7 @@ export default class User {
   public lastName: string;
   public orders: string[];
   public nickName: string;
-  public currency: string;
+  public defaultCurrency: string;
   public readonly updatedAt: Date;
   public readonly createdAt: Date;
   public readonly roles: RoleEnum[];
@@ -31,7 +31,7 @@ export default class User {
     this.updatedAt = new Date(user.updatedAt);
     this.createdAt = new Date(user.createdAt);
     this.nickName = user.nickName;
-    this.currency = user.defaultCurrency;
+    this.defaultCurrency = user.defaultCurrency;
     this.roles = user.roles;
     this._token = token;
   }

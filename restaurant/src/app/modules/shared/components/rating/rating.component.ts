@@ -2,9 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter, ElementRef } from '@ang
 
 @Component({
   selector: 'shared-rating',
-  templateUrl: './rating.component.html',
-  styles: [
-  ]
+  templateUrl: './rating.component.html'
 })
 export class RatingComponent implements OnInit {
   @Input() diableRating: boolean = false;

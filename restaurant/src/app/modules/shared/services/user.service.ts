@@ -16,7 +16,7 @@ export class UserService {
   public updateDefaultCurrency(currency: string): void {
     const user = this.user;
     if (!user) throw new Error('Cannot update user currency. No user is currently logged in');
-    user.currency = currency;
+    user.defaultCurrency = currency;
 
     this.httpService.patch<User>(ApiPathEnum.USERS, {
       defaultCurrency: currency
