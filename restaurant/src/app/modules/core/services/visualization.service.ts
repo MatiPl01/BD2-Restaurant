@@ -8,7 +8,7 @@ export class VisualizationService {
   headerVisibilityChangedEvent = new EventEmitter<boolean>()
   scrollAvailabilityChangedEvent = new EventEmitter<boolean>()
   popupDisplayChangedEvent = new EventEmitter<boolean>()
-  
+
   private readonly _isLoading = new BehaviorSubject<boolean>(false);
   private readonly _isNavOpen = new BehaviorSubject<boolean>(false);
 
@@ -35,15 +35,15 @@ export class VisualizationService {
       behavior: isSmooth ? 'smooth' : 'instant'
     })
   }
+  //
+  // setScroll(isEnabled: boolean): void {
+  //   if (!isEnabled) document.querySelector('body')?.classList.add('no-scroll');
+  //   else document.querySelector('body')?.classList.remove('no-scroll');
+  //   this.scrollAvailabilityChangedEvent.emit(isEnabled);
+  // }
 
-  setScroll(isEnabled: boolean): void {
-    if (!isEnabled) document.querySelector('body')?.classList.add('no-scroll');
-    else document.querySelector('body')?.classList.remove('no-scroll');
-    this.scrollAvailabilityChangedEvent.emit(isEnabled);
-  }
-
-  setPopupOpen(isOpen: boolean): void {
-    this.setScroll(!isOpen);
-    this.popupDisplayChangedEvent.emit(isOpen);
-  }
+  // setPopupOpen(isOpen: boolean): void {
+  //   this.setScroll(!isOpen);
+  //   this.popupDisplayChangedEvent.emit(isOpen);
+  // }
 }

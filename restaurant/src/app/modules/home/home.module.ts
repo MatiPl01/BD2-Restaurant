@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
+import { SharedModule } from '@shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
+
 import { HomeViewComponent } from './views/home-view/home-view.component';
+import { HeaderComponent } from './components/header/header.component';
+import { ParallaxSliderComponent } from './components/parallax-slider/parallax-slider.component';
 
 
 @NgModule({
   declarations: [
-    HomeViewComponent
+    HomeViewComponent,
+    HeaderComponent,
+    ParallaxSliderComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     HomeRoutingModule
   ]
 })
-export class HomeModule { }
+export class HomeModule {}

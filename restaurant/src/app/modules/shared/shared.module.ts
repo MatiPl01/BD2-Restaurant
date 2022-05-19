@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from "@angular/router";
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
+import { ParallaxDirective } from './directives/parallax.directive';
+
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { ResponsiveImageComponent } from './components/responsive-image/responsive-image.component';
 import { LogoComponent } from './components/logo/logo.component';
-import { RouterModule } from "@angular/router";
-import { BtnSelectComponent } from './components/btn-select/btn-select.component';
+import { SingleSelectDropdownComponent } from './components/forms/single-select-dropdown/single-select-dropdown.component';
 import { FormsModule } from "@angular/forms";
 import { LoadingBarComponent } from "@shared/components/loading-bar/loading-bar.component";
 import { AlertComponent } from "@shared/components/alert/alert.component";
-import { AddedImagesComponent } from './components/added-images/added-images.component';
-import { ChooseCurrencyComponent } from './components/choose-currency/choose-currency.component';
-import { FiltersPagesComponent } from './components/filters-pages/filters-pages.component';
-import { FiltersRangeComponent } from './components/filters-range/filters-range.component';
-import { FiltersSelectComponent } from './components/filters-select/filters-select.component';
+import { RangeSliderComponent } from './components/forms/range-slider/range-slider.component';
+import { MultiSelectDropdownComponent } from './components/forms/mult-iselect-dropdown/multi-select-dropdown.component';
 import { GallerySliderComponent } from './components/gallery-slider/gallery-slider.component';
 import { ParallaxSliderComponent } from './components/parallax-slider/parallax-slider.component';
 import { PopupComponent } from './components/popup/popup.component';
@@ -25,27 +27,28 @@ import { PaginationComponent } from './components/pagination/pagination.componen
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    NgxSliderModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   declarations: [
     LoadingSpinnerComponent,
     ResponsiveImageComponent,
     LogoComponent,
-    BtnSelectComponent,
+    SingleSelectDropdownComponent,
     LoadingBarComponent,
     AlertComponent,
-    AddedImagesComponent,
-    ChooseCurrencyComponent,
-    FiltersPagesComponent,
-    FiltersRangeComponent,
-    FiltersSelectComponent,
+    RangeSliderComponent,
+    MultiSelectDropdownComponent,
     GallerySliderComponent,
     ParallaxSliderComponent,
     PopupComponent,
     PriceComponent,
     RatingComponent,
     ScrollTopBtnComponent,
-    PaginationComponent
+    PaginationComponent,
+
+    ParallaxDirective
   ],
     exports: [
       CommonModule,
@@ -53,11 +56,13 @@ import { PaginationComponent } from './components/pagination/pagination.componen
       LoadingSpinnerComponent,
       ResponsiveImageComponent,
       LogoComponent,
-      BtnSelectComponent,
+      SingleSelectDropdownComponent,
       LoadingBarComponent,
       AlertComponent,
       PaginationComponent,
-      RatingComponent
+      RatingComponent,
+
+      ParallaxDirective
   ]
 })
 export class SharedModule {}

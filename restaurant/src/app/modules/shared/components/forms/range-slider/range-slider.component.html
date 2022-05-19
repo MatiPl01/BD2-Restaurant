@@ -1,0 +1,7 @@
+<ngx-slider 
+  class="range-slider" 
+  [(value)]="minValueSet" 
+  [(highValue)]="maxValueSet" 
+  [options]="options"
+  (userChangeEnd)="notifyValueChange()"
+></ngx-slider>
