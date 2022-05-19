@@ -1,0 +1,22 @@
+<article class="responsive-gallery" #gallery>
+  <ul class="responsive-gallery__images-list">
+    <li class="responsive-gallery__images-item" #galleryItem
+        *ngFor="let image of images; let i = index">
+      <shared-responsive-image
+        [breakpoints]="image.breakpoints"
+        [paths]="image.paths"
+        [sizes]="sizes"
+        [alt]="alts[i]"
+      ></shared-responsive-image>
+    </li>
+  </ul>
+
+  <div class="responsive-gallery__slider">
+    <ul class="responsive-gallery__slider-dots">
+      <li class="responsive-gallery__slider-dot"
+          *ngFor="let i of indexes"
+          [ngClass]="{ active: i === currentIdx }"
+          (click)="setImage(i)"></li>
+    </ul>
+  </div>
+</article>

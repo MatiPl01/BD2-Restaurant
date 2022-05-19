@@ -3,6 +3,7 @@ import { HttpService } from "@core/services/http.service";
 import { BehaviorSubject, map, Observable, tap } from "rxjs";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import Dish from '@dishes/models/dish.model';
+import { DishData } from "@dishes/interfaces/dish.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -52,10 +53,13 @@ export class DishService {
   //   return this.httpService.patch<DishData>(`${ApiPathEnum.DISHES}/${id}`, updatedFields);
   // }
 
-  // fetchDish(id: string, currency?: string, fields?: any): Observable<Partial<DishData>> {
-  //   const query = currency ? `?currency=${currency}` : '';
-  //   return this.httpService.get<DishData>(`${ApiPathEnum.DISHES}/${id}${query}`);
-  // }
+  // TODO - improve
+  fetchDish(id: string, currency?: string, fields?: any): Observable<Dish> {
+    const query = currency ? `?currency=${currency}` : '';
+    return this.httpService
+      .get<Partial<DishData>>(`${ApiPathEnum.DISHES}/${id}${query}`)
+      .pipe(map((data: Partial<DishData>) => new Dish(data)));
+  }
 
   // fetchDishes(page: number, limit: number, currency?: string): Observable<DishData[]> {
   //   return this.httpService.get<DishData[]>(ApiPathEnum.DISHES+'?page='+page+'&limit='+limit+'+&currency='+currency);

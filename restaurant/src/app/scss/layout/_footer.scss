@@ -1,6 +1,6 @@
-@use '../utils/colors' as c;
-@use '../utils/sizes' as s;
-@use '../utils/mixins' as *;
+@use "../utils/colors" as c;
+@use "../utils/sizes" as s;
+@use "../utils/mixins" as *;
 
 .footer {
   background-color: c.$gray-dark-1;
@@ -8,16 +8,43 @@
   padding: 10rem 10rem 5rem 10rem;
   position: relative;
 
+  @include respond(tab-port) {
+    padding: 6rem 6rem 4rem 6rem;
+  }
+
+  @include respond(phone) {
+    padding: 6rem 0 4rem 0;
+  }
+
   &__content {
     width: s.$content-width;
     margin: 0 auto;
     display: grid;
     grid-template-areas:
-            "location logo   hours"
-            "contact  logo   hours"
-            ".        social .";
+      "location logo   hours"
+      "contact  logo   hours"
+      ".        social .";
     grid-template-columns: repeat(3, 1fr);
     gap: 4rem;
+
+    @include respond(tab-port) {
+      grid-template-areas:
+        "logo     hours"
+        "logo     hours"
+        "location contact"
+        "social   social";
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond(phone) {
+      grid-template-areas:
+        "logo"
+        "hours"
+        "location"
+        "contact"
+        "social";
+      grid-template-columns: 1fr;
+    }
   }
 
   &__heading {
@@ -124,6 +151,7 @@
     font-size: 1.4rem;
     color: c.$gray-light-3;
     text-decoration: none;
+    cursor: pointer;
   }
 
   &__social {

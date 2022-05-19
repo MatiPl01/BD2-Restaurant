@@ -1,7 +1,7 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
+import { Observable, take } from 'rxjs'
 import { environment } from '@env/environment';
 
 const defaultHeaders = new HttpHeaders({

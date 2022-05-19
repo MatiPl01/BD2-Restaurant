@@ -22,6 +22,7 @@ import { PriceComponent } from './components/price/price.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { ScrollTopBtnComponent } from './components/scroll-top-btn/scroll-top-btn.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { ResponsiveGalleryComponent } from './components/responsive-gallery/responsive-gallery.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     ScrollTopBtnComponent,
     PaginationComponent,
 
-    ParallaxDirective
+    ParallaxDirective,
+      ResponsiveGalleryComponent
   ],
     exports: [
       CommonModule,
@@ -61,6 +63,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
       AlertComponent,
       PaginationComponent,
       RatingComponent,
+      ResponsiveGalleryComponent,
 
       ParallaxDirective
   ]
