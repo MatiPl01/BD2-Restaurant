@@ -7,7 +7,7 @@ import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Injectable } from "@angular/core";
 import { AuthData } from "@auth/interfaces/auth.interface";
 import { Config } from "@shared/interfaces/config.interface";
-import User from "@shared/models/user";
+import User from "@shared/models/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -80,7 +80,6 @@ export class AuthService {
   }
 
   private authenticate(data: AuthData): void {
-    // console.log(data);
     const { user: userData, token } = data;
     const user = new User(userData, token);
     this._user.next(user);

@@ -157,6 +157,7 @@ const body = {
         email: userValidators.email,
         password: userValidators.password,
         addresses: userValidators.addresses,
+        currency: userValidators.defaultCurrency.optional()
     }),
 
     login: Joi.object({

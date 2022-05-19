@@ -2,19 +2,19 @@ import { CartItem } from "@cart/interfaces/cart-item.interface";
 import { RoleEnum } from "@shared/enums/role.enum";
 
 export interface Address {
-  firstName: String,
-  lastName: String,
-  phone: String,
-  country: String,
-  postalCode: String,
-  city: String,
-  street: String,
-  streetNumber: String,
-  flatNumber?: String
+  firstName: string,
+  lastName: string,
+  phone: string,
+  country: string,
+  postalCode: string,
+  city: string,
+  street: string,
+  streetNumber: string,
+  flatNumber?: string
 }
 
 export default interface UserData {
-  _id:any,
+  _id: string,
   firstName: string;
   lastName: string;
   nickName: string;

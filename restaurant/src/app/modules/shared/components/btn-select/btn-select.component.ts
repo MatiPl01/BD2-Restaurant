@@ -10,11 +10,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   `
 })
 export class BtnSelectComponent<T> {
-  @Output() valueChange = new EventEmitter<T>();
+  @Output() valueChangeEvent = new EventEmitter<T>();
   @Input() value!: T;
   @Input() values!: T[];
 
   public valueChanged(): void {
-    this.valueChange.emit(this.value);
+    this.valueChangeEvent.emit(this.value);
   }
 }

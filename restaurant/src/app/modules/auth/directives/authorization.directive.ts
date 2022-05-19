@@ -3,7 +3,7 @@ import { OnInit, OnDestroy, Input } from "@angular/core"
 import { AuthService } from "@auth/services/auth.service";
 import { Subscription } from "rxjs"
 import { RoleEnum } from "@shared/enums/role.enum";
-import User from "@shared/models/user";
+import User from "@shared/models/user.model";
 
 @Directive({
   selector: '[restrictTo]'

@@ -23,12 +23,12 @@ export class AuthViewComponent implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private redirect(target: string): void {
-    this.router.navigate(
-      [target],
-      { relativeTo: this.route }
-    );
-  }
+  // private redirect(target: string): void {
+  //   this.router.navigate(
+  //     [target],
+  //     { relativeTo: this.route }
+  //   );
+  // }
 
   private handleAuthEvent() { // TODO
     // // No response - user started logging in

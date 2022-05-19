@@ -2,7 +2,7 @@ import { HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from "@angular
 import { AuthService } from "@auth/services/auth.service"
 import { exhaustMap, first } from "rxjs/operators"
 import { Injectable } from "@angular/core"
-import User from "@shared/models/user"
+import User from "@shared/models/user.model"
 
 @Injectable({
   providedIn: 'root'

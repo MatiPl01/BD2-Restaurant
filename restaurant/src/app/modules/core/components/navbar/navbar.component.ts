@@ -4,7 +4,7 @@ import { Component, OnDestroy } from '@angular/core'
 import { VisualizationService } from "@core/services/visualization.service";
 import { Subscription } from 'rxjs'
 import { RoleEnum } from "@shared/enums/role.enum";
-import User from "@shared/models/user";
+import User from "@shared/models/user.model";
 
 
 @Component({

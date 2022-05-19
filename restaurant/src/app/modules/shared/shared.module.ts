@@ -19,6 +19,7 @@ import { PopupComponent } from './components/popup/popup.component';
 import { PriceComponent } from './components/price/price.component';
 import { RatingComponent } from './components/rating/rating.component';
 import { ScrollTopBtnComponent } from './components/scroll-top-btn/scroll-top-btn.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { ScrollTopBtnComponent } from './components/scroll-top-btn/scroll-top-bt
     PopupComponent,
     PriceComponent,
     RatingComponent,
-    ScrollTopBtnComponent
+    ScrollTopBtnComponent,
+    PaginationComponent
   ],
   exports: [
     CommonModule,
@@ -53,7 +55,9 @@ import { ScrollTopBtnComponent } from './components/scroll-top-btn/scroll-top-bt
     LogoComponent,
     BtnSelectComponent,
     LoadingBarComponent,
-    AlertComponent
+    AlertComponent,
+    PaginationComponent,
+    RatingComponent
   ]
 })
 export class SharedModule {}

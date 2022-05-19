@@ -2,7 +2,7 @@ import { AuthService } from "@auth/services/auth.service";
 import { HttpService } from "@core/services/http.service";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Injectable } from "@angular/core";
-import User from "@shared/models/user";
+import User from "@shared/models/user.model";
 
 @Injectable()
 export class UserService {

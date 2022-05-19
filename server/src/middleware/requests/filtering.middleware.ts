@@ -3,11 +3,21 @@ import { NextFunction, Request, Response } from 'express';
 
 const parseFilters = (req: Request) => { // TODO - improve this function (move excluded parameters somewhere else)
     const queryObj = { ...req.query };
+
     const excludedFields = new Set(['page', 'sort', 'limit', 'fields', 'currency']);
     excludedFields.forEach(field => delete queryObj[field]);
     Object.keys(queryObj).forEach(key => {
-        if (typeof queryObj[key] === 'string') {
-            queryObj[key] = (queryObj[key] as string).split(',');
+        let obj: { [key: string]: any } = queryObj[key] as { [key: string]: any };
+
+        if (typeof obj === 'string') {
+            queryObj[key] = (obj as string).split(',');
+        }
+
+        // Convert numeric strings to numbers
+        if (obj && typeof obj === 'object' && !Array.isArray(obj)) {
+            Object.entries(obj).forEach(([k, v]) => {
+                if (!isNaN(v as any)) obj[k] = +v;
+            })
         }
     });
 

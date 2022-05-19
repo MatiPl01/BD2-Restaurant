@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpService} from "@core/services/http.service";
-import {Observable} from "rxjs";
-import {ExchangeRateData} from "@shared/interfaces/exchangeRate.interface";
-import {ApiPathEnum} from "@shared/enums/api-path.enum";
+import { HttpService } from "@core/services/http.service";
+import { Observable } from "rxjs";
+import { ExchangeRateData } from "@shared/interfaces/exchangeRate.interface";
+import { ApiPathEnum } from "@shared/enums/api-path.enum";
 
 @Injectable({
   providedIn: 'root'

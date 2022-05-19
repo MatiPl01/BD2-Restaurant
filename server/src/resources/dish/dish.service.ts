@@ -19,22 +19,71 @@ class DishService {
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number },
         targetCurrency?: string
-    ): Promise<Partial<Dish>[]> => {
+    ): Promise<{ dishes: Partial<Dish>[], matchingCount: number, totalCount: number }> => {
         filters = await updatePriceFilters(filters, targetCurrency, session);
-        
-        const dishes = await this.dish.find(
-            filters, 
-            fields, 
-            { ...pagination, session }
-        );
+        // TODO - move steps from below to factory function or somewhere else
 
+        // Map arrays in filters
+        Object.entries(filters).forEach(([key, val]) => {
+            if (Array.isArray(val)) {
+                filters[key] = { $in: val };
+            }
+        });
+        
+        // Handle pagination
+        const { skip, limit } = pagination;
+        const pipeline: { [key: string]: any }[] = [{ $match: filters }];
+
+        if (skip !== undefined && limit !== undefined) {
+            pipeline.push(
+                { $skip: skip },
+                { $limit: limit }
+            );
+        }
+
+        if (Object.keys(fields).length) {
+            pipeline.push({ $project: fields });
+        }
+
+        const aggregated = await this.dish.aggregate([
+            {
+                $facet: {
+                    // @ts-ignore
+                    dishes: pipeline,
+
+                    filteredCount: [
+                        { $match: filters },
+                        { $count: 'value' }
+                    ],
+
+                    totalCount: [
+                        { $count: 'value' }
+                    ]
+                }
+            }
+        ]).session(session);
+
+        if (!aggregated.length) {
+            throw new AppError(500, 'Cannot aggregate dishes');
+        }
+
+        const result = aggregated[0];
+        result.filteredCount = result.filteredCount[0].value;
+        result.totalCount = result.totalCount[0].value;
+
+        if (skip !== undefined && limit !== undefined) {
+            result.pagesCount = Math.ceil(result.filteredCount / limit);
+            result.currentPage = Math.ceil(skip / limit) + 1;
+        }
+        
         if (targetCurrency) {
-            for (const dish of dishes) {
+            for (const dish of result.dishes) {
                 await currency.changeDishCurrency(dish, targetCurrency, undefined, session);
+                delete dish.mainUnitPrice;
             }
         }
 
-        return dishes;
+        return result;
     })
 
     public async createDish(

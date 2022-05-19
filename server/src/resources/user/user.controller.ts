@@ -118,7 +118,7 @@ class UserController implements Controller {
         this.router
             .route('/:id')
             .get(
-                authenticate, // Use this before restrictTo to make it work
+                authenticate,
                 restrictTo(RoleEnum.ADMIN),
                 selectFieldsMiddleware,
                 this.getUser
@@ -154,7 +154,8 @@ class UserController implements Controller {
             nickName,
             email,
             password,
-            addresses
+            addresses,
+            currency
         } = req.body;
 
         const { token, user } = await this.userService.register(
@@ -163,7 +164,8 @@ class UserController implements Controller {
             nickName,
             email,
             password,
-            addresses
+            addresses,
+            currency
         );
 
         await this.sendToken(res, token, { user });

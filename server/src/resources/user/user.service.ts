@@ -1,6 +1,8 @@
 import User, { Address, CartItem, DetailedCartItem } from '@/resources/user/user.interface';
 import { Schema } from 'mongoose';
+import currencyModel from '../currency/currency.model';
 import reviewModel from '@/resources/review/review.model';
+import configModel from "@/resources/config/config.model";
 import dishModel from '@/resources/dish/dish.model';
 import UserModel from '@/resources/user/user.model';
 import AppError from '@/utils/errors/app.error';
@@ -10,14 +12,14 @@ import Review from '../review/review.interface';
 import crypto from 'crypto';
 import token from '@/utils/token';
 import Dish from '../dish/dish.interface';
-import configModel from "@/resources/config/config.model";
 
 
 class UserService {
     private user = UserModel;
     private dish = dishModel;
     private review = reviewModel;
-    private config=configModel;
+    private config = configModel;
+    private currency = currencyModel;
 
     public async register(
         firstName: string,
@@ -25,9 +27,23 @@ class UserService {
         nickName: string,
         email: string,
         password: string,
-        addresses: Address[]
+        addresses: Address[],
+        defaultCurrency?: string
     ): Promise<{ token: string, user: User }> {
-        const currentCurrency =await this.config.find().limit(1).then(x=> x[0].mainCurrency);
+        // If the default currency was not specified, assign the mainCurrency
+        // as the user's default currency
+        if (!defaultCurrency) {
+            const config = await this.config.findOne();
+            if (!config) throw new AppError(500, 'Cannot get config');
+            defaultCurrency = config.mainCurrency;
+        // Otherwise, check if the currency, that was provided by the user, is correct
+        } else {
+            const currencies = await this.currency.find();
+            if (!currencies.some(c => c.code === defaultCurrency)) {
+                throw new AppError(400, 'Wrong currency specified');
+            }
+        }
+
         const user = await this.user.create({
             firstName,
             lastName,
@@ -35,10 +51,10 @@ class UserService {
             email,
             password,
             addresses,
-            roles:['user'],
-            defaultCurrency:currentCurrency,
-            active:true,
-            banned:false
+            roles: ['user'],
+            defaultCurrency,
+            active: true,
+            banned: false
         });
 
         return {

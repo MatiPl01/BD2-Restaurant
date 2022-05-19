@@ -40,8 +40,9 @@ configSchema.methods.updateMainCurrency = async function (
 
     this.mainCurrency = targetCurrency;
 
-    for (const dish of await dishModel.find({}, {}, { session }).select('+mainUnitPrice')) {
+    for (const dish of await dishModel.find({}, {}, { session })) {
         await dish.updateMainUnitPrice.call(dish, targetCurrency, session);
+        await dish.save();
     }
 
     await this.save({ session });
