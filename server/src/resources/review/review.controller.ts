@@ -1,23 +1,26 @@
-import { Request, Response, Router } from "express";
-import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
-import validationMiddleware from "@/middleware/validation.middleware";
-import filteringMiddleware from "@/middleware/requests/filtering.middleware";
-import updateMiddleware from "@/middleware/requests/update.middleware";
-import ReviewService from "./review.service";
+import { Request, Response, Router } from 'express';
+import { Schema } from 'mongoose';
+
+import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
+import validationMiddleware from '@/middleware/validation.middleware';
+import filteringMiddleware from '@/middleware/requests/filtering.middleware';
+import updateMiddleware from '@/middleware/requests/update.middleware';
 import authenticate from '@/middleware/auth/authentication.middleware';
 import restrictTo from '@/middleware/auth/authorization.middleware';
-import Controller from "@/utils/interfaces/controller.interface";
-import catchAsync from "@/utils/errors/catch-async";
-import response from "@/utils/response";
-import validate from "@/resources/review/review.validation";
-import RoleEnum from "@/utils/enums/role.enum";
-import { Schema } from 'mongoose';
+
+import Controller from '@/utils/interfaces/controller.interface';
+import catchAsync from '@/utils/errors/catch-async';
+import RoleEnum from '@/utils/enums/role.enum';
+import response from '@/utils/response';
+
+import reviewService from './review.service';
+import validate from './review.validation';
 
 
 class ReviewController implements Controller {
     public readonly PATH = 'reviews';
     public readonly router = Router();
-    private readonly reviewService = new ReviewService();
+    private readonly reviewService = reviewService;
 
     constructor() {
         this.initializeRoutes()
@@ -119,4 +122,5 @@ class ReviewController implements Controller {
 }
 
 
-export default ReviewController;
+// Create and export review controller singleton instance
+export default new ReviewController();

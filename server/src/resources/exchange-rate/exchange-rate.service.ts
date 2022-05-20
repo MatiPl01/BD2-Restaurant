@@ -1,14 +1,16 @@
 import { ClientSession } from 'mongoose';
-import ExchangeRateModel from '@/resources/exchange-rate/exchange-rate.model';
+
 import singleTransaction from '@/utils/single-transaction';
-import ExchangeRate from '@/resources/exchange-rate/exchange-rate.interface';
-import configModel from '../config/config.model';
-import dishModel from '../dish/dish.model';
 import AppError from '@/utils/errors/app.error';
+
+import configModel from '@/resources/config/config.model';
+import dishModel from '@/resources/dish/dish.model';
+import exchangeRateModel from './exchange-rate.model';
+import ExchangeRate from './exchange-rate.interface';
 
 
 class ExchangeRateService {
-    private exchangeRate = ExchangeRateModel
+    private exchangeRate = exchangeRateModel;
     private config = configModel;
     private dish = dishModel;
 
@@ -120,4 +122,5 @@ class ExchangeRateService {
 }
 
 
-export default ExchangeRateService;
+// Create and export exchange rate service singleton instance
+export default new ExchangeRateService();

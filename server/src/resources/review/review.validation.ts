@@ -1,4 +1,4 @@
-import Joi from "@/utils/validation/mongoose.validation";
+import Joi from '@/utils/validation/mongoose.validation';
 
 
 const reviewBodyValidators = {

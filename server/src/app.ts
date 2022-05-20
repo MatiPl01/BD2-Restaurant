@@ -9,6 +9,7 @@ import xss from 'xss-clean';
 import hpp from 'hpp';
 
 import errorMiddleware from '@/middleware/error.middleware';
+
 import Controller from '@/utils/interfaces/controller.interface';
 import AppError from '@/utils/errors/app.error';
 

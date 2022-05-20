@@ -1,4 +1,4 @@
-import IError from "@/utils/interfaces/error.interface";
+import IError from '@/utils/interfaces/error.interface';
 
 
 class AppError extends Error implements IError {

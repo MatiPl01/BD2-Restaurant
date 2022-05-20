@@ -1,12 +1,14 @@
 import { Schema, ClientSession } from 'mongoose';
+
 import { updatePriceFilters } from '@/utils/filters';
 import singleTransaction from '@/utils/single-transaction';
-import reviewModel from '../review/review.model';
-import dishModel from './dish.model';
 import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
-import Review from '../review/review.interface';
-import Dish from '@/resources/dish/dish.interface';
+
+import reviewModel from '@/resources/review/review.model';
+import Review from '@/resources/review/review.interface';
+import dishModel from './dish.model';
+import Dish from './dish.interface';
 
 
 class DishService {
@@ -156,4 +158,5 @@ class DishService {
 }
 
 
-export default DishService;
+// Create and export dish service singleton instance
+export default new DishService();

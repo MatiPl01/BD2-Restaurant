@@ -1,21 +1,23 @@
-import User, {Address, CartItem, DetailedCartItem} from '@/resources/user/user.interface';
 import { Schema } from 'mongoose';
-import currencyModel from '../currency/currency.model';
-import reviewModel from '@/resources/review/review.model';
-import configModel from "@/resources/config/config.model";
-import dishModel from '@/resources/dish/dish.model';
-import UserModel from '@/resources/user/user.model';
-import AppError from '@/utils/errors/app.error';
-import currency from '../../utils/currency';
-import emailer from '@/utils/emailer';
-import Review from '../review/review.interface';
 import crypto from 'crypto';
+
+import AppError from '@/utils/errors/app.error';
+import currency from '@/utils/currency';
+import emailer from '@/utils/emailer';
 import token from '@/utils/token';
-import Dish from '../dish/dish.interface';
+
+import currencyModel from '@/resources/currency/currency.model';
+import reviewModel from '@/resources/review/review.model';
+import configModel from '@/resources/config/config.model';
+import dishModel from '@/resources/dish/dish.model';
+import Review from '@/resources/review/review.interface';
+import Dish from '@/resources/dish/dish.interface';
+import User, {Address, CartItem, DetailedCartItem} from './user.interface';
+import userModel from './user.model';
 
 
 class UserService {
-    private user = UserModel;
+    private user = userModel;
     private dish = dishModel;
     private review = reviewModel;
     private config = configModel;
@@ -146,7 +148,7 @@ class UserService {
             .update(resetToken)
             .digest('hex');
 
-        const user = await UserModel.findOne({
+        const user = await this.user.findOne({
             passwordResetToken: hashedToken,
             passwordResetExpirationTimestamp: { $gt: Date.now() }
         });
@@ -293,4 +295,5 @@ class UserService {
 }
 
 
-export default UserService;
+// Create and export user service singleton instance
+export default new UserService();

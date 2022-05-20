@@ -1,9 +1,10 @@
 import { model, Schema } from 'mongoose';
-import configModel from '../config/config.model';
-import dishModel from '../dish/dish.model';
+
 import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
-import Order from '@/resources/order/order.interface';
+
+import dishModel from '@/resources/dish/dish.model';
+import Order from './order.interface';
 
 
 const orderItem = new Schema(

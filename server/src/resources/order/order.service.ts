@@ -1,15 +1,13 @@
 import { Schema, ClientSession } from 'mongoose';
-import ExchangeRateService from '../exchange-rate/exchange-rate.service';
+
 import singleTransaction from '@/utils/single-transaction';
 import { asyncFilter } from '@/utils/filters';
-import orderModel from './order.model';
 import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
-import Order from '@/resources/order/order.interface';
 
-// TODO - maybe change ExchangeRateService methods to static and
-// don't use it as an instance in here
-const exchangeRateService = new ExchangeRateService();
+import exchangeRateService from '@/resources/exchange-rate/exchange-rate.service';
+import orderModel from './order.model';
+import Order from './order.interface';
 
 
 class OrderService {
@@ -208,4 +206,6 @@ class OrderService {
     }
 }
 
-export default OrderService;
+
+// Create and export order service singleton instance
+export default new OrderService();

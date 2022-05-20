@@ -1,6 +1,7 @@
-import AppError from "./app.error";
-import IError from "../interfaces/error.interface";
-import WithProperty from "./with-property.type";
+import IError from '@/utils/interfaces/error.interface';
+
+import WithProperty from './with-property.type';
+import AppError from './app.error';
 
 
 const handleCastError = (error: IError): AppError => {

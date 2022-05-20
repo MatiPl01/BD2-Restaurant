@@ -1,10 +1,12 @@
 import { model, Schema } from 'mongoose';
-import configModel from '../config/config.model';
-import RoleEnum from '@/utils/enums/role.enum';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import User from '@/resources/user/user.interface';
+
 import AppError from '@/utils/errors/app.error';
+import RoleEnum from '@/utils/enums/role.enum';
+
+import configModel from '@/resources/config/config.model';
+import User from './user.interface';
 
 
 const userCartSchema = new Schema(

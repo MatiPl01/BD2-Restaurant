@@ -1,21 +1,24 @@
 import { Router, Request, Response } from 'express';
+
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';
-import ConfigService from './config.service';
 import authenticate from '@/middleware/auth/authentication.middleware';
 import restrictTo from '@/middleware/auth/authorization.middleware';
-import catchAsync from "@/utils/errors/catch-async";
+
+import catchAsync from '@/utils/errors/catch-async';
 import Controller from '@/utils/interfaces/controller.interface';
-import validate from '@/resources/config/config.validation'
 import RoleEnum from '@/utils/enums/role.enum';
 import response from '@/utils/response';
+
+import configService from './config.service';
+import validate from './config.validation'
 
 
 class ConfigController implements Controller {
     public readonly PATH = 'config';
     public readonly router = Router();
-    private readonly configService = new ConfigService();
+    private readonly configService = configService;
 
     constructor() {
         this.initializeRoutes();
@@ -57,4 +60,5 @@ class ConfigController implements Controller {
 }
 
 
-export default ConfigController;
+// Create and export config controller singleton instance
+export default new ConfigController();

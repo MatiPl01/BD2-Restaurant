@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import AppError from "@/utils/errors/app.error";
-import catchAsync from "@/utils/errors/catch-async";
+import { NextFunction, Request, Response } from 'express';
+import AppError from '@/utils/errors/app.error';
+import catchAsync from '@/utils/errors/catch-async';
 
 
 const parseFields = (fields: string) => {

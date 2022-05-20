@@ -1,8 +1,10 @@
-import reviewModel from './review.model';
-import orderModel from '@/resources/order/order.model';
-import AppError from "@/utils/errors/app.error";
-import Review from '@/resources/review/review.interface';
 import { Schema } from 'mongoose';
+
+import AppError from '@/utils/errors/app.error';
+
+import orderModel from '@/resources/order/order.model';
+import reviewModel from './review.model';
+import Review from './review.interface';
 
 
 class ReviewService {
@@ -94,4 +96,5 @@ class ReviewService {
 }
 
 
-export default ReviewService;
+// Create and export review service singleton instance
+export default new ReviewService();

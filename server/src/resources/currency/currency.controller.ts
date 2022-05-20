@@ -1,19 +1,22 @@
 import { Request, Response, Router } from 'express';
-import validationMiddleware from "@/middleware/validation.middleware";
-import CurrencyService from '@/resources/currency/currency.service';
+
+import validationMiddleware from '@/middleware/validation.middleware';
 import authenticate from '@/middleware/auth/authentication.middleware';
 import restrictTo from '@/middleware/auth/authorization.middleware';
+
 import Controller from '@/utils/interfaces/controller.interface';
-import catchAsync from "@/utils/errors/catch-async";
+import catchAsync from '@/utils/errors/catch-async';
 import response from '@/utils/response';
-import validate from "@/resources/currency/currency.validation";
 import RoleEnum from '@/utils/enums/role.enum';
+
+import currencyService from './currency.service';
+import validate from './currency.validation';
 
 
 class CurrencyController implements Controller {
     public readonly PATH = 'currencies';
     public readonly router = Router();
-    private readonly currencyService = new CurrencyService();
+    private readonly currencyService = currencyService;
 
     constructor() {
         this.initializeRoutes();
@@ -84,4 +87,5 @@ class CurrencyController implements Controller {
 }
 
 
-export default CurrencyController;
+// Create and export currency controller singleton instance
+export default new CurrencyController();

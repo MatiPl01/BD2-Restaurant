@@ -1,24 +1,27 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import { Schema } from 'mongoose';
+
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
 import filteringMiddleware from '@/middleware/requests/filtering.middleware';
 import updateMiddleware from '@/middleware/requests/update.middleware';
 import authenticate from '@/middleware/auth/authentication.middleware';
-import UserService from '@/resources/user/user.service';
 import restrictTo from '@/middleware/auth/authorization.middleware';
+
 import Controller from '@/utils/interfaces/controller.interface';
-import catchAsync from "@/utils/errors/catch-async";
-import RoleEnum from '@/utils/enums/role.enum';
-import validate from '@/resources/user/user.validation';
-import response from '@/utils/response';
-import { Schema } from 'mongoose';
+import catchAsync from '@/utils/errors/catch-async';
 import AppError from '@/utils/errors/app.error';
+import RoleEnum from '@/utils/enums/role.enum';
+import response from '@/utils/response';
+
+import userService from './user.service';
+import validate from './user.validation';
 
 
 class UserController implements Controller {
     public readonly PATH = 'users';
     public readonly router = Router();
-    private readonly userService = new UserService();
+    private readonly userService = userService;
 
     constructor() {
         this.initializeRoutes();
@@ -402,4 +405,5 @@ class UserController implements Controller {
 }
 
 
-export default UserController;
+// Create and export user controller singleton instance
+export default new UserController();

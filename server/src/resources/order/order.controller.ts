@@ -1,20 +1,23 @@
-import { Request, Response, Router } from "express";
-import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
-import validationMiddleware from "@/middleware/validation.middleware";
-import filteringMiddleware from "@/middleware/requests/filtering.middleware";
+import { Request, Response, Router } from 'express';
+
+import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
+import validationMiddleware from '@/middleware/validation.middleware';
+import filteringMiddleware from '@/middleware/requests/filtering.middleware';
 import authenticate from '@/middleware/auth/authentication.middleware';
-import OrderService from "./order.service";
-import Controller from "@/utils/interfaces/controller.interface";
-import catchAsync from "@/utils/errors/catch-async";
-import validate from "@/resources/order/order.validation";
-import response from "@/utils/response";
-import Order from "@/resources/order/order.interface";
+
+import Controller from '@/utils/interfaces/controller.interface';
+import catchAsync from '@/utils/errors/catch-async';
+import response from '@/utils/response';
+
+import orderService from './order.service';
+import validate from './order.validation';
+import Order from './order.interface';
 
 
 class OrderController implements Controller {
     public readonly PATH = 'orders';
     public readonly router = Router();
-    private readonly orderService = new OrderService();
+    private readonly orderService = orderService;
 
     constructor() {
         this.initializeRoutes()
@@ -73,4 +76,5 @@ class OrderController implements Controller {
 }
 
 
-export default OrderController;
+// Create and export order controller singleton instance
+export default new OrderController();

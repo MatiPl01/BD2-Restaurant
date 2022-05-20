@@ -1,29 +1,29 @@
 import 'dotenv/config';
 import 'module-alias/register';
+
 import validateEnv from '@/utils/validation/validateEnv';
+
+import configController from '@/resources/config/config.controller';
+import currencyController from '@/resources/currency/currency.controller';
+import dishController from '@/resources/dish/dish.controller';
+import exchangeRateController from '@/resources/exchange-rate/exchange-rate.controller';
+import orderController from '@/resources/order/order.controller';
+import reviewController from '@/resources/review/review.controller';
+import userController from '@/resources/user/user.controller';
+
 import App from './app';
-
-// Controllers
-import CurrencyController from '@/resources/currency/currency.controller';
-import DishController from '@/resources/dish/dish.controller';
-import ExchangeRateController from "@/resources/exchange-rate/exchange-rate.controller";
-import OrderController from '@/resources/order/order.controller';
-import ReviewController from '@/resources/review/review.controller';
-import UserController from '@/resources/user/user.controller';
-import ConfigController from "@/resources/config/config.controller";
-
 
 validateEnv();
 
 const app = new App(
     [
-        new CurrencyController(),
-        new DishController(),
-        new ExchangeRateController(),
-        new ConfigController(),
-        new OrderController(),
-        new ReviewController(),
-        new UserController()
+        currencyController,
+        dishController,
+        exchangeRateController,
+        configController,
+        orderController,
+        reviewController,
+        userController
     ],
     Number(process.env.PORT)
 );

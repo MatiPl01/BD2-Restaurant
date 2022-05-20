@@ -1,20 +1,23 @@
 import { Request, Response, Router } from 'express';
+
 import validationMiddleware from '@/middleware/validation.middleware';
-import ExchangeRateService from './exchange-rate.service';
 import authenticate from '@/middleware/auth/authentication.middleware';
 import restrictTo from '@/middleware/auth/authorization.middleware';
-import catchAsync from '@/utils/errors/catch-async';
+
 import Controller from '@/utils/interfaces/controller.interface';
-import validate from '@/resources/exchange-rate/exchange-rate.validation'
+import catchAsync from '@/utils/errors/catch-async';
+import AppError from '@/utils/errors/app.error';
 import response from '@/utils/response';
 import RoleEnum from '@/utils/enums/role.enum';
-import AppError from '@/utils/errors/app.error';
+
+import exchangeRateService from './exchange-rate.service';
+import validate from './exchange-rate.validation'
 
 
 class ExchangeRateController implements Controller {
     public readonly PATH = 'exchange-rates';
     public readonly router = Router();
-    private readonly exchangeRateService = new ExchangeRateService();
+    private readonly exchangeRateService = exchangeRateService;
 
     constructor() {
         this.initializeRoutes();
@@ -82,4 +85,5 @@ class ExchangeRateController implements Controller {
 }
 
 
-export default ExchangeRateController;
+// Create and export exchange rate controller singleton instance
+export default new ExchangeRateController();

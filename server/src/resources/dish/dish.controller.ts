@@ -1,30 +1,38 @@
-import { Request, Response, Router } from "express";
-import selectFieldsMiddleware from "@/middleware/requests/select-fields.middleware";
-import validationMiddleware from "@/middleware/validation.middleware";
-import filteringMiddleware from "@/middleware/requests/filtering.middleware";
-import updateMiddleware from "@/middleware/requests/update.middleware";
-import authenticate from '@/middleware/auth/authentication.middleware';
-import DishService from "@/resources/dish/dish.service"
-import restrictTo from '@/middleware/auth/authorization.middleware';
-import Controller from "@/utils/interfaces/controller.interface";
-import catchAsync from "@/utils/errors/catch-async";
-import validation from "@/resources/dish/dish.validation";
-import response from "@/utils/response";
-import RoleEnum from "@/utils/enums/role.enum";
+import { Request, Response, Router } from 'express';
 import { Schema } from 'mongoose';
-import Dish from "./dish.interface";
+
+import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
+import validationMiddleware from '@/middleware/validation.middleware';
+import filteringMiddleware from '@/middleware/requests/filtering.middleware';
+import updateMiddleware from '@/middleware/requests/update.middleware';
+import authenticate from '@/middleware/auth/authentication.middleware';
+import restrictTo from '@/middleware/auth/authorization.middleware';
+
+import Controller from '@/utils/interfaces/controller.interface';
+import catchAsync from '@/utils/errors/catch-async';
+import RoleEnum from '@/utils/enums/role.enum';
+import response from '@/utils/response';
+
+import reviewController from '@/resources/review/review.controller';
+import dishService from './dish.service'
+import validation from './dish.validation';
+import Dish from './dish.interface';
 
 
 class DishController implements Controller {
     public readonly PATH = 'dishes';
     public readonly router = Router();
-    private readonly dishService = new DishService();
+    private readonly dishService = dishService;
+
+    private readonly reviewController = reviewController;
 
     constructor() {
         this.initializeRoutes();
     }
 
     private initializeRoutes(): void {
+        this.router.use('/:id/reviews', this.reviewController.router);
+
         this.router
             .route('/')
             .get(
@@ -57,14 +65,6 @@ class DishController implements Controller {
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
                 this.deleteDish
-            );
-
-        this.router
-            .route('/:id/reviews')
-            .get(
-                filteringMiddleware,
-                selectFieldsMiddleware,
-                this.getDishReviews
             );
     }
 
@@ -160,4 +160,5 @@ class DishController implements Controller {
 }
 
 
-export default DishController;
+// Create and export dish controller singleton instance
+export default new DishController();

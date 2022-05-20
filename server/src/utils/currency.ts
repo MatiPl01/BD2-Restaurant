@@ -1,13 +1,12 @@
-import ExchangeRateService from "@/resources/exchange-rate/exchange-rate.service";
 import { ClientSession } from 'mongoose';
-import configModel from "@/resources/config/config.model";
-import dishModel from "@/resources/dish/dish.model";
-import AppError from "./errors/app.error";
-import Dish from "@/resources/dish/dish.interface";
 
-// TODO - maybe change ExchangeRateService methods to static and
-// don't use it as an instance in here
-const exchangeRateService = new ExchangeRateService();
+import exchangeRateService from '@/resources/exchange-rate/exchange-rate.service';
+import configModel from '@/resources/config/config.model';
+import dishModel from '@/resources/dish/dish.model';
+import Dish from '@/resources/dish/dish.interface';
+
+import AppError from './errors/app.error';
+
 
 const exchangeCurrency = async (
     amount: number,

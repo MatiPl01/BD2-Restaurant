@@ -1,5 +1,7 @@
-import { currencyValidators } from '../currency/currency.validation';
 import Joi from 'joi';
+
+import { currencyValidators } from '@/resources/currency/currency.validation';
+
 
 const exchangeRateValidators = {
     from: currencyValidators.code,

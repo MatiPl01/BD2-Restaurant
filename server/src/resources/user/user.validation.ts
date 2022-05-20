@@ -1,6 +1,7 @@
-import { currencyValidators } from '../currency/currency.validation';
 import RoleEnum from '@/utils/enums/role.enum';
-import Joi from "@/utils/validation/mongoose.validation";
+import Joi from '@/utils/validation/mongoose.validation';
+
+import { currencyValidators } from '@/resources/currency/currency.validation';
 
 
 const addressValidators = {

@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
-import Currency from '@/resources/currency/currency.interface';
+
+import Currency from './currency.interface';
 
 
 const currencySchema = new Schema(
@@ -37,7 +38,7 @@ const currencySchema = new Schema(
     }
 );
 
-// Add indexes on the specific fields of the documents
+
 currencySchema.index({ code: 1 });
 
 

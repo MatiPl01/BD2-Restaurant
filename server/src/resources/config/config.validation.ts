@@ -1,6 +1,9 @@
-import { currencyValidators } from '../currency/currency.validation';
-import PersistenceEnum from '@/utils/enums/persistence.enum';
 import Joi from 'joi';
+
+import PersistenceEnum from '@/utils/enums/persistence.enum';
+
+import { currencyValidators } from '@/resources/currency/currency.validation';
+
 
 const body = {
     updateConfig: Joi.object({
@@ -8,6 +11,7 @@ const body = {
         mainCurrency: currencyValidators.code.optional()
     })
 };
+
 
 export default {
     body

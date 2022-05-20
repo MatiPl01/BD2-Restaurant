@@ -1,7 +1,8 @@
 import { model, Schema } from 'mongoose';
-import ExchangeRate from "@/resources/exchange-rate/exchange-rate.interface";
 
-// TODO - maybe export repeated validation objects from models an import in other models
+import ExchangeRate from './exchange-rate.interface';
+
+// TODO - maybe export repeated validation objects from models and import in other models
 const exchangeRateSchema = new Schema(
     {
         rate: {
@@ -32,10 +33,10 @@ const exchangeRateSchema = new Schema(
     }
 );
 
-// Add indexes on the specific fields of the documents
+
+exchangeRateSchema.index({ createdAt: -1 });
 // (This index also ensures that there will be no more repetitions of the same (from, to) pairs)
 exchangeRateSchema.index({ from: 1, to: 1 });
-exchangeRateSchema.index({ createdAt: -1 });
 
 
 export default model<ExchangeRate>('ExchangeRate', exchangeRateSchema);

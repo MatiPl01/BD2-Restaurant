@@ -1,10 +1,11 @@
-import CurrencyModel from "@/resources/currency/currency.model";
-import Currency from "@/resources/currency/currency.interface";
-import AppError from "@/utils/errors/app.error";
+import AppError from '@/utils/errors/app.error';
+
+import currencyModel from './currency.model';
+import Currency from './currency.interface';
 
 
 class CurrencyService {
-    private currency = CurrencyModel;
+    private currency = currencyModel;
 
     public async getCurrency(
         code: string
@@ -35,4 +36,5 @@ class CurrencyService {
 }
 
 
-export default CurrencyService;
+// Create and export currency service singleton instance
+export default new CurrencyService();

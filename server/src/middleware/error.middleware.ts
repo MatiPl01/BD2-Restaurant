@@ -59,7 +59,7 @@ const errorMiddleware = (
 
             return sendErrorProd(err, res);
         default:
-            throw new Error("Invalid node environment");
+            throw new Error('Invalid node environment');
     }
 }
 

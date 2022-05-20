@@ -1,7 +1,9 @@
 import { model, Schema } from 'mongoose';
-import dishModel from '../dish/dish.model';
+
 import AppError from '@/utils/errors/app.error';
-import Review from '@/resources/review/review.interface';
+
+import dishModel from '@/resources/dish/dish.model';
+import Review from './review.interface';
 
 
 const reviewSchema = new Schema(

@@ -1,12 +1,14 @@
 import { ClientSession } from 'mongoose';
+
 import singleTransaction from '@/utils/single-transaction';
-import ConfigModel from '@/resources/config/config.model';
 import AppError from '@/utils/errors/app.error';
-import Config from '@/resources/config/config.interface';
+
+import configModel from './config.model';
+import Config from './config.interface';
 
 
 class ConfigService {
-    private config = ConfigModel
+    private config = configModel;
 
     public async getConfig(): Promise<Config> {
         const config = await this.config.findOne();
@@ -25,17 +27,16 @@ class ConfigService {
         const config = await this.config.findOneAndUpdate(
             {},
             { $set: updatedProps },
-            session ? { new: true, session } : { new: true }
+            { new: true, session }
         );
 
-        if (config) {
-            await config.updateMainCurrency(mainCurrency, session);
-            return config;
-        }
+        if (!config) throw new AppError(400, 'Cannot update config');
 
-        throw new AppError(400, 'Cannot update config');
+        await config.updateMainCurrency(mainCurrency, session);
+        return config;
     })
 }
 
 
-export default ConfigService;
+// Create and export config service singleton instance
+export default new ConfigService();
