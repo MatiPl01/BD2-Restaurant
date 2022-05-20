@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
 @Component({
-  selector: 'shared-loading-bar',
+  selector: 'core-loading-bar',
   template: `
     <div class="loading-bar"></div>
   `

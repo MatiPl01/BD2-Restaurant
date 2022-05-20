@@ -11,7 +11,7 @@ import { ResponsiveImageComponent } from './components/responsive-image/responsi
 import { LogoComponent } from './components/logo/logo.component';
 import { SingleSelectDropdownComponent } from './components/forms/single-select-dropdown/single-select-dropdown.component';
 import { FormsModule } from "@angular/forms";
-import { LoadingBarComponent } from "@shared/components/loading-bar/loading-bar.component";
+import { LoadingBarComponent } from "@shared/../core/components/loading-bar/loading-bar.component";
 import { AlertComponent } from "@shared/components/alert/alert.component";
 import { RangeSliderComponent } from './components/forms/range-slider/range-slider.component';
 import { MultiSelectDropdownComponent } from './components/forms/mult-iselect-dropdown/multi-select-dropdown.component';
@@ -20,9 +20,9 @@ import { ParallaxSliderComponent } from './components/parallax-slider/parallax-s
 import { PopupComponent } from './components/popup/popup.component';
 import { PriceComponent } from './components/price/price.component';
 import { RatingComponent } from './components/rating/rating.component';
-import { ScrollTopBtnComponent } from './components/scroll-top-btn/scroll-top-btn.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { ResponsiveGalleryComponent } from './components/responsive-gallery/responsive-gallery.component';
+import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
 
 @NgModule({
   imports: [
@@ -46,26 +46,27 @@ import { ResponsiveGalleryComponent } from './components/responsive-gallery/resp
     PopupComponent,
     PriceComponent,
     RatingComponent,
-    ScrollTopBtnComponent,
     PaginationComponent,
+    ResponsiveGalleryComponent,
 
     ParallaxDirective,
-      ResponsiveGalleryComponent
+    ObserveVisibilityDirective
   ],
-    exports: [
-      CommonModule,
+  exports: [
+    CommonModule,
 
-      LoadingSpinnerComponent,
-      ResponsiveImageComponent,
-      LogoComponent,
-      SingleSelectDropdownComponent,
-      LoadingBarComponent,
-      AlertComponent,
-      PaginationComponent,
-      RatingComponent,
-      ResponsiveGalleryComponent,
+    LoadingSpinnerComponent,
+    ResponsiveImageComponent,
+    LogoComponent,
+    SingleSelectDropdownComponent,
+    LoadingBarComponent,
+    AlertComponent,
+    PaginationComponent,
+    RatingComponent,
+    ResponsiveGalleryComponent,
 
-      ParallaxDirective
+    ParallaxDirective,
+    ObserveVisibilityDirective
   ]
 })
 export class SharedModule {}

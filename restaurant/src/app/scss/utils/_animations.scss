@@ -79,3 +79,18 @@
     transform: translateY(100%);
   }
 }
+
+@keyframes to-top-btn {
+  5% {
+    transform: translateY(10%);
+  }
+  50% {
+    transform: translateY(-200%);
+  }
+  51% {
+    transform: translateX(-200%);
+  }
+  52% {
+    transform: translateY(200%);
+  }
+}

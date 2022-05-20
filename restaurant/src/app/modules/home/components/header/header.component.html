@@ -1,4 +1,6 @@
-<header class="header" #header>
+<header class="header"
+        observeVisibility
+        (visibilityChange)="notifyHeaderVisibilityChange($event)">
   <div class="header__logo-wrapper">
     <div class="header__logo" parallax [ratio]="-.25">
       <svg class="header__icon">

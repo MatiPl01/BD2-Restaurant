@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from "../../app-routing.module";
@@ -11,12 +10,12 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { CurrencyService } from "@shared/services/currency.service";
 import { AuthorizationDirective } from "@auth/directives/authorization.directive";
+import { ScrollTopBtnComponent } from './components/scroll-top-button/scroll-top-button.component';
 
 
 @NgModule({
   imports: [
     // Built-in modules
-    CommonModule,
     FormsModule,
 
     // Out modules
@@ -32,6 +31,7 @@ import { AuthorizationDirective } from "@auth/directives/authorization.directive
     NavbarComponent,
     FooterComponent,
     NotFoundComponent,
+    ScrollTopBtnComponent
   ],
 
   providers: [
@@ -45,7 +45,8 @@ import { AuthorizationDirective } from "@auth/directives/authorization.directive
     // Components
     NavbarComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ScrollTopBtnComponent
   ]
 })
 export class CoreModule {}

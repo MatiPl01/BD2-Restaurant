@@ -2,6 +2,7 @@
 <shared-alert></shared-alert>
 
 <div class="content" [ngClass]="{'nav-open': isMobileNavOpen}">
+  <core-scroll-top-button></core-scroll-top-button>
   <router-outlet></router-outlet>
   <!--TODO - exclude footer from admin/manager panels-->
   <core-footer></core-footer>

@@ -5,6 +5,8 @@ import { BehaviorSubject } from "rxjs";
   providedIn: 'root'
 })
 export class VisualizationService {
+  private static readonly NO_SCROLL_CLASS = 'no-scroll';
+
   headerVisibilityChangedEvent = new EventEmitter<boolean>()
   scrollAvailabilityChangedEvent = new EventEmitter<boolean>()
   popupDisplayChangedEvent = new EventEmitter<boolean>()
@@ -35,12 +37,14 @@ export class VisualizationService {
       behavior: isSmooth ? 'smooth' : 'instant'
     })
   }
-  //
-  // setScroll(isEnabled: boolean): void {
-  //   if (!isEnabled) document.querySelector('body')?.classList.add('no-scroll');
-  //   else document.querySelector('body')?.classList.remove('no-scroll');
-  //   this.scrollAvailabilityChangedEvent.emit(isEnabled);
-  // }
+  
+  setScroll(isEnabled: boolean): void {
+    document.querySelector('body')?.classList.toggle(
+      VisualizationService.NO_SCROLL_CLASS,
+      isEnabled
+    );
+    this.scrollAvailabilityChangedEvent.emit(isEnabled);
+  }
 
   // setPopupOpen(isOpen: boolean): void {
   //   this.setScroll(!isOpen);

@@ -28,7 +28,9 @@ export class ParallaxDirective {
 
   @HostListener("window:scroll", ["$event"])
   onWindowScroll() {
-    if (this.isIntersecting && this.animationFinished) requestAnimationFrame(this.animate.bind(this))
+    if (this.isIntersecting && this.animationFinished) {
+      requestAnimationFrame(this.animate.bind(this))
+    }
   }
 
   private lerp(start: number, end: number, t: number): number {
