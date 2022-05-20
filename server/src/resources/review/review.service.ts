@@ -2,14 +2,14 @@ import { Schema } from 'mongoose';
 
 import AppError from '@/utils/errors/app.error';
 
-import orderModel from '@/resources/order/order.model';
-import reviewModel from './review.model';
+import OrderModel from '@/resources/order/order.model';
+import ReviewModel from './review.model';
 import Review from './review.interface';
 
 
 class ReviewService {
-    private review = reviewModel;
-    private orders = orderModel
+    private review = ReviewModel;
+    private orders = OrderModel
 
     public async getReviews(
         filters: { [key: string]: any },

@@ -23,7 +23,7 @@ class ReviewController implements Controller {
     private readonly reviewService = reviewService;
 
     constructor() {
-        this.initializeRoutes()
+        this.initializeRoutes();
     }
 
     private initializeRoutes(): void {
@@ -52,7 +52,7 @@ class ReviewController implements Controller {
                 restrictTo(RoleEnum.USER),
                 validationMiddleware(validate.body.editReview),
                 updateMiddleware,
-                this.editReview
+                this.updateReview
             )
             .delete(
                 authenticate,
@@ -87,7 +87,8 @@ class ReviewController implements Controller {
         const user = req.user;
         const { dish: dishID, order: OrderID, rating, body } = req.body;
         const review = await this.reviewService.createReview(user.id, dishID, OrderID, rating, body);
-        await response.json(res, 200, review);
+
+        await response.json(res, 201, review);
     })
 
     private deleteReview = catchAsync(async (
@@ -97,17 +98,19 @@ class ReviewController implements Controller {
         const user = req.user;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.deleteReview(id, user.id);
-        await response.json(res, 200, review);
+        
+        await response.json(res, 204, null);
     })
 
-    private editReview = catchAsync(async (
+    private updateReview = catchAsync(async (
         req: Request,
         res: Response
     ): Promise<void> => {
         const user = req.user;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.editReview(id, user.id, req.body);
-        await response.json(res, 200, review);
+        
+        await response.json(res, 201, review);
     })
 
     private getReview = catchAsync(async (
@@ -117,6 +120,7 @@ class ReviewController implements Controller {
         const { fields } = req;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
         const review = await this.reviewService.getReview(id, fields);
+
         await response.json(res, 200, review);
     })
 }

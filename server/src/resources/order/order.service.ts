@@ -6,12 +6,12 @@ import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
 
 import exchangeRateService from '@/resources/exchange-rate/exchange-rate.service';
-import orderModel from './order.model';
+import OrderModel from './order.model';
 import Order from './order.interface';
 
 
 class OrderService {
-    private order = orderModel;
+    private order = OrderModel;
 
     public async createOrder(
         userID: Schema.Types.ObjectId,

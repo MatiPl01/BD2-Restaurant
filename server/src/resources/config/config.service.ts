@@ -3,12 +3,12 @@ import { ClientSession } from 'mongoose';
 import singleTransaction from '@/utils/single-transaction';
 import AppError from '@/utils/errors/app.error';
 
-import configModel from './config.model';
+import ConfigModel from './config.model';
 import Config from './config.interface';
 
 
 class ConfigService {
-    private config = configModel;
+    private config = ConfigModel;
 
     public async getConfig(): Promise<Config> {
         const config = await this.config.findOne();

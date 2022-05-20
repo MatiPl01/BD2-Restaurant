@@ -1,6 +1,27 @@
 import Joi from '@/utils/validation/mongoose.validation';
 
 
+const imageValidators = {
+    breakpoints: Joi.array().items(
+        Joi.number().min(0).required().messages({
+            'any.required': 'Please provide dish image breakpoint',
+            'number.min': 'Dish image breakpoint should not be lower than 0'
+        })
+    ).required().messages({
+        'any.required': 'Please provide dish images breakpoints'
+    }),
+
+    paths: Joi.array().items(
+        Joi.string().trim().required().messages({
+            'any.required': 'Please provide dish image path',
+            'string.trim': 'Dish image path must have no spaces at the beginning ans ath the end'
+        })
+    ).required().messages({
+        'any.required': 'Please provide dish images paths'
+    })
+}
+
+
 const dishBodyValidators = {
     name: Joi.string().trim().min(2).max(40).required().messages({
         'any.required': 'Please provide a dish name',
@@ -68,36 +89,12 @@ const dishBodyValidators = {
         'any.required': 'Please provide dish description'
     }),
 
-    images: Joi.object({
-        coverIdx: Joi.number().integer().min(0).messages({
-            'number.integer': 'Cover index must be an integer number',
-            'number.min': 'Cover index cannot be lower than 0'
-        }),
+    coverIdx: Joi.number().integer().min(0).messages({
+        'number.integer': 'Cover index must be an integer',
+        'number.min': 'Cover index cannot be lower than 0'
+    }),
 
-        gallery: Joi.array().items(Joi.object(
-            {
-                breakpoints: Joi.array().items(
-                    Joi.number().min(0).required().messages({
-                        'any.required': 'Please provide dish image breakpoint',
-                        'number.min': 'Dish image breakpoint should not be lower than 0'
-                    })
-                ).required().messages({
-                    'any.required': 'Please provide dish images breakpoints'
-                }),
-
-                paths: Joi.array().items(
-                    Joi.string().trim().required().messages({
-                        'any.required': 'Please provide dish image path',
-                        'string.trim': 'Dish image path must have no spaces at the beginning ans ath the end'
-                    })
-                ).required().messages({
-                    'any.required': 'Please provide dish images paths'
-                })
-            }
-        ).required().messages({
-            'any.required': 'Please provide dish images gallery'
-        }))
-    })
+    images: Joi.array().items(Joi.object(imageValidators))
 };
 
 
@@ -114,37 +111,26 @@ const body = {
         currency: dishBodyValidators.currency.optional(),
         unitPrice: dishBodyValidators.unitPrice.optional(),
         description: dishBodyValidators.description.optional(),
-        images: Joi.object({
-            coverIdx: Joi.number().integer().min(0).messages({
-                'number.integer': 'Cover index must be an integer number',
-                'number.min': 'Cover index cannot be lower than 0'
-            }),
-
-            gallery: Joi.object().pattern(
-                // Gallery index
+        coverIdx: dishBodyValidators.coverIdx,
+        images: Joi.array().items(Joi.object({
+            breakpoints: Joi.object().pattern(
+                // Breakpoint index
                 Joi.number().integer().min(0),
-                // Galery value
-                Joi.object({
-                    breakpoints: Joi.object().pattern(
-                        // Breakpoint index
-                        Joi.number().integer().min(0),
-                        // Breakpoint value
-                        Joi.number().min(0)
-                    ),
+                // Breakpoint value
+                Joi.number().min(0)
+            ),
 
-                    paths: Joi.object().pattern(
-                        // Path index
-                        Joi.number().integer().min(0),
-                        // Path string
-                        Joi.string().trim()
-                    )
-                })
+            paths: Joi.object().pattern(
+                // Path index
+                Joi.number().integer().min(0),
+                // Path string
+                Joi.string().trim()
             )
-        })
+        }))
     })
 }
 
-const query = { // TODO more query validation (pagination, etc.)
+const query = { // TODO - add more query validators (pagination, etc.)
     getDish: Joi.object({
         currency: dishBodyValidators.currency.optional(),
         fields: Joi.string()

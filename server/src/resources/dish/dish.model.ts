@@ -2,33 +2,35 @@ import { model, Schema, ClientSession } from 'mongoose';
 
 import AppError from '@/utils/errors/app.error';
 
-import exchangeRateModel from '@/resources/exchange-rate/exchange-rate.model';
-import configModel from '@/resources/config/config.model';
+import ExchangeRateModel from '@/resources/exchange-rate/exchange-rate.model';
+import ConfigModel from '@/resources/config/config.model';
 import Dish from './dish.interface';
 
 
-const gallerySchema = new Schema({
-    breakpoints: {
-        type: [
-            {
-                type: Number,
-                min: [0, 'Dish image breakpoint should not be lower than 0'],
-                required: [true, 'Please provide dish image breakpoint']
-            }
-        ],
-        required: [true, 'Please provide dish images breakpoints']
+const imageSchema = new Schema(
+    {
+        breakpoints: {
+            type: [
+                {
+                    type: Number,
+                    min: [0, 'Dish image breakpoint should not be lower than 0'],
+                    required: [true, 'Please provide dish image breakpoint']
+                }
+            ],
+            required: [true, 'Please provide dish images breakpoints']
+        },
+        paths: {
+            type: [
+                {
+                    type: String,
+                    trim: [true, 'Dish image path must have no spaces at the beginning ans ath the end'],
+                    required: [true, 'Please provide dish image path']
+                }
+            ],
+            required: [true, 'Please provide dish images paths']
+        }
     },
-    paths: {
-        type: [
-            {
-                type: String,
-                trim: [true, 'Dish image path must have no spaces at the beginning ans ath the end'],
-                required: [true, 'Please provide dish image path']
-            }
-        ],
-        required: [true, 'Please provide dish images paths']
-    }
-},
+
     {
         _id: false,
         timestamps: false,
@@ -130,20 +132,15 @@ const dishSchema = new Schema(
             required: [true, 'Please provide dish description']
         },
 
+        coverImage: {
+            type: imageSchema,
+            required: [true, 'Please provide dish cover image']
+        },
+
         images: {
-            coverIdx: {
-                type: Number,
-                default: 0,
-                min: [0, 'Cover index cannot be lower than 0'],
-                validate: {
-                    validator: Number.isInteger,
-                    message: 'Cover index must be an integer number'
-                },
-            },
-            gallery: {
-                type: [gallerySchema],
-                required: [true, 'Please provide dish images paths']
-            }
+            type: [imageSchema],
+            required: [true, 'Please provide dish cover image'],
+            minlength: [1, 'Please provide at least 1 dish image']
         }
     },
 
@@ -173,6 +170,11 @@ dishSchema.pre<Dish>('validate', async function (
             next(err as Error);
         }
     }
+
+    if (!this.coverImage) {
+        this.coverImage = this.images[0];
+    }
+
     next();
 });
 
@@ -184,7 +186,7 @@ dishSchema.methods.updateMainUnitPrice = async function (
     let to = targetCurrency;
 
     if (!to) {
-        const config = await configModel.findOne({}, {}, { session });
+        const config = await ConfigModel.findOne({}, {}, { session });
         if (!config) throw new AppError(404, 'Cannot find config in a database');
         to = config.mainCurrency;
     }
@@ -192,7 +194,7 @@ dishSchema.methods.updateMainUnitPrice = async function (
     if (from === to) {
         this.mainUnitPrice = unitPrice;
     } else {
-        const exchangeRate = await exchangeRateModel.findOne({ from, to }, {}, { session });
+        const exchangeRate = await ExchangeRateModel.findOne({ from, to }, {}, { session });
         if (!exchangeRate) {
             throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
         }

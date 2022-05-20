@@ -1,8 +1,8 @@
 import { ClientSession } from 'mongoose';
 
 import exchangeRateService from '@/resources/exchange-rate/exchange-rate.service';
-import configModel from '@/resources/config/config.model';
-import dishModel from '@/resources/dish/dish.model';
+import ConfigModel from '@/resources/config/config.model';
+import DishModel from '@/resources/dish/dish.model';
 import Dish from '@/resources/dish/dish.interface';
 
 import AppError from './errors/app.error';
@@ -29,8 +29,8 @@ const exchangeToMainCurrency = async (
     session?: ClientSession
 ): Promise<number> => {
     let config; 
-    if (session) config = await configModel.findOne().session(session);
-    else config = await configModel.findOne();
+    if (session) config = await ConfigModel.findOne().session(session);
+    else config = await ConfigModel.findOne();
 
     if (!config) throw new AppError(404, 'Config was not found in the database');
 
@@ -50,9 +50,9 @@ const changeDishCurrency = async (
         let dishCurrency;
         
         if (session) {
-            dishCurrency = (await dishModel.findById(dish.id).session(session))?.currency;
+            dishCurrency = (await DishModel.findById(dish.id).session(session))?.currency;
         } else {
-            dishCurrency = (await dishModel.findById(dish.id))?.currency;
+            dishCurrency = (await DishModel.findById(dish.id))?.currency;
         }
 
         if (!dishCurrency) throw new AppError(404, `Cannot find dish with id ${dish.id}`);

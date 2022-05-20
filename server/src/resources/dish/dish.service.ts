@@ -5,15 +5,15 @@ import singleTransaction from '@/utils/single-transaction';
 import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
 
-import reviewModel from '@/resources/review/review.model';
+import ReviewModel from '@/resources/review/review.model';
 import Review from '@/resources/review/review.interface';
-import dishModel from './dish.model';
+import DishModel from './dish.model';
 import Dish from './dish.interface';
 
 
 class DishService {
-    private dish = dishModel;
-    private review = reviewModel;
+    private dish = DishModel;
+    private review = ReviewModel;
 
     public getDishes = singleTransaction(async (
         session: ClientSession,
@@ -23,7 +23,7 @@ class DishService {
         targetCurrency?: string
     ): Promise<{ dishes: Partial<Dish>[], matchingCount: number, totalCount: number }> => {
         filters = await updatePriceFilters(filters, targetCurrency, session);
-        // TODO - move steps from below to factory function or somewhere else
+        // TODO - move steps from below to thr factory function or somewhere else
 
         // Map arrays in filters
         Object.entries(filters).forEach(([key, val]) => {
@@ -91,6 +91,12 @@ class DishService {
     public async createDish(
         dishData: Dish
     ): Promise<Dish> {
+        let { coverIdx } = dishData;
+        coverIdx = coverIdx || 0;  // Replace by 0 if the coverIdx was not specified
+
+        delete dishData.coverIdx;
+        dishData.coverImage = dishData.images[0];
+
         return await this.dish.create(dishData);
     }
 

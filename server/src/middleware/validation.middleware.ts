@@ -1,6 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
-import AppError from '@/utils/errors/app.error';
 import Joi from 'joi';
+
+import AppError from '@/utils/errors/app.error';
 
 
 const validationMiddleware = (

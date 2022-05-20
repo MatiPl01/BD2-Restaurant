@@ -3,16 +3,16 @@ import { ClientSession } from 'mongoose';
 import singleTransaction from '@/utils/single-transaction';
 import AppError from '@/utils/errors/app.error';
 
-import configModel from '@/resources/config/config.model';
-import dishModel from '@/resources/dish/dish.model';
-import exchangeRateModel from './exchange-rate.model';
+import ConfigModel from '@/resources/config/config.model';
+import DishModel from '@/resources/dish/dish.model';
+import ExchangeRateModel from './exchange-rate.model';
 import ExchangeRate from './exchange-rate.interface';
 
 
 class ExchangeRateService {
-    private exchangeRate = exchangeRateModel;
-    private config = configModel;
-    private dish = dishModel;
+    private exchangeRate = ExchangeRateModel;
+    private config = ConfigModel;
+    private dish = DishModel;
 
     public async getExchangeRate(
         from: string,

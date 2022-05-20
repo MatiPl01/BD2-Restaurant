@@ -6,10 +6,10 @@ import currency from '@/utils/currency';
 import emailer from '@/utils/emailer';
 import token from '@/utils/token';
 
-import currencyModel from '@/resources/currency/currency.model';
-import reviewModel from '@/resources/review/review.model';
-import configModel from '@/resources/config/config.model';
-import dishModel from '@/resources/dish/dish.model';
+import CurrencyModel from '@/resources/currency/currency.model';
+import ReviewModel from '@/resources/review/review.model';
+import ConfigModel from '@/resources/config/config.model';
+import DishModel from '@/resources/dish/dish.model';
 import Review from '@/resources/review/review.interface';
 import Dish from '@/resources/dish/dish.interface';
 import User, {Address, CartItem, DetailedCartItem} from './user.interface';
@@ -18,10 +18,10 @@ import userModel from './user.model';
 
 class UserService {
     private user = userModel;
-    private dish = dishModel;
-    private review = reviewModel;
-    private config = configModel;
-    private currency = currencyModel;
+    private dish = DishModel;
+    private review = ReviewModel;
+    private config = ConfigModel;
+    private currency = CurrencyModel;
 
     public async register(
         firstName: string,
@@ -215,7 +215,7 @@ class UserService {
         for (const cartItem of user.cart) {
             const { dish: dishID, quantity } = cartItem;
 
-            const dish = await dishModel.findById(dishID);
+            const dish = await this.dish.findById(dishID);
             if (dish) {
                 detailedCart.push(await this.createCartItem(
                     dish,
@@ -273,8 +273,7 @@ class UserService {
             unitPrice = dish.unitPrice
         }
 
-        const { coverIdx, gallery } = dish.images;
-        const { breakpoints, paths } = gallery[coverIdx];
+        const { breakpoints, paths } = dish.coverImage;
 
         return {
             dishID: dish.id,

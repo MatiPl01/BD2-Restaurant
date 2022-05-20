@@ -14,10 +14,8 @@ export default class Dish {
   public readonly ratingsAverage?: number;
   public readonly ratingsCount?: number;
   public readonly description?: string[];
-  public readonly images?: {
-    coverIdx: number,
-    gallery: ImageEntry[]
-  }
+  public readonly coverImage?: ImageEntry;
+  public readonly images?: ImageEntry[];
 
   constructor(dish: Partial<DishData>) {
     this._id = dish._id!;
@@ -32,6 +30,7 @@ export default class Dish {
     this.ratingsAverage = dish.ratingsAverage;
     this.ratingsCount = dish.ratingsCount;
     this.description = dish.description;
+    this.coverImage = dish.coverImage;
     this.images = dish.images;
   }
 }

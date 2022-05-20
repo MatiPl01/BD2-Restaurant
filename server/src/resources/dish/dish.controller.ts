@@ -13,7 +13,6 @@ import catchAsync from '@/utils/errors/catch-async';
 import RoleEnum from '@/utils/enums/role.enum';
 import response from '@/utils/response';
 
-import reviewController from '@/resources/review/review.controller';
 import dishService from './dish.service'
 import validation from './dish.validation';
 import Dish from './dish.interface';
@@ -24,15 +23,11 @@ class DishController implements Controller {
     public readonly router = Router();
     private readonly dishService = dishService;
 
-    private readonly reviewController = reviewController;
-
     constructor() {
         this.initializeRoutes();
     }
 
     private initializeRoutes(): void {
-        this.router.use('/:id/reviews', this.reviewController.router);
-
         this.router
             .route('/')
             .get(
@@ -65,6 +60,14 @@ class DishController implements Controller {
                 authenticate,
                 restrictTo(RoleEnum.MANAGER),
                 this.deleteDish
+            );
+
+        this.router
+            .route('/:id/reviews')
+            .get(
+                filteringMiddleware,
+                selectFieldsMiddleware,
+                this.getDishReviews
             );
     }
 

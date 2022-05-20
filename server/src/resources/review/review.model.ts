@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose';
 
 import AppError from '@/utils/errors/app.error';
 
-import dishModel from '@/resources/dish/dish.model';
+import DishModel from '@/resources/dish/dish.model';
 import Review from './review.interface';
 
 
@@ -64,7 +64,7 @@ reviewSchema.pre<Review>('validate', async function (
     next
 ): Promise<void> {
     const dishID = this.dish;
-    const dish = await dishModel.findById(dishID);
+    const dish = await DishModel.findById(dishID);
     if (!dish) return next(new AppError(404, `Cannot find dish with id ${dishID}`))
 
     this.dishName = dish.name;

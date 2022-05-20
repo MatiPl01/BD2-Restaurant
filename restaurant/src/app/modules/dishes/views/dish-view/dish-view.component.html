@@ -1,7 +1,7 @@
 <main class="dish-page" *ngIf="this.dish">
   <section class="dish-page__gallery">
     <shared-responsive-gallery
-      [images]="dish.images!.gallery!"
+      [images]="dish.images!"
       [sizes]="'100vw'"
       [alts]="imagesAlts"
     ></shared-responsive-gallery>

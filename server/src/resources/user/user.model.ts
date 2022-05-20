@@ -5,7 +5,7 @@ import crypto from 'crypto';
 import AppError from '@/utils/errors/app.error';
 import RoleEnum from '@/utils/enums/role.enum';
 
-import configModel from '@/resources/config/config.model';
+import ConfigModel from '@/resources/config/config.model';
 import User from './user.interface';
 
 
@@ -235,7 +235,7 @@ userSchema.pre<User>('validate', async function (
     next
 ): Promise<void> {
     if (!this.defaultCurrency) {
-        const config = await configModel.findOne();
+        const config = await ConfigModel.findOne();
         if (!config || !config.mainCurrency) {
             return next(new AppError(404, 'Cannot get main currency from the config'));
         }

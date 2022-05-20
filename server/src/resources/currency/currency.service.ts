@@ -1,11 +1,11 @@
 import AppError from '@/utils/errors/app.error';
 
-import currencyModel from './currency.model';
+import CurrencyModel from './currency.model';
 import Currency from './currency.interface';
 
 
 class CurrencyService {
-    private currency = currencyModel;
+    private currency = CurrencyModel;
 
     public async getCurrency(
         code: string

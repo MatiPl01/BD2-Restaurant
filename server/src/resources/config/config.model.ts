@@ -2,7 +2,7 @@ import { model, Schema, ClientSession } from 'mongoose';
 
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 
-import dishModel from '@/resources/dish/dish.model';
+import DishModel from '@/resources/dish/dish.model';
 import Config from './config.interface';
 
 
@@ -42,7 +42,7 @@ configSchema.methods.updateMainCurrency = async function (
 
     this.mainCurrency = targetCurrency;
 
-    for (const dish of await dishModel.find({}, {}, { session })) {
+    for (const dish of await DishModel.find({}, {}, { session })) {
         await dish.updateMainUnitPrice.call(dish, targetCurrency, session);
         await dish.save({ session });
     }

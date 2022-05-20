@@ -8,13 +8,14 @@ import Dish from '@dishes/models/dish.model';
   templateUrl: './dishes-list.component.html'
 })
 export class DishesListComponent {
+  
+
   public dishes: Array<Partial<Dish>> = [];
   private readonly subscription: Subscription;
 
   constructor(public dishService: DishService) {
     this.subscription = this.dishService.dishes.subscribe(dishes => {
       this.dishes = dishes;
-      console.log(dishes)
     })
   }
 

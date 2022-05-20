@@ -45,6 +45,6 @@ export class DishViewComponent {
   }
 
   private getImagesAlts(): string[] {
-    return new Array(this.dish.images!.gallery.length).fill('').map(_ => this.dish.name);
+    return new Array(this.dish.images!.length).fill('').map(_ => this.dish.name);
   }
 }

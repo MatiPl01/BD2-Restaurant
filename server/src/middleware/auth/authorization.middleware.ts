@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+
 import RoleEnum from '@/utils/enums/role.enum';
 import AppError from '@/utils/errors/app.error';
 

@@ -108,12 +108,13 @@ class UserController implements Controller {
                 restrictTo(RoleEnum.USER),
                 this.clearUserCart
             );
-        this.router.route('/mini-cart')
-            .get(
-                authenticate,
-                restrictTo(RoleEnum.USER),
-                this.getUserMiniCart
-            )
+
+        // this.router.route('/mini-cart')
+        //     .get(
+        //         authenticate,
+        //         restrictTo(RoleEnum.USER),
+        //         this.getUserMiniCart
+        //     )
 
         this.router.route('/all')
             .get(
