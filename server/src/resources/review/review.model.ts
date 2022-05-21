@@ -3,7 +3,7 @@ import { model, Schema } from 'mongoose';
 import AppError from '@/utils/errors/app.error';
 
 import DishModel from '@/resources/dish/dish.model';
-import Review from './review.interface';
+import Review from './interfaces/review.interface';
 
 
 const reviewSchema = new Schema(

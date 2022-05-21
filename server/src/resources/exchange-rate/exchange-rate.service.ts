@@ -6,7 +6,7 @@ import AppError from '@/utils/errors/app.error';
 import ConfigModel from '@/resources/config/config.model';
 import DishModel from '@/resources/dish/dish.model';
 import ExchangeRateModel from './exchange-rate.model';
-import ExchangeRate from './exchange-rate.interface';
+import ExchangeRate from './interfaces/exchange-rate.interface';
 
 
 class ExchangeRateService {

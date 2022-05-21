@@ -1,7 +1,8 @@
-import { Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 
 
 export default interface OrderData extends Document {
+    _id: Schema.Types.ObjectId;
     user: string;
     items: {
         dish: string,

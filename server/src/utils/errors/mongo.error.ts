@@ -1,6 +1,6 @@
 import IError from '@/utils/interfaces/error.interface';
 
-import WithProperty from './with-property.type';
+import WithProperty from '../with-property.type';
 import AppError from './app.error';
 
 

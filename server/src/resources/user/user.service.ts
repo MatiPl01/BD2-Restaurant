@@ -10,10 +10,13 @@ import CurrencyModel from '@/resources/currency/currency.model';
 import ReviewModel from '@/resources/review/review.model';
 import ConfigModel from '@/resources/config/config.model';
 import DishModel from '@/resources/dish/dish.model';
-import Review from '@/resources/review/review.interface';
-import Dish from '@/resources/dish/dish.interface';
-import User, {Address, CartItem, DetailedCartItem} from './user.interface';
+import Review from '@/resources/review/interfaces/review.interface';
+import Dish from '@/resources/dish/interfaces/dish.interface';
+import User from './interfaces/user.interface';
+import CartItem from './interfaces/cart-item.interface';
 import userModel from './user.model';
+import { Address } from './types/address.type';
+import DetailedCartItem from './interfaces/detailed-cart-item.interface';
 
 
 class UserService {
@@ -273,10 +276,8 @@ class UserService {
             unitPrice = dish.unitPrice
         }
 
-        const { breakpoints, paths } = dish.coverImage;
-
         return {
-            dishID: dish.id,
+            dishId: dish.id,
             dishName: dish.name,
             category: dish.category,
             cuisine: dish.cuisine,
@@ -285,10 +286,7 @@ class UserService {
             quantity,
             stock: dish.stock,
             currency: targetCurrency ? targetCurrency : dishCurrency,
-            image: {
-                breakpoints,
-                paths
-            }
+            coverImage: dish.coverImage
         };
     }
 }

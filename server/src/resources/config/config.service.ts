@@ -4,7 +4,7 @@ import singleTransaction from '@/utils/single-transaction';
 import AppError from '@/utils/errors/app.error';
 
 import ConfigModel from './config.model';
-import Config from './config.interface';
+import Config from './interfaces/config.interface';
 
 
 class ConfigService {

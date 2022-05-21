@@ -1,7 +1,7 @@
 import AppError from '@/utils/errors/app.error';
 
 import CurrencyModel from './currency.model';
-import Currency from './currency.interface';
+import Currency from './interfaces/currency.interface';
 
 
 class CurrencyService {

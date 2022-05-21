@@ -3,7 +3,7 @@ import { ClientSession } from 'mongoose';
 import exchangeRateService from '@/resources/exchange-rate/exchange-rate.service';
 import ConfigModel from '@/resources/config/config.model';
 import DishModel from '@/resources/dish/dish.model';
-import Dish from '@/resources/dish/dish.interface';
+import Dish from '@/resources/dish/interfaces/dish.interface';
 
 import AppError from './errors/app.error';
 
@@ -35,6 +35,20 @@ const exchangeToMainCurrency = async (
     if (!config) throw new AppError(404, 'Config was not found in the database');
 
     return await exchangeCurrency(amount, from, config.mainCurrency, undefined, session);
+};
+
+const exchangeFromMainCurrency = async (
+    amount: number,
+    to: string,
+    session?: ClientSession
+): Promise<number> => {
+    let config;
+    if (session) config = await ConfigModel.findOne().session(session);
+    else config = await ConfigModel.findOne();
+
+    if (!config) throw new AppError(404, 'Config was not found in the database');
+
+    return await exchangeCurrency(amount, config.mainCurrency, to, undefined, session);
 };
 
 const changeDishCurrency = async (
@@ -71,5 +85,6 @@ const changeDishCurrency = async (
 export default {
     exchangeCurrency,
     exchangeToMainCurrency,
+    exchangeFromMainCurrency,
     changeDishCurrency
 };

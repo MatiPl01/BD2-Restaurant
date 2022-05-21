@@ -11,7 +11,7 @@ import response from '@/utils/response';
 
 import orderService from './order.service';
 import validate from './order.validation';
-import Order from './order.interface';
+import Order from './interfaces/order.interface';
 
 
 class OrderController implements Controller {
