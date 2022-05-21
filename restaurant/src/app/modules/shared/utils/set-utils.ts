@@ -1,4 +1,7 @@
-const areDifferent = (set1: Set<any>, set2: Set<any>): boolean => {
+const areDifferent = <T>(
+  set1: Set<T>, 
+  set2: Set<T>
+): boolean => {
   for (const val of set1) {
     if (!set2.has(val)) return true;
   }
@@ -8,7 +11,17 @@ const areDifferent = (set1: Set<any>, set2: Set<any>): boolean => {
   return false;
 }
 
+const convertToSortedArray = <T>(
+  set: Set<any>, 
+  compareFn?: (a: T, b: T) => number
+): any[] => {
+  const array = [...set];
+  array.sort(compareFn);
+  return array;
+}
+
 
 export default {
-  areDifferent
+  areDifferent,
+  convertToSortedArray
 };

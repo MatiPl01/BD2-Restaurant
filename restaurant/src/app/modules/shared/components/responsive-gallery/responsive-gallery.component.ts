@@ -122,7 +122,6 @@ export class ResponsiveGalleryComponent implements OnInit, AfterViewInit {
   private setPositionByIdx(): void {
     this.currTranslate = this.currentIdx * -this.galleryRef.nativeElement.getBoundingClientRect().width;
     this.prevTranslate = this.currTranslate;
-    console.log(this.currTranslate, this.prevTranslate)
     this.setTranslate();
   }
 }

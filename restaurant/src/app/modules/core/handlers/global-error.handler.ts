@@ -10,8 +10,6 @@ export class GlobalErrorHandler implements ErrorHandler {
               private zone: NgZone) {}
 
   public handleError(error: any): void {
-    console.log('CAUGHT!!!')
-
     const { status, message } = this.parseError(error);
     this.zone.run(() =>
       this.alertService.error(status, message)
@@ -20,15 +18,20 @@ export class GlobalErrorHandler implements ErrorHandler {
   }
 
   private parseError(error: any): { status: number, message: string } {
+    let status: number;
+    let message: string;
+
     if (error instanceof HttpErrorResponse) {
-      const { status, message } = error.error;
-      return { status, message };
+      status = error.error.status;
+      message = error.error.message;
+    } else {
+      status = error.status;
+      message = error.message;
     }
     
-
     return { 
-      status: error.status, 
-      message: error.message || '💥 Coś się pali!' // TODO -change this message
+      status,
+      message: message || '💥 Coś się pali!' // TODO -change this message
     };
   }
 }

@@ -43,17 +43,13 @@ export class PaginationComponent{
     if (pageNum === this.currentPage) return;
     this.currentPage = pageNum;
     this.pageChangeEvent.emit({page:this.currentPage,limit:this.selectedMaxNumber});
-    console.log(this.pagesNumbers)
     this.updateMiddlePagesNumbers()
-    console.log(this.pagesNumbers)
   }
 
   public changeItemPerPage():void{
     this.currentPage=1
     this.pageChangeEvent.emit({page:this.currentPage,limit:this.selectedMaxNumber});
-    console.log(this.pagesNumbers)
     this.updateMiddlePagesNumbers()
-    console.log(this.pagesNumbers)
   }
 
   public getArrayOfNumbers(value:number){

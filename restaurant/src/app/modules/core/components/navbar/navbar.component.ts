@@ -40,7 +40,6 @@ export class NavbarComponent implements OnDestroy {
           this.isNavToggleVisible = !isDisplayed;
         }),
         this.authService.userSubject.subscribe(user => {
-          // console.log('NEW USER', user)
           // TODO - optimize behavioral subject - IDK why this gets called so many times
           this.user = user;
         })

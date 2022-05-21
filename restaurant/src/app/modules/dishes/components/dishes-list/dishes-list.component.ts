@@ -12,7 +12,7 @@ export class DishesListComponent {
   private readonly subscription: Subscription;
 
   constructor(public dishService: DishService) {
-    this.subscription = this.dishService.dishes.subscribe(dishes => {
+    this.subscription = this.dishService.dishesSubject.subscribe(dishes => {
       this.dishes = dishes;
     })
   }

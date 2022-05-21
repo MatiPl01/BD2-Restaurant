@@ -12,6 +12,8 @@ import { DishesFiltersComponent } from './components/dishes-filters/dishes-filte
 import { DishCardComponent } from './components/dish-card/dish-card.component';
 import { DishDetailsComponent } from './components/dish-details/dish-details.component';
 import { DishService } from './services/dish.service';
+import { FilterService } from './services/filter.service';
+import { PaginationService } from '@shared/services/pagination.service';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { DishService } from './services/dish.service';
     SharedModule
   ],
   providers: [
-    DishService
+    DishService,
+    FilterService,
+    PaginationService
   ]
 })
 export class DishesModule {}

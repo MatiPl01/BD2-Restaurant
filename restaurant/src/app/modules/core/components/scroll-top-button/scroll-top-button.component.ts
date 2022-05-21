@@ -45,7 +45,6 @@ export class ScrollTopBtnComponent implements OnDestroy {
 
   public updateVisibility(isHidden: boolean): void {
     this.isVisible = this.isEnabled && !isHidden;
-    console.log(this.isVisible)
   }
 
   public scrollToTop(): void {

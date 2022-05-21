@@ -248,7 +248,6 @@ userSchema.pre<User>('validate', async function (
 userSchema.pre<User>('save', async function (
     next
 ): Promise<void> {
-    console.log(this.isModified(), this.isModified('password'));
     if (!this.isModified('password')) return next();
 
     this.password = await bcrypt.hash(this.password, 10);

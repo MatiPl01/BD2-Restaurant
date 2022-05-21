@@ -13,21 +13,21 @@ export class DishesViewComponent {
 
   constructor(private dishService: DishService) {}
 
-  subscriptionReload() {
-    this.dishService.forceReload()
-    this.dishService.dishes.subscribe(dishes => {
-      this.pagesCount = this.dishService.getPagesCount()
-      this.maxDishes = this.dishService.getDishesCount()
-    })
-  }
+  // subscriptionReload() {
+  //   this.dishService.forceReload()
+  //   this.dishService.dishes.subscribe(dishes => {
+  //     this.pagesCount = this.dishService.getPagesCount()
+  //     this.maxDishes = this.dishService.getDishesCount()
+  //   })
+  // }
 
-  onFilterReload(event: DishFilterData) {
-    this.dishService.updateFilters(event)
-    this.dishService.forceReload()
-    this.subscriptionReload()
-  }
-  onPaginationChange(event: PaginationData) {
-    this.dishService.updatePagination(event)
-    this.subscriptionReload()
-  }
+  // onFilterReload(event: DishFilterData) {
+  //   this.dishService.updateFilters(event)
+  //   this.dishService.forceReload()
+  //   this.subscriptionReload()
+  // }
+  // onPaginationChange(event: PaginationData) {
+  //   this.dishService.updatePagination(event)
+  //   this.subscriptionReload()
+  // }
 }

@@ -1,7 +1,7 @@
 <ngx-slider 
   class="range-slider" 
-  [(value)]="currentMin" 
-  [(highValue)]="currentMax" 
+  [(value)]="currentSteps.min" 
+  [(highValue)]="currentSteps.max" 
   [options]="options"
   (userChangeEnd)="notifyValueChange()"
 ></ngx-slider>

@@ -2,27 +2,24 @@ import { Injectable, EventEmitter, OnDestroy } from "@angular/core";
 import { CurrencyService } from "@core/services/currency.service";
 import { HttpService } from "@core/services/http.service";
 import { FilterAttr } from "@dishes/enums/filter-attr.enum";
-import { DishCard } from "@dishes/interfaces/dish-card.interface";
 import { DishFilters } from "@dishes/interfaces/dish-filters.interface";
 import { DishFiltersResponse } from "@dishes/types/dish-filters-response.type";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
-import { PaginationService } from "@shared/services/pagination.service";
 import { BehaviorSubject, map, Observable, Subscription, timer } from "rxjs";
-import { DishService } from "./dish.service"
 import setUtils from "@shared/utils/set-utils";
 import * as queryString from "query-string";
 
-
+// TODO - maybe move this somewhere else
 class FiltersObject implements DishFilters {
-  public category = new Set<string>();
-  public cuisine = new Set<string>();
+  public readonly category = new Set<string>();
+  public readonly cuisine = new Set<string>();
 
-  public unitPrice = {
+  public readonly unitPrice = {
     min: 0,
     max: Infinity
   };
 
-  public ratingsAverage = {
+  public readonly ratingsAverage = {
     min: 0,
     max: Infinity
   };
@@ -32,10 +29,29 @@ class FiltersObject implements DishFilters {
     this.category = new Set(data.category);
     this.cuisine = new Set(data.cuisine);
     this.unitPrice = { ...data.unitPrice };
-    this.ratingsAverage = { ...this.ratingsAverage };
+    this.ratingsAverage = { ...data.ratingsAverage };
   }
 
-  clone(): FiltersObject {
+  get queryObj(): { [key: string]: string | number } {
+    const obj: { [key: string]: string | number } = {};
+    Object.values(FilterAttr).forEach(filterAttr => this.addQuery(filterAttr, obj));
+    return obj;
+  }
+
+  private addQuery(filterAttr: FilterAttr, obj: { [key: string]: string | number }): void {
+    if (this[filterAttr] instanceof Set) {
+      const set = this[filterAttr] as Set<string>;
+      if (set.size) {
+        obj[filterAttr] = [...set].join(',');
+      }
+    } else {
+      const range = this[filterAttr] as { min: number, max: number };
+      if (range.min > 0) obj[`${filterAttr}[gte]`] = range.min;
+      if (range.max < Infinity) obj[`${filterAttr}[lte]`] = range.max;
+    }
+  }
+
+  public clone(): FiltersObject {
     return new FiltersObject(this);
   }
 }
@@ -44,53 +60,33 @@ class FiltersObject implements DishFilters {
 @Injectable()
 export class FilterService implements OnDestroy {
   private static readonly REFRESH_INTERVAL = 10000; // 10s
-  public filtersChangedEvent = new EventEmitter<FiltersObject>();
+  public filtersChangedEvent = new EventEmitter<DishFilters>();
 
   // Selected filters will be used to update filters without notifying changes
   // (the behavior subject will be updated, only after the notifyChanges attribute is set to true)
   private selectedFilters = new FiltersObject();
-  private appliedFilters$ = new BehaviorSubject<FiltersObject>(new FiltersObject());
-  private cachedAvailableFilters$ = new BehaviorSubject<FiltersObject>(new FiltersObject());
+  private appliedFilters$ = new BehaviorSubject<DishFilters>(new FiltersObject());
+  private availableFilters$ = new BehaviorSubject<DishFilters>(new FiltersObject());
   private timer$!: Observable<number>; 
 
-  private filtersFunctions: any = {
-    category: (dish: DishCard) => {
-      return !this.appliedFilters.category.size || this.appliedFilters.category.has(dish.category);
-    },
-    cuisine: (dish: DishCard) => {
-      return !this.appliedFilters.cuisine.size || this.appliedFilters.cuisine.has(dish.cuisine);
-    },
-    unitPrice: (dish: DishCard) => {
-      const min = this.appliedFilters.unitPrice.min;
-      const max = this.appliedFilters.unitPrice.max;
-      return min <= dish.unitPrice && dish.unitPrice <= max;
-    },
-    ratingsAverage: (dish: DishCard) => {
-      const min = this.appliedFilters.ratingsAverage.min;
-      const max = this.appliedFilters.ratingsAverage.max;
-      return min <= dish.ratingsAverage && dish.ratingsAverage <= max;
-    }
-  }
-
-  private readonly subscriptions: Subscription[] = [];
+  private timerSubscription!: Subscription;
+  private _areFiltersApplied = false;
 
   constructor(private httpService: HttpService,
-              private currencyService: CurrencyService,
-              /*private paginationService: PaginationService,
-              private dishService: DishService*/) {
+              private currencyService: CurrencyService) {
     this.setupRefreshTimer();
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.timerSubscription.unsubscribe();
   }
 
   get availableFiltersSubject(): BehaviorSubject<DishFilters> {
-    return this.cachedAvailableFilters$;
+    return this.availableFilters$;
   }
 
   get availableFilters(): DishFilters {
-    return this.cachedAvailableFilters$.getValue();
+    return this.availableFilters$.getValue();
   }
 
   get appliedFiltersSubject(): BehaviorSubject<DishFilters> {
@@ -101,57 +97,53 @@ export class FilterService implements OnDestroy {
     return this.appliedFilters$.getValue();
   }
 
-  public addFilter(filterAttr: FilterAttr, filterValue: string, notifyChanges: boolean = true): void {
+  get areFiltersApplied(): boolean {
+    return this._areFiltersApplied;
+  }
+
+  public addFilter(filterAttr: FilterAttr, filterValue: string): void {
     (this.selectedFilters[filterAttr] as Set<string>).add(filterValue);
-    if (notifyChanges) this.appliedFilters$.next(this.selectedFilters.clone());
   }
 
-  public setAllFilters(filterAttr: FilterAttr, filterValues: string[], notifyChanges: boolean = true): void {
+  public setAllFilters(filterAttr: FilterAttr, filterValues: string[]): void {
     (this.selectedFilters[filterAttr] as Set<string>) = new Set(filterValues);
-    if (notifyChanges) this.appliedFilters$.next(this.selectedFilters.clone());
   }
 
-  public removeFilter(filterAttr: FilterAttr, filterValue: string, notifyChanges: boolean = true): void {
+  public removeFilter(filterAttr: FilterAttr, filterValue: string): void {
     (this.selectedFilters[filterAttr] as Set<string>).delete(filterValue);
-    if (notifyChanges) this.appliedFilters$.next(this.selectedFilters.clone());
   }
 
-  public removeAllFilters(filterAttr: FilterAttr, notifyChanges: boolean = true): void {
+  public removeAllFilters(filterAttr: FilterAttr): void {
     (this.selectedFilters[filterAttr] as Set<string>).clear();
-    if (notifyChanges) this.appliedFilters$.next(this.selectedFilters.clone());
   }
 
-  public setRangeFilter(filterAttr: FilterAttr, minValue: number, maxValue: number, notifyChanges: boolean = true): void {
-    (this.appliedFilters[filterAttr] as { min: number, max: number }) = {
+  public setRangeFilter(filterAttr: FilterAttr, minValue: number, maxValue: number): void {
+    (this.selectedFilters[filterAttr] as { min: number, max: number }) = {
       min: minValue,
       max: maxValue
     };
-    if (notifyChanges) this.appliedFilters$.next(this.selectedFilters.clone());
+
+    console.log(this.selectedFilters);
   }
 
-  public getFiltersFunction(filterAttr: string): (dish: DishCard) => boolean {
-    return this.filtersFunctions[filterAttr];
+  public applyFilters(): void {
+    this.appliedFilters$.next(this.selectedFilters.clone());
   }
 
   public resetFilters(): void {
     this.appliedFilters$.next(new FiltersObject());
+    this._areFiltersApplied = false;
   }
 
   private setupRefreshTimer(): void {
     this.timer$ = timer(0, FilterService.REFRESH_INTERVAL);
 
-    this.subscriptions.push(
-      this.timer$.subscribe(_ => {
-        this.fetchAvailableFilters().subscribe(filtersObj => {
-          // Check if filters have changes since the last update
-          if (!this.haveFiltersChanged(filtersObj)) return;
-          this.cachedAvailableFilters$.next(filtersObj);
-        })
-      })
-    )
+    this.timerSubscription = this.timer$.subscribe(_ => {
+      this.fetchAvailableFilters();
+    })
   }
 
-  private fetchAvailableFilters(): Observable<DishFilters> {
+  private fetchAvailableFilters() {
     const url = queryString.stringifyUrl({
       url: `${ApiPathEnum.DISHES}/filters`,
       query: {
@@ -164,7 +156,19 @@ export class FilterService implements OnDestroy {
 
     return this.httpService
       .get<DishFilters>(url)
-      .pipe(map((data: DishFilters) => new FiltersObject(data)));
+      .pipe(map((data: DishFilters) => new FiltersObject(data)))
+      .subscribe({
+        next: filtersObj => {
+          // Check if filters have changes since the last update
+          if (!this.haveFiltersChanged(filtersObj)) return;
+          this.availableFilters$.next(filtersObj);
+          this._areFiltersApplied = true;
+        },
+        error: _ => {
+          // Unsubscribe on error
+          this.timerSubscription.unsubscribe();
+        }
+      });
   }
 
   private haveFiltersChanged(newAvailableFilters: DishFilters): boolean {

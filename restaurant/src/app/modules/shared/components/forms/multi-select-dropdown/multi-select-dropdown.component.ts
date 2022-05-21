@@ -1,10 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FilterAttr } from '@dishes/enums/filter-attr.enum';
 import { MultiSelectDropdownSettings } from '@shared/types/multi-select-dropdown-settings.type';
+import { MultipleSelectEvent } from '@shared/types/multiple-select-event.type';
+import { SingleSelectEvent } from '@shared/types/single-select-event.type';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
-
-export type SingleSelectEvent = { filterAttr: FilterAttr, item: string | number };
-export type MultipleSelectEvent = { filterAttr: FilterAttr, items: string[] | number[] };
 
 @Component({
   selector: 'shared-multi-select-dropdown',
@@ -19,7 +18,7 @@ export class MultiSelectDropdownComponent {
   @Output() deSelectedAllEvent = new EventEmitter<MultipleSelectEvent>();
   @Input() placeholder = '';
   @Input() settings!: MultiSelectDropdownSettings;
-  @Input() data: string[] | number[] = [];
+  @Input() allItems: string[] | number[] = [];
   @Input() selectedItems: string[] | number[] = [];
   @Input() filterAttr!: FilterAttr;
 
@@ -42,14 +41,14 @@ export class MultiSelectDropdownComponent {
   private createSingleSelectEventObj(item: ListItem): SingleSelectEvent {
     return {
       filterAttr: this.filterAttr,
-      item: item.text as string | number
+      item: (item as unknown) as string | number
     };
   }
 
   private createMultipleSelectEventObj(items: ListItem[]): MultipleSelectEvent {
     return {
       filterAttr: this.filterAttr,
-      items: items.map(item => item.text) as string[] | number[]
+      items: (items as unknown) as string[] | number[]
     };
   }
 }

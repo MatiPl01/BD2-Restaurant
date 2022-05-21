@@ -109,7 +109,6 @@ orderSchema.pre<Order>('validate', async function (
         totalPrice += dish.unitPrice * quantity;
     }
 
-    console.log(totalPrice)
     this.totalPrice = Math.ceil(totalPrice * 10000) / 10000;
 
     next();

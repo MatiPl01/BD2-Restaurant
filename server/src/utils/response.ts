@@ -39,7 +39,6 @@ const cookie = async (
     val: string,
     options: CookieOptions
 ): Promise<Response> => {
-    console.log('Sending cookie', name, val, options)
     return res.cookie(name, val, options);
 };
 

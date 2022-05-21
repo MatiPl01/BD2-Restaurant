@@ -10,5 +10,7 @@ export interface DishFilters {
     max: number
   };
 
+  get queryObj(): { [key: string]: string | number };
+
   clone(): DishFilters;
 }
