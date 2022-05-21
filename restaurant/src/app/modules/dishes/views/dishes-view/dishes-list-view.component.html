@@ -15,7 +15,7 @@
       </li>
     </ul>
 
-    <shared-pagination>
+    <shared-pagination [pagesCount]="pagesCount" [maxDisplayedNumbersCount]="maxDishes" (pageChangeEvent)="onPaginationChange($event)">
 
     </shared-pagination>
   </div>

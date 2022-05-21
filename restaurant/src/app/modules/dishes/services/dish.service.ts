@@ -30,6 +30,14 @@ export class DishService {
     return this._dishes;
   }
 
+  public getPagesCount():number {
+    return this.pagesCount
+  }
+
+  public getDishesCount():number {
+    return this.dishesCount
+  }
+
   public forceReload(): void {
     this._dishes.next([]);
   }
@@ -58,6 +66,10 @@ export class DishService {
   public updateFilters(filters?:DishFilterData){
     if(filters)this.filters=filters
     else this.filters=undefined
+  }
+
+  public updatePagination(pagination:PaginationData){
+    this.pagination=pagination
   }
 
   // createDish(dishData: DishData): Observable<DishData> {
