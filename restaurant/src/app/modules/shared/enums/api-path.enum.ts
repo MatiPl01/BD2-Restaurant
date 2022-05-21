@@ -5,10 +5,5 @@ export enum ApiPathEnum {
   EXCHANGE_RATES = 'exchange-rates',
   ORDERS = 'orders',
   REVIEWS = 'reviews',
-  USERS = 'users',
-  USER_CART = 'users/cart',
-  USER_REVIEWS = 'users/reviews',
-  LOGIN = 'users/login',
-  REGISTER = 'users/register',
-  ALLUSERS='users/all'
+  USERS = 'users'
 }

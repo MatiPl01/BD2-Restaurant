@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DishesListViewComponent } from "./views/dishes-view/dishes-list-view.component";
+import { DishesViewComponent } from "./views/dishes-view/dishes-view.component";
 import { DishViewComponent } from "./views/dish-view/dish-view.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: DishesListViewComponent,
+    component: DishesViewComponent,
   },
   {
     path: ':id',

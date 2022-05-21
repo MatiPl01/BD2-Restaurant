@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { RegisterCredentials } from "@auth/interfaces/register-credentials.interface";
+import { RegisterCredentials } from "@auth/types/register-credentials.interface";
 import { NgForm } from "@angular/forms";
 import { AuthHelperService } from "@auth/services/auth-helper.service";
 

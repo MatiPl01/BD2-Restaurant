@@ -1,9 +1,10 @@
-import UserData, { Address } from "@auth/interfaces/user.interface";
-import { CartItem } from "@cart/interfaces/cart-item.interface";
+import User from "@shared/interfaces/user.interface";
+import { CartItem } from "@cart/types/cart-item.type";
 import { RoleEnum } from "@shared/enums/role.enum";
+import { Address } from "@shared/types/address.type";
 
 // TODO - maybe make these fields not public
-export default class User {
+export default class UserModel implements User {
   public readonly _id: string;
   public addresses: Address[];
   public banned: boolean;
@@ -19,7 +20,7 @@ export default class User {
   public readonly roles: RoleEnum[];
   public readonly _token: string;
 
-  constructor(user: UserData, token: string) {
+  constructor(user: User, token: string) {
     this._id = user._id;
     this.addresses = user.addresses;
     this.banned = user.banned;

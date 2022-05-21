@@ -1,35 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from "@core/services/http.service";
 import { Observable } from "rxjs";
-import { ReviewData } from "../interfaces/review.interface";
+import { Review } from "../interfaces/review.interface";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import * as queryString from "query-string";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ReviewService {
-  constructor(private httpService: HttpService) {}
+  // constructor(private httpService: HttpService) {}
 
-  getReviews(filter: any/*TODO*/):Observable<ReviewData[]>{
-    // TEST TO WORK
-    return this.httpService.get<ReviewData[]>(ApiPathEnum.REVIEWS+'?'+queryString.stringify(filter,{arrayFormat: 'comma'}));
-  }
+  // getReviews(filter: any/*TODO*/):Observable<Review[]>{
+  //   // TEST TO WORK
+  //   return this.httpService.get<Review[]>(ApiPathEnum.REVIEWS+'?'+queryString.stringify(filter,{arrayFormat: 'comma'}));
+  // }
 
-  getSpecificReview(id:string,fields:string[]):Observable<ReviewData>{
-    // TEST TO WORK
-    return this.httpService.get<ReviewData>(ApiPathEnum.REVIEWS+'/'+id+'?'+queryString.stringify({fields:fields},{arrayFormat: 'comma'}));
-  }
+  // getSpecificReview(id:string,fields:string[]):Observable<Review>{
+  //   // TEST TO WORK
+  //   return this.httpService.get<Review>(ApiPathEnum.REVIEWS+'/'+id+'?'+queryString.stringify({fields:fields},{arrayFormat: 'comma'}));
+  // }
 
-  createReview(reviewData:ReviewData):Observable<ReviewData>{
-    return this.httpService.post<ReviewData>(ApiPathEnum.REVIEWS,reviewData);
-  }
+  // createReview(reviewData:Review):Observable<Review>{
+  //   return this.httpService.post<Review>(ApiPathEnum.REVIEWS,reviewData);
+  // }
 
-  editReview(id:string,reviewData:ReviewData):Observable<ReviewData>{
-    return this.httpService.patch<ReviewData>(ApiPathEnum.REVIEWS+'/'+id,reviewData);
-  }
+  // editReview(id:string,reviewData:Review):Observable<Review>{
+  //   return this.httpService.patch<Review>(ApiPathEnum.REVIEWS+'/'+id,reviewData);
+  // }
 
-  deleteReview(id:string):void{
-    this.httpService.delete(ApiPathEnum.REVIEWS+'/'+id);
-  }
+  // deleteReview(id:string):void{
+  //   this.httpService.delete(ApiPathEnum.REVIEWS+'/'+id);
+  // }
 }

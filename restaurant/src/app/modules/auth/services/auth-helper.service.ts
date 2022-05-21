@@ -1,35 +1,35 @@
 import { EventEmitter, Injectable } from "@angular/core";
 import { AuthService } from "@auth/services/auth.service";
-import { LoginCredentials } from "@auth/interfaces/login-credentials.interface";
-import { RegisterCredentials } from "@auth/interfaces/register-credentials.interface";
-import { AuthData } from "@auth/interfaces/auth.interface";
+import { LoginCredentials } from "@auth/types/login-credentials.interface";
+import { RegisterCredentials } from "@auth/types/register-credentials.interface";
+import { AuthResponse } from "@auth/types/auth-response.type";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthHelperService {
-  public authEvent = new EventEmitter<AuthData | null>(); // TODO - use global loader service
+  public authEvent = new EventEmitter<AuthResponse | null>(); // TODO - use global loader service
 
   constructor(private authService: AuthService,
               private router: Router) {}
 
   public login(credentials: LoginCredentials): void {
     this.authenticate<LoginCredentials>(
-      credentials, 
+      credentials,
       this.authService.login.bind(this.authService)
     );
   }
 
   public register(credentials: RegisterCredentials): void {
     this.authenticate<RegisterCredentials>(
-      credentials, 
+      credentials,
       this.authService.register.bind(this.authService)
     );
   }
 
   private authenticate<T>(
-    credentials: T, 
-    authFn: (credentials: T) => Observable<AuthData>
+    credentials: T,
+    authFn: (credentials: T) => Observable<AuthResponse>
   ): void {
     // Emit null at the beginning of the authentication process
     this.authEvent.emit(null);

@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Component, OnDestroy } from '@angular/core';
 import { AuthHelperService } from "@auth/services/auth-helper.service";
 import { Subscription } from "rxjs";
-import { AuthData } from "@auth/interfaces/auth.interface";
+import { AuthResponse } from "@auth/types/auth-response.type";
 
 @Component({
   selector: 'auth-view',

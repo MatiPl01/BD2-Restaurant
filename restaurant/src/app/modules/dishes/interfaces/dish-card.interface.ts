@@ -1,15 +1,15 @@
-import { ImageEntry } from "@shared/interfaces/image-entry.interface"
+import { ImageEntry } from "@shared/types/image-entry.type"
 
-export interface DishCardData {
-  _id: string,
-  name: string,
-  category: string,
-  cuisine: string,
-  type: string,
-  stock: number,
-  currency: string,
-  unitPrice: number,
-  ratingsAverage: number,
-  ratingsCount: number,
+export interface DishCard {
+  _id: string;
+  name: string;
+  category: string;
+  cuisine: string;
+  type: string;
+  stock: number;
+  currency: string;
+  unitPrice: number;
+  ratingsAverage: number;
+  ratingsCount: number;
   coverImage: ImageEntry;
 }

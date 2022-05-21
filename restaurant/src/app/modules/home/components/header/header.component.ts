@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { VisualizationService } from '@core/services/visualization.service';
 
 @Component({

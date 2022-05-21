@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpService } from "@core/services/http.service";
 import { BehaviorSubject, map, Observable, tap } from "rxjs";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
-import Dish from '@dishes/models/dish.model';
-import { DishData } from "@dishes/interfaces/dish.interface";
+import { Dish } from "@dishes/interfaces/dish.interface";
+import DishModel from '@dishes/models/dish.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DishService {
   private _dishes = new BehaviorSubject<Partial<Dish>[]>([]);
   private dishesCount: number = 0;
@@ -54,11 +52,11 @@ export class DishService {
   // }
 
   // TODO - improve
-  fetchDish(id: string, currency?: string, fields?: any): Observable<Dish> {
+  public fetchDish(id: string, currency?: string, fields?: any): Observable<Dish> {
     const query = currency ? `?currency=${currency}` : '';
     return this.httpService
-      .get<Partial<DishData>>(`${ApiPathEnum.DISHES}/${id}${query}`)
-      .pipe(map((data: Partial<DishData>) => new Dish(data)));
+      .get<Dish>(`${ApiPathEnum.DISHES}/${id}${query}`)
+      .pipe(map((data: Dish) => new DishModel(data)));
   }
 
   // fetchDishes(page: number, limit: number, currency?: string): Observable<DishData[]> {

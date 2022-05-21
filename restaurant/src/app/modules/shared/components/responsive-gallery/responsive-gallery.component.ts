@@ -8,7 +8,7 @@ import {
   AfterViewInit,
   OnInit
 } from '@angular/core';
-import { ImageEntry } from "@shared/interfaces/image-entry.interface";
+import { ImageEntry } from "@shared/types/image-entry.type";
 
 @Component({
   selector: 'shared-responsive-gallery',
@@ -27,7 +27,7 @@ export class ResponsiveGalleryComponent implements OnInit, AfterViewInit {
   startPosition: number = 0;
   currTranslate: number = 0;
   prevTranslate: number = 0;
-  animationID: number = 0;
+  animationId: number = 0;
   currentIdx: number = 0;
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class ResponsiveGalleryComponent implements OnInit, AfterViewInit {
       this.currentIdx = idx;
       this.startPosition = this.getTouchX(event);
       this.isDragging = true;
-      this.animationID = requestAnimationFrame(this.animate.bind(this));
+      this.animationId = requestAnimationFrame(this.animate.bind(this));
     }
   }
 
@@ -83,7 +83,7 @@ export class ResponsiveGalleryComponent implements OnInit, AfterViewInit {
 
   private touchEnd(): void {
     this.isDragging = false;
-    cancelAnimationFrame(this.animationID);
+    cancelAnimationFrame(this.animationId);
 
     const movedBy = this.currTranslate - this.prevTranslate;
 

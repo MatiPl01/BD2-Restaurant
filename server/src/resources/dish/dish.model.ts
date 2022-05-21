@@ -152,7 +152,7 @@ const dishSchema = new Schema(
 );
 
 // Add indexes on the specific fields of the documents
-dishSchema.index({ category: 1, cuisine: 1, ratingsAverage: -1 });
+dishSchema.index({ category: 1, cuisine: 1, ratingsAverage: -1, mainUnitPrice: 1 });
 
 dishSchema.virtual('reviews', {
     ref: 'Review',

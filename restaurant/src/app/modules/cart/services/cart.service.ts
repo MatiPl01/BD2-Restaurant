@@ -3,7 +3,7 @@ import { HttpService } from "@core/services/http.service";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Observable } from "rxjs";
 import { Cart } from "@cart/types/cart.type";
-import {DetailedCartItem, MiniCartItem} from "@cart/interfaces/cart-item.interface";
+import {DetailedCartItem, MiniCartItem} from "@cart/types/cart-item.type";
 
 
 @Injectable({

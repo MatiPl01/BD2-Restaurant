@@ -33,10 +33,15 @@ body {
 
     &-track {
       background-color: rgba(c.$gray-dark-4, .25);
+      border-radius: .5rem;
 
       &:hover {
         background-color: rgba(c.$gray-dark-4, .65);
       }
+    }
+
+    &-corner {
+      background-color: transparent;
     }
   }
 }

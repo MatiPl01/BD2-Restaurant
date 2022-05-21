@@ -29,5 +29,6 @@ export class ObserveVisibilityDirective implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.observer.unobserve(this.elementRef.nativeElement);
+    this.visibilityChange.emit(false);
   }
 }

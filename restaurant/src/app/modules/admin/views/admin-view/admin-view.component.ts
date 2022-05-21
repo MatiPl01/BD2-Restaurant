@@ -1,10 +1,12 @@
+// TODO - Refactor this file
+
 import {Component} from '@angular/core';
 import {AdminService} from "@admin/services/admin.service";
 import {PersistenceEnum} from '@shared/enums/persistence.enum';
 import {AuthService} from '@auth/services/auth.service';
 import {RoleEnum} from '@shared/enums/role.enum';
 import User from "@shared/models/user.model";
-import UserData from "@auth/interfaces/user.interface";
+import UserData from "@shared/interfaces/user.interface";
 
 @Component({
   selector: 'admin-view',

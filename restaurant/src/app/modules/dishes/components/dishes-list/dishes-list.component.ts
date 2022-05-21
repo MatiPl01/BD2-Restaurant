@@ -5,11 +5,10 @@ import Dish from '@dishes/models/dish.model';
 
 @Component({
   selector: 'dishes-dishes-list',
-  templateUrl: './dishes-list.component.html'
+  templateUrl: './dishes-list.component.html',
+  providers: [DishService]
 })
 export class DishesListComponent {
-  
-
   public dishes: Array<Partial<Dish>> = [];
   private readonly subscription: Subscription;
 

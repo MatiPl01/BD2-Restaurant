@@ -1,5 +1,7 @@
-export interface DetailedCartItem {
-  dishID: string;
+import { ImageEntry } from "@shared/types/image-entry.type";
+
+export default interface DetailedCartItem {
+  dishId: string;
   dishName: string;
   category: string;
   cuisine: string;
@@ -8,8 +10,5 @@ export interface DetailedCartItem {
   quantity: number;
   currency: string;
   stock: number;
-  image: {
-    breakpoints: number[],
-    paths: string[]
-  };
+  coverImage: ImageEntry;
 }

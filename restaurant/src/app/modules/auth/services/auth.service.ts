@@ -1,13 +1,12 @@
 import { BehaviorSubject, firstValueFrom, Observable, tap } from "rxjs";
-import { RegisterCredentials } from "@auth/interfaces/register-credentials.interface";
-import { LoginCredentials } from "@auth/interfaces/login-credentials.interface";
+import { RegisterCredentials } from "@auth/types/register-credentials.interface";
+import { LoginCredentials } from "@auth/types/login-credentials.interface";
 import { PersistenceEnum } from "@shared/enums/persistence.enum";
-// import { CurrencyEnum } from "@shared/enums/currency.enum";
 import { HttpService } from "@core/services/http.service";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Injectable } from "@angular/core";
-import { AuthData } from "@auth/interfaces/auth.interface";
-import { Config } from "@shared/interfaces/config.interface";
+import { Config } from "@core/interfaces/config.interface";
+import { AuthResponse } from "@auth/types/auth-response.type";
 import User from "@shared/models/user.model";
 
 @Injectable({
@@ -17,10 +16,8 @@ export class AuthService {
   private static readonly SAVE_USER_KEY = 'user';
   private logoutTimeout: ReturnType<typeof setTimeout> | null = null;
   private _user = new BehaviorSubject<User | null>(null);
-  // private defaultCurrency=CurrencyEnum.USD   // TODO - Use string type as it will allow front-end app to serve new currency added on back-end (we won't have to update front-end)
 
-  constructor(private httpService: HttpService,
-              /*private configService: ConfigService*/) {}
+  constructor(private httpService: HttpService) {}
 
   get userSubject(): BehaviorSubject<User | null> {
     return this._user;
@@ -30,15 +27,15 @@ export class AuthService {
     return this._user.getValue();
   }
 
-  public login(credentials: LoginCredentials): Observable<AuthData> {
+  public login(credentials: LoginCredentials): Observable<AuthResponse> {
     return this.httpService
-      .post<AuthData>(ApiPathEnum.LOGIN, credentials)
+      .post<AuthResponse>(`${ApiPathEnum.USERS}/login`, credentials)
       .pipe(tap(this.authenticate.bind(this)));
   }
 
-  public register(credentials: RegisterCredentials): Observable<AuthData> {
+  public register(credentials: RegisterCredentials): Observable<AuthResponse> {
     return this.httpService
-      .post<AuthData>(ApiPathEnum.REGISTER, credentials)
+      .post<AuthResponse>(`${ApiPathEnum.USERS}/register`, credentials)
       .pipe(tap(this.authenticate.bind(this)));
   }
 
@@ -62,20 +59,6 @@ export class AuthService {
     return config.persistence;
   }
 
-  /* TODO - use currency service to get the current user currency
-  (don't fetch from config, as user might have changed currency before
-  logging in or creating an account - we should take the currently set currency)*/
-  // public async getCurrency():Promise<CurrencyEnum>{
-  //   const user = this.loadUser();
-  //   if (user){
-  //     return (CurrencyEnum as any)[user.defaultCurrency];
-  //   }
-  //   await this.configService.getConfig().subscribe(res=>{
-  //     return (CurrencyEnum as any)[res.mainCurrency]
-  //   })
-  //   return this.defaultCurrency
-  // }
-
   public autoLogin(): void {
     // Try to load the user from the browser storage
     const user = this.loadUser();
@@ -96,7 +79,7 @@ export class AuthService {
     }, timeout);
   }
 
-  private authenticate(data: AuthData): void {
+  private authenticate(data: AuthResponse): void {
     const { user: userData, token } = data;
     const user = new User(userData, token);
     this._user.next(user);

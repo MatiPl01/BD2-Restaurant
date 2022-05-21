@@ -12,9 +12,9 @@ import { LogoComponent } from './components/logo/logo.component';
 import { SingleSelectDropdownComponent } from './components/forms/single-select-dropdown/single-select-dropdown.component';
 import { FormsModule } from "@angular/forms";
 import { LoadingBarComponent } from "@shared/../core/components/loading-bar/loading-bar.component";
-import { AlertComponent } from "@shared/components/alert/alert.component";
+import { AlertComponent } from "@core/components/alert/alert.component";
 import { RangeSliderComponent } from './components/forms/range-slider/range-slider.component';
-import { MultiSelectDropdownComponent } from './components/forms/mult-iselect-dropdown/multi-select-dropdown.component';
+import { MultiSelectDropdownComponent } from './components/forms/multi-select-dropdown/multi-select-dropdown.component';
 import { GallerySliderComponent } from './components/gallery-slider/gallery-slider.component';
 import { ParallaxSliderComponent } from './components/parallax-slider/parallax-slider.component';
 import { PopupComponent } from './components/popup/popup.component';
@@ -41,6 +41,7 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
     AlertComponent,
     RangeSliderComponent,
     MultiSelectDropdownComponent,
+    SingleSelectDropdownComponent,
     GallerySliderComponent,
     ParallaxSliderComponent,
     PopupComponent,
@@ -64,6 +65,9 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
     PaginationComponent,
     RatingComponent,
     ResponsiveGalleryComponent,
+    MultiSelectDropdownComponent,
+    SingleSelectDropdownComponent,
+    RangeSliderComponent,
 
     ParallaxDirective,
     ObserveVisibilityDirective

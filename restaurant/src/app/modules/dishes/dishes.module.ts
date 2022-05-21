@@ -6,7 +6,7 @@ import { SharedModule } from '@shared/shared.module';
 
 import { DishViewComponent } from './views/dish-view/dish-view.component';
 import { DishesRoutingModule } from './dishes-routing.module';
-import { DishesListViewComponent } from './views/dishes-view/dishes-list-view.component';
+import { DishesViewComponent } from './views/dishes-view/dishes-view.component';
 import { DishesListComponent } from './components/dishes-list/dishes-list.component';
 import { DishesFiltersComponent } from './components/dishes-filters/dishes-filters.component';
 import { DishCardComponent } from './components/dish-card/dish-card.component';
@@ -15,7 +15,7 @@ import { DishDetailsComponent } from './components/dish-details/dish-details.com
 
 @NgModule({
   declarations: [
-    DishesListViewComponent,
+    DishesViewComponent,
     DishViewComponent,
     DishesListComponent,
     DishesFiltersComponent,

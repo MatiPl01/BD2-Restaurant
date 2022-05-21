@@ -1,45 +1,55 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import DropdownSelectSettings from '@shared/interfaces/dropdown-select-settings.interface';
+import { FilterAttr } from '@dishes/enums/filter-attr.enum';
+import { MultiSelectDropdownSettings } from '@shared/types/multi-select-dropdown-settings.type';
+import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 
-type EventObj = { filterAttr: string, value: string }
+export type SingleSelectEvent = { filterAttr: FilterAttr, item: string | number };
+export type MultipleSelectEvent = { filterAttr: FilterAttr, items: string[] | number[] };
 
 @Component({
   selector: 'shared-multi-select-dropdown',
   templateUrl: './multi-select-dropdown.component.html',
-  styles: [
-  ]
+  styleUrls: ['./multi-select-dropdown.component.scss']
 })
 export class MultiSelectDropdownComponent {
-  @Output() itemSelected = new EventEmitter<EventObj>();
-  @Output() itemDeSelected = new EventEmitter();
-  @Output() selectedAll = new EventEmitter();
-  @Output() deSelectedAll = new EventEmitter();
-  @Input() placeholder!: string;
-  @Input() settings!: DropdownSelectSettings;
-  @Input() dropDownList: any = [];
-  @Input() filterAttr!: string;
-  public selectedItems = [];
+  @Output() selectedItemsChange = new EventEmitter<string[]>();
+  @Output() itemSelectedEvent = new EventEmitter<SingleSelectEvent>();
+  @Output() selectedAllEvent = new EventEmitter<MultipleSelectEvent>();
+  @Output() itemDeSelectedEvent = new EventEmitter<SingleSelectEvent>();
+  @Output() deSelectedAllEvent = new EventEmitter<MultipleSelectEvent>();
+  @Input() placeholder = '';
+  @Input() settings!: MultiSelectDropdownSettings;
+  @Input() data: string[] | number[] = [];
+  @Input() selectedItems: string[] | number[] = [];
+  @Input() filterAttr!: FilterAttr;
 
-  onItemSelect(filterValue: any) {
-    this.itemSelected.emit(this.createEventObj(filterValue));
+  onItemSelect(item: ListItem) {
+    this.itemSelectedEvent.emit(this.createSingleSelectEventObj(item));
   }
 
-  onSelectAll(filterValues: any) {
-    this.selectedAll.emit(this.createEventObj(filterValues));
+  onSelectAll(items: ListItem[]) {
+    this.selectedAllEvent.emit(this.createMultipleSelectEventObj(items));
   }
 
-  onItemDeSelect(filterValue: any) {
-    this.itemDeSelected.emit(this.createEventObj(filterValue));
+  onItemDeSelect(item: ListItem) {
+    this.itemDeSelectedEvent.emit(this.createSingleSelectEventObj(item));
   }
 
-  onDeSelectAll(filterValues: any) {
-    this.deSelectedAll.emit(this.createEventObj(filterValues));
+  onDeSelectAll(items: ListItem[]) {
+    this.deSelectedAllEvent.emit(this.createMultipleSelectEventObj(items));
   }
 
-  private createEventObj(value: any): EventObj {
+  private createSingleSelectEventObj(item: ListItem): SingleSelectEvent {
     return {
       filterAttr: this.filterAttr,
-      value
-    }
+      item: item.text as string | number
+    };
+  }
+
+  private createMultipleSelectEventObj(items: ListItem[]): MultipleSelectEvent {
+    return {
+      filterAttr: this.filterAttr,
+      items: items.map(item => item.text) as string[] | number[]
+    };
   }
 }
