@@ -2,6 +2,8 @@ import { Document, Schema } from 'mongoose';
 
 
 export default interface Review extends Document {
+    _id: Schema.Types.ObjectId;
+    
     // Custom properties
     user: Schema.Types.ObjectId;
     dish: Schema.Types.ObjectId;

@@ -1,4 +1,4 @@
-import User from '@/resources/user/user.interface';
+import User from '@/resources/user/interfaces/user.interface';
 
 
 declare global {

@@ -4,7 +4,7 @@ import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
 
 import dishModel from '@/resources/dish/dish.model';
-import Order from './order.interface';
+import Order from './interfaces/order.interface';
 
 
 const orderItem = new Schema(

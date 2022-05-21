@@ -3,13 +3,15 @@ import { Schema } from 'mongoose';
 import AppError from '@/utils/errors/app.error';
 
 import OrderModel from '@/resources/order/order.model';
+import DishModel from '@/resources/dish/dish.model';
 import ReviewModel from './review.model';
-import Review from './review.interface';
+import Review from './interfaces/review.interface';
 
 
 class ReviewService {
     private review = ReviewModel;
-    private orders = OrderModel
+    private orders = OrderModel;
+    private dish = DishModel;
 
     public async getReviews(
         filters: { [key: string]: any },
@@ -20,40 +22,50 @@ class ReviewService {
     }
 
     public async createReview(
-        userID: Schema.Types.ObjectId,
-        dishID: Schema.Types.ObjectId,
-        orderID: Schema.Types.ObjectId,
+        userId: Schema.Types.ObjectId,
+        dishId: Schema.Types.ObjectId,
+        orderId: Schema.Types.ObjectId,
         rating: number,
         body: string[]
     ): Promise<Review> { // TODO - maybe improve
-        const order = await this.orders.findById(orderID);
+        const order = await this.orders.findById(orderId);
 
         if (!order) {
-            throw new AppError(404, `Cannot find order with id ${orderID}`);
+            throw new AppError(404, `Cannot find order with id ${orderId}`);
         }
 
-        if (!order.items.find(item => String(item.dish) === String(dishID))) {
-            throw new AppError(400, `Dish with id ${dishID} doesn't belong to the order with id ${orderID}`);
+        if (!order.items.find(item => String(item.dish) === String(dishId))) {
+            throw new AppError(400, `Dish with id ${dishId} doesn't belong to the order with id ${orderId}`);
         }
 
         if ((Date.now() - Number(order.createdAt)) / (1000 * 60 * 60 * 24) > 7) {
             throw new AppError(400, 'Cannot add review after 7 days');
         }
-        const review = await this.review.find({ user: userID, dish: dishID, order: orderID })
-        if (review.length > 0) {
+
+        const reviews = await this.review.find({ user: userId, dish: dishId, order: orderId });
+        if (reviews.length > 0) {
             throw new AppError(400, 'You have already added review for this dish from this order');
         }
 
+        // Update the dish rating
+        const dish = await this.dish.findById(dishId);
+        if (!dish) throw new AppError(404, `Cannot find dish with id ${dishId}`);
+
+        // Todo - check if there are no rounding issues
+        dish.ratingsAverage = (dish.ratingsAverage * dish.ratingsCount + rating) / ++dish.ratingsCount;
+        await dish.save();
+
         const result = await this.review.create({
-            user: userID,
-            dish: dishID,
+            user: userId,
+            dish: dishId,
             order: order._id,
             rating: rating,
             body: body,
         });
 
-        if (result) return result;
-        throw new AppError(400, 'Cannot add review');
+        if (!result) throw new AppError(400, 'Cannot add review');
+
+        return result;
     };
 
     public async editReview(

@@ -7,14 +7,14 @@ import currency from '@/utils/currency';
 
 import exchangeRateService from '@/resources/exchange-rate/exchange-rate.service';
 import OrderModel from './order.model';
-import Order from './order.interface';
+import Order from './interfaces/order.interface';
 
 
 class OrderService {
     private order = OrderModel;
 
     public async createOrder(
-        userID: Schema.Types.ObjectId,
+        userId: Schema.Types.ObjectId,
         orderData: Order
     ): Promise<Order> {
         const {
@@ -23,7 +23,7 @@ class OrderService {
         } = orderData;
 
         return await this.order.create({
-            user: userID,
+            user: userId,
             items,
             currency
         });
@@ -31,7 +31,7 @@ class OrderService {
 
     public getUserOrders = singleTransaction(async (
         session: ClientSession,
-        userID: Schema.Types.ObjectId,
+        userId: Schema.Types.ObjectId,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
         pagination: { skip: number, limit: number },
@@ -45,7 +45,7 @@ class OrderService {
 
         // If order ale filtered by the totalPrice
         if (targetCurrency && totalPriceFilters) {
-            let orders: Order[] = await this.order.find({ user: userID, ...filters });
+            let orders: Order[] = await this.order.find({ user: userId, ...filters });
             orders = await this.filterByTotalPrice(orders, targetCurrency, totalPriceFilters, session);
             orders = this.paginate(orders, pagination);
             let mappedOrders: Partial<Order>[] = this.limitFields(orders, fields);
@@ -59,7 +59,7 @@ class OrderService {
         // - only convert the price in the results
         } else {
             const orders = await this.order.find(
-                { user: userID, ...filters },
+                { user: userId, ...filters },
                 fields,
                 { ...pagination, session }
             );

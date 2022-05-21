@@ -6,7 +6,7 @@ import AppError from '@/utils/errors/app.error';
 import RoleEnum from '@/utils/enums/role.enum';
 
 import ConfigModel from '@/resources/config/config.model';
-import User from './user.interface';
+import User from './interfaces/user.interface';
 
 
 const userCartSchema = new Schema(

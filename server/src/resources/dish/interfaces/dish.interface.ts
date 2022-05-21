@@ -1,12 +1,9 @@
 import { Document, Schema, ClientSession } from 'mongoose';
+import { ImageEntry } from '../types/image-entry.type';
 
-
-type ImageEntry = {
-    breakpoints: number[],
-    paths: string[]
-};
 
 export default interface Dish extends Document {
+    _id: Schema.Types.ObjectId;
     name: string;
     category: string;
     cuisine: string;
@@ -16,7 +13,7 @@ export default interface Dish extends Document {
     currency: string;
     unitPrice: number;
     mainUnitPrice: number;
-    ratingsSum: number;
+    ratingsAverage: number;
     ratingsCount: number;
     description: string[];
     coverIdx?: number;

@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-import ExchangeRate from './exchange-rate.interface';
+import ExchangeRate from './interfaces/exchange-rate.interface';
 
 // TODO - maybe export repeated validation objects from models and import in other models
 const exchangeRateSchema = new Schema(

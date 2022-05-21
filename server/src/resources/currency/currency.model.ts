@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-import Currency from './currency.interface';
+import Currency from './interfaces/currency.interface';
 
 
 const currencySchema = new Schema(

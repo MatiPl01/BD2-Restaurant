@@ -15,7 +15,7 @@ import response from '@/utils/response';
 
 import dishService from './dish.service'
 import validation from './dish.validation';
-import Dish from './dish.interface';
+import Dish from './interfaces/dish.interface';
 
 
 class DishController implements Controller {
@@ -40,6 +40,13 @@ class DishController implements Controller {
                 restrictTo(RoleEnum.MANAGER),
                 validationMiddleware(validation.body.createDish),
                 this.createDish
+            );
+
+        this.router
+            .route('/filters')
+            .get(
+                selectFieldsMiddleware,
+                this.getFiltersValues
             );
 
         this.router
@@ -159,6 +166,18 @@ class DishController implements Controller {
         const reviews = await this.dishService.getDishReviews(id, filters, fields, pagination);
 
         await response.json(res, 200, reviews);
+    })
+
+    private getFiltersValues = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const { fields } = req;
+        const { currency } = req.query;
+
+        const filters = await this.dishService.getFiltersValues(fields, currency);
+
+        await response.json(res, 200, filters);
     })
 }
 

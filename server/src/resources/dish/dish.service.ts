@@ -6,12 +6,18 @@ import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
 
 import ReviewModel from '@/resources/review/review.model';
-import Review from '@/resources/review/review.interface';
+import Review from '@/resources/review/interfaces/review.interface';
+import DishFilters from './interfaces/dish-filters.interface';
 import DishModel from './dish.model';
-import Dish from './dish.interface';
+import Dish from './interfaces/dish.interface';
 
 
 class DishService {
+    // For names of fields containing string values
+    private readonly listFilters: Set<string> = new Set(['name', 'category', 'cuisine', 'type']);
+    // For names of fields containing numbers (between some min and max value)
+    private readonly minMaxFilters: Set<string> = new Set(['stock', 'mainUnitPrice', 'ratingsAverage', 'ratingsCount']);
+
     private dish = DishModel;
     private review = ReviewModel;
 
@@ -160,6 +166,109 @@ class DishService {
             fields,
             pagination
         );
+    }
+
+    public getFiltersValues = singleTransaction(async (
+        session: ClientSession,
+        fields: { [key: string]: number },
+        targetCurrency?: string
+    ): Promise<Partial<DishFilters> | void> => {
+        const fieldsList = this.getUpdatedFiltersFields(fields, targetCurrency);
+
+        // Create the aggregation pipeline
+        const facet: { [key: string]: any[] } = {};
+
+        // Create aggregation facet
+        fieldsList.forEach(filter => {
+            if (this.listFilters.has(filter)) {
+                facet[filter] = [this.getUniqueListFilter(filter)];
+            } else if (this.minMaxFilters.has(filter)) {
+                facet[filter] = [this.getMinMaxFilter(filter)];
+            } else {
+                throw new AppError(400, `${filter} is not a valid dish filter`);
+            }
+        });
+
+        // Aggregate selected fields
+        const aggregated = await this.dish.aggregate([
+            { $facet: facet }
+        ]).session(session);
+
+        if (!aggregated.length) {
+            throw new AppError(400, 'Cannot aggregate dish filters');
+        }
+
+        // Create the object with cleaner structure
+        const result: { [key: string]: any } = {};
+        Object.entries(aggregated[0]).forEach(([key, value]: any) => {
+            value = value[0];
+
+            result[key] = this.listFilters.has(key) ? value.uniqueValues : {
+                min: value.min,
+                max: value.max
+            };
+        });
+
+        // Convert the mainUnitPrice to the unitPrice
+        const { mainUnitPrice } = result;
+
+        if (targetCurrency) {
+            delete result.mainUnitPrice;
+            result.unitPrice = {
+                min: await currency.exchangeFromMainCurrency(mainUnitPrice.min, targetCurrency, session),
+                max: await currency.exchangeFromMainCurrency(mainUnitPrice.max, targetCurrency, session)
+            }
+        }
+
+        return result;
+    })
+
+    private getUpdatedFiltersFields(
+        fields: { [key: string]: number },
+        currency?: string
+    ): string[] {
+        const fieldsTypes = new Set(Object.values(fields));
+
+        // Check if there are mixed select types (include with exclude)
+        if (fieldsTypes.size !== 1) {
+            throw new AppError(400, 'Wrong fields were selected. Cannot mix included with excluded fields');
+        }
+
+        const updatedFields: { [key: string]: number } = {};
+        // Include specified fields in filters
+        if (fieldsTypes.has(1)) {
+            Object.assign(updatedFields, fields);
+            
+            if (updatedFields.unitPrice) {
+                if (!currency) throw new AppError(400, 'Cannot get unitPrice filter when currency is not specified'); 
+            } else if (currency) {
+                throw new AppError(400, 'Currency is redundant when unitPrice field is not included');
+            }
+        // Exclude specified fields from filters
+        } else {
+            Object.assign(updatedFields, Object.fromEntries(Array.from(this.listFilters).map(filter => [filter, 1])));
+            Object.assign(updatedFields, Object.fromEntries(Array.from(this.minMaxFilters).map(filter => [filter, 1])));
+            Object.keys(fields).forEach(field => delete updatedFields[field]);
+        }
+
+        if (updatedFields.unitPrice) {
+            delete updatedFields.unitPrice;
+            updatedFields.mainUnitPrice = 1;
+        }
+
+        return Object.keys(updatedFields);
+    }
+
+    private getUniqueListFilter(field: string) {
+        return { $group: { _id: null, uniqueValues: { $addToSet: `$${field}` } } };
+    }
+
+    private getMinMaxFilter(field: string) {
+        return { $group: { _id: null, min: { $min: `$${field}` }, max: { $max: `$${field}` } } };
+    }
+
+    private getUnitPriceFilter() {
+
     }
 }
 

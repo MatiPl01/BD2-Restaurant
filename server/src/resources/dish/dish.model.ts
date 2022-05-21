@@ -4,7 +4,7 @@ import AppError from '@/utils/errors/app.error';
 
 import ExchangeRateModel from '@/resources/exchange-rate/exchange-rate.model';
 import ConfigModel from '@/resources/config/config.model';
-import Dish from './dish.interface';
+import Dish from './interfaces/dish.interface';
 
 
 const imageSchema = new Schema(
@@ -171,9 +171,7 @@ dishSchema.pre<Dish>('validate', async function (
         }
     }
 
-    if (!this.coverImage) {
-        this.coverImage = this.images[0];
-    }
+    if (!this.coverImage) this.coverImage = this.images[0];
 
     next();
 });

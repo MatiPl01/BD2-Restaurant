@@ -3,7 +3,7 @@ import { model, Schema, ClientSession } from 'mongoose';
 import PersistenceEnum from '@/utils/enums/persistence.enum';
 
 import DishModel from '@/resources/dish/dish.model';
-import Config from './config.interface';
+import Config from './interfaces/config.interface';
 
 
 const configSchema = new Schema(

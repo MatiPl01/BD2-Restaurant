@@ -6,7 +6,7 @@ import AppError from '@/utils/errors/app.error';
 
 const parseFields = (fields: string) => {
     let mode = 0;
-    const error = new AppError(400, 'Inconsistent parameters select options.');
+    const error = new AppError(400, 'Inconsistent fields select options. Cannot include and exclude fields at the same time');
     const result: { [key: string]: number } = {};
 
     fields.split(',').forEach(field => {
