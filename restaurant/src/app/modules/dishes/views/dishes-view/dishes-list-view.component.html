@@ -3,10 +3,20 @@
     <header class="dishes__header">
       <h2 class="dishes__heading heading-primary">Oferta</h2>
     </header>
-    <dishes-dishes-filters></dishes-dishes-filters>
-    <dishes-dishes-list></dishes-dishes-list>
-    <shared-pagination
-      
-    ></shared-pagination>
+    <dishes-dishes-filters (filterReloadEvent)="onFilterReload($event)">
+
+    </dishes-dishes-filters>
+
+    <ul class="dishes__list">
+      <li class="dishes__item" *ngFor="let dish of dishes">
+        <dishes-dish-card
+          [dish]="dish">
+        </dishes-dish-card>
+      </li>
+    </ul>
+
+    <shared-pagination>
+
+    </shared-pagination>
   </div>
 </section>

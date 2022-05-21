@@ -1,78 +1,94 @@
-<!--TODO-->
-<!--<form class="dishes-filters">-->
-<!--  <ul class="dishes-filters__list">-->
-<!--    <li class="dishes-filters__item">-->
-<!--      <p class="dishes-filters__text">-->
-<!--        Kategorie-->
-<!--      </p>-->
-<!--      <app-filters-select-->
-<!--        class="dishes-filters__dropdown"-->
-<!--        [filterAttr]="categoryFilterAttr"-->
-<!--        [filterName]="'kategorie'"-->
-<!--        [settings]="settings"-->
-<!--        [dropDownList]="categoriesList"-->
-<!--        [(selectedItems)]="selectedCategories"-->
-<!--        (itemSelectedEvent)="onItemSelected($event)"-->
-<!--        (itemDeSelectedEvent)="onItemDeSelected($event)"-->
-<!--        (selectedAllEvent)="onSelectedAll($event)"-->
-<!--        (deSelectedAllEvent)="onDeSelectedAll($event)">-->
-<!--      </app-filters-select>-->
-<!--    </li>-->
-<!--    <li class="dishes-filters__item">-->
-<!--      <p class="dishes-filters__text">-->
-<!--        Kuchnie-->
-<!--      </p>-->
-<!--      <app-filters-select-->
-<!--        class="dishes-filters__dropdown"-->
-<!--        [filterAttr]="cuisineFilterAttr"-->
-<!--        [filterName]="'kuchnie'"-->
-<!--        [settings]="settings"-->
-<!--        [dropDownList]="cuisinesList"-->
-<!--        [(selectedItems)]="selectedCuisines"-->
-<!--        (itemSelectedEvent)="onItemSelected($event)"-->
-<!--        (itemDeSelectedEvent)="onItemDeSelected($event)"-->
-<!--        (selectedAllEvent)="onSelectedAll($event)"-->
-<!--        (deSelectedAllEvent)="onDeSelectedAll($event)">-->
-<!--      </app-filters-select>-->
-<!--    </li>-->
-<!--    <li class="dishes-filters__item" *ngIf="minPrice < maxPrice">-->
-<!--      <p class="dishes-filters__text">-->
-<!--        Ceny-->
-<!--      </p>-->
-<!--      <app-filters-range-->
-<!--        class="dishes-filters__range"-->
-<!--        [filterAttr]="priceFilterAttr"-->
-<!--        [options]="priceOptions"-->
-<!--        [(values)]="priceValues"-->
-<!--        (valuesChange)="onRangeChanged($event)">-->
-<!--      </app-filters-range>-->
-<!--    </li>-->
-<!--    <li class="dishes-filters__item" *ngIf="minRating < maxRating">-->
-<!--      <p class="dishes-filters__text">-->
-<!--        Oceny-->
-<!--      </p>-->
-<!--      <app-filters-range-->
-<!--        class="dishes-filters__range"-->
-<!--        [filterAttr]="ratingFilterAttr"-->
-<!--        [options]="ratingOptions"-->
-<!--        [(values)]="ratingValues"-->
-<!--        (valuesChange)="onRangeChanged($event)">-->
-<!--      </app-filters-range>-->
-<!--    </li>-->
-<!--    <li class="dishes-filters__item filters__item&#45;&#45;reset">-->
-<!--      <p class="dishes-filters__text">-->
-<!--        &nbsp;-->
-<!--      </p>-->
-<!--      <button class="dishes-filters__button filters__button&#45;&#45;reset"-->
-<!--              (click)="onFiltersReset()">Resetuj filtry</button>-->
-<!--    </li>-->
-<!--    <li class="dishes-filters__item filters__item&#45;&#45;pages">-->
-<!--      <p class="dishes-filters__text">-->
-<!--        &nbsp;-->
-<!--      </p>-->
-<!--      <shared-single-select-dropdown-->
+<form class="dishes-filters">
+  <ul class="dishes-filters__list">
+    <li class="dishes-filters__item">
+      <p class="dishes-filters__text">
+        Kuchnie
+      </p>
+      <app-filter-select
+        class="dishes-filters__dropdown"
+        [filterAttr]="cuisineFilterAttr"
+        [filterName]="'kuchnie'"
+        [settings]="settings"
+        [dropDownList]="cuisinesList"
+        [(selectedItems)]="selectedCuisines"
+        (itemSelectedEvent)="onItemSelected($event)"
+        (itemDeSelectedEvent)="onItemDeSelected($event)"
+        (selectedAllEvent)="onSelectedAll($event)"
+        (deSelectedAllEvent)="onDeSelectedAll($event)">
+      </app-filter-select>
+    </li>
+    <li class="dishes-filters__item">
+      <p class="dishes-filters__text">
+        Typy
+      </p>
+      <app-filter-select
+        class="dishes-filters__dropdown"
+        [filterAttr]="typeFilterAttr"
+        [filterName]="'typy'"
+        [settings]="settings"
+        [dropDownList]="typesList"
+        [(selectedItems)]="selectedTypes"
+        (itemSelectedEvent)="onItemSelected($event)"
+        (itemDeSelectedEvent)="onItemDeSelected($event)"
+        (selectedAllEvent)="onSelectedAll($event)"
+        (deSelectedAllEvent)="onDeSelectedAll($event)">
+      </app-filter-select>
+    </li>
+    <li class="dishes-filters__item">
+      <p class="dishes-filters__text">
+        Kategorie
+      </p>
+      <app-filter-select
+        class="dishes-filters__dropdown"
+        [filterAttr]="categoryFilterAttr"
+        [filterName]="'kategorie'"
+        [settings]="settings"
+        [dropDownList]="categoriesList"
+        [(selectedItems)]="selectedCategories"
+        (itemSelectedEvent)="onItemSelected($event)"
+        (itemDeSelectedEvent)="onItemDeSelected($event)"
+        (selectedAllEvent)="onSelectedAll($event)"
+        (deSelectedAllEvent)="onDeSelectedAll($event)">
+      </app-filter-select>
+    </li>
+    <li class="dishes-filters__item">
+      <p class="dishes-filters__text">
+        Ceny
+      </p>
+      <app-filter-range
+        class="dishes-filters__range"
+        [filterAttr]="priceFilterAttr"
+        [options]="priceOptions"
+        [(values)]="priceValues"
+        (valuesChange)="onRangeChanged($event)">
+      </app-filter-range>
+    </li>
+    <li class="dishes-filters__item">
+      <p class="dishes-filters__text">
+        Oceny
+      </p>
+      <app-filter-range
+        class="dishes-filters__range"
+        [filterAttr]="ratingFilterAttr"
+        [options]="ratingOptions"
+        [(values)]="ratingValues"
+        (valuesChange)="onRangeChanged($event)">
+      </app-filter-range>
+    </li>
+    <li class="dishes-filters__item filters__item--reset">
+      <p class="dishes-filters__text">
+        &nbsp;
+      </p>
+      <button class="dishes-filters__button filters__button--reset"
+              (click)="onFiltersReset()">Resetuj filtry</button>
+    </li>
+    <li class="dishes-filters__item filters__item--pages">
+      <p class="dishes-filters__text">
+        &nbsp;
+      </p>
+      <shared-single-select-dropdown
 
-<!--      ></shared-single-select-dropdown>-->
-<!--    </li>-->
-<!--  </ul>-->
-<!--</form>-->
+      ></shared-single-select-dropdown>
+    </li>
+  </ul>
+</form>

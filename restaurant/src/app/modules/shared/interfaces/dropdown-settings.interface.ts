@@ -1,4 +1,4 @@
-export interface DropdownSettings {
+export default interface DropdownSettings {
   idField: string,
   textField: string,
   allowSearchFilter: boolean,

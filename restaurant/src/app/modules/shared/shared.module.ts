@@ -23,6 +23,8 @@ import { RatingComponent } from './components/rating/rating.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { ResponsiveGalleryComponent } from './components/responsive-gallery/responsive-gallery.component';
 import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
+import {FilterSelectComponent} from "@shared/components/filter-select/filter-select.component";
+import {FilterRangeComponent} from "@shared/components/filter-range/filter-range.component";
 
 @NgModule({
   imports: [
@@ -50,7 +52,9 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
     ResponsiveGalleryComponent,
 
     ParallaxDirective,
-    ObserveVisibilityDirective
+    ObserveVisibilityDirective,
+    FilterSelectComponent,
+    FilterRangeComponent
   ],
   exports: [
     CommonModule,
@@ -66,7 +70,9 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
     ResponsiveGalleryComponent,
 
     ParallaxDirective,
-    ObserveVisibilityDirective
+    ObserveVisibilityDirective,
+    FilterSelectComponent,
+    FilterRangeComponent
   ]
 })
 export class SharedModule {}
