@@ -11,6 +11,7 @@ import { DishesListComponent } from './components/dishes-list/dishes-list.compon
 import { DishesFiltersComponent } from './components/dishes-filters/dishes-filters.component';
 import { DishCardComponent } from './components/dish-card/dish-card.component';
 import { DishDetailsComponent } from './components/dish-details/dish-details.component';
+import { DishService } from './services/dish.service';
 
 
 @NgModule({
@@ -28,6 +29,9 @@ import { DishDetailsComponent } from './components/dish-details/dish-details.com
     ReactiveFormsModule,
     FormsModule,
     SharedModule
+  ],
+  providers: [
+    DishService
   ]
 })
 export class DishesModule {}

@@ -73,4 +73,4 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
     ObserveVisibilityDirective
   ]
 })
-export class SharedModule {}
+export class SharedModule { }

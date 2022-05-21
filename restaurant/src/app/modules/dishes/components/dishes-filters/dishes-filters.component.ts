@@ -38,15 +38,11 @@ export class DishesFiltersComponent implements OnDestroy {
     ceil: 0
   };
 
- 
-
   public selectedCategories: string[] = [];
   public selectedCuisines: string[] = [];
 
-  priceOptions: Options = Object.assign({}, this.placeholderOptions);
-  ratingOptions: Options = Object.assign({}, this.placeholderOptions);
-
-
+  priceOptions: Options = { ...this.placeholderOptions };
+  ratingOptions: Options = { ...this.placeholderOptions };
 
   public availableFilters!: DishFilters;
   private readonly subscriptions: Subscription[] = [];
@@ -58,8 +54,9 @@ export class DishesFiltersComponent implements OnDestroy {
       })
     )
   }
-    
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
+

@@ -4,5 +4,5 @@
   </header>
   <dishes-dishes-filters></dishes-dishes-filters>
   <dishes-dishes-list></dishes-dishes-list>
-  <shared-pagination></shared-pagination>
+  <shared-pagination [pagesCount]="pagesCount" [maxDisplayedNumbersCount]="maxDishes" (pageChangeEvent)="onPaginationChange($event)"></shared-pagination>
 </main>

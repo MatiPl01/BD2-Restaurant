@@ -37,7 +37,6 @@ class DishService {
                 filters[key] = { $in: val };
             }
         });
-        
         // Handle pagination
         const { skip, limit } = pagination;
         const pipeline: { [key: string]: any }[] = [{ $match: filters }];
@@ -76,14 +75,15 @@ class DishService {
         }
 
         const result = aggregated[0];
-        result.filteredCount = result.filteredCount[0].value;
+        if(result.dishes.length==0) result.filteredCount=0
+        else result.filteredCount = result.filteredCount[0].value;
         result.totalCount = result.totalCount[0].value;
 
         if (skip !== undefined && limit !== undefined) {
             result.pagesCount = Math.ceil(result.filteredCount / limit);
             result.currentPage = Math.ceil(skip / limit) + 1;
         }
-        
+
         if (targetCurrency) {
             for (const dish of result.dishes) {
                 await currency.changeDishCurrency(dish, targetCurrency, undefined, session);

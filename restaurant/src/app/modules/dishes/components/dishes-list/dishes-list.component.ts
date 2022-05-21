@@ -5,8 +5,7 @@ import Dish from '@dishes/models/dish.model';
 
 @Component({
   selector: 'dishes-dishes-list',
-  templateUrl: './dishes-list.component.html',
-  providers: [DishService]
+  templateUrl: './dishes-list.component.html'
 })
 export class DishesListComponent {
   public dishes: Array<Partial<Dish>> = [];
