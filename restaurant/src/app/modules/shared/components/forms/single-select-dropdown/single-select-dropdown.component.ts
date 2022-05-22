@@ -4,17 +4,25 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   selector: 'shared-single-select-dropdown',
   template: `
     <select
-      class="btn-select" [(ngModel)]="value" (change)="valueChanged()">
-      <option *ngFor="let v of values" class="btn-select__option" [value]="v">{{v}}</option>
+      class="btn-select" 
+      [(ngModel)]="selected"
+      (change)="notifyChange()"
+      [value]="selected">
+      <option class="btn-select__option"
+        *ngFor="let value of values" 
+        [value]="value"
+        [selected]="value === selected">
+          {{value}}
+      </option>
     </select>
   `
 })
 export class SingleSelectDropdownComponent<T> {
-  @Output() valueChangeEvent = new EventEmitter<T>();
-  @Input() value!: T;
+  @Output() selectedChange = new EventEmitter<T>();
+  @Input() selected!: T;
   @Input() values!: T[];
 
-  public valueChanged(): void {
-    this.valueChangeEvent.emit(this.value);
+  public notifyChange(): void {
+    this.selectedChange.emit(this.selected);
   }
 }

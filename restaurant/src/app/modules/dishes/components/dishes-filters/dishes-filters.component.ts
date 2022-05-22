@@ -8,6 +8,7 @@ import { RangeChangeEvent } from '@shared/types/range-change-event.type';
 import { MultipleSelectEvent } from '@shared/types/multiple-select-event.type';
 import setUtils from '@shared/utils/set-utils';
 import { CurrencyService } from '@core/services/currency.service';
+import { PaginationService } from '@shared/services/pagination.service';
 
 
 @Component({
@@ -57,14 +58,24 @@ export class DishesFiltersComponent implements OnDestroy {
     max: 0
   }
 
+  public itemsPerPage: number = 0;
+  public possibleItemsPerPage: number[] = [];
+
   private readonly subscriptions: Subscription[] = [];
   private updatedAvailableFilters = false;
 
   constructor(private filterService: FilterService,
-              private currencyService: CurrencyService) {
+              private currencyService: CurrencyService,
+              private paginationService: PaginationService) {
     this.subscriptions.push(
-      this.filterService.availableFiltersSubject.subscribe((availableFilters: DishFilters) => {
+      this.filterService.availableFiltersSubject.subscribe(availableFilters => {
         this.updateAvailableFilters(availableFilters);
+      }),
+      this.paginationService.itemsPerPageSubject.subscribe(itemsPerPage => {
+        this.itemsPerPage = itemsPerPage;
+      }),
+      this.paginationService.possibleItemsPerPageSubject.subscribe(possibleItemsPerPage => {
+        this.possibleItemsPerPage = possibleItemsPerPage;
       })
     );
 
@@ -83,27 +94,22 @@ export class DishesFiltersComponent implements OnDestroy {
 
   public selectItem({ filterAttr, item }: SingleSelectEvent): void {
     this.filterService.addFilter(filterAttr, item as string); 
-    this.filterService.applyFilters(); // TODO - call this with delay when user stops modifying data or presses apply button
   }
 
   public deSelectItem({ filterAttr, item }: SingleSelectEvent): void {
     this.filterService.removeFilter(filterAttr, item as string);
-    this.filterService.applyFilters(); // TODO - call this with delay when user stops modifying data or presses apply button
   }
 
   public selectItems({ filterAttr, items }: MultipleSelectEvent): void {
     this.filterService.setAllFilters(filterAttr, items as string[]);
-    this.filterService.applyFilters(); // TODO - call this with delay when user stops modifying data or presses apply button
   }
 
   public deSelectAllItems({ filterAttr, items: _ }: MultipleSelectEvent): void {
     this.filterService.removeAllFilters(filterAttr);
-    this.filterService.applyFilters(); // TODO - call this with delay when user stops modifying data or presses apply button
   }
 
   public updateRange({ filterAttr, min, max }: RangeChangeEvent): void {
     this.filterService.setRangeFilter(filterAttr, min, max);
-    this.filterService.applyFilters(); // TODO - call this with delay when user stops modifying data or presses apply button
   }
 
   public resetFilters(): void {
@@ -113,6 +119,10 @@ export class DishesFiltersComponent implements OnDestroy {
     // Create new bound object to force reload slider components
     this.priceBounds = this.currentPrice = { ...this.priceBounds };
     this.ratingsBounds = this.currentRating = { ...this.ratingsBounds };
+  }
+
+  public notifyItemsPerPageChange(itemsPerPage: number): void {
+    this.paginationService.updateItemsPerPage(itemsPerPage);
   }
 
   private updateAvailableFilters(filtersObj: DishFilters): void {

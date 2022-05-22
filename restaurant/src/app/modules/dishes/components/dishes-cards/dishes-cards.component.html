@@ -1,0 +1,20 @@
+<section class="dishes-cards">
+  <shared-loading-spinner
+    [visible]="isLoading"
+  ></shared-loading-spinner>
+
+  <ul class="dishes-cards__list">
+    <li class="dishes-cards__item" *ngFor="let dish of dishes">
+      <dishes-dish-card [dish]="dish">
+      </dishes-dish-card>
+    </li>
+  </ul>
+
+  <div class="dishes-cards__pagination">
+    <shared-pagination
+      [pagesCount]="pagesCount"
+      [(currentPage)]="currentPage"
+      (currentPageChange)="setCurrentPage($event)"
+    ></shared-pagination>
+  </div>
+</section>

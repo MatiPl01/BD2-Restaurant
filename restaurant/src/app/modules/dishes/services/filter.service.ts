@@ -59,7 +59,8 @@ class FiltersObject implements DishFilters {
 
 @Injectable()
 export class FilterService implements OnDestroy {
-  private static readonly REFRESH_INTERVAL = 10000; // 10s
+  private static readonly APPLY_FILTERS_TIMEOUT = 500; // 500ms
+  private static readonly AVAILABLE_FILTERS_REFRESH_INTERVAL = 60000; // 60s
   public filtersChangedEvent = new EventEmitter<DishFilters>();
 
   // Selected filters will be used to update filters without notifying changes
@@ -67,10 +68,10 @@ export class FilterService implements OnDestroy {
   private selectedFilters = new FiltersObject();
   private appliedFilters$ = new BehaviorSubject<DishFilters>(new FiltersObject());
   private availableFilters$ = new BehaviorSubject<DishFilters>(new FiltersObject());
-  private timer$!: Observable<number>; 
+  private refreshTimer$!: Observable<number>;
+  private applyFiltersTimeout: any;
 
-  private timerSubscription!: Subscription;
-  private _areFiltersApplied = false;
+  private refreshTimerSubscription!: Subscription;
 
   constructor(private httpService: HttpService,
               private currencyService: CurrencyService) {
@@ -78,7 +79,7 @@ export class FilterService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.timerSubscription.unsubscribe();
+    this.refreshTimerSubscription.unsubscribe();
   }
 
   get availableFiltersSubject(): BehaviorSubject<DishFilters> {
@@ -97,24 +98,24 @@ export class FilterService implements OnDestroy {
     return this.appliedFilters$.getValue();
   }
 
-  get areFiltersApplied(): boolean {
-    return this._areFiltersApplied;
-  }
-
   public addFilter(filterAttr: FilterAttr, filterValue: string): void {
     (this.selectedFilters[filterAttr] as Set<string>).add(filterValue);
+    this.setApplyFiltersTimeout();
   }
 
   public setAllFilters(filterAttr: FilterAttr, filterValues: string[]): void {
     (this.selectedFilters[filterAttr] as Set<string>) = new Set(filterValues);
+    this.setApplyFiltersTimeout();
   }
 
   public removeFilter(filterAttr: FilterAttr, filterValue: string): void {
     (this.selectedFilters[filterAttr] as Set<string>).delete(filterValue);
+    this.setApplyFiltersTimeout();
   }
 
   public removeAllFilters(filterAttr: FilterAttr): void {
     (this.selectedFilters[filterAttr] as Set<string>).clear();
+    this.setApplyFiltersTimeout();
   }
 
   public setRangeFilter(filterAttr: FilterAttr, minValue: number, maxValue: number): void {
@@ -122,23 +123,23 @@ export class FilterService implements OnDestroy {
       min: minValue,
       max: maxValue
     };
-
-    console.log(this.selectedFilters);
+    this.setApplyFiltersTimeout();
   }
 
   public applyFilters(): void {
+    this.clearApplyFiltersTimeout();
     this.appliedFilters$.next(this.selectedFilters.clone());
   }
 
   public resetFilters(): void {
+    this.clearApplyFiltersTimeout();
     this.appliedFilters$.next(new FiltersObject());
-    this._areFiltersApplied = false;
   }
 
   private setupRefreshTimer(): void {
-    this.timer$ = timer(0, FilterService.REFRESH_INTERVAL);
+    this.refreshTimer$ = timer(0, FilterService.AVAILABLE_FILTERS_REFRESH_INTERVAL);
 
-    this.timerSubscription = this.timer$.subscribe(_ => {
+    this.refreshTimerSubscription = this.refreshTimer$.subscribe(_ => {
       this.fetchAvailableFilters();
     })
   }
@@ -162,11 +163,10 @@ export class FilterService implements OnDestroy {
           // Check if filters have changes since the last update
           if (!this.haveFiltersChanged(filtersObj)) return;
           this.availableFilters$.next(filtersObj);
-          this._areFiltersApplied = true;
         },
         error: _ => {
           // Unsubscribe on error
-          this.timerSubscription.unsubscribe();
+          this.refreshTimerSubscription.unsubscribe();
         }
       });
   }
@@ -179,5 +179,22 @@ export class FilterService implements OnDestroy {
         || currentAvailableFilters.ratingsAverage.max !== newAvailableFilters.ratingsAverage.max
         || currentAvailableFilters.unitPrice.min !== newAvailableFilters.unitPrice.min
         || currentAvailableFilters.unitPrice.max !== newAvailableFilters.unitPrice.max;
+  }
+
+  private setApplyFiltersTimeout(): void {
+    this.clearApplyFiltersTimeout();
+
+    this.applyFiltersTimeout = setTimeout(
+      this.applyFilters.bind(this), 
+      FilterService.APPLY_FILTERS_TIMEOUT
+    );
+  }
+
+  private clearApplyFiltersTimeout(): void {
+    if (this.applyFiltersTimeout) {
+      clearTimeout(this.applyFiltersTimeout);
+    }
+
+    this.applyFiltersTimeout = null;
   }
 }

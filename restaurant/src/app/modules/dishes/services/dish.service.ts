@@ -16,11 +16,12 @@ import { DishCardsResponse } from '@dishes/types/dish-cards-response.type';
 @Injectable()
 export class DishService implements OnDestroy {
   private readonly dishes$ = new BehaviorSubject<DishCard[]>([]);
-  private _allDishesCount: number = 0;
-  private _filteredDishesCount: number = 0;
-  private _pagesCount: number = 0;
+  private readonly loading$ = new BehaviorSubject<boolean>(false);
 
   private readonly subscriptions: Subscription[] = [];
+  private isItemsPerPageSubjectInitialized = false;
+  private isCurrentPageSubjectInitialized = false;
+  public currentPage = 0;
 
   constructor(private httpService: HttpService,
               private currencyService: CurrencyService,
@@ -28,7 +29,17 @@ export class DishService implements OnDestroy {
               private paginationService: PaginationService) {
     this.subscriptions.push(
       this.filterService.appliedFiltersSubject.subscribe(_ => {
-        this.requestDishes().subscribe(dishes => this.dishes$.next(dishes));
+        this.currentPage = 1;
+        this.fetchDishes();
+      }),
+      this.paginationService.itemsPerPageSubject.subscribe(_ => {
+        if (this.isItemsPerPageSubjectInitialized) this.fetchDishes();
+        else this.isItemsPerPageSubjectInitialized = true;
+      }),
+      this.paginationService.currentPageSubject.subscribe(_ => {
+        this.currentPage = this.paginationService.currentPage;
+        if (this.isCurrentPageSubjectInitialized) this.fetchDishes();
+        else this.isCurrentPageSubjectInitialized = true;
       })
     )            
   }
@@ -45,37 +56,38 @@ export class DishService implements OnDestroy {
     return this.dishes$.getValue();
   }
 
-  get pagesCount(): number {
-    return this._pagesCount;
-  }
-
-  get filteredDishesCount(): number {
-    return this._filteredDishesCount;
-  }
-
-  get allDishesCount(): number {
-    return this._allDishesCount;
+  get loadingSubject(): BehaviorSubject<boolean> {
+    return this.loading$;
   }
 
   // TODO - maybe rename to requestDishesCards or something similar to indicate
   // that returned dishes are in fact partial documents
-  private requestDishes(): Observable<DishCard[]> {
+  private fetchDishes(): void {
+    this.loading$.next(true);
     const url = queryString.stringifyUrl({
       url: `${ApiPathEnum.DISHES}`,
       query: {
         currency: this.currencyService.currency.code,
-        ...(this.filterService.areFiltersApplied ? this.filterService.appliedFilters.queryObj : {}),
-        page: 1, // TODO - reset page in the pagination service
+        ...(this.filterService.appliedFilters.queryObj),
+        page: this.currentPage,
         limit: this.paginationService.itemsPerPage,
         fields: 'name,category,cuisine,type,stock,currency,unitPrice,ratingsAverage,ratingsCount,coverImage' // TODO - extract this to variable or move somewhere else
       }
     })
 
-    return this.httpService
+    this.httpService
       .get<DishCardsResponse>(url)
-      .pipe(map(response => {
-        return response.dishes.map(dish => new DishCardModel(dish));
-      }));
+      .subscribe(response => {
+        this.paginationService.updatePages(
+          response.pagesCount, 
+          response.currentPage, 
+          response.filteredCount
+        );
+      
+        const dishes = response.dishes.map(dish => new DishCardModel(dish));
+        this.dishes$.next(dishes);
+        this.loading$.next(false);
+      });
   }
 
   // TODO - improve this fetch below (add proper interface, use query-string library)

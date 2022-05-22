@@ -4,15 +4,23 @@
 @use '../utils/mixins' as *;
 
 .loading-spinner {
-  position: fixed;
+  position: absolute;
   pointer-events: none;
   inset: 0;
   opacity: 0;
-  z-index: 998;
+  z-index: 990;
   background-color: rgba(c.$white, .85);
   transition: opacity .5s;
-  @include flex-center;
 
+  &__container {
+    position: sticky;
+    height: 50vh;
+    max-height: 100%;
+    width: 100%;
+    top: 25vh;
+    @include flex-center;
+  }
+  
   &__svg {
     width: s.$loading-spinner-size;
     height: s.$loading-spinner-size;
