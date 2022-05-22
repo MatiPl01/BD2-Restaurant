@@ -1,4 +1,4 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { VisualizationService } from '@core/services/visualization.service';
 
 @Component({
@@ -6,13 +6,14 @@ import { VisualizationService } from '@core/services/visualization.service';
   templateUrl: './header.component.html'
 })
 export class HeaderComponent {
-  constructor(private headerRef: ElementRef,
-              private visualizationService: VisualizationService) {
+  @ViewChild('header') headerRef!: ElementRef;
+
+  constructor(private visualizationService: VisualizationService) {
     this.visualizationService.notifyHeaderVisible(true);
   }
 
   public scrollDown(): void {
-    this.visualizationService.scrollY(this.headerRef.nativeElement.clientHeight + 1)
+    this.visualizationService.scrollY(this.headerRef.nativeElement.clientHeight + 1);
   }
 
   public notifyHeaderVisibilityChange(isVisible: boolean): void {

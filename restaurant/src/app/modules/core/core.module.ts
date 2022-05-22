@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
-import { FormsModule } from "@angular/forms";
+// import { FormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 
 import { AppRoutingModule } from "../../app-routing.module";
@@ -25,7 +25,7 @@ import { AuthService } from '@auth/services/auth.service';
 @NgModule({
   imports: [
     // Built-in modules
-    FormsModule,
+    // FormsModule,
     HttpClientModule,
 
     // Out modules
@@ -61,6 +61,7 @@ import { AuthService } from '@auth/services/auth.service';
   exports: [
     // Our modules
     AppRoutingModule,
+    // FormsModule,
 
     // Components
     NavbarComponent,

@@ -24,6 +24,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { ResponsiveGalleryComponent } from './components/responsive-gallery/responsive-gallery.component';
 import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -55,6 +56,7 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
   ],
   exports: [
     CommonModule,
+    FormsModule,
 
     LoadingSpinnerComponent,
     ResponsiveImageComponent,

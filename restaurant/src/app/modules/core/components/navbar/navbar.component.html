@@ -18,7 +18,7 @@
   <div class="nav-bar__mobile-bg"></div>
 
   <div class="nav-bar__content">
-    <shared-logo></shared-logo>
+    <shared-logo class="nav-bar__logo"></shared-logo>
 
     <div class="nav-bar__controls">
       <ul class="nav-bar__links">
@@ -98,5 +98,8 @@
     </div>
   </div>
 
-  <core-loading-bar *ngIf="visualizationService.isLoading | async"></core-loading-bar>
+  <core-loading-bar 
+    class="nav-bar__loading-bar"
+    *ngIf="visualizationService.isLoading | async"
+  ></core-loading-bar>
 </nav>

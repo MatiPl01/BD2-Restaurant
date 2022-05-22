@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpService } from "@core/services/http.service";
-import { BehaviorSubject, map, Observable, Subscription, tap } from "rxjs";
+import { BehaviorSubject, filter, map, Observable, skip, Subscription, tap } from "rxjs";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Dish } from "@dishes/interfaces/dish.interface";
 import DishModel from '@dishes/models/dish.model';
@@ -11,6 +11,7 @@ import { DishCard } from '@dishes/interfaces/dish-card.interface';
 import { PaginationService } from '@shared/services/pagination.service';
 import DishCardModel from '@dishes/models/dish-card-model';
 import { DishCardsResponse } from '@dishes/types/dish-cards-response.type';
+import { NavigationService } from '@core/services/navigation.service';
 
 
 @Injectable()
@@ -19,29 +20,30 @@ export class DishService implements OnDestroy {
   private readonly loading$ = new BehaviorSubject<boolean>(false);
 
   private readonly subscriptions: Subscription[] = [];
-  private isItemsPerPageSubjectInitialized = false;
-  private isCurrentPageSubjectInitialized = false;
   public currentPage = 0;
 
   constructor(private httpService: HttpService,
               private currencyService: CurrencyService,
               private filterService: FilterService,
-              private paginationService: PaginationService) {
+              private paginationService: PaginationService,
+              private navigationService: NavigationService) {
     this.subscriptions.push(
       this.filterService.appliedFiltersSubject.subscribe(_ => {
         this.currentPage = 1;
         this.fetchDishes();
       }),
-      this.paginationService.itemsPerPageSubject.subscribe(_ => {
-        if (this.isItemsPerPageSubjectInitialized) this.fetchDishes();
-        else this.isItemsPerPageSubjectInitialized = true;
-      }),
-      this.paginationService.currentPageSubject.subscribe(_ => {
-        this.currentPage = this.paginationService.currentPage;
-        if (this.isCurrentPageSubjectInitialized) this.fetchDishes();
-        else this.isCurrentPageSubjectInitialized = true;
-      })
-    )            
+      this.paginationService.itemsPerPageSubject
+        .pipe(skip(1))  // Skip the initial value of the behavior Subject
+        .subscribe(_ => {
+          this.fetchDishes();
+        }),
+      this.paginationService.currentPageSubject
+        .pipe(skip(1))  // Skip the initial value of the behavior Subject
+        .subscribe(_ => {
+          this.currentPage = this.paginationService.currentPage;
+          this.fetchDishes();
+        })
+    );  
   }
 
   ngOnDestroy(): void {
@@ -64,16 +66,25 @@ export class DishService implements OnDestroy {
   // that returned dishes are in fact partial documents
   private fetchDishes(): void {
     this.loading$.next(true);
+    const query: { [key: string]: string | number } = {
+      currency: this.currencyService.currency.code,
+      ...(this.filterService.appliedFilters.queryObj),
+      page: this.currentPage,
+      limit: this.paginationService.itemsPerPage,
+      fields: 'name,category,cuisine,type,stock,currency,unitPrice,ratingsAverage,ratingsCount,coverImage' // TODO - extract this to variable or move somewhere else
+    }
+
+    // TODO - make it work also when user goes back to the /dishes endpoint
     const url = queryString.stringifyUrl({
       url: `${ApiPathEnum.DISHES}`,
-      query: {
-        currency: this.currencyService.currency.code,
-        ...(this.filterService.appliedFilters.queryObj),
-        page: this.currentPage,
-        limit: this.paginationService.itemsPerPage,
-        fields: 'name,category,cuisine,type,stock,currency,unitPrice,ratingsAverage,ratingsCount,coverImage' // TODO - extract this to variable or move somewhere else
-      }
+      query
     })
+
+    // TODO - fetch dishes when url changes (e.q. user enters the specific url)
+    const urlQuery = { ...query };
+    // This will be set automatically for the /dishes endpoint
+    delete urlQuery['fields'];
+    this.navigationService.setQueryOptions(urlQuery); 
 
     this.httpService
       .get<DishCardsResponse>(url)

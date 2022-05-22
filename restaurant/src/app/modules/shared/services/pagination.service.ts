@@ -5,9 +5,9 @@ import { BehaviorSubject } from "rxjs";
 export class PaginationService {
   private static readonly POSSIBLE_ITEMS_PER_PAGE = [3, 6, 9, 12, 15, 30, 45];
   
-  private readonly pagesCount$ = new BehaviorSubject<number>(0);
-  private readonly currentPage$ = new BehaviorSubject<number>(0);
-  private readonly itemsPerPage$ = new BehaviorSubject<number>(0);
+  private readonly pagesCount$ = new BehaviorSubject<number>(1);
+  private readonly currentPage$ = new BehaviorSubject<number>(1);
+  private readonly itemsPerPage$ = new BehaviorSubject<number>(12);
   private readonly possibleItemsPerPage$ = new BehaviorSubject<number[]>([...PaginationService.POSSIBLE_ITEMS_PER_PAGE]);
 
   private _allPossibleItemsPerPage: number[] = [...PaginationService.POSSIBLE_ITEMS_PER_PAGE];
@@ -60,6 +60,7 @@ export class PaginationService {
   }
 
   public setCurrentPage(currentPage: number): void {
+    console.log('>> set current page', this.currentPage, currentPage)
     if (this.currentPage !== currentPage) this.currentPage$.next(currentPage);
   }
 
@@ -80,7 +81,7 @@ export class PaginationService {
     }
   }
 
-  private updatePossibleItemsPerPage(): void {
+  private updatePossibleItemsPerPage(): void {  // FIXME - fix issues when there are not enough items (items per page count is not displayed)
     const possibleItemsPerPage: number[] = [];
     let i = -1;
 

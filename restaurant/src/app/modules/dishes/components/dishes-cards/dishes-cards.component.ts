@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { DishService } from '@dishes/services/dish.service';
 import { Subscription } from 'rxjs';
 import { DishCard } from '@dishes/interfaces/dish-card.interface';
@@ -26,7 +26,6 @@ export class DishesCardsComponent {
         this.isLoading = isLoading;
       }),
       this.paginationService.currentPageSubject.subscribe(currentPage => {
-        console.log(this.currentPage, currentPage)
         if (this.currentPage !== currentPage) this.currentPage = currentPage;
       }),
       this.paginationService.pagesCountSubject.subscribe(pagesCount => {

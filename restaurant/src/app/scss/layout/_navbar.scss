@@ -123,8 +123,32 @@
     background: transparent;
     height: s.$header-nav-bar-height;
 
-    .nav-bar__item--user {
-      display: none;
+    .nav-bar {
+      &__item--user {
+        display: none;
+      }
+
+      &__loading-bar {
+        display: none;
+      }
+
+      &__logo {
+        .logo {
+          &__icon {
+            fill: c.$gray-light-1;
+          }
+
+          &__heading {
+            &--primary {
+              color: c.$gray-light-1;
+            }
+
+            &--secondary {
+              color: c.$gray-light-4;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -177,16 +201,22 @@
         }
 
         &__item {
+          &--currency,
+          &--add {
+            display: none;
+          }
+        }
+
+        &__links .nav-bar__item {
           @for $i from 0 through cs.$header-nav-bar-links {
             &:nth-child(#{$i}) {
               animation: fade-in-bottom .75s (.75 + .1 * $i) * 1s backwards;
             }
           }
+        }
 
-          &--currency,
-          &--add {
-            display: none;
-          }
+        &__item--login {
+          animation: fade-in-bottom .75s (.75 + .1 * (cs.$header-nav-bar-links + 1)) * 1s backwards;
         }
 
         &__button {

@@ -109,6 +109,7 @@ export class DishesFiltersComponent implements OnDestroy {
   }
 
   public updateRange({ filterAttr, min, max }: RangeChangeEvent): void {
+    console.log(min, max)
     this.filterService.setRangeFilter(filterAttr, min, max);
   }
 

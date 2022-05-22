@@ -40,8 +40,8 @@ export class RangeSliderComponent implements OnChanges {
   public notifyValueChange(): void {
     this.rangeChangedEvent.emit({
       filterAttr: this.filterAttr,
-      min: this.stepToValue(this.currentSteps.min),
-      max: this.stepToValue(this.currentSteps.max)
+      min: +this.stepToValue(this.currentSteps.min).toFixed(this.round),
+      max: +this.stepToValue(this.currentSteps.max).toFixed(this.round)
     })
   }
 

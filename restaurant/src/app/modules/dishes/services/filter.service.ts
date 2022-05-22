@@ -5,9 +5,10 @@ import { FilterAttr } from "@dishes/enums/filter-attr.enum";
 import { DishFilters } from "@dishes/interfaces/dish-filters.interface";
 import { DishFiltersResponse } from "@dishes/types/dish-filters-response.type";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
-import { BehaviorSubject, map, Observable, Subscription, timer } from "rxjs";
+import { BehaviorSubject, filter, map, Observable, Subscription, timer } from "rxjs";
 import setUtils from "@shared/utils/set-utils";
 import * as queryString from "query-string";
+import { NavigationEnd, NavigationStart, Router } from "@angular/router";
 
 // TODO - maybe move this somewhere else
 class FiltersObject implements DishFilters {
@@ -59,8 +60,10 @@ class FiltersObject implements DishFilters {
 
 @Injectable()
 export class FilterService implements OnDestroy {
+  private static readonly RESET_WHEN_LEAVING_URL = '/dishes';
+
   private static readonly APPLY_FILTERS_TIMEOUT = 500; // 500ms
-  private static readonly AVAILABLE_FILTERS_REFRESH_INTERVAL = 60000; // 60s
+  private static readonly AVAILABLE_FILTERS_REFRESH_INTERVAL = 30000; // 30s
   public filtersChangedEvent = new EventEmitter<DishFilters>();
 
   // Selected filters will be used to update filters without notifying changes
@@ -72,14 +75,29 @@ export class FilterService implements OnDestroy {
   private applyFiltersTimeout: any;
 
   private refreshTimerSubscription!: Subscription;
+  private readonly subscriptions: Subscription[] = [];
 
   constructor(private httpService: HttpService,
-              private currencyService: CurrencyService) {
+              private currencyService: CurrencyService,
+              private router: Router) {
     this.setupRefreshTimer();
+
+    this.subscriptions.push(
+      // Reset filters when user leaves /dishes route
+      this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        // @ts-ignore
+        .subscribe((event: NavigationStart) => {
+          if (!event.url.startsWith(FilterService.RESET_WHEN_LEAVING_URL)) {
+            this.resetFilters();
+          }
+        })
+    );
   }
 
   ngOnDestroy(): void {
     this.refreshTimerSubscription.unsubscribe();
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
   get availableFiltersSubject(): BehaviorSubject<DishFilters> {
@@ -133,7 +151,10 @@ export class FilterService implements OnDestroy {
 
   public resetFilters(): void {
     this.clearApplyFiltersTimeout();
-    this.appliedFilters$.next(new FiltersObject());
+    const emptyFiltersObj = new FiltersObject();
+    if (this.areFiltersDifferent(this.appliedFilters, emptyFiltersObj)) {
+      this.appliedFilters$.next(new FiltersObject());
+    }
   }
 
   private setupRefreshTimer(): void {
@@ -161,7 +182,7 @@ export class FilterService implements OnDestroy {
       .subscribe({
         next: filtersObj => {
           // Check if filters have changes since the last update
-          if (!this.haveFiltersChanged(filtersObj)) return;
+          if (!this.haveAvailableFiltersChanged(filtersObj)) return;
           this.availableFilters$.next(filtersObj);
         },
         error: _ => {
@@ -171,14 +192,17 @@ export class FilterService implements OnDestroy {
       });
   }
 
-  private haveFiltersChanged(newAvailableFilters: DishFilters): boolean {
-    const currentAvailableFilters = this.availableFilters;
-    return setUtils.areDifferent(currentAvailableFilters.category, newAvailableFilters.category)
-        || setUtils.areDifferent(currentAvailableFilters.cuisine, newAvailableFilters.cuisine)
-        || currentAvailableFilters.ratingsAverage.min !== newAvailableFilters.ratingsAverage.min
-        || currentAvailableFilters.ratingsAverage.max !== newAvailableFilters.ratingsAverage.max
-        || currentAvailableFilters.unitPrice.min !== newAvailableFilters.unitPrice.min
-        || currentAvailableFilters.unitPrice.max !== newAvailableFilters.unitPrice.max;
+  private haveAvailableFiltersChanged(newAvailableFilters: DishFilters): boolean {
+    return this.areFiltersDifferent(this.availableFilters, newAvailableFilters);
+  }
+
+  private areFiltersDifferent(filterObj1: DishFilters, filterObj2: DishFilters): boolean {
+    return setUtils.areDifferent(filterObj1.category, filterObj2.category)
+        || setUtils.areDifferent(filterObj1.cuisine, filterObj2.cuisine)
+        || filterObj1.ratingsAverage.min !== filterObj2.ratingsAverage.min
+        || filterObj1.ratingsAverage.max !== filterObj2.ratingsAverage.max
+        || filterObj1.unitPrice.min !== filterObj2.unitPrice.min
+        || filterObj1.unitPrice.max !== filterObj2.unitPrice.max;
   }
 
   private setApplyFiltersTimeout(): void {
