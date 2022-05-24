@@ -1,4 +1,7 @@
 <main class="dish-page" *ngIf="this.dish">
+  <shared-loading-spinner
+    [visible]="isLoading"
+  ></shared-loading-spinner>
   <section class="dish-page__gallery">
     <shared-responsive-gallery
       [images]="dish.images!"
@@ -19,7 +22,11 @@
       <a class="dish-page__rating-link"
          (click)="scrollToReviews()">
         <div class="dish-page__rating-item">
-<!--          <app-rating class="dish-page__rating-component" [(value)]="dish.rating"></app-rating>-->
+          <shared-rating
+            class="dish-page__rating-component"
+            [value]="dish.ratingsAverage"
+            [disableRating]="true"
+          ></shared-rating>
         </div>
       </a>
       <div class="dish-page__rating-item">
@@ -46,10 +53,10 @@
     </section>
 
     <section class="dish-page__price">
-<!--      <app-price-->
-<!--        [amount]="currencyService.calcDishCurrentPrice(dish)"-->
-<!--        [currency]="currencyService.getCurrentCurrencySymbol()"-->
-<!--      ></app-price>-->
+      <shared-price
+        [amount]="dish.unitPrice"
+        [currency]="(currencyService.currencySubject | async)!.symbol"
+      ></shared-price>
     </section>
 
     <section class="dish-page__order">
@@ -79,6 +86,7 @@
     <section class="dish-page__reviews">
       <h4 class="dish-page__heading dish-page__heading--reviews">Recenzje</h4>
       <router-outlet></router-outlet>
+      <div #reviews>TODO - reviews here</div>
 <!--      <app-reviews [reviews]="dish.reviews"></app-reviews>-->
     </section>
   </section>

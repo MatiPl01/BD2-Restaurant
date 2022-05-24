@@ -1,9 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpService } from "@core/services/http.service";
-import { BehaviorSubject, filter, map, Observable, skip, Subscription, tap } from "rxjs";
+import { BehaviorSubject, skip, Subscription } from "rxjs";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
-import { Dish } from "@dishes/interfaces/dish.interface";
-import DishModel from '@dishes/models/dish.model';
 import { CurrencyService } from '@core/services/currency.service';
 import * as queryString from 'query-string';
 import { FilterService } from './filter.service';
@@ -15,7 +13,7 @@ import { NavigationService } from '@core/services/navigation.service';
 
 
 @Injectable()
-export class DishService implements OnDestroy {
+export class DishCardsService implements OnDestroy {
   private readonly dishes$ = new BehaviorSubject<DishCard[]>([]);
   private readonly loading$ = new BehaviorSubject<boolean>(false);
 
@@ -43,14 +41,14 @@ export class DishService implements OnDestroy {
           this.currentPage = this.paginationService.currentPage;
           this.fetchDishes();
         })
-    );  
+    );
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  get dishesSubject(): Observable<DishCard[]> {
+  get dishesSubject(): BehaviorSubject<DishCard[]> {
     return this.dishes$;
   }
 
@@ -84,29 +82,20 @@ export class DishService implements OnDestroy {
     const urlQuery = { ...query };
     // This will be set automatically for the /dishes endpoint
     delete urlQuery['fields'];
-    this.navigationService.setQueryOptions(urlQuery); 
+    this.navigationService.setQueryOptions(urlQuery);
 
     this.httpService
       .get<DishCardsResponse>(url)
       .subscribe(response => {
         this.paginationService.updatePages(
-          response.pagesCount, 
-          response.currentPage, 
+          response.pagesCount,
+          response.currentPage,
           response.filteredCount
         );
-      
+
         const dishes = response.dishes.map(dish => new DishCardModel(dish));
         this.dishes$.next(dishes);
         this.loading$.next(false);
       });
-  }
-
-  // TODO - improve this fetch below (add proper interface, use query-string library)
-  public fetchDish(id: string, currency?: string, fields?: any): Observable<Dish> {
-    const query = currency ? `?currency=${currency}` : '';
-
-    return this.httpService
-      .get<Dish>(`${ApiPathEnum.DISHES}/${id}${query}`)
-      .pipe(map((data: Dish) => new DishModel(data)));
   }
 }

@@ -1,7 +1,7 @@
 <article class="dish-card">
   <a [routerLink]="[dish._id]" class="dish-card__link">
     <figure class="dish-card__figure">
-      <shared-responsive-image class="dish-card__image" 
+      <shared-responsive-image class="dish-card__image"
         [breakpoints]="dish.coverImage!.breakpoints"
         [paths]="dish.coverImage!.paths"
         [sizes]="'(max-width: 28em) calc(100vw - 1.875em), (max-width: 56.25em) 25em, (max-width: 75em) calc((100vw - 14.625em) / 2), (min-width: 135em) 37em, (min-width: 112.5em) calc((100vw - 24em) / 3), calc((100vw - 20em) / 3)'"
@@ -19,11 +19,14 @@
     <dishes-dish-details class="dish-card__details" [dish]="dish">
       <div class="dish-card__rating">
         <div class="dish-card__rating-row">
-          <!-- <shared-rating class="dish-card__rating-component" [(value)]="dish.rating!"></shared-rating> -->
+          <shared-rating class="dish-card__rating-component"
+            [value]="dish.ratingsAverage"
+            [disableRating]="true"
+          ></shared-rating>
         </div>
         <div class="dish-card__rating-row">
           <p class="dish-card__rating-text">Liczba ocen</p>
-          <!-- <p class="dish-card__rating-count">{{ dish.ratesCount! || 0 }}</p> -->
+          <p class="dish-card__rating-count">{{ dish.ratingsCount }}</p>
         </div>
       </div>
     </dishes-dish-details>
@@ -31,8 +34,11 @@
   </section>
 
   <footer class="dish-card__footer">
-    <!-- <app-price [amount]="currencyService.calcDishCurrentPrice(dish)"
-      [currency]="currencyService.getCurrentCurrencySymbol()"></app-price>
+    <shared-price
+      [amount]="dish.unitPrice"
+      [currency]="(currencyService.currencySubject | async)!.symbol"
+    ></shared-price>
+      <!--
     <app-dish-order class="order--white" [dish]="dish" (changeQuantity)="onQuantityChange($event)"></app-dish-order> -->
   </footer>
 </article>

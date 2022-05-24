@@ -5,13 +5,13 @@ import { Component, Input, OnInit, Output, EventEmitter, ElementRef } from '@ang
   templateUrl: './rating.component.html'
 })
 export class RatingComponent implements OnInit {
-  @Input() diableRating: boolean = false;
+  @Input() disableRating: boolean = false;
   @Input() value: number = 0;
   @Output() valueChangeEvent = new EventEmitter<number>();
   public displayedRating: number = 0;
-  public hasUserRated: boolean = false; // Indicates if an user left their own rating
-  public readonly star_numbers: number[] = [];
+  public hasUserRated: boolean = false; // Indicates if the user left their rating
   private isRendered: boolean = false;
+  public readonly star_numbers: number[] = [];
 
   constructor(private elRef: ElementRef) {
     this.star_numbers = Array(10).fill(0).map((_, i) => 10 - i);
@@ -32,7 +32,7 @@ export class RatingComponent implements OnInit {
   }
 
   onRatingChange(event: Event): void {
-    if (!this.diableRating) {
+    if (!this.disableRating) {
       this.hasUserRated = true;
       this.value = parseInt((<HTMLInputElement>event.target).value) / 2;
       this.valueChangeEvent.emit(this.value);
@@ -51,7 +51,7 @@ export class RatingComponent implements OnInit {
   private displayRating(): void {
     const segmentsCount = +(2 * this.displayedRating).toFixed()
     if (segmentsCount > 0) {
-      this.elRef.nativeElement.querySelector(`.rating__radio[value="$;{segmentsCount}"]`).checked = true;
+      this.elRef.nativeElement.querySelector(`.rating__radio[value="${segmentsCount}"]`).checked = true;
     }
   }
 }

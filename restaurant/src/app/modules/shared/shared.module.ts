@@ -70,6 +70,7 @@ import { ObserveVisibilityDirective } from './directives/observe-visibility.dire
     MultiSelectDropdownComponent,
     SingleSelectDropdownComponent,
     RangeSliderComponent,
+    PriceComponent,
 
     ParallaxDirective,
     ObserveVisibilityDirective

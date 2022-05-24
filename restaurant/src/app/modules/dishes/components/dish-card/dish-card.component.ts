@@ -1,14 +1,15 @@
 import { Component, Input } from '@angular/core';
-import Dish from '@dishes/models/dish.model';
+import { CurrencyService } from '@core/services/currency.service';
+import { DishCard } from '@dishes/interfaces/dish-card.interface';
 
 @Component({
   selector: 'dishes-dish-card',
   templateUrl: './dish-card.component.html'
 })
 export class DishCardComponent {
-  @Input() dish!: Partial<Dish>;
+  @Input() dish!: DishCard;
 
-  constructor() { }
+  constructor(public currencyService: CurrencyService) {}
 
   public changeQuantity(): void {
     // TODO

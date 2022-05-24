@@ -1,38 +1,50 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { VisualizationService } from "@core/services/visualization.service";
-import { DishService } from "@dishes/services/dish.service";
 import Dish from "@dishes/models/dish.model";
+import { skip, Subscription } from 'rxjs';
+import { DishPageService } from '@dishes/services/dish-page.service';
+import { CurrencyService } from '@core/services/currency.service';
 
 @Component({
   selector: 'dishes-dish-view',
-  templateUrl: './dish-view.component.html'
+  templateUrl: './dish-view.component.html',
+  providers: [DishPageService]
 })
-export class DishViewComponent {
-  @ViewChild('reviews') reviews!: ElementRef;
+export class DishViewComponent implements OnDestroy, AfterViewInit {
+  @ViewChild('reviews') reviewsRef!: ElementRef;
   public dish!: Dish;
   public ratingText: string = '';
   public imagesAlts: string[] = [];
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private visualizationService: VisualizationService,
-              private dishService: DishService) {
-    const dishID = this.activatedRoute.snapshot.params['id'];
+  public isLoading = false;
+  private readonly subscriptions: Subscription[] = [];
 
-    // TODO - add current currency to the fetch params
-    this.dishService.fetchDish(dishID).subscribe((dish: Dish) => {
-      this.dish = dish;
-      this.ratingText = this.getRatingText();
-      this.imagesAlts = this.getImagesAlts();
-    });
+  constructor(private visualizationService: VisualizationService,
+              private dishPageService: DishPageService,
+              public currencyService: CurrencyService) {
+      this.subscriptions.push(
+        this.dishPageService.dishSubject.subscribe(dish => {
+          if (!dish) return;
+          this.dish = dish;
+          this.ratingText = this.getRatingText();
+          this.imagesAlts = this.getImagesAlts();
+        }),
+        this.dishPageService.loadingSubject.subscribe(isLoading => {
+          this.isLoading = isLoading;
+        })
+      )
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.visualizationService.scrollY(0, false);
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
+
   public scrollToReviews(): void {
-    const reviewsEl = this.reviews.nativeElement;
+    const reviewsEl = this.reviewsRef.nativeElement;
     this.visualizationService.scrollY(reviewsEl.getBoundingClientRect().top - 100);
   }
 

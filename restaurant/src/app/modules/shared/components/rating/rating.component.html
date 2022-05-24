@@ -1,10 +1,11 @@
-<article class="rating" [ngClass]="{ disabled: diableRating, 'user-rating': hasUserRated }">
+<article class="rating" [ngClass]="{ disabled: disableRating, 'user-rating': hasUserRated }">
   <form class="rating__form">
     <input class="rating__radio" type="radio" name="rate" *ngFor="let n of star_numbers"
-      (change)="onRatingChange($event)" 
-      (mouseenter)="onMouseEnter(n)" 
-      (mouseleave)="onMouseLeave()" 
-      [value]="n">
+      (change)="onRatingChange($event)"
+      (mouseenter)="onMouseEnter(n)"
+      (mouseleave)="onMouseLeave()"
+      [value]="n"
+      #ratingRadio>
   </form>
 
   <p class="rating__value">{{ displayedRating.toFixed(2) }}</p>

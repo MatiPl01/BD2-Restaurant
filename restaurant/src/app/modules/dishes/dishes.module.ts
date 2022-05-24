@@ -11,7 +11,7 @@ import { DishesCardsComponent } from './components/dishes-cards/dishes-cards.com
 import { DishesFiltersComponent } from './components/dishes-filters/dishes-filters.component';
 import { DishCardComponent } from './components/dish-card/dish-card.component';
 import { DishDetailsComponent } from './components/dish-details/dish-details.component';
-import { DishService } from './services/dish.service';
+import { DishCardsService } from './services/dish-cards.service';
 import { FilterService } from './services/filter.service';
 import { PaginationService } from '@shared/services/pagination.service';
 
@@ -33,7 +33,6 @@ import { PaginationService } from '@shared/services/pagination.service';
     SharedModule
   ],
   providers: [
-    DishService,
     FilterService,
     PaginationService
   ]

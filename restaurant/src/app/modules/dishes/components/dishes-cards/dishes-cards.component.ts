@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { DishService } from '@dishes/services/dish.service';
+import { DishCardsService } from '@dishes/services/dish-cards.service';
 import { Subscription } from 'rxjs';
 import { DishCard } from '@dishes/interfaces/dish-card.interface';
 import { PaginationService } from '@shared/services/pagination.service';
@@ -16,13 +16,13 @@ export class DishesCardsComponent {
 
   private readonly subscriptions: Subscription[] = [];
 
-  constructor(private dishService: DishService,
+  constructor(private dishCardService: DishCardsService,
               private paginationService: PaginationService) {
     this.subscriptions.push(
-      this.dishService.dishesSubject.subscribe(dishes => {
+      this.dishCardService.dishesSubject.subscribe(dishes => {
         this.dishes = dishes;
       }),
-      this.dishService.loadingSubject.subscribe(isLoading => {
+      this.dishCardService.loadingSubject.subscribe(isLoading => {
         this.isLoading = isLoading;
       }),
       this.paginationService.currentPageSubject.subscribe(currentPage => {

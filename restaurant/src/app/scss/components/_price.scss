@@ -1,0 +1,29 @@
+@use "../utils/colors" as c;
+
+.price {
+  font-size: inherit;
+  position: relative;
+  font-weight: 700;
+  font-family: Poppins, Lato, Arial, Helvetica, sans-serif;
+  color: c.$gray-dark-2;
+  display: flex;
+  align-items: flex-start;
+  gap: .25rem;
+
+  &__currency {
+    font-size: 0.75em;
+  }
+
+  &__amount {
+    line-height: 1;
+  }
+
+  // Styles for currency symbols displayed on the left side
+  &[data-display=left] {
+    .price {
+      &__currency {
+        order: -1;
+      }
+    }
+  }
+}

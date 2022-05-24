@@ -89,7 +89,8 @@ export class DishesFiltersComponent implements OnDestroy {
 
   public createPriceLabel = (price: number): string => {
     const currency = this.currencyService.currency;
-    return currency.symbol.length === 1 ? `${currency.symbol}${price}` : `${price}${currency.symbol}`;
+    return this.currencyService.displaySymbolOnTheLeft 
+      ? `${currency.symbol}${price}` : `${price}${currency.symbol}`;
   }
 
   public selectItem({ filterAttr, item }: SingleSelectEvent): void {

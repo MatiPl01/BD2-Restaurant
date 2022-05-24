@@ -44,6 +44,10 @@ export class CurrencyService {
     return this.currencySubject.getValue();
   }
 
+  get displaySymbolOnTheLeft(): boolean {
+    return this.currency.symbol.length === 1;
+  }
+
   public fetchCurrencies(): Observable<Currency[]> {
     return this.httpService
       .get<Currency[]>(ApiPathEnum.CURRENCIES)
