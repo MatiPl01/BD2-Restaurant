@@ -89,7 +89,7 @@ export class FiltersComponent implements OnDestroy {
 
   public createPriceLabel = (price: number): string => {
     const currency = this.currencyService.currency;
-    if (!currency) return `${price}`;
+    if (!currency) throw new Error('Cannot get the current currency');
     return this.currencyService.displaySymbolOnTheLeft
       ? `${currency.symbol}${price}` : `${price}${currency.symbol}`;
   }

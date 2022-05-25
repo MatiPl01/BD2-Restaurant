@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 
 import { SharedModule } from '@shared/shared.module';
 
@@ -11,7 +10,6 @@ import { CardsComponent } from './components/cards/cards.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { CardComponent } from './components/card/card.component';
 import { DetailsComponent } from './components/details/details.component';
-import { DishCardsService } from './services/dish-cards.service';
 import { FilterService } from './services/filter.service';
 import { PaginationService } from '@shared/services/pagination.service';
 import { ReviewComponent } from './components/review/review.component';
@@ -30,11 +28,9 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
     ReviewsComponent
   ],
   imports: [
-    CommonModule,
+    SharedModule,
     DishesRoutingModule,
-    ReactiveFormsModule,
     FormsModule,
-    SharedModule
   ],
   providers: [
     FilterService,

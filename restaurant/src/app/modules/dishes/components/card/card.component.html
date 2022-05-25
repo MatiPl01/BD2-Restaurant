@@ -38,7 +38,6 @@
       [amount]="dish.unitPrice"
       [currency]="(currencyService.currencySubject | async)!.symbol"
     ></shared-price>
-      <!--
-    <app-dish-order class="order--white" [dish]="dish" (changeQuantity)="onQuantityChange($event)"></app-dish-order> -->
+       <shared-cart-change class="order--white" [dishId]="dish._id"></shared-cart-change>
   </footer>
 </article>

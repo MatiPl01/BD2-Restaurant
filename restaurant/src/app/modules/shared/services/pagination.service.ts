@@ -4,7 +4,7 @@ import { BehaviorSubject } from "rxjs";
 @Injectable()
 export class PaginationService {
   private static readonly POSSIBLE_ITEMS_PER_PAGE = [3, 6, 9, 12, 15, 30, 45];
-  
+
   private readonly pagesCount$ = new BehaviorSubject<number>(1);
   private readonly currentPage$ = new BehaviorSubject<number>(1);
   private readonly itemsPerPage$ = new BehaviorSubject<number>(12);
@@ -60,7 +60,6 @@ export class PaginationService {
   }
 
   public setCurrentPage(currentPage: number): void {
-    console.log('>> set current page', this.currentPage, currentPage)
     if (this.currentPage !== currentPage) this.currentPage$.next(currentPage);
   }
 
