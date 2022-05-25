@@ -88,10 +88,11 @@ export class ChangeCartQuantityComponent implements OnInit {
       }
       return {dish:item.dishId,quantity:item.quantity}
     })
-    newCart=newCart.filter(item=> item.quantity>0)
     if(flag) {
       newCart.push({dish:this.dishId,quantity:this.quantity})
     }
+    newCart=newCart.filter(item=> item.quantity>0)
+    console.log(newCart)
     this.cartService.setUserCart(newCart).subscribe()
   }
 }

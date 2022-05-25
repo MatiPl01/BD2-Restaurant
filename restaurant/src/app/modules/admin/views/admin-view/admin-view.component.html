@@ -8,6 +8,12 @@
     <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.SESSION)>SESSION</button>
     <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.LOCAL)>LOCAL</button>
   </article>
+  <article class="currency">
+    Chose currency<br>
+        <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updateMainCurrency(CurrencyEnum.PLN)>PLN</button>
+        <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updateMainCurrency(CurrencyEnum.EUR)>EUR</button>
+        <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updateMainCurrency(CurrencyEnum.USD)>USD</button>
+  </article>
   <article class="userRoles">
     Chose role for user:
     <div *ngFor="let user of UserList">

@@ -1,10 +1,10 @@
 import { Component, OnInit,Input } from '@angular/core';
-import {Order} from "../../../order - TODO/interfaces/order.interface";
 import DetailedCartItem from "@cart/interfaces/detailed-cart-item.interface";
 import {Dish} from "@dishes/interfaces/dish.interface";
 import {ApiPathEnum} from "@shared/enums/api-path.enum";
 import {HttpService} from "@core/services/http.service";
 import { CurrencyService } from '@core/services/currency.service';
+import {Order} from "@cart/interfaces/order.interface";
 
 @Component({
   selector: 'app-order-item',
