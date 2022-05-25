@@ -197,7 +197,7 @@ dishSchema.methods.updateMainUnitPrice = async function (
             throw new AppError(404, `Cannot find exchange rate from ${from} to ${to}`);
         }
     
-        this.mainUnitPrice = Math.ceil(unitPrice * exchangeRate.rate * 10000) / 10000;
+        this.mainUnitPrice = Math.ceil(unitPrice * exchangeRate.rate * 100) / 100;
     }
 };
 

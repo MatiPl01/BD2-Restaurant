@@ -1,24 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import {OrderService} from "../../../order - TODO/services/order.service";
-import {CurrencyService} from "@core/services/currency.service";
-import {Order} from "@cart/interfaces/order.interface";
+import { Component, OnDestroy } from '@angular/core';
+import { OrderService } from "../../../cart/services/order.service";
+import { Order } from '@cart/interfaces/order.interface';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-order-list',
   templateUrl: './order-list.component.html'
 })
-export class OrderListComponent implements OnInit {
-  orders: Order[]=[]
+export class OrderListComponent implements OnDestroy {
+  orders: Order[] = [];
 
-  constructor(private orderService: OrderService,private currencyService: CurrencyService) {
-    // @ts-ignore
-    this.orderService.getCurrentUserOrders(this.currencyService.currency.code).subscribe(orders=>{
-      this.orders=orders
-    }
-    )
+  private readonly subscriptions: Subscription[] = [];
+
+  constructor(private orderService: OrderService) {
+    this.subscriptions.push(
+      this.orderService.ordersSubject.subscribe(orders => {
+        this.orders = orders;
+      })
+    );
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
-
 }

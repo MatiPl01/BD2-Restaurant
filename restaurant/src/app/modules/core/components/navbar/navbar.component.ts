@@ -4,7 +4,8 @@ import { Component, OnDestroy } from '@angular/core'
 import { VisualizationService } from "@core/services/visualization.service";
 import { Subscription } from 'rxjs'
 import { RoleEnum } from "@shared/enums/role.enum";
-import User from "@shared/models/user.model";
+import { CartService } from '@cart/services/cart.service';
+import User from '@shared/interfaces/user.interface';
 
 
 @Component({
@@ -19,10 +20,12 @@ export class NavbarComponent implements OnDestroy {
   public displayAnimation: boolean = false;
   public RoleEnum = RoleEnum;
   public user: User | null = null;
+  public cartTotalQuantity: number = 0;
 
   constructor(private router: Router,
               public visualizationService: VisualizationService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private cartService: CartService) {
     this.router.events.forEach((event: any) => {
       if (event instanceof NavigationStart) {
         // Close mobile navbar menu if an url has changed
@@ -31,20 +34,25 @@ export class NavbarComponent implements OnDestroy {
       } else if (event instanceof NavigationEnd) {
         this.displayAnimation = this.router.url === '/';
       }
-
-      this.subscriptions.push(
-        this.visualizationService.headerVisibilityChangedEvent.subscribe(isVisible => {
-          this.isHeaderVisible = isVisible;
-        }),
-        this.visualizationService.popupDisplayChangedEvent.subscribe(isDisplayed => {
-          this.isNavToggleVisible = !isDisplayed;
-        }),
-        this.authService.userSubject.subscribe(user => {
-          // TODO - optimize behavioral subject - IDK why this gets called so many times
-          this.user = user;
-        })
-      )
     })
+
+    this.subscriptions.push(
+      this.visualizationService.headerVisibilityChangedEvent.subscribe(isVisible => {
+        this.isHeaderVisible = isVisible;
+      }),
+      this.visualizationService.popupDisplayChangedEvent.subscribe(isDisplayed => {
+        this.isNavToggleVisible = !isDisplayed;
+      }),
+      this.authService.userSubject.subscribe(user => {
+        // TODO - optimize behavioral subject - IDK why this gets called so many times
+        this.user = user;
+      }),
+      this.cartService.cartSubject.subscribe(cart => {
+        this.cartTotalQuantity = cart
+          .map(item => item.quantity)
+          .reduce((total, quantity) => total + quantity, 0);
+      })
+    );
   }
 
   ngOnDestroy(): void {

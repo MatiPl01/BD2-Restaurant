@@ -15,5 +15,8 @@ export default interface User {
   defaultCurrency: string;
   banned: boolean;
   updatedAt: Date,
-  createdAt: Date
+  createdAt: Date;
+
+  token: string | null;
+  tokenExpirationDuration: number;
 }

@@ -1,4 +1,6 @@
 import DetailedCartItem from "@cart/interfaces/detailed-cart-item.interface";
+import { Currency } from "@core/interfaces/currency.interface";
+import { Dish } from "@dishes/interfaces/dish.interface";
 import { ImageEntry } from "@shared/types/image-entry.type";
 
 export default class DetailedCartItemModel implements DetailedCartItem {
@@ -24,5 +26,20 @@ export default class DetailedCartItemModel implements DetailedCartItem {
     this.currency = item.currency;
     this.stock = item.stock;
     this.coverImage = item.coverImage;
+  }
+
+  public static fromDish(dish: Dish, quantity: number): DetailedCartItemModel {
+    return new DetailedCartItemModel({
+      dishId: dish._id,
+      dishName: dish.name,
+      category: dish.category,
+      cuisine: dish.cuisine,
+      type: dish.type,
+      unitPrice: dish.unitPrice,
+      quantity: quantity,
+      currency: dish.currency,
+      stock: dish.stock,
+      coverImage: dish.coverImage
+    });
   }
 }

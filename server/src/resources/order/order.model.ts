@@ -106,10 +106,11 @@ orderSchema.pre<Order>('validate', async function (
             dish.currency,
             orderCurrency
         );
-        totalPrice += dish.unitPrice * quantity;
+
+        totalPrice += item.unitPrice * quantity;
     }
 
-    this.totalPrice = Math.ceil(totalPrice * 10000) / 10000;
+    this.totalPrice = Math.ceil(totalPrice * 100) / 100;
 
     next();
 });

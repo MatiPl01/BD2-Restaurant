@@ -20,7 +20,8 @@ const exchangeCurrency = async (
     if (from !== to) {
         rate = (await exchangeRateService.getExchangeRate(from, to, rateDate, session)).rate;
     }
-    return Math.ceil(amount * rate * 10000) / 10000;
+
+    return Math.ceil(amount * rate * 100) / 100;
 };
 
 const exchangeToMainCurrency = async (

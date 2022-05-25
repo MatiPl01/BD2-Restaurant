@@ -1,80 +1,66 @@
-import {Component} from '@angular/core';
-import {CartService} from "@cart/services/cart.service";
-import {CurrencyService} from "@core/services/currency.service";
-import DetailedCartItem from "@cart/interfaces/detailed-cart-item.interface";
-import {CartItem} from "@cart/types/cart-item.type";
-import {Dish} from "@dishes/interfaces/dish.interface";
-import {ApiPathEnum} from "@shared/enums/api-path.enum";
-import {HttpService} from "@core/services/http.service";
+import { Component, OnDestroy } from '@angular/core';
+import { CartService } from "@cart/services/cart.service";
+import { CurrencyService } from "@core/services/currency.service";
+import { HttpService } from "@core/services/http.service";
 import { Currency } from '@core/interfaces/currency.interface';
 import { OrderService } from '@cart/services/order.service';
+import { Subscription } from 'rxjs';
+import { Cart } from '@cart/types/cart.type';
 
 @Component({
   selector: 'cart-cart-view',
   templateUrl: './cart-view.component.html'
 })
-export class CartViewComponent {
-  totalQuantity: number = 0;
-  totalPrice: number = 0;
-  cartDishes: DetailedCartItem[] = [];
+export class CartViewComponent implements OnDestroy {
+  public totalQuantity: number = 0;
+  public totalPrice: number = 0;
+  public cart!: Cart;
+  public currency!: Currency;
 
-  public currency: Currency;
+  private readonly subscriptions: Subscription[] = [];
 
-  constructor(private cartService: CartService, 
+  constructor(private cartService: CartService,
               public currencyService: CurrencyService,
               private ordersService: OrderService,
               private httpService: HttpService) {
-    const currency = this.currencyService.currency;
-    if (!currency) throw new Error('Cannot get the current currency')
-    this.currency = currency;
-    this.setCart();
+    this.subscriptions.push(
+      this.currencyService.currencySubject.subscribe(currency => {
+        if (currency) this.currency = currency;
+      }),
+      this.cartService.cartSubject.subscribe(cart => {
+        this.updateCart(cart);
+      })
+    );
   }
 
-  private setCart() {
-    this.cartService.getUserDetailedCart().subscribe(cart => {
-      if (cart.length > 0) {
-        this.cartDishes = cart
-        this.totalQuantity = cart.map(item => item.quantity).reduce((sum, current) => sum + current)
-        this.totalPrice = 0
-        for (let item of cart) {
-          this.totalPrice += item.unitPrice * item.quantity
-        }
-        this.totalPrice = Math.round(this.totalPrice * 100) / 100
-      }
-    })
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
-  onChangeQuantity(event: {price: number, quantity: number}) {
-    this.totalPrice+=event.price
-    this.totalPrice=Math.round(this.totalPrice*100)/100
-    this.totalQuantity+=event.quantity
-    console.log(this.totalPrice)
+  public onQuantityChange(event: { price: number, quantity: number }): void {
+    this.totalPrice += event.price;
+    this.totalPrice = Math.round(this.totalPrice * 100) / 100;
   }
 
-  onOrderBtnClick() {
-    const currency = this.currencyService.currency;
-    if (!currency) throw new Error('Cannot get the current currency');
-
-    this.cartService.getUserDetailedCart().subscribe(cart=>{
-      if(cart.length>0){
-        const cartItems:CartItem[]=cart.map(item=>{
-          this.httpService.patch<Dish>(ApiPathEnum.DISHES + '/' + item.dishId,{stock:item.stock-item.quantity}).subscribe()
-          return {dish:item.dishId,quantity:item.quantity}
-        })
-        this.ordersService.createOrder(currency.code,cartItems).subscribe()
-      }
-    })
-    this.cartService.clearUserCart()
-    this.totalQuantity = 0
-    this.totalPrice = 0
-    console.log(this.totalPrice)
-    this.cartDishes = []
+  public onOrderBtnClick(): void {
+    this.ordersService.orderItemsInCart();
   }
-  onRemoveItem(event:string){
-    const removedDish = this.cartDishes.find(item => item.dishId === event);
+
+  public onRemoveItem(dishId: string): void {
+    const removedDish = this.cart.find(item => item.dishId === dishId);
     if (!removedDish) return;
-    this.cartDishes = this.cartDishes.filter(item => item.dishId !== event);
-    this.totalQuantity -= removedDish.quantity;
-    this.totalPrice -= removedDish.unitPrice * removedDish.quantity;
+    this.cartService.setCart(this.cart.filter(item => item.dishId !== dishId));
+  }
+
+  private updateCart(cart: Cart): void {
+    this.cart = cart;
+    this.totalQuantity = cart
+      .map(item => item.quantity)
+      .reduce((sum, current) => sum + current, 0);
+    let totalPrice = 0;
+    for (let item of cart) {
+      totalPrice += item.unitPrice * item.quantity
+    }
+    this.totalPrice = Math.round(totalPrice * 100) / 100;
   }
 }
