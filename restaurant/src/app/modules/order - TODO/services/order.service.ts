@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpService} from "@core/services/http.service";
 import {CartItem} from "@cart/types/cart-item.type";
 import {Observable} from "rxjs";
-import {Order} from "../interfaces/order.interface";
 import {ApiPathEnum} from "@shared/enums/api-path.enum";
+import {Order} from "@cart/interfaces/order.interface";
 
 @Injectable({
   providedIn: 'root'
