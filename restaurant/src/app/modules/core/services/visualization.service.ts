@@ -41,13 +41,13 @@ export class VisualizationService {
   setScroll(isEnabled: boolean): void {
     document.querySelector('body')?.classList.toggle(
       VisualizationService.NO_SCROLL_CLASS,
-      isEnabled
+      !isEnabled
     );
     this.scrollAvailabilityChangedEvent.emit(isEnabled);
   }
 
-  // setPopupOpen(isOpen: boolean): void {
-  //   this.setScroll(!isOpen);
-  //   this.popupDisplayChangedEvent.emit(isOpen);
-  // }
+  setPopupOpen(isOpen: boolean): void {
+    this.setScroll(!isOpen);
+    this.popupDisplayChangedEvent.emit(isOpen);
+  }
 }

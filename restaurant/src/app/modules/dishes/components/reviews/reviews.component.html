@@ -1,5 +1,5 @@
 <div class="reviews">
-  <menu class="reviews__menu">
+  <menu class="reviews__menu" *restrictTo="[RoleEnum.USER]">
     <li class="reviews__menu-item">
       <button class="reviews__button reviews__button--menu" routerLink="review" [disabled]="!canUserWriteReview"
         [ngClass]="{ disabled: !canUserWriteReview }">

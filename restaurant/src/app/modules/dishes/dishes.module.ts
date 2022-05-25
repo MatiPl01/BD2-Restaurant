@@ -14,6 +14,8 @@ import { FilterService } from './services/filter.service';
 import { PaginationService } from '@shared/services/pagination.service';
 import { ReviewComponent } from './components/review/review.component';
 import { ReviewsComponent } from './components/reviews/reviews.component';
+import { CreateReviewComponent } from './components/create-review/create-review.component';
+import { ReviewFormComponent } from './components/review-form/review-form.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { ReviewsComponent } from './components/reviews/reviews.component';
     CardComponent,
     DetailsComponent,
     ReviewComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    CreateReviewComponent,
+    ReviewFormComponent
   ],
   imports: [
     SharedModule,

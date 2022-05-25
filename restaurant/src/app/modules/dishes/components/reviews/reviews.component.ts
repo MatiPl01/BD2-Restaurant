@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { Review } from '@dishes/interfaces/review.interface';
 import { ReviewService } from '@dishes/services/review.service';
+import { RoleEnum } from '@shared/enums/role.enum';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,6 +14,7 @@ export class ReviewsComponent implements OnDestroy {
   public isLoading = false;
   public reviews: Review[] = [];
   public canUserWriteReview = true; // TODO - check if user is allowed to write a review
+  public RoleEnum = RoleEnum;
 
   private readonly subscriptions: Subscription[] = [];
 

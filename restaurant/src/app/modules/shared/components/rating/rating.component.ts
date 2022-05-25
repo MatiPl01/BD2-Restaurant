@@ -5,9 +5,9 @@ import { Component, Input, OnInit, Output, EventEmitter, ElementRef } from '@ang
   templateUrl: './rating.component.html'
 })
 export class RatingComponent implements OnInit {
+  @Output() valueChange = new EventEmitter<number>();
   @Input() disableRating: boolean = false;
   @Input() value: number = 0;
-  @Output() valueChangeEvent = new EventEmitter<number>();
   public displayedRating: number = 0;
   public hasUserRated: boolean = false; // Indicates if the user left their rating
   private isRendered: boolean = false;
@@ -35,7 +35,7 @@ export class RatingComponent implements OnInit {
     if (!this.disableRating) {
       this.hasUserRated = true;
       this.value = parseInt((<HTMLInputElement>event.target).value) / 2;
-      this.valueChangeEvent.emit(this.value);
+      this.valueChange.emit(this.value);
       this.displayRating();
     }
   }

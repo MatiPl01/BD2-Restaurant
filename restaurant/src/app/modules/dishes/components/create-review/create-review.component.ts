@@ -1,15 +1,18 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'
+import { ActivatedRoute, Router } from '@angular/router'
 import { VisualizationService } from '@core/services/visualization.service'
 
 @Component({
-  selector: 'shared-popup',
-  templateUrl: './popup.component.html'
+  selector: 'app-create-review',
+  templateUrl: './create-review.component.html'
 })
-export class PopupComponent implements OnInit {
+export class CreateReviewComponent implements OnInit {
   @Output() popupClosedEvent = new EventEmitter<void>()
   @Input() heading!: string
 
-  constructor(private visualizationService: VisualizationService) {}
+  constructor(private visualizationService: VisualizationService,
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.visualizationService.setPopupOpen(true)
@@ -17,6 +20,6 @@ export class PopupComponent implements OnInit {
 
   onClose(): void {
     this.visualizationService.setPopupOpen(false)
-    this.popupClosedEvent.emit()
+    this.router.navigate(['..'], { relativeTo: this.route });
   }
 }

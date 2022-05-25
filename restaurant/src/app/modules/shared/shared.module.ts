@@ -76,6 +76,7 @@ import { AuthorizationDirective } from '@shared/directives/authorization.directi
     RangeSliderComponent,
     PriceComponent,
     ChangeCartQuantityComponent,
+    PopupComponent,
 
     ParallaxDirective,
     ObserveVisibilityDirective,
