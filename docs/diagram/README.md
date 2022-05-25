@@ -1,7 +1,3 @@
-## Diagram
-
-![Diagram](/docs/diagram/assets/diagram2.png)
-
 ## Description
  
 ### **User**
