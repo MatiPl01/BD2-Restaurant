@@ -9,10 +9,10 @@ import { CartItem } from "@cart/types/cart-item.type";
 import { CurrencyService } from '@core/services/currency.service';
 
 @Component({
-  selector: 'shared-cart-change',
-  templateUrl: './cart-change.component.html'
+  selector: 'shared-change-cart-quantity',
+  templateUrl: './change-cart-quantity.component.html'
 })
-export class CartChangeComponent implements OnInit {
+export class ChangeCartQuantityComponent implements OnInit {
   @Input() dishId!: string
   @Output() changeQuantity = new EventEmitter<{price:number,quantity:number}>();
   dish:Dish={} as Dish
@@ -42,7 +42,7 @@ export class CartChangeComponent implements OnInit {
 
       const currency = this.currencyService.currency;
       if (!currency) throw new Error('Cannot get the current currency');
-      
+
       this.httpService.get<Dish>(ApiPathEnum.DISHES + '/' + this.dishId + '?currency=' + currency.code).subscribe(dish => {
         this.dish = dish
       })

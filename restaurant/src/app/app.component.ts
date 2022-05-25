@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, HostListener } from '@angular/core'
 import { AuthService } from '@auth/services/auth.service'
 import { VisualizationService } from '@core/services/visualization.service';
 import { Subscription } from 'rxjs';
@@ -23,6 +23,11 @@ export class AppComponent {
         this.isMobileNavOpen = isOpen;
       })
     )
+  }
+
+  @HostListener("window:resize", ["$event"])
+  onWindowResize(): void {
+    this.isMobileNavOpen = false;
   }
 
   ngOnDestroy(): void {

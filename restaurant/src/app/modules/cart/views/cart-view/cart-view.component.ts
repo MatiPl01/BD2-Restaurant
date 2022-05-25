@@ -3,11 +3,11 @@ import {CartService} from "@cart/services/cart.service";
 import {CurrencyService} from "@core/services/currency.service";
 import DetailedCartItem from "@cart/interfaces/detailed-cart-item.interface";
 import {CartItem} from "@cart/types/cart-item.type";
-import {OrderService} from "../../../order - TODO/services/order.service";
 import {Dish} from "@dishes/interfaces/dish.interface";
 import {ApiPathEnum} from "@shared/enums/api-path.enum";
 import {HttpService} from "@core/services/http.service";
 import { Currency } from '@core/interfaces/currency.interface';
+import { OrderService } from '@cart/services/order.service';
 
 @Component({
   selector: 'cart-cart-view',
@@ -44,10 +44,11 @@ export class CartViewComponent {
     })
   }
 
-  onChangeQuantity(event: {price:number,quantity:number}) {
+  onChangeQuantity(event: {price: number, quantity: number}) {
     this.totalPrice+=event.price
     this.totalPrice=Math.round(this.totalPrice*100)/100
     this.totalQuantity+=event.quantity
+    console.log(this.totalPrice)
   }
 
   onOrderBtnClick() {
@@ -64,11 +65,16 @@ export class CartViewComponent {
       }
     })
     this.cartService.clearUserCart()
-    this.totalQuantity= 0
+    this.totalQuantity = 0
     this.totalPrice = 0
-    this.cartDishes= []
+    console.log(this.totalPrice)
+    this.cartDishes = []
   }
   onRemoveItem(event:string){
-    this.cartDishes=this.cartDishes.filter(item=>item.dishId!=event)
+    const removedDish = this.cartDishes.find(item => item.dishId === event);
+    if (!removedDish) return;
+    this.cartDishes = this.cartDishes.filter(item => item.dishId !== event);
+    this.totalQuantity -= removedDish.quantity;
+    this.totalPrice -= removedDish.unitPrice * removedDish.quantity;
   }
 }
