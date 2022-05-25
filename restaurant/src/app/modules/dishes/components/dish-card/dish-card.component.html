@@ -30,7 +30,7 @@
         </div>
       </div>
     </dishes-dish-details>
-    <!-- <app-dish-quantity class="dish-card__quantity" [dish]="dish"></app-dish-quantity> -->
+<!--     <app-dish-quantity class="dish-card__quantity" [dish]="dish"></app-dish-quantity>-->
   </section>
 
   <footer class="dish-card__footer">
@@ -38,7 +38,6 @@
       [amount]="dish.unitPrice"
       [currency]="(currencyService.currencySubject | async)!.symbol"
     ></shared-price>
-      <!--
-    <app-dish-order class="order--white" [dish]="dish" (changeQuantity)="onQuantityChange($event)"></app-dish-order> -->
+       <app-cart-change class="order--white" [dishId]="dish._id"></app-cart-change>
   </footer>
 </article>

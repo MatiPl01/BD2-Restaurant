@@ -11,9 +11,9 @@ import { DishesCardsComponent } from './components/dishes-cards/dishes-cards.com
 import { DishesFiltersComponent } from './components/dishes-filters/dishes-filters.component';
 import { DishCardComponent } from './components/dish-card/dish-card.component';
 import { DishDetailsComponent } from './components/dish-details/dish-details.component';
-import { DishCardsService } from './services/dish-cards.service';
 import { FilterService } from './services/filter.service';
 import { PaginationService } from '@shared/services/pagination.service';
+import {CartModule} from "@cart/cart.module";
 
 
 @NgModule({
@@ -30,7 +30,8 @@ import { PaginationService } from '@shared/services/pagination.service';
     DishesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    CartModule
   ],
   providers: [
     FilterService,

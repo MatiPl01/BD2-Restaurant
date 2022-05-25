@@ -11,4 +11,5 @@ export default interface DetailedCartItem {
   currency: string;
   stock: number;
   coverImage: ImageEntry;
+  images: ImageEntry[];
 }

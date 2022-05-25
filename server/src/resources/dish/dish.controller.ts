@@ -1,5 +1,5 @@
-import { Request, Response, Router } from 'express';
-import { Schema } from 'mongoose';
+import {Request, Response, Router} from 'express';
+import {Schema} from 'mongoose';
 
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
@@ -58,7 +58,7 @@ class DishController implements Controller {
             )
             .patch(
                 authenticate,
-                restrictTo(RoleEnum.MANAGER),
+                restrictTo(RoleEnum.USER,RoleEnum.MANAGER),
                 validationMiddleware(validation.body.updateDish),
                 updateMiddleware,
                 this.updateDish

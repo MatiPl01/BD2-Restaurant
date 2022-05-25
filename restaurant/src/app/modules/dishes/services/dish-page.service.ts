@@ -13,7 +13,7 @@ export class DishPageService {
   private readonly dishId: string;
   private readonly dish$ = new BehaviorSubject<Dish | null>(null);
   private readonly loading$ = new BehaviorSubject<boolean>(false);
-  
+
   private readonly subscriptions: Subscription[] = [];
 
   constructor(private httpService: HttpService,
@@ -21,14 +21,12 @@ export class DishPageService {
               private route: ActivatedRoute) {
     this.dishId = this.route.snapshot.params['id'];
 
-    console.log(this.dishId)
 
     this.subscriptions.push(
       this.currencyService.currencySubject.subscribe(currency => {
-        console.log(currency.code)
         this.fetchDish(this.dishId, currency.code);
       })
-    )            
+    )
   }
 
   get dish(): Dish | null {
@@ -45,7 +43,7 @@ export class DishPageService {
 
   private fetchDish(id: string, currencyCode: string): void {
     this.loading$.next(true);
-    
+
     const url = queryString.stringifyUrl({
       url: `${ApiPathEnum.DISHES}/${id}`,
       query: {

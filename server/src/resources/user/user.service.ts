@@ -231,12 +231,6 @@ class UserService {
         return detailedCart;
     }
 
-    public async getUserMiniCart(
-        user: User
-    ): Promise<CartItem[]> {
-        return user.cart;
-    }
-
     public async setUserCart(
         id: Schema.Types.ObjectId,
         cart: CartItem[]
