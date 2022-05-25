@@ -1,1 +1,4 @@
-<p>manager-view works!</p>
+<app-add-dish [dishId]="id"> </app-add-dish>
+<!--DONT WORK REFRESHING AFTER SECONDS-->
+<!--<dishes-filters></dishes-filters>-->
+<app-dish-list (editDish)="onEditDish($event)"></app-dish-list>

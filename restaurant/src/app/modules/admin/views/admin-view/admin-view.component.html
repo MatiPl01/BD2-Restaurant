@@ -1,31 +1,146 @@
-<!-- TODO - refactor this file -->
+<main class="section-cart">
+  <section class="cart__contents">
+    <article class="cart">
+      <section class="cart__contents">
+        <h3 class="cart__heading heading-primary">
+          Chose persistence
+        </h3>
 
-<main class="admin-console">
-  <div style="height: 200px;width: 200px"></div>
-  <article class="persistence">
-    Chose persistence<br>
-    <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.NONE)>NONE</button>
-    <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.SESSION)>SESSION</button>
-    <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updatePersistence(PersistenceEnum.LOCAL)>LOCAL</button>
-  </article>
-  <article class="currency">
-    Chose currency<br>
-        <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updateMainCurrency(CurrencyEnum.PLN)>PLN</button>
-        <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updateMainCurrency(CurrencyEnum.EUR)>EUR</button>
-        <button style="height: 50px;width: 100px;border: 1px solid red;margin:10px" (click)=updateMainCurrency(CurrencyEnum.USD)>USD</button>
-  </article>
-  <article class="userRoles">
-    Chose role for user:
-    <div *ngFor="let user of UserList">
-      <div>{{user.nickName}}</div>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.USER,user,true)>ADD USER</button>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.USER,user,false)>REMOVE USER</button>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.MANAGER,user,true)>ADD MOD</button>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.MANAGER,user,false)>REMOVE MOD</button>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.ADMIN,user,true)>ADD ADMIN</button>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserRole(RoleEnum.ADMIN,user,false)>REMOVE ADMIN</button>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserBan(true,user)>BAN</button>
-      <button style="height: 50px;width: 120px;border: 1px solid red;margin:10px" (click)=updateUserBan(false,user)>UNBAN</button>
-    </div>
-  </article>
+        <ul class="dishes-cards__list">
+          <li class="dishes-cards__item">
+            <button class="dish-card__footer" (click)=updatePersistence(PersistenceEnum.NONE)>
+              <h3 class="dish-card__heading">
+                NONE
+              </h3>
+            </button>
+          </li>
+          <li class="dishes-cards__item">
+            <button class="dish-card__footer" (click)=updatePersistence(PersistenceEnum.SESSION)>
+              <h3 class="dish-card__heading">
+                SESSION
+              </h3>
+            </button>
+          </li>
+          <li class="dishes-cards__item">
+            <button class="dish-card__footer" (click)=updatePersistence(PersistenceEnum.LOCAL)>
+              <h3 class="dish-card__heading">
+                LOCAL
+              </h3>
+            </button>
+          </li>
+        </ul>
+
+      </section>
+      <section class="cart__contents">
+        <h3 class="cart__heading heading-primary">
+          Chose currency
+        </h3>
+
+        <ul class="dishes-cards__list">
+          <li class="dishes-cards__item">
+            <button class="dish-card__footer" (click)=updateMainCurrency(CurrencyEnum.PLN)>
+              <h3 class="dish-card__heading">
+                PLN
+              </h3>
+            </button>
+          </li>
+          <li class="dishes-cards__item">
+            <button class="dish-card__footer" (click)=updateMainCurrency(CurrencyEnum.USD)>
+              <h3 class="dish-card__heading">
+                USD
+              </h3>
+            </button>
+          </li>
+          <li class="dishes-cards__item">
+            <button class="dish-card__footer" (click)=updateMainCurrency(CurrencyEnum.EUR)>
+              <h3 class="dish-card__heading">
+                EUR
+              </h3>
+            </button>
+          </li>
+        </ul>
+
+      </section>
+    </article>
+    <article class="cart">
+      <section class="cart__contents ">
+        <h3 class="cart__heading heading-primary">
+          Chose role for user:
+        </h3>
+        <div *ngFor="let user of UserList">
+          <h3 class="about__text">
+            {{user.nickName}}
+          </h3>
+          <ul class="dishes-cards__list cart-list__items" style="padding-bottom:5vh">
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer" (click)=updateUserRole(RoleEnum.USER,user,true)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  ADD USER
+                </h3>
+              </button>
+            </li>
+            <li class="dishes-cards__item"></li>
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer" (click)=updateUserRole(RoleEnum.USER,user,false)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  REMOVE USER
+                </h3>
+              </button>
+            </li>
+          </ul>
+          <ul class="dishes-cards__list" style="padding-bottom:5vh">
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer" (click)=updateUserRole(RoleEnum.MANAGER,user,true)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  ADD MOD
+                </h3>
+              </button>
+            </li>
+            <li class="dishes-cards__item"></li>
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer"   (click)=updateUserRole(RoleEnum.MANAGER,user,false)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  REMOVE MOD
+                </h3>
+              </button>
+            </li>
+          </ul>
+          <ul class="dishes-cards__list" style="padding-bottom:5vh">
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer" (click)=updateUserRole(RoleEnum.ADMIN,user,true)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  ADD ADMIN
+                </h3>
+              </button>
+            </li>
+            <li class="dishes-cards__item"></li>
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer" (click)=updateUserRole(RoleEnum.ADMIN,user,false)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  REMOVE ADMIN
+                </h3>
+              </button>
+            </li>
+          </ul>
+          <ul class="dishes-cards__list" style="padding-bottom:5vh">
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer" (click)=updateUserBan(true,user)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  BAN
+                </h3>
+              </button>
+            </li>
+            <li class="dishes-cards__item"></li>
+            <li class="dishes-cards__item">
+              <button class="dish-card__footer" (click)=updateUserBan(false,user)>
+                <h3 class="dish-card__heading" style="width:20vw">
+                  BAN
+                </h3>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </article>
+  </section>
 </main>

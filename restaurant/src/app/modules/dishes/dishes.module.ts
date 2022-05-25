@@ -36,6 +36,9 @@ import { ReviewFormComponent } from './components/review-form/review-form.compon
     DishesRoutingModule,
     FormsModule,
   ],
+  exports: [
+    FiltersComponent
+  ],
   providers: [
     FilterService,
     PaginationService
