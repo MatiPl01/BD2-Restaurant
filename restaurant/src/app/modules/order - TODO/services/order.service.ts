@@ -16,7 +16,7 @@ export class OrderService {
     return this.httpService.post<Order>(ApiPathEnum.ORDERS,{items:cart,currency:currency})
   }
 
-  getCurrentUserOrders():Observable<Order[]> {
-    return this.httpService.get<Order[]>(ApiPathEnum.ORDERS)
+  getCurrentUserOrders(currency:string):Observable<Order[]> {
+    return this.httpService.get<Order[]>(ApiPathEnum.ORDERS+'?currency='+currency)
   }
 }

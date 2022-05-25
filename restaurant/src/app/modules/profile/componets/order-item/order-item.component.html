@@ -1,0 +1,52 @@
+ <article class="cart">
+    <section class="cart__contents">
+      <h3 class="cart__heading heading-primary">
+        {{order.createdAt| date}}
+      </h3>
+      <h2>
+        {{order.createdAt| date:'shortTime'}}
+      </h2>
+
+      <article class="cart-list">
+        <ul class="cart-list__column-names">
+          <li class="cart-list__column-name">Szczegóły</li>
+          <li class="cart-list__column-name">Liczba</li>
+          <li class="cart-list__column-name">Cena</li>
+          <li class="cart-list__column-name">Łącznie</li>
+        </ul>
+
+        <ul class="cart-list__items">
+          <app-order-dish *ngFor="let item of orderList" [dish]="item"></app-order-dish>
+        </ul>
+      </article>
+
+    </section>
+
+    <section class="cart__summary">
+      <input class="cart-summary__checkbox" type="checkbox" name="summary-toggle" id="summary-toggle">
+
+      <article class="cart-summary">
+        <header class="cart-summary__header">
+          <label class="cart-summary__label" for="summary-toggle">
+            <h3 class="cart-summary__heading">
+              <span>Podsumowanie zamówienia</span>
+              <svg class="cart-summary__arrow">
+                <use href="assets/svg/icons.svg#arrow-up"></use>
+              </svg>
+            </h3>
+          </label>
+        </header>
+
+        <section class="cart-summary__content">
+
+          <section class="cart-summary__total">
+            <span class="cart-summary__total-name">Łączna kwota</span>
+            <span class="cart-summary__total-value">
+        <shared-price [currency]="order.currency"
+                      [amount]="totalPrice"></shared-price>
+      </span>
+          </section>
+        </section>
+      </article>
+    </section>
+  </article>

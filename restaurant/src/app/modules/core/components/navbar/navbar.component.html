@@ -52,6 +52,12 @@
           </a>
         </li>
 
+        <li class="nav-bar__item nav-bar__item--manager" *restrictTo="[RoleEnum.USER]">
+          <a routerLink="/profile" routerLinkActive="active" class="nav-bar__link" (click)="onRouteClick()">
+            <span>Profil</span>
+          </a>
+        </li>
+
         <li class="nav-bar__item nav-bar__item--cart" *restrictTo="[RoleEnum.USER]">
           <a class="nav-bar__link nav-bar__button nav-bar__button--cart" routerLink="/cart" routerLinkActive="active"
              title="Pokaż potrawy dodane do koszyka" [attr.data-items-count]="user?.cart?.length || 0"
@@ -98,7 +104,7 @@
     </div>
   </div>
 
-  <core-loading-bar 
+  <core-loading-bar
     class="nav-bar__loading-bar"
     *ngIf="visualizationService.isLoading | async"
   ></core-loading-bar>
