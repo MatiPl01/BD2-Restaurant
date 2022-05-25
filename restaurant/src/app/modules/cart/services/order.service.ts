@@ -4,11 +4,11 @@ import { BehaviorSubject, map } from "rxjs";
 import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Order } from "@cart/interfaces/order.interface";
 import { CartService } from './cart.service';
-import { CurrencyService } from '../../core/services/currency.service';
 import { Dish } from '@dishes/interfaces/dish.interface';
 import { CartItem } from '@cart/types/cart-item.type';
 import * as queryString from 'query-string';
 import OrderModel from '@cart/models/order.model';
+import {CurrencyService} from "@core/services/currency.service";
 
 
 @Injectable({
@@ -51,12 +51,12 @@ export class OrderService {
   private postOrder(items: CartItem[]): void {
     const currency = this.currencyService.currency;
     if (!currency) throw new Error('Cannot get current currency');
-    
+
     this.httpService.post<Order>(ApiPathEnum.ORDERS, { items, currency: currency.code }).subscribe();
     this.fetchCurrentUserOrders();
   }
 
-  private fetchCurrentUserOrders(): void {
+  fetchCurrentUserOrders(): void {
     const currency = this.currencyService.currency;
     if (!currency) throw new Error('Cannot get current currency');
 
