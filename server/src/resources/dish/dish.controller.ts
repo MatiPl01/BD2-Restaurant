@@ -50,6 +50,15 @@ class DishController implements Controller {
             );
 
         this.router
+            .route('/to-review')
+            .get(
+                authenticate,
+                restrictTo(RoleEnum.USER),
+                selectFieldsMiddleware,
+                this.getDishesToReview
+            );
+
+        this.router
             .route('/:id')
             .get(
                 validationMiddleware(undefined, undefined, validation.query.getDish),
@@ -178,6 +187,16 @@ class DishController implements Controller {
         const filters = await this.dishService.getFiltersValues(fields, currency);
 
         await response.json(res, 200, filters);
+    })
+
+    private getDishesToReview = catchAsync(async (
+        req: Request,
+        res: Response
+    ): Promise<void> => {
+        const { user } = req;
+        const dishes = await this.dishService.getDishesToReview(user);
+
+        await response.json(res, 200, dishes);
     })
 }
 

@@ -3,30 +3,6 @@
     <ul class="form__list">
       <li class="form__item">
         <div class="form__column form__column--left">
-          <label for="username" class="form__label">Twoja nazwa</label>
-        </div>
-        <div class="form__column form__column--right">
-          <input class="form__input" type="text" name="username" id="username" minlength="3" maxlength="20"
-            placeholder="Nazwa użytkownika" required ngModel #username="ngModel">
-          <p class="form__help" *ngIf="!username.valid && username.touched">
-            Podaj twoją nazwę (od 3 do 20 znaków)
-          </p>
-        </div>
-      </li>
-      <li class="form__item">
-        <div class="form__column form__column--left">
-          <label for="title" class="form__label">Tytuł recenzji</label>
-        </div>
-        <div class="form__column form__column--right">
-          <input class="form__input" type="text" name="title" id="title" minlength="5" maxlength="40"
-            placeholder="Tytuł recenzji" required ngModel #title="ngModel">
-          <p class="form__help" *ngIf="!title.valid && title.touched">
-            Podaj tytuł recenzji (od 5 do 40 znaków)
-          </p>
-        </div>
-      </li>
-      <li class="form__item">
-        <div class="form__column form__column--left">
           <label for="body" class="form__label">Treść</label>
         </div>
         <div class="form__column form__column--right">
@@ -35,15 +11,6 @@
           <p class="form__help" *ngIf="!body.valid && body.touched">
             Treść recenzji powinna liczyć od 50 do 500 znaków
           </p>
-        </div>
-      </li>
-      <li class="form__item">
-        <div class="form__column form__column--left">
-          <label for="date" class="form__label">Data zakupu</label>
-        </div>
-        <div class="form__column form__column--right">
-          <input class="form__date" type="date" name="date" id="date" placeholder="Data zakupu" min="2018-01-01"
-            [max]="currentDate" ngModel #date="ngModel">
         </div>
       </li>
       <li class="form__item">

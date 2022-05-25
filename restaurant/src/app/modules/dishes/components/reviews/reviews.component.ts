@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { Review } from '@dishes/interfaces/review.interface';
 import { ReviewService } from '@dishes/services/review.service';
 import { RoleEnum } from '@shared/enums/role.enum';
-import { Subscription } from 'rxjs';
+import { skip, Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'dishes-reviews',
@@ -13,20 +13,23 @@ export class ReviewsComponent implements OnDestroy {
 
   public isLoading = false;
   public reviews: Review[] = [];
-  public canUserWriteReview = true; // TODO - check if user is allowed to write a review
+  public canUserWriteReview = true;
   public RoleEnum = RoleEnum;
 
   private readonly subscriptions: Subscription[] = [];
 
   constructor(private reviewService: ReviewService) {
     this.subscriptions.push(
-      this.reviewService.reviewsSubject.subscribe(reviews => {
+      this.reviewService.dishReviewsSubject.subscribe(reviews => {
         this.reviews = reviews;
       }),
       this.reviewService.loadingSubject.subscribe(isLoading => {
         this.isLoading = isLoading;
+      }),
+      );
+      this.reviewService.dishesToReviewIdsSubject.pipe(skip(1), take(1)).subscribe(toReviewList => {
+        this.canUserWriteReview = toReviewList.findIndex(toReview => toReview.dish === this.dishId) != -1;
       })
-    )
   }
 
   ngOnDestroy(): void {

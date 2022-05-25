@@ -28,13 +28,14 @@ export class ScrollTopBtnComponent implements OnDestroy {
 
   private readonly subscriptions: Subscription[] = [];
   private isEnabled = true;
+  private canBeVisible = false;
   public isVisible = false;
 
   constructor(private visualizationService: VisualizationService) {
     this.subscriptions.push(
       this.visualizationService.scrollAvailabilityChangedEvent.subscribe(isEnabled => {
         this.isEnabled = isEnabled;
-        this.isVisible = this.isEnabled || this.isVisible;
+        this.isVisible = isEnabled && this.canBeVisible;
       })
     )
   }
@@ -44,7 +45,8 @@ export class ScrollTopBtnComponent implements OnDestroy {
   }
 
   public updateVisibility(isHidden: boolean): void {
-    this.isVisible = this.isEnabled && !isHidden;
+    this.canBeVisible = this.isEnabled && !isHidden;
+    this.isVisible = this.isEnabled && this.canBeVisible;
   }
 
   public scrollToTop(): void {

@@ -43,7 +43,7 @@ export class DishViewComponent implements OnDestroy, AfterViewInit {
         this.currencyService.currencySubject.subscribe(currency => {
           if (currency) this.currency = currency;
         }),
-        this.reviewService.reviewsSubject.subscribe(reviews => {
+        this.reviewService.dishReviewsSubject.subscribe(reviews => {
           this.reviews = reviews;
         })
       )

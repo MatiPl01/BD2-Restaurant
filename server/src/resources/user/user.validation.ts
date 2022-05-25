@@ -214,7 +214,7 @@ const body = {
         roles: userValidators.roles.optional(),
         banned: userValidators.banned.optional()
     })
-}
+};
 
 
 export default {

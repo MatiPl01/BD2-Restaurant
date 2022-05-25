@@ -10,6 +10,11 @@ import Review from '@/resources/review/interfaces/review.interface';
 import DishFilters from './interfaces/dish-filters.interface';
 import DishModel from './dish.model';
 import Dish from './interfaces/dish.interface';
+import User from '../user/interfaces/user.interface';
+import orderService from '../order/order.service';
+import OrderData from '../order/interfaces/order.interface';
+import userService from '../user/user.service';
+import reviewModel from '@/resources/review/review.model';
 
 
 class DishService {
@@ -223,6 +228,50 @@ class DishService {
         return result;
     })
 
+    public async getDishesToReview(
+        user: User
+    ): Promise<{ dish: string, order: string }[]> {
+        const reviewDays = 7;
+
+        // Get orders from the valid term to write a review
+        const orders = await orderService.getUserOrders(
+            user.id,
+            { 'createdAt[gt]': new Date(new Date().getTime() - (reviewDays * 24 * 60 * 60 * 1000)) },
+            { items: 1 },
+            {},
+            {}
+        );
+
+        // Get reviews from the valid term to write a review
+        const reviews = await reviewModel.find(
+            {
+                user: user.id, 
+                'createdAt[gt]': new Date(new Date().getTime() - (reviewDays * 24 * 60 * 60 * 1000)) 
+            },
+            { _id: 1 }
+        );
+
+        // @ts-ignore
+        const reviewedDishesIdSet: Set<string> = new Set(reviews.map(review => review.dish._id.toString()));
+        const toReviewIdSet: Set<string> = new Set(); 
+        const result: { dish: string, order: string }[] = [];
+
+        orders.forEach((order: OrderData) => {
+            order.items.forEach(({ dish: dishId }) => {
+                const idString = dishId.toString();
+                if (!reviewedDishesIdSet.has(idString) && !toReviewIdSet.has(idString)) {
+                    toReviewIdSet.add(idString);
+                    result.push({
+                        dish: idString,
+                        order: order._id.toString()
+                    });
+                }
+            })
+        })
+
+        return result;
+    }
+
     private getUpdatedFiltersFields(
         fields: { [key: string]: number },
         currency?: string
@@ -265,10 +314,6 @@ class DishService {
 
     private getMinMaxFilter(field: string) {
         return { $group: { _id: null, min: { $min: `$${field}` }, max: { $max: `$${field}` } } };
-    }
-
-    private getUnitPriceFilter() {
-
     }
 }
 

@@ -17,6 +17,8 @@ import CartItem from './interfaces/cart-item.interface';
 import userModel from './user.model';
 import { Address } from './types/address.type';
 import DetailedCartItem from './interfaces/detailed-cart-item.interface';
+import orderService from '../order/order.service';
+import OrderData from '../order/interfaces/order.interface';
 
 
 class UserService {
@@ -200,7 +202,7 @@ class UserService {
         id: Schema.Types.ObjectId,
         filters: { [key: string]: any },
         fields: { [key: string]: number },
-        pagination: { skip: number, limit: number }
+        pagination?: { skip: number, limit: number }
     ): Promise<Partial<Review>[]> {
         return this.review.find(
             { user: id, ...filters },

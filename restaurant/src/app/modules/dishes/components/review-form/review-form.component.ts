@@ -1,7 +1,9 @@
 import { Component } from '@angular/core'
 import { NgForm } from '@angular/forms'
 import { Router, ActivatedRoute } from '@angular/router'
+import { AuthService } from '@auth/services/auth.service'
 import { ReviewService } from '@dishes/services/review.service'
+import { ReviewData } from '@dishes/types/review-data.type'
 
 
 @Component({
@@ -16,21 +18,23 @@ export class ReviewFormComponent {
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
-              private reviewService: ReviewService) { // TODO - add to reviews (to db)
+              private reviewService: ReviewService) {
     this.dishID = this.activatedRoute.parent?.snapshot.params['id']
     this.currentDate = this.getCurrentDate();
   }
 
   onSubmit(form: NgForm): void {
-    // const review: ReviewSchema = {
-    //   user: null, // TODO - get user which is currently logged in
-    //   title: form.value.title,
-    //   body: form.value.body.split('\n').map((p: string) => p.trim()),
-    //   date: form.value.date,
-    //   rating: this.ratingValue
-    // }
-    // this.reviewsService.addReview(this.dishID, review)
-    this.router.navigate(['..'], { relativeTo: this.activatedRoute })
+    const { dish, order } = this.reviewService.dishesToReviewIds.find(toReview => toReview.dish === this.dishID)!;
+
+    const review: ReviewData = {
+      dish,
+      order, 
+      body: form.value.body.split('\n').map((p: string) => p.trim()) as string[],
+      rating: this.ratingValue
+    }
+    this.reviewService.postReview(review).subscribe(() => {
+      this.router.navigate(['..'], { relativeTo: this.activatedRoute })
+    });
   }
 
   onReset(): void {
