@@ -1,0 +1,1860 @@
+[{
+  "_id": {
+    "$oid": "62770f969e5fbcc62af98dfe"
+  },
+  "name": "Sushi",
+  "category": "owoce morza",
+  "cuisine": "japońska",
+  "type": "danie główne",
+  "ingredients": [
+    "wędzony łosoś",
+    "awokado",
+    "papryka",
+    "ogórek",
+    "ryż",
+    "pasta wasabi"
+  ],
+  "stock": 1,
+  "currency": "USD",
+  "unitPrice": 39,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg"
+    ],
+    "_id": {
+      "$oid": "62770f969e5fbcc62af98dff"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/covers/vinicius-benedit_-_1GEAA8q3wk-unsplash_1_.jpg"
+      ],
+      "_id": {
+        "$oid": "62770f969e5fbcc62af98dff"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/derek-duran-Jz4QMhLvGgw-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/derek-duran-Jz4QMhLvGgw-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/derek-duran-Jz4QMhLvGgw-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/derek-duran-Jz4QMhLvGgw-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/derek-duran-Jz4QMhLvGgw-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770f969e5fbcc62af98e00"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/riccardo-bergamini-O2yNzXdqOu0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/riccardo-bergamini-O2yNzXdqOu0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/riccardo-bergamini-O2yNzXdqOu0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/riccardo-bergamini-O2yNzXdqOu0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/riccardo-bergamini-O2yNzXdqOu0-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770f969e5fbcc62af98e01"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/mahmoud-fawzy-n1DePkKznLY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/mahmoud-fawzy-n1DePkKznLY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/mahmoud-fawzy-n1DePkKznLY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/mahmoud-fawzy-n1DePkKznLY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/mahmoud-fawzy-n1DePkKznLY-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770f969e5fbcc62af98e02"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/mahmoud-fawzy-MgvByrhYz24-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/mahmoud-fawzy-MgvByrhYz24-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/mahmoud-fawzy-MgvByrhYz24-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/mahmoud-fawzy-MgvByrhYz24-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/mahmoud-fawzy-MgvByrhYz24-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770f969e5fbcc62af98e03"
+      }
+    }
+  ],
+  "mainUnitPrice": 175.27
+},{
+  "_id": {
+    "$oid": "62770fb09e5fbcc62af98e08"
+  },
+  "name": "Makaron Bolognese",
+  "category": "makarony",
+  "cuisine": "włoska",
+  "type": "danie główne",
+  "ingredients": [
+    "mielone wieprzowe",
+    "cebula",
+    "makaron",
+    "pomidory",
+    "bazylia",
+    "przyprawy"
+  ],
+  "stock": 67,
+  "currency": "USD",
+  "unitPrice": 18,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "62770fb09e5fbcc62af98e09"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/homescreenify-sA3wymYqyaI-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fb09e5fbcc62af98e09"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/danijela-prijovic-qits91IZv1o-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/danijela-prijovic-qits91IZv1o-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/danijela-prijovic-qits91IZv1o-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/danijela-prijovic-qits91IZv1o-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/danijela-prijovic-qits91IZv1o-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fb09e5fbcc62af98e0a"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/karolina-kolodziejczak-OMp3XpMiqGU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/karolina-kolodziejczak-OMp3XpMiqGU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/karolina-kolodziejczak-OMp3XpMiqGU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/karolina-kolodziejczak-OMp3XpMiqGU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/karolina-kolodziejczak-OMp3XpMiqGU-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fb09e5fbcc62af98e0b"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/pexels-klaus-nielsen-6287554.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/pexels-klaus-nielsen-6287554.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/pexels-klaus-nielsen-6287554.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/pexels-klaus-nielsen-6287554.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/pexels-klaus-nielsen-6287554.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fb09e5fbcc62af98e0c"
+      }
+    }
+  ],
+  "mainUnitPrice": 80.9
+},{
+  "_id": {
+    "$oid": "62770fca9e5fbcc62af98e11"
+  },
+  "name": "Lazania",
+  "category": "makarony",
+  "cuisine": "włoska",
+  "type": "danie główne",
+  "ingredients": [
+    "mielone wieprzowe",
+    "cebula",
+    "makaron",
+    "pomidory",
+    "bazylia",
+    "przyprawy",
+    "ser żółty"
+  ],
+  "stock": 66,
+  "currency": "USD",
+  "unitPrice": 15,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "62770fca9e5fbcc62af98e12"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/karolina-kolodziejczak-OSMAK8b74ls-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fca9e5fbcc62af98e12"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/pexels-benjamin-4764588.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/pexels-benjamin-4764588.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/pexels-benjamin-4764588.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/pexels-benjamin-4764588.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/pexels-benjamin-4764588.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fca9e5fbcc62af98e13"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/pexels-anna-guerrero-4078163.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/pexels-anna-guerrero-4078163.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/pexels-anna-guerrero-4078163.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/pexels-anna-guerrero-4078163.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/pexels-anna-guerrero-4078163.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fca9e5fbcc62af98e14"
+      }
+    }
+  ],
+  "mainUnitPrice": 67.41
+},{
+  "_id": {
+    "$oid": "62770fda9e5fbcc62af98e19"
+  },
+  "name": "Naleśniki z owocami",
+  "category": "naleśniki",
+  "cuisine": "polska",
+  "type": "danie główne",
+  "ingredients": [
+    "mąka",
+    "mleko",
+    "woda",
+    "owoce",
+    "czekolada",
+    "bita śmietana"
+  ],
+  "stock": 111,
+  "currency": "USD",
+  "unitPrice": 18,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "62770fda9e5fbcc62af98e1a"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/monika-grabkowska-jsgJtBOR6jY-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fda9e5fbcc62af98e1a"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/delaney-van-s_aGnOcfCq0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/delaney-van-s_aGnOcfCq0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/delaney-van-s_aGnOcfCq0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/delaney-van-s_aGnOcfCq0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/delaney-van-s_aGnOcfCq0-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fda9e5fbcc62af98e1b"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/jacinto-diego-i2LaTOYpc5c-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/jacinto-diego-i2LaTOYpc5c-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/jacinto-diego-i2LaTOYpc5c-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/jacinto-diego-i2LaTOYpc5c-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/jacinto-diego-i2LaTOYpc5c-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fda9e5fbcc62af98e1c"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/austin-p-1ZTccDpF71k-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/austin-p-1ZTccDpF71k-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/austin-p-1ZTccDpF71k-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/austin-p-1ZTccDpF71k-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/austin-p-1ZTccDpF71k-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770fda9e5fbcc62af98e1d"
+      }
+    }
+  ],
+  "mainUnitPrice": 80.9
+},{
+  "_id": {
+    "$oid": "62770ff39e5fbcc62af98e22"
+  },
+  "name": "Pancakes",
+  "category": "naleśniki",
+  "cuisine": "amerykańska",
+  "type": "danie główne",
+  "ingredients": [
+    "mąka",
+    "mleko",
+    "woda",
+    "cukier",
+    "wanilia",
+    "banany",
+    "bita śmietana"
+  ],
+  "stock": 0,
+  "currency": "USD",
+  "unitPrice": 22,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "62770ff39e5fbcc62af98e23"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/mae-mu-TkzdkVn1AyA-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770ff39e5fbcc62af98e23"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/chad-montano-gf9777gaYjs-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/chad-montano-gf9777gaYjs-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/chad-montano-gf9777gaYjs-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/chad-montano-gf9777gaYjs-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/chad-montano-gf9777gaYjs-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770ff39e5fbcc62af98e24"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/tatiana-rodriguez-iuKj0rRRddA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/tatiana-rodriguez-iuKj0rRRddA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/tatiana-rodriguez-iuKj0rRRddA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/tatiana-rodriguez-iuKj0rRRddA-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/tatiana-rodriguez-iuKj0rRRddA-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770ff39e5fbcc62af98e25"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/jaqueline-pelzer-Zt-0gWKodXk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/jaqueline-pelzer-Zt-0gWKodXk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/jaqueline-pelzer-Zt-0gWKodXk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/jaqueline-pelzer-Zt-0gWKodXk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/jaqueline-pelzer-Zt-0gWKodXk-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770ff39e5fbcc62af98e26"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/joshua-ryder-y4K7Ydp2z3Y-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/joshua-ryder-y4K7Ydp2z3Y-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/joshua-ryder-y4K7Ydp2z3Y-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/joshua-ryder-y4K7Ydp2z3Y-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/joshua-ryder-y4K7Ydp2z3Y-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770ff39e5fbcc62af98e27"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/nikldn-qp7WA8AV2x0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/nikldn-qp7WA8AV2x0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/nikldn-qp7WA8AV2x0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/nikldn-qp7WA8AV2x0-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/nikldn-qp7WA8AV2x0-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "62770ff39e5fbcc62af98e28"
+      }
+    }
+  ],
+  "mainUnitPrice": 98.87
+},{
+  "_id": {
+    "$oid": "627710099e5fbcc62af98e2d"
+  },
+  "name": "Tiramisu",
+  "category": "ciasta",
+  "cuisine": "włoska",
+  "type": "słodycze",
+  "ingredients": [
+    "biszkopty",
+    "ser mascarpone",
+    "jaja",
+    "cukier puder",
+    "likier",
+    "kawa espresso",
+    "kakao"
+  ],
+  "stock": 291,
+  "currency": "USD",
+  "unitPrice": 16,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "627710099e5fbcc62af98e2e"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/marianna-ole-4El3DUkQs2g-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710099e5fbcc62af98e2e"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/victoria-alexandrova-XKzfIg-LVcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/victoria-alexandrova-XKzfIg-LVcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/victoria-alexandrova-XKzfIg-LVcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/victoria-alexandrova-XKzfIg-LVcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/victoria-alexandrova-XKzfIg-LVcU-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710099e5fbcc62af98e2f"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/victoria-alexandrova-MabMpt0roPE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/victoria-alexandrova-MabMpt0roPE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/victoria-alexandrova-MabMpt0roPE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/victoria-alexandrova-MabMpt0roPE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/victoria-alexandrova-MabMpt0roPE-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710099e5fbcc62af98e30"
+      }
+    }
+  ],
+  "mainUnitPrice": 71.91
+},{
+  "_id": {
+    "$oid": "6277101b9e5fbcc62af98e35"
+  },
+  "name": "Lody włoskie",
+  "category": "na zimno",
+  "cuisine": "włoska",
+  "type": "słodycze",
+  "ingredients": [
+    "tłuste mleko",
+    "żółtka jaj",
+    "cukier"
+  ],
+  "stock": 433,
+  "currency": "USD",
+  "unitPrice": 10,
+  "ratingsAverage": 5,
+  "ratingsCount": 1,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "6277101b9e5fbcc62af98e36"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/dana-devolk-5-RS_ScO3X4-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277101b9e5fbcc62af98e36"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/slashio-photography-uMYxldWYSZk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/slashio-photography-uMYxldWYSZk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/slashio-photography-uMYxldWYSZk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/slashio-photography-uMYxldWYSZk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/slashio-photography-uMYxldWYSZk-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277101b9e5fbcc62af98e37"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/mark-cruz-Ov0u44CyGdM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/mark-cruz-Ov0u44CyGdM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/mark-cruz-Ov0u44CyGdM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/mark-cruz-Ov0u44CyGdM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/mark-cruz-Ov0u44CyGdM-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277101b9e5fbcc62af98e38"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/lama-roscu-Wpg3Qm0zaGk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/lama-roscu-Wpg3Qm0zaGk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/lama-roscu-Wpg3Qm0zaGk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/lama-roscu-Wpg3Qm0zaGk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/lama-roscu-Wpg3Qm0zaGk-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277101b9e5fbcc62af98e39"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/pexels-sittisak-c-1739347.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/pexels-sittisak-c-1739347.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/pexels-sittisak-c-1739347.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/pexels-sittisak-c-1739347.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/pexels-sittisak-c-1739347.jpg"
+      ],
+      "_id": {
+        "$oid": "6277101b9e5fbcc62af98e3a"
+      }
+    }
+  ],
+  "mainUnitPrice": 44.94
+},{
+  "_id": {
+    "$oid": "6277102e9e5fbcc62af98e3f"
+  },
+  "name": "Krążki z ciasta francuskiego",
+  "category": "na zimno",
+  "cuisine": "francuska",
+  "type": "przystawki",
+  "ingredients": [
+    "ciasto francuskie",
+    "mięso mielone",
+    "ser żółty",
+    "jaja",
+    "ogórek",
+    "cebula"
+  ],
+  "stock": 265,
+  "currency": "USD",
+  "unitPrice": 8,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "6277102e9e5fbcc62af98e40"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/slashio-photography-iMsCe-rlDaY-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277102e9e5fbcc62af98e40"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/slashio-photography-z3PMynE3SEo-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/slashio-photography-z3PMynE3SEo-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/slashio-photography-z3PMynE3SEo-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/slashio-photography-z3PMynE3SEo-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/slashio-photography-z3PMynE3SEo-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277102e9e5fbcc62af98e41"
+      }
+    }
+  ],
+  "mainUnitPrice": 35.96
+},{
+  "_id": {
+    "$oid": "6277103f9e5fbcc62af98e46"
+  },
+  "name": "Barszcz czerwony",
+  "category": "zupy",
+  "cuisine": "polska",
+  "type": "danie główne",
+  "ingredients": [
+    "buraki",
+    "fasola biała",
+    "fasola szparagowa",
+    "ziemniaki",
+    "marchew",
+    "woda",
+    "czosnek"
+  ],
+  "stock": 104,
+  "currency": "USD",
+  "unitPrice": 12,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "6277103f9e5fbcc62af98e47"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277103f9e5fbcc62af98e47"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/max-nayman-NkGhmwAw7hQ-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/max-nayman-NkGhmwAw7hQ-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/max-nayman-NkGhmwAw7hQ-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/max-nayman-NkGhmwAw7hQ-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/max-nayman-NkGhmwAw7hQ-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277103f9e5fbcc62af98e48"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/hamide-jafari-kmwtxSOkQPc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/hamide-jafari-kmwtxSOkQPc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/hamide-jafari-kmwtxSOkQPc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/hamide-jafari-kmwtxSOkQPc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/hamide-jafari-kmwtxSOkQPc-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "6277103f9e5fbcc62af98e49"
+      }
+    }
+  ],
+  "mainUnitPrice": 53.93
+},{
+  "_id": {
+    "$oid": "627710519e5fbcc62af98e4e"
+  },
+  "name": "Zupa dyniowa",
+  "category": "zupy",
+  "cuisine": "polska",
+  "type": "danie główne",
+  "ingredients": [
+    "dynia gotowana",
+    "ziemniaki",
+    "cebula",
+    "masło",
+    "pestki dyni"
+  ],
+  "stock": 76,
+  "currency": "USD",
+  "unitPrice": 12,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "627710519e5fbcc62af98e4f"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/cala-w6ftFbPCs9I-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710519e5fbcc62af98e4f"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/monika-grabkowska-_y6A9bhILkM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/monika-grabkowska-_y6A9bhILkM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/monika-grabkowska-_y6A9bhILkM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/monika-grabkowska-_y6A9bhILkM-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/monika-grabkowska-_y6A9bhILkM-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710519e5fbcc62af98e50"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/tina-vanhove-GrG7QH4utak-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/tina-vanhove-GrG7QH4utak-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/tina-vanhove-GrG7QH4utak-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/tina-vanhove-GrG7QH4utak-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/tina-vanhove-GrG7QH4utak-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710519e5fbcc62af98e51"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/ruth-georgiev-TvEyo2WEzVE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/ruth-georgiev-TvEyo2WEzVE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/ruth-georgiev-TvEyo2WEzVE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/ruth-georgiev-TvEyo2WEzVE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/ruth-georgiev-TvEyo2WEzVE-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710519e5fbcc62af98e52"
+      }
+    }
+  ],
+  "mainUnitPrice": 53.93
+},{
+  "_id": {
+    "$oid": "627710669e5fbcc62af98e57"
+  },
+  "name": "Zupa pomidorowa",
+  "category": "zupy",
+  "cuisine": "polska",
+  "type": "danie główne",
+  "ingredients": [
+    "przecier pomidorowy",
+    "świeże pomidory",
+    "marchew",
+    "por",
+    "seler",
+    "pietruszka",
+    "ryż / makaron",
+    "mięso z kurczaka"
+  ],
+  "stock": 211,
+  "currency": "USD",
+  "unitPrice": 12,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "627710669e5fbcc62af98e58"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/jenn-kosar-k5VGs9qQubc-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710669e5fbcc62af98e58"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/karolina-kolodziejczak-x7hMzWxZa78-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/karolina-kolodziejczak-x7hMzWxZa78-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/karolina-kolodziejczak-x7hMzWxZa78-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/karolina-kolodziejczak-x7hMzWxZa78-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/karolina-kolodziejczak-x7hMzWxZa78-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710669e5fbcc62af98e59"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/karolina-kolodziejczak-bvLE5xZDj0w-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/karolina-kolodziejczak-bvLE5xZDj0w-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/karolina-kolodziejczak-bvLE5xZDj0w-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/karolina-kolodziejczak-bvLE5xZDj0w-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/karolina-kolodziejczak-bvLE5xZDj0w-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710669e5fbcc62af98e5a"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/sara-dubler-M6baxXgSos8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/sara-dubler-M6baxXgSos8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/sara-dubler-M6baxXgSos8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/sara-dubler-M6baxXgSos8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/sara-dubler-M6baxXgSos8-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710669e5fbcc62af98e5b"
+      }
+    }
+  ],
+  "mainUnitPrice": 53.93
+},{
+  "_id": {
+    "$oid": "627710779e5fbcc62af98e60"
+  },
+  "name": "Pizza",
+  "category": "pozostałe",
+  "cuisine": "włoska",
+  "type": "danie główne",
+  "ingredients": [
+    "ciasto",
+    "pieczarki",
+    "ser",
+    "szynka",
+    "cebula",
+    "kawałki kurczaka",
+    "sos czosnkowy",
+    "ketchup"
+  ],
+  "stock": 99,
+  "currency": "USD",
+  "unitPrice": 42,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "627710779e5fbcc62af98e61"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/chad-montano-MqT0asuoIcU-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710779e5fbcc62af98e61"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/sahand-hoseini-BMVAYjPf6mU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/sahand-hoseini-BMVAYjPf6mU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/sahand-hoseini-BMVAYjPf6mU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/sahand-hoseini-BMVAYjPf6mU-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/sahand-hoseini-BMVAYjPf6mU-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710779e5fbcc62af98e62"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/kelvin-t-AcA8moIiD3g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/kelvin-t-AcA8moIiD3g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/kelvin-t-AcA8moIiD3g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/kelvin-t-AcA8moIiD3g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/kelvin-t-AcA8moIiD3g-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710779e5fbcc62af98e63"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/quin-engle-lHUdfk5WGXc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/quin-engle-lHUdfk5WGXc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/quin-engle-lHUdfk5WGXc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/quin-engle-lHUdfk5WGXc-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/quin-engle-lHUdfk5WGXc-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710779e5fbcc62af98e64"
+      }
+    }
+  ],
+  "mainUnitPrice": 188.75
+},{
+  "_id": {
+    "$oid": "627710979e5fbcc62af98e6a"
+  },
+  "name": "Risotto grzybowe",
+  "category": "wegańskie",
+  "cuisine": "włoska",
+  "type": "danie główne",
+  "ingredients": [
+    "ryż",
+    "pieczarki",
+    "borowiki",
+    "kurki",
+    "masło",
+    "ser żółty",
+    "marchew"
+  ],
+  "stock": 124,
+  "currency": "USD",
+  "unitPrice": 24,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+    ],
+    "_id": {
+      "$oid": "627710979e5fbcc62af98e6b"
+    }
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710979e5fbcc62af98e6b"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/max-griss-D9fAmtjC284-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/max-griss-D9fAmtjC284-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/max-griss-D9fAmtjC284-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/max-griss-D9fAmtjC284-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/max-griss-D9fAmtjC284-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710979e5fbcc62af98e6c"
+      }
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/yalamber-limbu-708OpfCW4H8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/yalamber-limbu-708OpfCW4H8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/yalamber-limbu-708OpfCW4H8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/yalamber-limbu-708OpfCW4H8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/yalamber-limbu-708OpfCW4H8-unsplash.jpg"
+      ],
+      "_id": {
+        "$oid": "627710979e5fbcc62af98e6d"
+      }
+    }
+  ],
+  "mainUnitPrice": 107.86
+},{
+  "_id": {
+    "$oid": "628d92b4d32f795d403e0af2"
+  },
+  "name": "Makaron Carbonara",
+  "category": "makarony",
+  "cuisine": "włoska",
+  "type": "danie główne",
+  "ingredients": [
+    "boczek",
+    "ser pecorino",
+    "ser parmezan",
+    "jaja",
+    "makaron spaghetti",
+    "czosnek",
+    "masło",
+    "sól",
+    "pieprz"
+  ],
+  "stock": 68,
+  "currency": "EUR",
+  "unitPrice": 20,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!",
+    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?",
+    "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400,
+      600,
+      1000,
+      1400,
+      1920
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+      "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg"
+    ]
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/bruna-branco-t8hTmte4O_g-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/rob-wicks-_slDBXdJCdE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/rob-wicks-_slDBXdJCdE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/rob-wicks-_slDBXdJCdE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/rob-wicks-_slDBXdJCdE-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/rob-wicks-_slDBXdJCdE-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/karolina-kolodziejczak-dvgjof0_TP8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/karolina-kolodziejczak-dvgjof0_TP8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/karolina-kolodziejczak-dvgjof0_TP8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/karolina-kolodziejczak-dvgjof0_TP8-unsplash.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/karolina-kolodziejczak-dvgjof0_TP8-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/pexels-polina-tankilevitch-4518839.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/pexels-polina-tankilevitch-4518839.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/pexels-polina-tankilevitch-4518839.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/pexels-polina-tankilevitch-4518839.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/pexels-polina-tankilevitch-4518839.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        400,
+        600,
+        1000,
+        1400,
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/pexels-polina-tankilevitch-4518835.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/pexels-polina-tankilevitch-4518835.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/pexels-polina-tankilevitch-4518835.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/pexels-polina-tankilevitch-4518835.jpg",
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/pexels-polina-tankilevitch-4518835.jpg"
+      ]
+    }
+  ],
+  "mainUnitPrice": 93.78
+},{
+  "_id": {
+    "$oid": "628e1c4eb433df36431344e6"
+  },
+  "name": "Risotto grzybowe11111",
+  "category": "wegańskie",
+  "cuisine": "włoska",
+  "type": "danie główne",
+  "ingredients": [
+    "ryż",
+    "pieczarki",
+    "borowiki",
+    "kurki",
+    "masło",
+    "ser żółty",
+    "marchew"
+  ],
+  "stock": 124,
+  "currency": "PLN",
+  "unitPrice": 107.86,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+    ]
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        600
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        1000
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        1400
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/lucas-lobak-neves-Gdb1BOuIwbk-unsplash.jpg"
+      ]
+    }
+  ],
+  "mainUnitPrice": 107.86
+},{
+  "_id": {
+    "$oid": "628e41c0b433df36431357c0"
+  },
+  "name": "Barszcz Zielony",
+  "category": "zupy",
+  "cuisine": "polska",
+  "type": "danie główne",
+  "ingredients": [
+    "buraki",
+    "fasola biała",
+    "fasola szparagowa",
+    "ziemniaki",
+    "marchew",
+    "woda",
+    "fasolka"
+  ],
+  "stock": 104,
+  "currency": "PLN",
+  "unitPrice": 53.93,
+  "ratingsAverage": 0,
+  "ratingsCount": 0,
+  "description": [
+    "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis sunt laborum saepe debitis deserunt illo atque magnam quasi exercitationem aspernatur mollitia necessitatibus sit sed laudantium corrupti quam, error assumenda ex!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis magni iste impedit maiores a praesentium ad ab eveniet. Nisi aliquid commodi quos recusandae. Sequi accusantium, nesciunt amet, tempore molestias nobis minus earum excepturi voluptate corporis eligendi fugit dignissimos officia impedit?Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quia velit aspernatur alias voluptas non, odio corporis asperiores beatae numquam, quidem facilis ea sunt dignissimos cumque."
+  ],
+  "coverImage": {
+    "breakpoints": [
+      400
+    ],
+    "paths": [
+      "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+    ]
+  },
+  "images": [
+    {
+      "breakpoints": [
+        400
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-400/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        600
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-600/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        1000
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-1000/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        1400
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-1400/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+      ]
+    },
+    {
+      "breakpoints": [
+        1920
+      ],
+      "paths": [
+        "https://ik.imagekit.io/MatiPl01/tr:w-1920/restaurant/dishes/anshu-a-DfOSCJcmvEU-unsplash.jpg"
+      ]
+    }
+  ],
+  "mainUnitPrice": 53.93
+}]
