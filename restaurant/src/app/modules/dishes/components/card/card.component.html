@@ -38,6 +38,6 @@
       [amount]="dish.unitPrice"
       [currency]="(currencyService.currencySubject | async)!.symbol"
     ></shared-price>
-       <shared-change-cart-quantity class="order--white" [dishId]="dish._id"></shared-change-cart-quantity>
+       <shared-change-cart-quantity *restrictTo="[RoleEnum.USER]" class="order--white" [dishId]="dish._id"></shared-change-cart-quantity>
   </footer>
 </article>

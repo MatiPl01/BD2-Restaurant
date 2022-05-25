@@ -1,42 +1,43 @@
 <li class="cart-item">
   <figure class="cart-item__figure">
-    <a [routerLink]="['/dishes', dish.dishId]" class="cart-item__link">
-      <shared-responsive-image class="dish-card__image"
-                               [breakpoints]="dish.coverImage.breakpoints"
-                               [paths]="dish.coverImage.paths"
-                               [sizes]="'(max-width: 28em) calc(100vw - 1.875em), (max-width: 56.25em) 25em, (max-width: 75em) calc((100vw - 14.625em) / 2), (min-width: 135em) 37em, (min-width: 112.5em) calc((100vw - 24em) / 3), calc((100vw - 20em) / 3)'"
-                               [alt]="dish.dishName">
-      </shared-responsive-image>
+    <a [routerLink]="['/dishes', item.dishId]" class="cart-item__link">
+      <shared-responsive-image 
+      class="dish-card__image"
+        [breakpoints]="item.coverImage.breakpoints"
+        [paths]="item.coverImage.paths"
+        [sizes]="'(max-width: 28em) calc(100vw - 1.875em), (max-width: 56.25em) 25em, (max-width: 75em) calc((100vw - 14.625em) / 2), (min-width: 135em) 37em, (min-width: 112.5em) calc((100vw - 24em) / 3), calc((100vw - 20em) / 3)'"
+        [alt]="item.dishName"
+      ></shared-responsive-image>
     </a>
   </figure>
 
   <section class="cart-item__details">
-    <a [routerLink]="['/dishes', dish.dishId]" class="cart-item__link">
+    <a [routerLink]="['/dishes', item.dishId]" class="cart-item__link">
       <h3 class="cart-item__heading">
-        {{ dish.dishName }}
+        {{ item.dishName }}
       </h3>
     </a>
     <ul class="cart-item__details-list">
       <li class="cart-item__detail">
         <span class="cart-item__detail-name">Kuchnia</span>
-        <span class="cart-item__detail-value">{{ dish.cuisine }}</span>
+        <span class="cart-item__detail-value">{{ item.cuisine }}</span>
       </li>
       <li class="cart-item__detail">
         <span class="cart-item__detail-name">Typ</span>
-        <span class="cart-item__detail-value">{{ dish.type }}</span>
+        <span class="cart-item__detail-value">{{ item.type }}</span>
       </li>
       <li class="cart-item__detail">
         <span class="cart-item__detail-name">Kategoria</span>
-        <span class="cart-item__detail-value">{{ dish.category }}</span>
+        <span class="cart-item__detail-value">{{ item.category }}</span>
       </li>
     </ul>
   </section>
 
-  <section class="cart-item__order">
+  <section class="cart-item__order" *restrictTo="[RoleEnum.USER]">
     <ul class="cart-item__order-list">
       <li class="cart-item__order-item">
         <shared-change-cart-quantity class="cart-item__order-component"
-            [dishId]="dish.dishId" (changeQuantity)="onChangeQuantity($event)"
+          [dishId]="item.dishId" (changeQuantity)="onChangeQuantity($event)"
         ></shared-change-cart-quantity>
       </li>
       <li class="cart-item__order-item">
@@ -50,7 +51,7 @@
   <section class="cart-item__price cart-item__price--unit">
     <shared-price
       [currency]="currency.code"
-      [amount]="dish.unitPrice"
+      [amount]="item.unitPrice"
     ></shared-price>
     <span class="cart-item__price--unit-text">szt.</span>
   </section>
@@ -58,7 +59,7 @@
   <section class="cart-item__price cart-item__price--total">
     <shared-price
       [currency]="currency.code"
-      [amount]="getPrice()"
+      [amount]="itemPrice"
     ></shared-price>
   </section>
 

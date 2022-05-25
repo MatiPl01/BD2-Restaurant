@@ -7,7 +7,8 @@ import { ApiPathEnum } from "@shared/enums/api-path.enum";
 import { Injectable } from "@angular/core";
 import { Config } from "@core/interfaces/config.interface";
 import { AuthResponse } from "@auth/types/auth-response.type";
-import User from "@shared/models/user.model";
+import UserModel from "@shared/models/user.model";
+import User from "@shared/interfaces/user.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +82,7 @@ export class AuthService {
 
   private authenticate(data: AuthResponse): void {
     const { user: userData, token } = data;
-    const user = new User(userData, token);
+    const user = new UserModel(userData, token);
     this._user.next(user);
     this.autoLogout(user.tokenExpirationDuration);
     this.storeUser();
@@ -113,7 +114,7 @@ export class AuthService {
 
     if (!userData) return null;
     const data = JSON.parse(userData);
-    const user = new User(data, data._token);
+    const user = new UserModel(data, data._token);
     this._user.next(user);
     return user;
   }

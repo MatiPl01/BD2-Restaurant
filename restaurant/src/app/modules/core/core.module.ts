@@ -10,7 +10,7 @@ import { FooterComponent } from './components/footer/footer.component';
 
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { CurrencyService } from "@core/services/currency.service";
-import { AuthorizationDirective } from "@auth/directives/authorization.directive";
+import { AuthorizationDirective } from "@shared/directives/authorization.directive";
 import { ScrollTopBtnComponent } from './components/scroll-top-button/scroll-top-button.component';
 
 // Interceptor Services
@@ -35,7 +35,7 @@ import { AuthService } from '@auth/services/auth.service';
 
   declarations: [
     // Directives
-    AuthorizationDirective,
+    // AuthorizationDirective,
 
     // Components
     NavbarComponent,
@@ -61,7 +61,7 @@ import { AuthService } from '@auth/services/auth.service';
   exports: [
     // Our modules
     AppRoutingModule,
-    // FormsModule,
+    // AuthorizationDirective,
 
     // Components
     NavbarComponent,

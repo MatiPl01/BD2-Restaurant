@@ -199,9 +199,17 @@
           }
         }
 
-        &__item--login,
-        &__item--cart {
-          animation: fade-in-bottom .75s (.75 + .1 * (cs.$header-nav-bar-links + 1)) * 1s backwards;
+        &__item {
+          &--profile,
+          &--manager,
+          &--admin {
+            animation: fade-in-bottom .75s (.75 + .1 * (cs.$header-nav-bar-links + 1)) * 1s backwards;
+          }
+
+          &--login,
+          &--cart {
+            animation: fade-in-bottom .75s (.75 + .1 * (cs.$header-nav-bar-links + 2)) * 1s backwards;
+          }
         }
 
         &__button {

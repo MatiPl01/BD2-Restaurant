@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.authService.userSubject.pipe(
       first(),
-      exhaustMap((user: User | null) => {
+      exhaustMap(user => {
         // Try to make an original request if there is no user logged in
         if (!user) return next.handle(req);
         // Otherwise, send a request with user JWT token

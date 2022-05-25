@@ -6,7 +6,6 @@ import { CartViewComponent } from './views/cart-view/cart-view.component';
 import { CartItemComponent } from "@cart/components/cart-item/cart-item.component";
 import { SharedModule } from "@shared/shared.module";
 
-
 @NgModule({
   declarations: [
     CartViewComponent,

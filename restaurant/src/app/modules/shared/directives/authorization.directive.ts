@@ -21,7 +21,7 @@ export class AuthorizationDirective implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Check if the user has any of the roles specified
-    this.subscription = this.authService.userSubject.subscribe((user: User | null) => {
+    this.subscription = this.authService.userSubject.subscribe(user => {
       if (!user) return;
       const allowedRolesSet = new Set(this.allowedRoles);
 

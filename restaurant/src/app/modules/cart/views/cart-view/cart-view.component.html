@@ -14,10 +14,10 @@
         </ul>
 
         <ul class="cart-list__items">
-          <app-cart-item
-            *ngFor="let dish of cartDishes"
-            [dish]="dish" (changeQuantity)="onChangeQuantity($event)" (removeItem)="onRemoveItem($event)"
-          ></app-cart-item>
+          <cart-cart-item
+            *ngFor="let item of cart"
+            [item]="item" (changeQuantity)="onQuantityChange($event)" (removeItem)="onRemoveItem($event)"
+          ></cart-cart-item>
         </ul>
       </article>
 

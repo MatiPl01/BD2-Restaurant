@@ -61,7 +61,9 @@
 
     <section class="dish-page__order">
 <!--      <app-dish-quantity class="dish-page__order-text" [dish]="dish"></app-dish-quantity>-->
-<!--      <app-dish-order class="dish-page__order-component" [dish]="dish"></app-dish-order>-->
+      <shared-change-cart-quantity *restrictTo="[RoleEnum.USER]"
+        [dishId]="dish._id"
+      ></shared-change-cart-quantity>
       <a class="dish-page__button dish-page__button--order" routerLink="/cart">
         Pokaż koszyk
       </a>

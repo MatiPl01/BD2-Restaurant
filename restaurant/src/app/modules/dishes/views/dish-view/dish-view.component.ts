@@ -7,6 +7,7 @@ import { CurrencyService } from '@core/services/currency.service';
 import { Currency } from '@core/interfaces/currency.interface';
 import { ReviewService } from '@dishes/services/review.service';
 import { Review } from '@dishes/interfaces/review.interface';
+import { RoleEnum } from '@shared/enums/role.enum';
 
 @Component({
   selector: 'dishes-dish-view',
@@ -20,6 +21,7 @@ export class DishViewComponent implements OnDestroy, AfterViewInit {
   public reviews!: Review[];
   public ratingText: string = '';
   public imagesAlts: string[] = [];
+  public RoleEnum = RoleEnum;
 
   public isLoading = false;
   private readonly subscriptions: Subscription[] = [];

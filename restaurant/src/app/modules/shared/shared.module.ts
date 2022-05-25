@@ -25,6 +25,7 @@ import { ResponsiveGalleryComponent } from './components/responsive-gallery/resp
 import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
 import { ChangeCartQuantityComponent } from './components/change-cart-quantity/change-cart-quantity.component';
 
+import { AuthorizationDirective } from '@shared/directives/authorization.directive';
 
 @NgModule({
   imports: [
@@ -52,6 +53,7 @@ import { ChangeCartQuantityComponent } from './components/change-cart-quantity/c
     PaginationComponent,
     ResponsiveGalleryComponent,
     ChangeCartQuantityComponent,
+    AuthorizationDirective,
 
     ParallaxDirective,
     ObserveVisibilityDirective
@@ -76,7 +78,8 @@ import { ChangeCartQuantityComponent } from './components/change-cart-quantity/c
     ChangeCartQuantityComponent,
 
     ParallaxDirective,
-    ObserveVisibilityDirective
+    ObserveVisibilityDirective,
+    AuthorizationDirective
   ]
 })
-export class SharedModule { }
+export class SharedModule {}
