@@ -1,0 +1,371 @@
+[{
+  "_id": {
+    "$oid": "628de0ce61363899cca3ee50"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 2,
+      "dishName": "Sushi",
+      "unitPrice": 175.27
+    }
+  ],
+  "currency": "PLN",
+  "totalPrice": 350.54,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653465294533"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653465294533"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628de66161363899cca3f723"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 3,
+      "dishName": "Sushi",
+      "unitPrice": 175.27
+    },
+    {
+      "dish": {
+        "$oid": "62770fca9e5fbcc62af98e11"
+      },
+      "quantity": 2,
+      "dishName": "Lazania",
+      "unitPrice": 67.41
+    }
+  ],
+  "currency": "PLN",
+  "totalPrice": 660.64,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653466721319"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653466721319"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628de924755469a3bbaa1064"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770fb09e5fbcc62af98e08"
+      },
+      "quantity": 2,
+      "dishName": "Makaron Bolognese",
+      "unitPrice": 80.8902
+    },
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 2,
+      "dishName": "Sushi",
+      "unitPrice": 175.2621
+    },
+    {
+      "dish": {
+        "$oid": "62770fca9e5fbcc62af98e11"
+      },
+      "quantity": 1,
+      "dishName": "Lazania",
+      "unitPrice": 67.4085
+    }
+  ],
+  "currency": "PLN",
+  "totalPrice": 129,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653467428437"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653467428437"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628df2bc0c791a169ce7343e"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 3,
+      "dishName": "Sushi",
+      "unitPrice": 175.27
+    }
+  ],
+  "currency": "PLN",
+  "totalPrice": 525.82,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653469884787"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653469884787"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628e27bbb433df36431348a3"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 3,
+      "dishName": "Sushi",
+      "unitPrice": 175.27
+    },
+    {
+      "dish": {
+        "$oid": "62770fb09e5fbcc62af98e08"
+      },
+      "quantity": 4,
+      "dishName": "Makaron Bolognese",
+      "unitPrice": 80.9
+    }
+  ],
+  "currency": "PLN",
+  "totalPrice": 849.42,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653483452049"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653483452049"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628e27d9b433df3643134945"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 3,
+      "dishName": "Sushi",
+      "unitPrice": 175.27
+    },
+    {
+      "dish": {
+        "$oid": "62770fb09e5fbcc62af98e08"
+      },
+      "quantity": 4,
+      "dishName": "Makaron Bolognese",
+      "unitPrice": 80.9
+    }
+  ],
+  "currency": "PLN",
+  "totalPrice": 849.42,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653483482012"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653483482012"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628e28bfb433df36431349fe"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 3,
+      "dishName": "Sushi",
+      "unitPrice": 175.27
+    },
+    {
+      "dish": {
+        "$oid": "62770fb09e5fbcc62af98e08"
+      },
+      "quantity": 4,
+      "dishName": "Makaron Bolognese",
+      "unitPrice": 80.9
+    }
+  ],
+  "currency": "PLN",
+  "totalPrice": 849.42,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653483711596"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653483711596"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628e3f05b433df36431353d2"
+  },
+  "user": {
+    "$oid": "628e3e65b433df36431352d7"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770fb09e5fbcc62af98e08"
+      },
+      "quantity": 3,
+      "dishName": "Makaron Bolognese",
+      "unitPrice": 17.29
+    },
+    {
+      "dish": {
+        "$oid": "62770fda9e5fbcc62af98e19"
+      },
+      "quantity": 1,
+      "dishName": "Naleśniki z owocami",
+      "unitPrice": 17.29
+    }
+  ],
+  "currency": "EUR",
+  "totalPrice": 69.16,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653489413859"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653489413859"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628e3f0fb433df3643135424"
+  },
+  "user": {
+    "$oid": "628e3e65b433df36431352d7"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "627710519e5fbcc62af98e4e"
+      },
+      "quantity": 3,
+      "dishName": "Zupa dyniowa",
+      "unitPrice": 11.53
+    },
+    {
+      "dish": {
+        "$oid": "627710779e5fbcc62af98e60"
+      },
+      "quantity": 3,
+      "dishName": "Pizza",
+      "unitPrice": 40.35
+    },
+    {
+      "dish": {
+        "$oid": "627710669e5fbcc62af98e57"
+      },
+      "quantity": 1,
+      "dishName": "Zupa pomidorowa",
+      "unitPrice": 11.53
+    }
+  ],
+  "currency": "EUR",
+  "totalPrice": 167.17,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653489423698"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653489423698"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "628e3f1cb433df36431354a1"
+  },
+  "user": {
+    "$oid": "628e3e65b433df36431352d7"
+  },
+  "items": [
+    {
+      "dish": {
+        "$oid": "62770f969e5fbcc62af98dfe"
+      },
+      "quantity": 2,
+      "dishName": "Sushi",
+      "unitPrice": 37.46
+    },
+    {
+      "dish": {
+        "$oid": "62770fca9e5fbcc62af98e11"
+      },
+      "quantity": 1,
+      "dishName": "Lazania",
+      "unitPrice": 14.41
+    }
+  ],
+  "currency": "EUR",
+  "totalPrice": 89.33,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653489436610"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653489436610"
+    }
+  }
+}]

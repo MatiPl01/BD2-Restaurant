@@ -1,0 +1,29 @@
+[{
+  "_id": {
+    "$oid": "62893347754bb0d3b6a800f3"
+  },
+  "user": {
+    "$oid": "627b60a185be32b92f42bf9c"
+  },
+  "dish": {
+    "$oid": "6277101b9e5fbcc62af98e35"
+  },
+  "order": {
+    "$oid": "628143b946836b9f0a9c3cd2"
+  },
+  "rating": 5,
+  "body": [
+    "Rewelacja na Bałtyku, lody lody na patyku!"
+  ],
+  "dishName": "Lody włoskie",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1653158727808"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653158727808"
+    }
+  }
+}]

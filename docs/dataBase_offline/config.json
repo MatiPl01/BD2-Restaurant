@@ -1,0 +1,12 @@
+[{
+  "_id": {
+    "$oid": "6276174267b7430cc97af945"
+  },
+  "mainCurrency": "PLN",
+  "persistence": "LOCAL",
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1653490478991"
+    }
+  }
+}]

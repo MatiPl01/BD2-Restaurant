@@ -24,11 +24,7 @@ W ramach projektu chcielibyśmy stworzyć stronę internetową restauracji, pozw
 
 * [DataBase Diagram](/docs/diagram)
 * [Backend Endpoints](/docs/endpoints)
-
-## Features
-
-- [TODO]
-
+* [Showcase Features](/docs/features)
 
 ## Authors
 

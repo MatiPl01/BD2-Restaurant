@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "6276fd406aef1f8d2a811afc"
+  },
+  "code": "PLN",
+  "symbol": "zł",
+  "name": "Złoty Polski"
+},{
+  "_id": {
+    "$oid": "6276fdc56aef1f8d2a811afe"
+  },
+  "code": "USD",
+  "symbol": "$",
+  "name": "United States Dollar"
+},{
+  "_id": {
+    "$oid": "627ec76ea23108c51690f7f0"
+  },
+  "code": "EUR",
+  "symbol": "€",
+  "name": "Euro"
+}]

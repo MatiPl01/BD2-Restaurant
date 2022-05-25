@@ -1,0 +1,137 @@
+[{
+  "_id": {
+    "$oid": "627eb6ffecfbf1e82cac2e7d"
+  },
+  "rate": 4.6888,
+  "from": "EUR",
+  "to": "PLN",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652471551626"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652471551626"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "627eb6ffecfbf1e82cac2e7e"
+  },
+  "rate": 0.2133,
+  "from": "PLN",
+  "to": "EUR",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652471551626"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652471551626"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "627eb705ecfbf1e82cac2e88"
+  },
+  "rate": 4.6573,
+  "from": "EUR",
+  "to": "PLN",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652471557796"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652471557796"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "627eb705ecfbf1e82cac2e89"
+  },
+  "rate": 0.2148,
+  "from": "PLN",
+  "to": "EUR",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652471557796"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652471557796"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "627ec8e714784fa8a7bb0f23"
+  },
+  "rate": 0.9605,
+  "from": "USD",
+  "to": "EUR",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652476135143"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652476135143"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "627ec8e714784fa8a7bb0f22"
+  },
+  "rate": 1.0412,
+  "from": "EUR",
+  "to": "USD",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652476135143"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652476135143"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "62803d8fc6e75dca417a6b6e"
+  },
+  "rate": 4.4939,
+  "from": "USD",
+  "to": "PLN",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652482800449"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652482800449"
+    }
+  }
+},{
+  "_id": {
+    "$oid": "62803d8fc6e75dca417a6b6f"
+  },
+  "rate": 0.2226,
+  "from": "PLN",
+  "to": "USD",
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1652482800450"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1652482800450"
+    }
+  }
+}]

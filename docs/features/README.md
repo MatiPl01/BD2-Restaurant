@@ -1,4 +1,6 @@
-## Features
+## Showcase features for
+
+A list containing the features of the website for each user role
 
 ### [For all](/docs/features/all)
 
