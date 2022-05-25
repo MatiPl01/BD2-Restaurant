@@ -22,6 +22,7 @@ export class OrderListComponent implements OnDestroy,OnInit{
   }
 
   ngOnInit(): void {
+    this.orderService.fetchCurrentUserOrders()
     this.orderService.ordersSubject.subscribe(orders => {
       this.orders = orders;
     })
