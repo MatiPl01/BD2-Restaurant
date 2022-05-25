@@ -7,6 +7,7 @@ import { CartService } from '@cart/services/cart.service';
 import DetailedCartItem from "@cart/interfaces/detailed-cart-item.interface";
 import { CartItem } from "@cart/types/cart-item.type";
 import { CurrencyService } from '@core/services/currency.service';
+import {RoleEnum} from "@shared/enums/role.enum";
 
 @Component({
   selector: 'shared-change-cart-quantity',
@@ -26,7 +27,7 @@ export class ChangeCartQuantityComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.authService.user) {
+    if(this.checkIfUser()) {
       this.cartService.getUserDetailedCart().subscribe(cart => {
         if (cart.length > 0)
           this.cart = cart
@@ -50,7 +51,10 @@ export class ChangeCartQuantityComponent implements OnInit {
   }
 
   checkIfUser():boolean{
-    return !!this.authService.user;
+    if(this.authService.user){
+      return this.authService.user.roles.includes(RoleEnum.USER)
+    }
+    return false
   }
 
   onIncrement(event: Event) {
