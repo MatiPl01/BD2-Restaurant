@@ -1,18 +1,23 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { VisualizationService } from "@core/services/visualization.service";
 import Dish from "@dishes/models/dish.model";
-import { skip, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DishPageService } from '@dishes/services/dish-page.service';
 import { CurrencyService } from '@core/services/currency.service';
+import { Currency } from '@core/interfaces/currency.interface';
+import { ReviewService } from '@dishes/services/review.service';
+import { Review } from '@dishes/interfaces/review.interface';
 
 @Component({
   selector: 'dishes-dish-view',
   templateUrl: './dish-view.component.html',
-  providers: [DishPageService]
+  providers: [DishPageService, ReviewService]
 })
 export class DishViewComponent implements OnDestroy, AfterViewInit {
   @ViewChild('reviews') reviewsRef!: ElementRef;
   public dish!: Dish;
+  public currency!: Currency;
+  public reviews!: Review[];
   public ratingText: string = '';
   public imagesAlts: string[] = [];
 
@@ -21,7 +26,8 @@ export class DishViewComponent implements OnDestroy, AfterViewInit {
 
   constructor(private visualizationService: VisualizationService,
               private dishPageService: DishPageService,
-              public currencyService: CurrencyService) {
+              private currencyService: CurrencyService,
+              private reviewService: ReviewService) {
       this.subscriptions.push(
         this.dishPageService.dishSubject.subscribe(dish => {
           if (!dish) return;
@@ -31,6 +37,12 @@ export class DishViewComponent implements OnDestroy, AfterViewInit {
         }),
         this.dishPageService.loadingSubject.subscribe(isLoading => {
           this.isLoading = isLoading;
+        }),
+        this.currencyService.currencySubject.subscribe(currency => {
+          if (currency) this.currency = currency;
+        }),
+        this.reviewService.reviewsSubject.subscribe(reviews => {
+          this.reviews = reviews;
         })
       )
   }

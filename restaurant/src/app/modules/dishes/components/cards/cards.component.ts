@@ -5,10 +5,10 @@ import { DishCard } from '@dishes/interfaces/dish-card.interface';
 import { PaginationService } from '@shared/services/pagination.service';
 
 @Component({
-  selector: 'dishes-dishes-cards',
-  templateUrl: './dishes-cards.component.html'
+  selector: 'dishes-cards',
+  templateUrl: './cards.component.html'
 })
-export class DishesCardsComponent {
+export class CardsComponent {
   public dishes: DishCard[] = [];
   public pagesCount!: number;
   public currentPage!: number;

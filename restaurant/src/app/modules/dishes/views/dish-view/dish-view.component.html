@@ -52,10 +52,10 @@
       </ul>
     </section>
 
-    <section class="dish-page__price">
+    <section class="dish-page__price" *ngIf="currency">
       <shared-price
         [amount]="dish.unitPrice"
-        [currency]="(currencyService.currencySubject | async)!.symbol"
+        [currency]="currency.symbol"
       ></shared-price>
     </section>
 
@@ -83,11 +83,10 @@
       </div>
     </section>
 
-    <section class="dish-page__reviews">
+    <section class="dish-page__reviews" #reviews>
       <h4 class="dish-page__heading dish-page__heading--reviews">Recenzje</h4>
       <router-outlet></router-outlet>
-      <div #reviews>TODO - reviews here</div>
-<!--      <app-reviews [reviews]="dish.reviews"></app-reviews>-->
+     <dishes-reviews [dishId]="dish._id"></dishes-reviews>
     </section>
   </section>
 </main>

@@ -1,33 +1,44 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from "@core/services/http.service";
-import { Observable } from "rxjs";
+import { BehaviorSubject, map } from "rxjs";
 import { Review } from "../interfaces/review.interface";
-import { ApiPathEnum } from "@shared/enums/api-path.enum";
-import * as queryString from "query-string";
+import { ApiPathEnum } from '@shared/enums/api-path.enum';
+import { ActivatedRoute } from '@angular/router';
+import ReviewModel from '@dishes/models/review.model';
 
 @Injectable()
 export class ReviewService {
-  // constructor(private httpService: HttpService) {}
+  private readonly dishId: string;
+  private readonly reviews$ = new BehaviorSubject<Review[]>([]);
+  private readonly loading$ = new BehaviorSubject<boolean>(false);
+  
+  constructor(private httpService: HttpService,
+              private route: ActivatedRoute) {
+    this.dishId = this.route.snapshot.params['id'];
+    this.fetchReviews();
+  }
 
-  // getReviews(filter: any/*TODO*/):Observable<Review[]>{
-  //   // TEST TO WORK
-  //   return this.httpService.get<Review[]>(ApiPathEnum.REVIEWS+'?'+queryString.stringify(filter,{arrayFormat: 'comma'}));
-  // }
+  get reviews(): Review[] {
+    return this.reviews$.getValue();
+  }
 
-  // getSpecificReview(id:string,fields:string[]):Observable<Review>{
-  //   // TEST TO WORK
-  //   return this.httpService.get<Review>(ApiPathEnum.REVIEWS+'/'+id+'?'+queryString.stringify({fields:fields},{arrayFormat: 'comma'}));
-  // }
+  get reviewsSubject(): BehaviorSubject<Review[]> {
+    return this.reviews$;
+  }
 
-  // createReview(reviewData:Review):Observable<Review>{
-  //   return this.httpService.post<Review>(ApiPathEnum.REVIEWS,reviewData);
-  // }
+  get loadingSubject(): BehaviorSubject<boolean> {
+    return this.loading$;
+  }
 
-  // editReview(id:string,reviewData:Review):Observable<Review>{
-  //   return this.httpService.patch<Review>(ApiPathEnum.REVIEWS+'/'+id,reviewData);
-  // }
+  private fetchReviews(): void {
+    this.loading$.next(true);
 
-  // deleteReview(id:string):void{
-  //   this.httpService.delete(ApiPathEnum.REVIEWS+'/'+id);
-  // }
+    this.httpService
+      .get<Review[]>(`${ApiPathEnum.DISHES}/${this.dishId}/reviews`)
+      .pipe(map(reviews => reviews.map(review => new ReviewModel(review))))
+      .subscribe(reviews => {
+        this.reviews$.next(reviews);
+        this.loading$.next(false);
+      });
+  }
 }

@@ -1,0 +1,26 @@
+<article class="review">
+  <header class="review__header">
+    <h5 class="review__heading">{{ review.dishName }}</h5>
+    <shared-rating 
+      [value]="review.rating"
+      [disableRating]="true"
+    ></shared-rating>
+  </header>
+
+  <div class="review__body">
+    <p class="review__paragraph" *ngFor="let paragraph of review.body">{{ paragraph }}</p>
+  </div>
+
+  <footer class="review__footer">
+    <div class="review__date">
+      <div *ngIf="review.updatedAt">
+        <span class="review__date-text">Data zakupu</span>
+        <span class="review__date-value">{{ dateString }}</span>
+      </div>
+    </div>
+    <div class="review__user">
+      <span class="review__user-text">Użytkownik</span>
+      <span class="review__user-value">{{ review.user.firstName }}</span>
+    </div>
+  </footer>
+</article>

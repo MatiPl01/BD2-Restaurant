@@ -63,6 +63,10 @@ export class DishCardsService implements OnDestroy {
   // TODO - maybe rename to requestDishesCards or something similar to indicate
   // that returned dishes are in fact partial documents
   private fetchDishes(): void {
+    if (!this.currencyService.currency) {
+      throw new Error('Cannot get the current currency');
+    }
+
     this.loading$.next(true);
     const query: { [key: string]: string | number } = {
       currency: this.currencyService.currency.code,

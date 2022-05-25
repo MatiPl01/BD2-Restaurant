@@ -76,6 +76,10 @@ reviewSchema.pre<Review>(/^find/, function (next) {
         {
             path: 'user',
             select: 'firstName lastName'
+        },
+        {
+            path: 'dish',
+            select: 'coverImage'
         }
     ]);
 

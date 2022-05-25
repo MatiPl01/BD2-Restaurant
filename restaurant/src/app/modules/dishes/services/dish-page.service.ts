@@ -21,12 +21,9 @@ export class DishPageService {
               private route: ActivatedRoute) {
     this.dishId = this.route.snapshot.params['id'];
 
-    console.log(this.dishId)
-
     this.subscriptions.push(
       this.currencyService.currencySubject.subscribe(currency => {
-        console.log(currency.code)
-        this.fetchDish(this.dishId, currency.code);
+        if (currency) this.fetchDish(this.dishId, currency.code);
       })
     )            
   }

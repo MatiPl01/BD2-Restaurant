@@ -3,7 +3,7 @@
     <ul class="details__list">
       <li class="details__detail">
         <p class="details__detail-name">Kuchnia</p>
-        <p class="details__detail-value">{{ dish.cuisine | uppercase }}</p>
+        <p class="details__detail-value">{{ dish.cuisine }}</p>
       </li>
       <li class="details__detail">
         <p class="details__detail-name">Typ</p>
@@ -11,7 +11,7 @@
       </li>
       <li class="details__detail">
         <p class="details__detail-name">Kategoria</p>
-        <p class="details__detail-value">{{ dish.category }}</p>
+        <p class="details__detail-value">{{ dish.category | uppercase }}</p>
       </li>
     </ul>
     <ng-content></ng-content>

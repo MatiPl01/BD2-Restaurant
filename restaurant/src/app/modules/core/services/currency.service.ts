@@ -12,7 +12,7 @@ import CurrencyModel from '@core/models/currency.model';
   providedIn: 'root'
 })
 export class CurrencyService {
-  private readonly currency$ = new BehaviorSubject<Currency>(CurrencyModel.createEmpty());
+  private readonly currency$ = new BehaviorSubject<Currency | null>(null);
   private readonly subscriptions: Subscription[] = [];
 
   constructor(private httpService: HttpService,
@@ -22,30 +22,30 @@ export class CurrencyService {
       this.authService.userSubject.subscribe(user => {
         // Update the current currency it the current user has changed
         // their currency
-        if (user && user.defaultCurrency !== this.currency.code) {
+        if (user && user.defaultCurrency !== this.currency?.code) {
           this.setCurrency(user.defaultCurrency);
         }
       }),
       this.configService.configSubject.subscribe(config => {
         // Update the current currency if the main config currency was modified
         // and there is no user currently logged in
-        if (!this.authService.user && config.mainCurrency !== this.currency.code) {
+        if (!this.authService.user && config.mainCurrency !== this.currency?.code) {
           this.setCurrency(config.mainCurrency);
         }
       })
     )
   }
 
-  get currencySubject(): BehaviorSubject<Currency> {
+  get currencySubject(): BehaviorSubject<Currency | null> {
     return this.currency$;
   }
 
-  get currency(): Currency {
+  get currency(): Currency | null {
     return this.currencySubject.getValue();
   }
 
   get displaySymbolOnTheLeft(): boolean {
-    return this.currency.symbol.length === 1;
+    return this.currency?.symbol.length === 1;
   }
 
   public fetchCurrencies(): Observable<Currency[]> {

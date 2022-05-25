@@ -12,10 +12,10 @@ import { PaginationService } from '@shared/services/pagination.service';
 
 
 @Component({
-  selector: 'dishes-dishes-filters',
-  templateUrl: './dishes-filters.component.html'
+  selector: 'dishes-filters',
+  templateUrl: './filters.component.html'
 })
-export class DishesFiltersComponent implements OnDestroy {
+export class FiltersComponent implements OnDestroy {
   // Initial filters settings
   public availableCategories: string[] = [];
   public availableCuisines: string[] = [];
@@ -89,12 +89,13 @@ export class DishesFiltersComponent implements OnDestroy {
 
   public createPriceLabel = (price: number): string => {
     const currency = this.currencyService.currency;
-    return this.currencyService.displaySymbolOnTheLeft 
+    if (!currency) return `${price}`;
+    return this.currencyService.displaySymbolOnTheLeft
       ? `${currency.symbol}${price}` : `${price}${currency.symbol}`;
   }
 
   public selectItem({ filterAttr, item }: SingleSelectEvent): void {
-    this.filterService.addFilter(filterAttr, item as string); 
+    this.filterService.addFilter(filterAttr, item as string);
   }
 
   public deSelectItem({ filterAttr, item }: SingleSelectEvent): void {
@@ -130,7 +131,7 @@ export class DishesFiltersComponent implements OnDestroy {
   private updateAvailableFilters(filtersObj: DishFilters): void {
     this.availableCategories = setUtils.convertToSortedArray(filtersObj.category);
     this.availableCuisines = setUtils.convertToSortedArray(filtersObj.cuisine);
-    
+
     this.priceBounds = filtersObj.unitPrice;
     this.ratingsBounds = filtersObj.ratingsAverage;
 

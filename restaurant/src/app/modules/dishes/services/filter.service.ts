@@ -166,6 +166,10 @@ export class FilterService implements OnDestroy {
   }
 
   private fetchAvailableFilters() {
+    if (!this.currencyService.currency) {
+      throw new Error('Cannot get the current currency');
+    }
+
     const url = queryString.stringifyUrl({
       url: `${ApiPathEnum.DISHES}/filters`,
       query: {
