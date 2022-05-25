@@ -131,24 +131,6 @@
       &__loading-bar {
         display: none;
       }
-
-      &__logo {
-        .logo {
-          &__icon {
-            fill: c.$gray-light-1;
-          }
-
-          &__heading {
-            &--primary {
-              color: c.$gray-light-1;
-            }
-
-            &--secondary {
-              color: c.$gray-light-4;
-            }
-          }
-        }
-      }
     }
   }
 
@@ -180,19 +162,21 @@
           animation: fade-in-bottom .75s .5s backwards;
         }
 
-        &__icon {
-          fill: c.$white;
-        }
+        &__logo {
+          .logo {
+            &__icon {
+              fill: c.$gray-light-1;
+            }
 
-        &__heading {
-          font-weight: 300;
+            &__heading {
+              &--primary {
+                color: c.$gray-light-1;
+              }
 
-          &--primary {
-            color: c.$white;
-          }
-
-          &--secondary {
-            color: c.$gray-light-4;
+              &--secondary {
+                color: c.$gray-light-4;
+              }
+            }
           }
         }
 
@@ -215,7 +199,8 @@
           }
         }
 
-        &__item--login {
+        &__item--login,
+        &__item--cart {
           animation: fade-in-bottom .75s (.75 + .1 * (cs.$header-nav-bar-links + 1)) * 1s backwards;
         }
 

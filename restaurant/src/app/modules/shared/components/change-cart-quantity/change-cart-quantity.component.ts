@@ -10,10 +10,10 @@ import { CurrencyService } from '@core/services/currency.service';
 import {RoleEnum} from "@shared/enums/role.enum";
 
 @Component({
-  selector: 'shared-cart-change',
-  templateUrl: './cart-change.component.html'
+  selector: 'shared-change-cart-quantity',
+  templateUrl: './change-cart-quantity.component.html'
 })
-export class CartChangeComponent implements OnInit {
+export class ChangeCartQuantityComponent implements OnInit {
   @Input() dishId!: string
   @Output() changeQuantity = new EventEmitter<{price:number,quantity:number}>();
   dish:Dish={} as Dish

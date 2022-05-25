@@ -23,7 +23,7 @@ import { RatingComponent } from './components/rating/rating.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { ResponsiveGalleryComponent } from './components/responsive-gallery/responsive-gallery.component';
 import { ObserveVisibilityDirective } from './directives/observe-visibility.directive';
-import { CartChangeComponent } from './components/cart-change/cart-change.component';
+import { ChangeCartQuantityComponent } from './components/change-cart-quantity/change-cart-quantity.component';
 
 
 @NgModule({
@@ -51,7 +51,7 @@ import { CartChangeComponent } from './components/cart-change/cart-change.compon
     RatingComponent,
     PaginationComponent,
     ResponsiveGalleryComponent,
-    CartChangeComponent,
+    ChangeCartQuantityComponent,
 
     ParallaxDirective,
     ObserveVisibilityDirective
@@ -73,7 +73,7 @@ import { CartChangeComponent } from './components/cart-change/cart-change.compon
     SingleSelectDropdownComponent,
     RangeSliderComponent,
     PriceComponent,
-    CartChangeComponent,
+    ChangeCartQuantityComponent,
 
     ParallaxDirective,
     ObserveVisibilityDirective

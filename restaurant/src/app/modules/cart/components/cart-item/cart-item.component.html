@@ -35,9 +35,9 @@
   <section class="cart-item__order">
     <ul class="cart-item__order-list">
       <li class="cart-item__order-item">
-        <shared-cart-change class="cart-item__order-component"
+        <shared-change-cart-quantity class="cart-item__order-component"
             [dishId]="dish.dishId" (changeQuantity)="onChangeQuantity($event)"
-        ></shared-cart-change>
+        ></shared-change-cart-quantity>
       </li>
       <li class="cart-item__order-item">
         <button class="cart-item__order-remove"

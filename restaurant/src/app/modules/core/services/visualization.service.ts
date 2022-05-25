@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core'
+import { Injectable, EventEmitter, HostListener } from '@angular/core'
 import { BehaviorSubject } from "rxjs";
 
 @Injectable({
@@ -11,15 +11,15 @@ export class VisualizationService {
   scrollAvailabilityChangedEvent = new EventEmitter<boolean>()
   popupDisplayChangedEvent = new EventEmitter<boolean>()
 
-  private readonly _isLoading = new BehaviorSubject<boolean>(false);
-  private readonly _isNavOpen = new BehaviorSubject<boolean>(false);
+  private readonly isLoading$ = new BehaviorSubject<boolean>(false);
+  private readonly isNavOpen$ = new BehaviorSubject<boolean>(false);
 
   get isLoading(): BehaviorSubject<boolean> {
-    return this._isLoading;
+    return this.isLoading$;
   }
 
   get isNavOpen(): BehaviorSubject<boolean> {
-    return this._isNavOpen;
+    return this.isNavOpen$;
   }
 
   notifyHeaderVisible(isVisible: boolean): void {
@@ -27,7 +27,7 @@ export class VisualizationService {
   }
 
   notifyNavMenuToggle(isOpen: boolean): void {
-    this._isNavOpen.next(isOpen);
+    this.isNavOpen$.next(isOpen);
   }
 
   scrollY(offset: number, isSmooth: boolean = true): void {

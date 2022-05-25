@@ -38,6 +38,6 @@
       [amount]="dish.unitPrice"
       [currency]="(currencyService.currencySubject | async)!.symbol"
     ></shared-price>
-       <shared-cart-change class="order--white" [dishId]="dish._id"></shared-cart-change>
+       <shared-change-cart-quantity class="order--white" [dishId]="dish._id"></shared-change-cart-quantity>
   </footer>
 </article>

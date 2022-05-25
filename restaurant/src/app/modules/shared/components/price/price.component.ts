@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnChanges } from '@angular/core'
 import { CurrencyService } from '@core/services/currency.service';
 
 @Component({
@@ -6,18 +6,19 @@ import { CurrencyService } from '@core/services/currency.service';
   template: `
   <div class="price" 
       [attr.data-display]="currencyService.displaySymbolOnTheLeft ? 'left' : 'right'">
-    <p class="price__amount">{{ amount }}</p>
+    <p class="price__amount">{{ displayedAmount }}</p>
     <p class="price__currency">{{ currency}}</p>
   </div>
   `
 })
-export class PriceComponent implements OnInit {
+export class PriceComponent implements OnChanges {
   @Input() amount!: number;
   @Input() currency!: string;
+  public displayedAmount: string = '';
 
   constructor(public currencyService: CurrencyService) {}
 
-  ngOnInit(): void {
-    this.amount = +this.amount.toFixed(2);
+  ngOnChanges(): void {
+    this.displayedAmount = this.amount.toFixed(2);
   }
 }
