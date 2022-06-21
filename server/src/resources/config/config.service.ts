@@ -10,13 +10,6 @@ import Config from './interfaces/config.interface';
 class ConfigService {
     private config = ConfigModel;
 
-    public async getConfig(): Promise<Config> {
-        const config = await this.config.findOne();
-        if (config) return config;
-
-        throw new AppError(404, 'Cannot get config');
-    }
-
     public updateConfig = singleTransaction(async (
         session: ClientSession,
         updatedProps: { [key: string]: any }

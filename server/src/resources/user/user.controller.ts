@@ -16,6 +16,8 @@ import response from '@/utils/response';
 
 import userService from './user.service';
 import validate from './user.validation';
+import handlerFactory from '../handlerFactory';
+import userModel from './user.model';
 
 
 class UserController implements Controller {
@@ -201,26 +203,10 @@ class UserController implements Controller {
         await response.json(res, 204, null);
     })
 
-    private getUser = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const fields = req.fields;
-        const user = await this.userService.getUser(id, fields);
+    private getUser = handlerFactory.findById(userModel, true);
 
-        await response.json(res, 200, user);
-    })
+    private deleteUser = handlerFactory.deleteById(userModel);
 
-    private deleteUser = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        await this.userService.deleteUser(id);
-
-        await response.json(res, 204, null);
-    })
     private updateUserById = catchAsync(async (
         req: Request,
         res: Response
@@ -231,29 +217,7 @@ class UserController implements Controller {
         await response.json(res, 201, updatedUser);
     })
 
-    private getUsers = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const { filters, fields } = req;
-        const { page, limit } = req.query;
-        const pageNum = +(page || 0) || 1;
-        const limitNum = +(limit || 0) || 30;
-
-        const pagination = {
-            skip: (pageNum - 1) * limitNum,
-            limit: limitNum
-        }
-
-        const users = await this.userService.getUsers(
-            filters,
-            fields,
-            pagination
-        );
-
-        await response.json(res, 200, users);
-    })
-
+    private getUsers = handlerFactory.findMany(userModel);
 
     private forgotPassword = catchAsync(async (
         req: Request,

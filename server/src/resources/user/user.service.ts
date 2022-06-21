@@ -17,8 +17,6 @@ import CartItem from './interfaces/cart-item.interface';
 import userModel from './user.model';
 import { Address } from './types/address.type';
 import DetailedCartItem from './interfaces/detailed-cart-item.interface';
-import orderService from '../order/order.service';
-import OrderData from '../order/interfaces/order.interface';
 
 
 class UserService {
@@ -90,24 +88,6 @@ class UserService {
         id: Schema.Types.ObjectId
     ): Promise<void> {
         await this.user.findByIdAndUpdate(id, { active: false });
-    }
-
-    public async getUser(
-        id: Schema.Types.ObjectId,
-        fields: { [key: string]: number }
-    ): Promise<Partial<User>> {
-        const user = await this.user.findById(id, fields);
-        if (user) return user;
-
-        throw new AppError(404, `Cannot get user with id ${id}`);
-    }
-
-    public async deleteUser(
-        id: Schema.Types.ObjectId
-    ): Promise<void> {
-        const user = await this.user.findByIdAndDelete(id);
-
-        if (!user) throw new AppError(404, `Cannot delete user with id ${id}`);
     }
 
     public async getUsers(

@@ -11,6 +11,8 @@ import RoleEnum from '@/utils/enums/role.enum';
 
 import currencyService from './currency.service';
 import validate from './currency.validation';
+import handlerFactory from '../handlerFactory';
+import currencyModel from './currency.model';
 
 
 class CurrencyController implements Controller {
@@ -47,24 +49,11 @@ class CurrencyController implements Controller {
             )
     }
 
-    private getCurrency = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const code: any = req.params.code;
-        const currency = await this.currencyService.getCurrency(code);
+    private getCurrency = handlerFactory.findOne(currencyModel, {
+        params: ['code'] 
+    });
 
-        await response.json(res, 200, currency);
-    })
-
-    private getAllCurrencies = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const currencies = await this.currencyService.getAllCurrencies();
-
-        await response.json(res, 200, currencies);
-    })
+    private getAllCurrencies = handlerFactory.findMany(currencyModel);
 
     private createCurrency = catchAsync(async (
         req: Request,
@@ -75,15 +64,10 @@ class CurrencyController implements Controller {
         await response.json(res, 201, currency);
     })
 
-    private deleteCurrency = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const { code } = req.params;
-        await this.currencyService.deleteCurrency(code);
-        
-        await response.json(res, 204, null);
-    })
+    private deleteCurrency = handlerFactory.deleteOne(
+        currencyModel, 
+        { params: ['code'] }
+    );
 }
 
 

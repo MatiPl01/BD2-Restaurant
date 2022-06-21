@@ -15,6 +15,8 @@ import response from '@/utils/response';
 
 import reviewService from './review.service';
 import validate from './review.validation';
+import handlerFactory from '../handlerFactory';
+import reviewModel from './review.model';
 
 
 class ReviewController implements Controller {
@@ -61,24 +63,7 @@ class ReviewController implements Controller {
             );
     }
 
-    private getReviews = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const { filters, fields } = req;
-        const { page, limit } = req.query;
-        const pageNum = +(page || 0) || 1;
-        const limitNum = +(limit || 0) || 30;
-
-        const pagination = {
-            skip: (pageNum - 1) * limitNum,
-            limit: limitNum
-        }
-
-        const dishes = await this.reviewService.getReviews(filters, fields, pagination);
-
-        await response.json(res, 200, dishes);
-    })
+    private getReviews = handlerFactory.findMany(reviewModel);
 
     private createReview = catchAsync(async (
         req: Request,
@@ -97,7 +82,7 @@ class ReviewController implements Controller {
     ): Promise<void> => {
         const user = req.user;
         const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const review = await this.reviewService.deleteReview(id, user.id);
+        await this.reviewService.deleteReview(id, user.id);
         
         await response.json(res, 204, null);
     })
@@ -113,16 +98,7 @@ class ReviewController implements Controller {
         await response.json(res, 201, review);
     })
 
-    private getReview = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const { fields } = req;
-        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        const review = await this.reviewService.getReview(id, fields);
-
-        await response.json(res, 200, review);
-    })
+    private getReview = handlerFactory.findById(reviewModel, true);
 }
 
 

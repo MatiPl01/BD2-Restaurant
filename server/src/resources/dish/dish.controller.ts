@@ -1,5 +1,5 @@
-import {Request, Response, Router} from 'express';
-import {Schema} from 'mongoose';
+import { Request, Response, Router } from 'express';
+import { Schema } from 'mongoose';
 
 import selectFieldsMiddleware from '@/middleware/requests/select-fields.middleware';
 import validationMiddleware from '@/middleware/validation.middleware';
@@ -16,6 +16,8 @@ import response from '@/utils/response';
 import dishService from './dish.service'
 import validation from './dish.validation';
 import Dish from './interfaces/dish.interface';
+import handlerFactory from '../handlerFactory';
+import dishModel from './dish.model';
 
 
 class DishController implements Controller {
@@ -147,15 +149,7 @@ class DishController implements Controller {
         await response.json(res, 201, updatedDish);
     })
 
-    private deleteDish = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const id = (req.params.id as unknown) as Schema.Types.ObjectId;
-        await this.dishService.deleteDish(id);
-
-        await response.json(res, 204, null);
-    })
+    private deleteDish = handlerFactory.deleteById(dishModel);
 
     private getDishReviews = catchAsync(async (
         req: Request,

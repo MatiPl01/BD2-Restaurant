@@ -13,6 +13,8 @@ import response from '@/utils/response';
 
 import configService from './config.service';
 import validate from './config.validation'
+import handlerFactory from '../handlerFactory';
+import configModel from './config.model';
 
 
 class ConfigController implements Controller {
@@ -40,14 +42,7 @@ class ConfigController implements Controller {
             );
     }
 
-    private getConfig = catchAsync(async (
-        req: Request,
-        res: Response
-    ): Promise<void> => {
-        const config = await this.configService.getConfig();
-
-        await response.json(res, 200, config);
-    })
+    private getConfig = handlerFactory.findOne(configModel);
 
     private updateConfig = catchAsync(async (
         req: Request,

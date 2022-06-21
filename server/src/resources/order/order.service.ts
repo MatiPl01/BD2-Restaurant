@@ -38,8 +38,8 @@ class OrderService {
         targetCurrency?: string
     ): Promise<Partial<Order>[]> => {
         // Because $where, $aggregate and $function are not available in the
-        // free MongoDB Atlas tier, we have to use the inefficient way to
-        // filter data (find all orders and then filter them in js)
+        // free MongoDB Atlas tier, the inefficient way to filter data
+        // must be used (find all orders and then filter them in js)
         const totalPriceFilters = filters.totalPrice;
         delete filters.totalPrice;
 

@@ -13,7 +13,6 @@ import Dish from './interfaces/dish.interface';
 import User from '../user/interfaces/user.interface';
 import orderService from '../order/order.service';
 import OrderData from '../order/interfaces/order.interface';
-import userService from '../user/user.service';
 import reviewModel from '@/resources/review/review.model';
 
 
@@ -151,14 +150,6 @@ class DishService {
 
         throw new AppError(404, `Cannot get dish with id ${id}`);
     })
-
-    public async deleteDish(
-        id: Schema.Types.ObjectId
-    ): Promise<void> {
-        const deletedDish = await this.dish.findByIdAndDelete(id);
-
-        if (!deletedDish) throw new AppError(404, `Cannot delete dish with id ${id}`);
-    }
 
     public async getDishReviews(
         id: Schema.Types.ObjectId,

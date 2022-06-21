@@ -95,16 +95,6 @@ class ReviewService {
 
         if (!review) throw new AppError(400, 'Cannot delete review');
     }
-
-    public async getReview(
-        id: Schema.Types.ObjectId,
-        fields: { [key: string]: number }
-    ): Promise<Review> {
-        const review = await this.review.findById(id, fields);
-        if (!review) throw new AppError(404, `Cannot find review with id ${id}`);
-
-        return review;
-    }
 }
 
 
