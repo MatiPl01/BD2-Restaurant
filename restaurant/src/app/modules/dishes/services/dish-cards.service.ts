@@ -79,7 +79,7 @@ export class DishCardsService implements OnDestroy {
     // TODO - make it work also when user goes back to the /dishes endpoint
     const url = queryString.stringifyUrl({
       url: `${ApiPathEnum.DISHES}`,
-      query
+      query,
     })
 
     // TODO - fetch dishes when url changes (e.q. user enters the specific url)

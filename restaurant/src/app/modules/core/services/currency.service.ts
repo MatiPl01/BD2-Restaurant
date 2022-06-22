@@ -64,6 +64,7 @@ export class CurrencyService {
 
   private async setCurrency(code: string): Promise<void> {
     this.fetchCurrency(code).subscribe(currency => {
+      console.log(currency)
       this.currency$.next(currency);
     })
   }

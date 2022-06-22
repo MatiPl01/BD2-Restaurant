@@ -25,7 +25,7 @@ class ConfigService {
 
         if (!config) throw new AppError(400, 'Cannot update config');
 
-        await config.updateMainCurrency(mainCurrency, session);
+        if (mainCurrency) await config.updateMainCurrency(mainCurrency, session);
         return config;
     })
 }

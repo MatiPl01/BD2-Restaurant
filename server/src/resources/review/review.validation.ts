@@ -1,5 +1,7 @@
 import Joi from '@/utils/validation/mongoose.validation';
 
+import sharedValidation from '@/resources/shared/shared.validation';
+
 
 const reviewBodyValidators = {
     dish: Joi.string().required().messages({
@@ -31,9 +33,25 @@ const body = {
         body: reviewBodyValidators.body,
         rating: reviewBodyValidators.rating.optional()
     })
-}
+};
+
+const query = {
+    getReviews: Joi.object({
+        dishName: Joi.string(),  // Allow multiple values separated by comma
+        fields: sharedValidation.fields,
+        createdAt: sharedValidation.comparison.date,
+        updatedAt: sharedValidation.comparison.date,
+        rating: sharedValidation.comparison.number,
+        ...sharedValidation.pagination
+    }),
+
+    getReview: Joi.object({
+        fields: sharedValidation.fields
+    })
+};
 
 
 export default {
-    body
+    body,
+    query
 };

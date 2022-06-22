@@ -2,6 +2,8 @@ import RoleEnum from '@/utils/enums/role.enum';
 import Joi from '@/utils/validation/mongoose.validation';
 
 import { currencyValidators } from '@/resources/currency/currency.validation';
+import { dishBodyValidators } from '@/resources/dish/dish.validation';
+import sharedValidation from '@/resources/shared/shared.validation';
 
 
 const addressValidators = {
@@ -150,7 +152,6 @@ const passwordMessages = {
 
 
 const body = {
-    // Restrict to: USER
     register: Joi.object({
         firstName: userValidators.firstName,
         lastName: userValidators.lastName,
@@ -216,7 +217,41 @@ const body = {
     })
 };
 
+const query = {
+    getReviews: Joi.object({
+        dishName: Joi.string(),
+        fields: sharedValidation.fields,
+        rating: sharedValidation.comparison.number,
+        createdAt: sharedValidation.comparison.date,
+        updatedAt: sharedValidation.comparison.date
+    }),
+
+    getUsers: Joi.object({
+        firstName: Joi.string(),  // Allow multiple values separated by comma
+        lastName: Joi.string(),
+        nickName: Joi.string(),
+        email: Joi.string(),
+        active: userValidators.active.optional(),
+        banned: userValidators.banned.optional(),
+        createdAt: sharedValidation.comparison.date,
+        fields: sharedValidation.fields,
+        ...sharedValidation.pagination
+    }),
+
+    getUser: Joi.object({
+        fields: sharedValidation.fields
+    }),
+
+    getUserReviews: Joi.object({
+        ...sharedValidation.pagination,
+        rating: sharedValidation.comparison.number,
+        fields: sharedValidation.fields,
+        dishName: Joi.string()
+    })
+};
+
 
 export default {
-    body
+    body,
+    query
 };

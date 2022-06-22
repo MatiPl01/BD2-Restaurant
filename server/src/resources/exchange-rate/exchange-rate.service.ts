@@ -68,16 +68,16 @@ class ExchangeRateService {
                 {},
                 { session }
             )
-                .sort({ createdAt: -1 })
-                .limit(1),
+            .sort({ createdAt: -1 })
+            .limit(1),
 
             await this.exchangeRate.find(
                 { from: to, to: from, createdAt: { $lte: date || new Date() } },
                 {},
                 { session }
             )
-                .sort({ createdAt: -1 })
-                .limit(1)
+            .sort({ createdAt: -1 })
+            .limit(1)
         ]
         
         for (const [exchangeRate] of exchangeRates) {

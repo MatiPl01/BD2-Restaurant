@@ -16,4 +16,4 @@ export default interface IError {
     keyPattern?: { [key: string]: number };
     keyValue?: { [key: string]: number };
     errors?: IError[];
-}
+};

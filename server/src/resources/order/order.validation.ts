@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 import { currencyValidators } from '@/resources/currency/currency.validation';
+import sharedValidation from '../shared/shared.validation';
 
 
 const body = {
@@ -23,7 +24,18 @@ const body = {
     })
 }
 
+const query = {
+    getOrders: Joi.object({
+        ...sharedValidation.pagination,
+        fields: sharedValidation.fields,
+        createdAt: sharedValidation.comparison.date,
+        totalPrice: sharedValidation.comparison.number,
+        currency: currencyValidators.code.optional()
+    })
+}
+
 
 export default {
-    body
+    body,
+    query
 };

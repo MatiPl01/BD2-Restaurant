@@ -14,7 +14,7 @@ class AppError extends Error implements IError {
 
         Error.captureStackTrace(this);
     }
-}
+};
 
 
 export default AppError;

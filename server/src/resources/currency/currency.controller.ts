@@ -11,7 +11,7 @@ import RoleEnum from '@/utils/enums/role.enum';
 
 import currencyService from './currency.service';
 import validate from './currency.validation';
-import handlerFactory from '../handlerFactory';
+import handlerFactory from '../shared/handlerFactory';
 import currencyModel from './currency.model';
 
 
@@ -33,7 +33,7 @@ class CurrencyController implements Controller {
                 restrictTo(RoleEnum.ADMIN),
                 validationMiddleware(validate.body.createCurrency),
                 this.createCurrency
-            )
+            );
 
         this.router
             .route('/:code')
@@ -46,7 +46,7 @@ class CurrencyController implements Controller {
                 restrictTo(RoleEnum.ADMIN),
                 validationMiddleware(undefined, validate.params.currencyCode),
                 this.deleteCurrency
-            )
+            );
     }
 
     private getCurrency = handlerFactory.findOne(currencyModel, {
@@ -62,7 +62,7 @@ class CurrencyController implements Controller {
         const currency = await this.currencyService.createCurrency(req.body);
 
         await response.json(res, 201, currency);
-    })
+    });
 
     private deleteCurrency = handlerFactory.deleteOne(
         currencyModel, 

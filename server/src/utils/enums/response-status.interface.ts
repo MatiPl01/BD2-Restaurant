@@ -5,7 +5,7 @@ enum ResponseStatus {
     CLIENT_ERROR = 'client error',
     SERVER_ERROR = 'server error',
     UNRECOGNIZED = 'unrecognized'
-}
+};
 
 
 export default ResponseStatus;

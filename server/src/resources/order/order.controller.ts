@@ -29,6 +29,7 @@ class OrderController implements Controller {
             .get(
                 filteringMiddleware,
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getOrders),
                 authenticate,
                 this.getUserOrders
             )

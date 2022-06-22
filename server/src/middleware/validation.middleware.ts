@@ -4,6 +4,24 @@ import Joi from 'joi';
 import AppError from '@/utils/errors/app.error';
 
 
+const validationOptions = {
+    abortEarly: false,
+    allowUnknown: false
+};
+
+const validateAsync = async (
+    req: Request,
+    target: 'body' | 'params' | 'query',
+    validators: Joi.Schema<any> | undefined
+): Promise<void> => {
+    if (req[target] && validators) {
+        req[target] = await validators.validateAsync(
+            req[target],
+            validationOptions
+        );
+    }
+};
+
 const validationMiddleware = (
     bodyValidators?: Joi.Schema,
     paramsValidators?: Joi.Schema,
@@ -14,31 +32,10 @@ const validationMiddleware = (
         res: Response,
         next: NextFunction
     ): Promise<void> => {
-        const validationOptions = {
-            abortEarly: false,
-            allowUnknown: false
-        };
-
         try {
-            if (bodyValidators) {
-                req.body = await bodyValidators.validateAsync(
-                    req.body,
-                    validationOptions
-                );
-            }
-            if (paramsValidators) {
-                req.params = await paramsValidators.validateAsync(
-                    req.params,
-                    validationOptions
-                )
-            }
-            if (queryValidators) {
-                req.query = await queryValidators.validateAsync(
-                    req.query,
-                    validationOptions
-                )
-            }
-
+            await validateAsync(req, 'body', bodyValidators);
+            await validateAsync(req, 'params', paramsValidators);
+            await validateAsync(req, 'query', queryValidators);
             next();
         } catch (err: any) {
             const errors: string[] = [];

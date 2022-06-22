@@ -9,15 +9,15 @@ import authenticate from '@/middleware/auth/authentication.middleware';
 import restrictTo from '@/middleware/auth/authorization.middleware';
 
 import Controller from '@/utils/interfaces/controller.interface';
+import handlerFactory from '@/resources/shared/handlerFactory';
 import catchAsync from '@/utils/errors/catch-async';
 import AppError from '@/utils/errors/app.error';
 import RoleEnum from '@/utils/enums/role.enum';
 import response from '@/utils/response';
 
 import userService from './user.service';
-import validate from './user.validation';
-import handlerFactory from '../handlerFactory';
 import userModel from './user.model';
+import validate from './user.validation';
 
 
 class UserController implements Controller {
@@ -89,6 +89,7 @@ class UserController implements Controller {
                 authenticate,
                 filteringMiddleware,
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getReviews),
                 this.getCurrentUserReviews
             );
 
@@ -117,6 +118,7 @@ class UserController implements Controller {
                 restrictTo(RoleEnum.ADMIN),
                 filteringMiddleware,
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getUsers),
                 this.getUsers
             );
 
@@ -126,6 +128,7 @@ class UserController implements Controller {
                 authenticate,
                 restrictTo(RoleEnum.ADMIN),
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getUser),
                 this.getUser
             )
             .delete(
@@ -145,6 +148,7 @@ class UserController implements Controller {
             .get(
                 filteringMiddleware,
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getUserReviews),
                 this.getUserReviews
             );
     }

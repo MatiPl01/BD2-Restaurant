@@ -17,10 +17,7 @@ class OrderService {
         userId: Schema.Types.ObjectId,
         orderData: Order
     ): Promise<Order> {
-        const {
-            items,
-            currency
-        } = orderData;
+        const { items, currency } = orderData;
 
         return await this.order.create({
             user: userId,
@@ -43,7 +40,7 @@ class OrderService {
         const totalPriceFilters = filters.totalPrice;
         delete filters.totalPrice;
 
-        // If order ale filtered by the totalPrice
+        // If orders are filtered by the totalPrice
         if (targetCurrency && totalPriceFilters) {
             let orders: Order[] = await this.order.find({ user: userId, ...filters });
             orders = await this.filterByTotalPrice(orders, targetCurrency, totalPriceFilters, session);
@@ -95,15 +92,12 @@ class OrderService {
         if (order.items) {
             for (const orderItem of order.items) {
                 // Check if order item unit price hasn't been filtered out
-                if (orderItem.unitPrice) {
-                    orderItem.unitPrice = exchangeRateService.ceilDecimalDigits(orderItem.unitPrice * rate);
-                }
+                if (!orderItem.unitPrice) continue;
+                orderItem.unitPrice = exchangeRateService.ceilDecimalDigits(orderItem.unitPrice * rate);
             }
         }
 
-        if (order.currency) {
-            order.currency = targetCurrency;
-        }
+        if (order.currency) order.currency = targetCurrency;
     }
 
     private async updateOrdersCurrency(
@@ -191,7 +185,6 @@ class OrderService {
         } else {
             orders.forEach(order => {
                 const mappedOrder: Partial<Order> = {};
-                // TODO - maybe think of some better way than this
                 // @ts-ignore
                 Object.keys(order._doc).forEach(field => {
                     if (fields[field] !== 0) {

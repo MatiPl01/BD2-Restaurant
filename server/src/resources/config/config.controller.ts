@@ -11,10 +11,10 @@ import Controller from '@/utils/interfaces/controller.interface';
 import RoleEnum from '@/utils/enums/role.enum';
 import response from '@/utils/response';
 
+import handlerFactory from '../shared/handlerFactory';
 import configService from './config.service';
-import validate from './config.validation'
-import handlerFactory from '../handlerFactory';
 import configModel from './config.model';
+import validate from './config.validation'
 
 
 class ConfigController implements Controller {
@@ -31,6 +31,7 @@ class ConfigController implements Controller {
             .route('/')
             .get(
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getConfig),
                 this.getConfig
             )
             .patch(

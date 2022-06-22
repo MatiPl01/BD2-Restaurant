@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 
-const parseFilters = (req: Request) => { // TODO - improve this function (move excluded parameters somewhere else)
+const parseFilters = (req: Request) => {
     const queryObj = { ...req.query };
 
     const excludedFields = new Set(['page', 'sort', 'limit', 'fields', 'currency']);
@@ -32,7 +32,6 @@ const filteringMiddleware = async (
     next: NextFunction
 ): Promise<Response | void> => {
     req.filters = parseFilters(req);
-
     next();
 }
 

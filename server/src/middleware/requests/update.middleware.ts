@@ -14,7 +14,7 @@ const parseNestedObjects = (nestedObject: { [key: string]: any }) => {
             final[k] = nestedObject[k];
     })
     return final;
-}
+};
 
 const updateMiddleware = async (
     req: Request,
@@ -22,9 +22,9 @@ const updateMiddleware = async (
     next: NextFunction
 ): Promise<Response | void> => {
     req.body = parseNestedObjects(req.body);
-
+    console.log(req.body)
     next();
-}
+};
 
 
 export default updateMiddleware;

@@ -21,17 +21,17 @@ export const currencyValidators = {
         'string.trim': 'Currency name cannot start with and end with spaces',
         'string.max': 'Currency name must have at most 50 letters'
     })
-}
+};
 
+
+const body = {
+    createCurrency: Joi.object(currencyValidators)
+};
 
 const params = {
     currencyCode: Joi.object({
         code: currencyValidators.code
     })
-};
-
-const body = {
-    createCurrency: Joi.object(currencyValidators)
 };
 
 

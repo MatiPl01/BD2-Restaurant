@@ -9,4 +9,4 @@ declare global {
             fields: { [key: string]: number }
         }
     }
-}
+};

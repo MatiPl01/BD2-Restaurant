@@ -6,6 +6,7 @@ import AppError from '@/utils/errors/app.error';
 import currency from '@/utils/currency';
 
 import ReviewModel from '@/resources/review/review.model';
+import reviewModel from '@/resources/review/review.model';
 import Review from '@/resources/review/interfaces/review.interface';
 import DishFilters from './interfaces/dish-filters.interface';
 import DishModel from './dish.model';
@@ -13,7 +14,6 @@ import Dish from './interfaces/dish.interface';
 import User from '../user/interfaces/user.interface';
 import orderService from '../order/order.service';
 import OrderData from '../order/interfaces/order.interface';
-import reviewModel from '@/resources/review/review.model';
 
 
 class DishService {
@@ -33,7 +33,6 @@ class DishService {
         targetCurrency?: string
     ): Promise<{ dishes: Partial<Dish>[], matchingCount: number, totalCount: number }> => {
         filters = await updatePriceFilters(filters, targetCurrency, session);
-        // TODO - move steps from below to thr factory function or somewhere else
 
         // Map arrays in filters
         Object.entries(filters).forEach(([key, val]) => {
@@ -79,7 +78,7 @@ class DishService {
         }
 
         const result = aggregated[0];
-        if(result.dishes.length==0) result.filteredCount=0
+        if (!result.dishes.length) result.filteredCount = 0;
         else result.filteredCount = result.filteredCount[0].value;
         result.totalCount = result.totalCount[0].value;
 
@@ -115,14 +114,26 @@ class DishService {
         id: Schema.Types.ObjectId,
         updatedProps: { [key: string]: number }
     ): Promise<Dish> => {
-        const updatedDish = await this.dish.findByIdAndUpdate(
+        const { coverIdx } = updatedProps;
+        delete updatedProps['coverIdx'];
+
+        let updatedDish = await this.dish.findByIdAndUpdate(
             id,
             { $set: updatedProps },
-            { 
-                new: true,
-                session
-            }
+            { new: true, session }
         );
+
+        if (updatedDish && !isNaN(coverIdx)) {
+            if (coverIdx < 0 || coverIdx >= updatedDish.images.length) {
+                throw new AppError(500, 'Invalid cover image index');
+            }
+            updatedDish = await this.dish.findByIdAndUpdate(
+                id,
+                { $set: { coverImage: updatedDish.images[coverIdx] } },
+                { new: true, session }
+            );
+        }
+
         if (!updatedDish) throw new AppError(400, `Cannot update dish with id ${id}`);
         return await updatedDish.save({ session });
     })
@@ -286,8 +297,12 @@ class DishService {
             }
         // Exclude specified fields from filters
         } else {
-            Object.assign(updatedFields, Object.fromEntries(Array.from(this.listFilters).map(filter => [filter, 1])));
-            Object.assign(updatedFields, Object.fromEntries(Array.from(this.minMaxFilters).map(filter => [filter, 1])));
+            Object.assign(updatedFields, Object.fromEntries(
+                Array.from(this.listFilters).map(filter => [filter, 1]))
+            );
+            Object.assign(updatedFields, Object.fromEntries(
+                Array.from(this.minMaxFilters).map(filter => [filter, 1]))
+            );
             Object.keys(fields).forEach(field => delete updatedFields[field]);
         }
 

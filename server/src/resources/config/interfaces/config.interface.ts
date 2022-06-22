@@ -11,4 +11,4 @@ export default interface Config extends Document {
     createdAt: Date;
 
     updateMainCurrency(currency: string, session?: ClientSession): void;
-}
+};

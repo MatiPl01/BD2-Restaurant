@@ -12,7 +12,7 @@ const catchAsync = (
         // catch this error and pass it to the next function
         fn(req, res, next).catch(next);
     }
-}
+};
 
 
 export default catchAsync;

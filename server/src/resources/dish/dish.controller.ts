@@ -16,7 +16,7 @@ import response from '@/utils/response';
 import dishService from './dish.service'
 import validation from './dish.validation';
 import Dish from './interfaces/dish.interface';
-import handlerFactory from '../handlerFactory';
+import handlerFactory from '../shared/handlerFactory';
 import dishModel from './dish.model';
 
 
@@ -35,6 +35,7 @@ class DishController implements Controller {
             .get(
                 filteringMiddleware,
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validation.query.getDishes),
                 this.getDishes
             )
             .post(
@@ -48,6 +49,7 @@ class DishController implements Controller {
             .route('/filters')
             .get(
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validation.query.getFilters),
                 this.getFiltersValues
             );
 
@@ -57,19 +59,20 @@ class DishController implements Controller {
                 authenticate,
                 restrictTo(RoleEnum.USER),
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validation.query.toReview),
                 this.getDishesToReview
             );
 
         this.router
             .route('/:id')
             .get(
-                validationMiddleware(undefined, undefined, validation.query.getDish),
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validation.query.getDish),
                 this.getDish
             )
             .patch(
                 authenticate,
-                restrictTo(RoleEnum.USER,RoleEnum.MANAGER),
+                restrictTo(RoleEnum.MANAGER),
                 validationMiddleware(validation.body.updateDish),
                 updateMiddleware,
                 this.updateDish
@@ -85,6 +88,7 @@ class DishController implements Controller {
             .get(
                 filteringMiddleware,
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validation.query.getDishReviews),
                 this.getDishReviews
             );
     }

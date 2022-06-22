@@ -1,5 +1,8 @@
 import Joi from '@/utils/validation/mongoose.validation';
 
+import { currencyValidators } from '@/resources/currency/currency.validation';
+import sharedValidation from '@/resources/shared/shared.validation';
+
 
 const imageValidators = {
     breakpoints: Joi.array().items(
@@ -22,7 +25,7 @@ const imageValidators = {
 }
 
 
-const dishBodyValidators = {
+export const dishBodyValidators = {
     name: Joi.string().trim().min(2).max(40).required().messages({
         'any.required': 'Please provide a dish name',
         'string.trim': 'Dish name should have no spaces at the beginning and at the end',
@@ -112,7 +115,7 @@ const body = {
         unitPrice: dishBodyValidators.unitPrice.optional(),
         description: dishBodyValidators.description.optional(),
         coverIdx: dishBodyValidators.coverIdx,
-        images: Joi.array().items(Joi.object({
+        images: Joi.object().pattern(Joi.string(), Joi.object({
             breakpoints: Joi.object().pattern(
                 // Breakpoint index
                 Joi.number().integer().min(0),
@@ -128,14 +131,43 @@ const body = {
             )
         }))
     })
-}
+};
 
-const query = { // TODO - add more query validators (pagination, etc.)
+const query = {
     getDish: Joi.object({
         currency: dishBodyValidators.currency.optional(),
-        fields: Joi.string()
+        fields: sharedValidation.fields
+    }),
+
+    getDishes: Joi.object({
+        currency: dishBodyValidators.currency.optional(),
+        category: Joi.string(),
+        cuisine: Joi.string(),
+        stock: dishBodyValidators.stock.optional(),
+        fields: sharedValidation.fields,
+        unitPrice: sharedValidation.comparison.number,
+        ratingsAverage: sharedValidation.comparison.number,
+        ...sharedValidation.pagination
+    }),
+
+    getFilters: Joi.object({
+        fields: Joi.string().required().messages({
+            'any.required': 'Please provide fields to filter'
+        }),
+        currency: currencyValidators.code
+    }),
+
+    toReview: Joi.object({
+        fields: sharedValidation.fields
+    }),
+
+    getDishReviews: Joi.object({
+        dishName: Joi.string(),  // Allow multiple values separated by comma
+        rating: sharedValidation.comparison.number,
+        fields: sharedValidation.fields,
+        ...sharedValidation.pagination
     })
-}
+};
 
 
 export default {

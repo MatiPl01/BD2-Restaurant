@@ -22,4 +22,4 @@ export default interface Dish extends Document {
     reviews: Schema.Types.ObjectId[]
 
     updateMainUnitPrice(targetCurrency?: string, session?: ClientSession): void;
-}
+};

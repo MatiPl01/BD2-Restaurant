@@ -15,7 +15,7 @@ import response from '@/utils/response';
 
 import reviewService from './review.service';
 import validate from './review.validation';
-import handlerFactory from '../handlerFactory';
+import handlerFactory from '../shared/handlerFactory';
 import reviewModel from './review.model';
 
 
@@ -34,6 +34,7 @@ class ReviewController implements Controller {
             .get(
                 filteringMiddleware,
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getReviews),
                 this.getReviews
             )
             .post(
@@ -47,6 +48,7 @@ class ReviewController implements Controller {
             .route('/:id')
             .get(
                 selectFieldsMiddleware,
+                validationMiddleware(undefined, undefined, validate.query.getReview),
                 this.getReview
             )
             .patch(
